@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "gitbell",
+    name: "GitBell.Server",
     products: [
         .executable(name: "gitbell", targets: ["gitbell"])
     ],
@@ -11,6 +11,6 @@ let package = Package(
         .package(url: "https://github.com/IBM-Swift/BlueSocket.git", from: "1.0.10")
     ],
     targets: [
-        .target(name: "gitbell", dependencies: ["Socket"], path: "Sources")
+        .target(name: "gitbell", dependencies: ["Socket"], path: "Sources.Server")
     ]
 )
