@@ -8,9 +8,9 @@ let package = Package(
         .executable(name: "gitbell", targets: ["gitbell"])
     ],
     dependencies: [
-        .package(url: "https://github.com/IBM-Swift/BlueSocket.git", from: "1.0.10")
+        .package(url:"https://github.com/PerfectlySoft/Perfect-Notifications.git", .upToNextMajor(from: "3.0.0"))
     ],
     targets: [
-        .target(name: "gitbell", dependencies: ["Socket"], path: "Sources.Server")
+        .target(name: "gitbell", dependencies: ["PerfectNotifications"], path: "Sources.Server")
     ]
 )

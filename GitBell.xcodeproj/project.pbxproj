@@ -1,0 +1,549 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6388D13020F515250082F280 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6388D12F20F515250082F280 /* AppDelegate.swift */; };
+		6388D13220F515270082F280 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6388D13120F515270082F280 /* Assets.xcassets */; };
+		6388D13520F515270082F280 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6388D13320F515270082F280 /* MainMenu.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		638DF01C20F6642600768FEF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = "GitBell.Server::gitbell";
+			remoteInfo = gitbell;
+		};
+		63F75B3820F539C100A3B9AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "GitBell.Server::gitbell::Product";
+			remoteInfo = gitbell;
+		};
+		63F75B7D20F55F1E00A3B9AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "COpenSSL::COpenSSL::Product";
+			remoteInfo = COpenSSL;
+		};
+		63F75B7F20F55F1E00A3B9AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "PerfectHTTPServer::PerfectCHTTPParser::Product";
+			remoteInfo = PerfectCHTTPParser;
+		};
+		63F75B8120F55F1E00A3B9AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "PerfectCZlib::PerfectCZlib::Product";
+			remoteInfo = PerfectCZlib;
+		};
+		63F75B8320F55F1E00A3B9AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "PerfectCrypto::PerfectCrypto::Product";
+			remoteInfo = PerfectCrypto;
+		};
+		63F75B8520F55F1E00A3B9AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "PerfectHTTP::PerfectHTTP::Product";
+			remoteInfo = PerfectHTTP;
+		};
+		63F75B8720F55F1E00A3B9AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "PerfectHTTPServer::PerfectHTTPServer::Product";
+			remoteInfo = PerfectHTTPServer;
+		};
+		63F75B8920F55F1E00A3B9AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "PerfectLib::PerfectLib::Product";
+			remoteInfo = PerfectLib;
+		};
+		63F75B8B20F55F1E00A3B9AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "PerfectNet::PerfectNet::Product";
+			remoteInfo = PerfectNet;
+		};
+		63F75B8D20F55F1E00A3B9AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "PerfectNotifications::PerfectNotifications::Product";
+			remoteInfo = PerfectNotifications;
+		};
+		63F75B8F20F55F1E00A3B9AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "PerfectThread::PerfectThread::Product";
+			remoteInfo = PerfectThread;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		6388D12C20F515250082F280 /* GitBell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitBell.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6388D12F20F515250082F280 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		6388D13120F515270082F280 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6388D13420F515270082F280 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		6388D13620F515270082F280 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		63F75B2E20F52EEF00A3B9AE /* GitBell.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GitBell.entitlements; sourceTree = "<group>"; };
+		63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = GitBell.Server.xcodeproj; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6388D12920F515250082F280 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6388D12320F515250082F280 = {
+			isa = PBXGroup;
+			children = (
+				6388D12E20F515250082F280 /* Sources.Client */,
+				6388D12D20F515250082F280 /* Products */,
+				63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */,
+				638DF00220F590D200768FEF /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		6388D12D20F515250082F280 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6388D12C20F515250082F280 /* GitBell.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6388D12E20F515250082F280 /* Sources.Client */ = {
+			isa = PBXGroup;
+			children = (
+				6388D12F20F515250082F280 /* AppDelegate.swift */,
+				6388D13120F515270082F280 /* Assets.xcassets */,
+				6388D13320F515270082F280 /* MainMenu.xib */,
+				63F75B2E20F52EEF00A3B9AE /* GitBell.entitlements */,
+				6388D13620F515270082F280 /* Info.plist */,
+			);
+			path = Sources.Client;
+			sourceTree = "<group>";
+		};
+		638DF00220F590D200768FEF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		63F75B3020F539C100A3B9AE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				63F75B7E20F55F1E00A3B9AE /* COpenSSL.framework */,
+				63F75B8020F55F1E00A3B9AE /* PerfectCHTTPParser.framework */,
+				63F75B8220F55F1E00A3B9AE /* PerfectCZlib.framework */,
+				63F75B8420F55F1E00A3B9AE /* PerfectCrypto.framework */,
+				63F75B8620F55F1E00A3B9AE /* PerfectHTTP.framework */,
+				63F75B8820F55F1E00A3B9AE /* PerfectHTTPServer.framework */,
+				63F75B8A20F55F1E00A3B9AE /* PerfectLib.framework */,
+				63F75B8C20F55F1E00A3B9AE /* PerfectNet.framework */,
+				63F75B8E20F55F1E00A3B9AE /* PerfectNotifications.framework */,
+				63F75B9020F55F1E00A3B9AE /* PerfectThread.framework */,
+				63F75B3920F539C100A3B9AE /* gitbell */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6388D12B20F515250082F280 /* GitBell */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6388D13A20F515270082F280 /* Build configuration list for PBXNativeTarget "GitBell" */;
+			buildPhases = (
+				6388D12820F515250082F280 /* Sources */,
+				6388D12920F515250082F280 /* Frameworks */,
+				6388D12A20F515250082F280 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				638DF01D20F6642600768FEF /* PBXTargetDependency */,
+			);
+			name = GitBell;
+			productName = GitBell;
+			productReference = 6388D12C20F515250082F280 /* GitBell.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6388D12420F515250082F280 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1000;
+				LastUpgradeCheck = 1000;
+				ORGANIZATIONNAME = "Max Howell";
+				TargetAttributes = {
+					6388D12B20F515250082F280 = {
+						CreatedOnToolsVersion = 10.0;
+						SystemCapabilities = {
+							com.apple.HardenedRuntime = {
+								enabled = 0;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.Sandbox = {
+								enabled = 0;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = 6388D12720F515250082F280 /* Build configuration list for PBXProject "GitBell" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 6388D12320F515250082F280;
+			productRefGroup = 6388D12D20F515250082F280 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 63F75B3020F539C100A3B9AE /* Products */;
+					ProjectRef = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				6388D12B20F515250082F280 /* GitBell */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		63F75B3920F539C100A3B9AE /* gitbell */ = {
+			isa = PBXReferenceProxy;
+			fileType = text;
+			path = gitbell;
+			remoteRef = 63F75B3820F539C100A3B9AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		63F75B7E20F55F1E00A3B9AE /* COpenSSL.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = COpenSSL.framework;
+			remoteRef = 63F75B7D20F55F1E00A3B9AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		63F75B8020F55F1E00A3B9AE /* PerfectCHTTPParser.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PerfectCHTTPParser.framework;
+			remoteRef = 63F75B7F20F55F1E00A3B9AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		63F75B8220F55F1E00A3B9AE /* PerfectCZlib.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PerfectCZlib.framework;
+			remoteRef = 63F75B8120F55F1E00A3B9AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		63F75B8420F55F1E00A3B9AE /* PerfectCrypto.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PerfectCrypto.framework;
+			remoteRef = 63F75B8320F55F1E00A3B9AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		63F75B8620F55F1E00A3B9AE /* PerfectHTTP.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PerfectHTTP.framework;
+			remoteRef = 63F75B8520F55F1E00A3B9AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		63F75B8820F55F1E00A3B9AE /* PerfectHTTPServer.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PerfectHTTPServer.framework;
+			remoteRef = 63F75B8720F55F1E00A3B9AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		63F75B8A20F55F1E00A3B9AE /* PerfectLib.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PerfectLib.framework;
+			remoteRef = 63F75B8920F55F1E00A3B9AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		63F75B8C20F55F1E00A3B9AE /* PerfectNet.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PerfectNet.framework;
+			remoteRef = 63F75B8B20F55F1E00A3B9AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		63F75B8E20F55F1E00A3B9AE /* PerfectNotifications.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PerfectNotifications.framework;
+			remoteRef = 63F75B8D20F55F1E00A3B9AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		63F75B9020F55F1E00A3B9AE /* PerfectThread.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PerfectThread.framework;
+			remoteRef = 63F75B8F20F55F1E00A3B9AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6388D12A20F515250082F280 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6388D13220F515270082F280 /* Assets.xcassets in Resources */,
+				6388D13520F515270082F280 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6388D12820F515250082F280 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6388D13020F515250082F280 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		638DF01D20F6642600768FEF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = gitbell;
+			targetProxy = 638DF01C20F6642600768FEF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		6388D13320F515270082F280 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6388D13420F515270082F280 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		6388D13820F515270082F280 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		6388D13920F515270082F280 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		6388D13B20F515270082F280 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Sources.Client/GitBell.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = TEQMQBRC7B;
+				INFOPLIST_FILE = "$(SRCROOT)/Sources.Client/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.codebasesaga.GitBell;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		6388D13C20F515270082F280 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Sources.Client/GitBell.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = TEQMQBRC7B;
+				INFOPLIST_FILE = "$(SRCROOT)/Sources.Client/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.codebasesaga.GitBell;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6388D12720F515250082F280 /* Build configuration list for PBXProject "GitBell" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6388D13820F515270082F280 /* Debug */,
+				6388D13920F515270082F280 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6388D13A20F515270082F280 /* Build configuration list for PBXNativeTarget "GitBell" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6388D13B20F515270082F280 /* Debug */,
+				6388D13C20F515270082F280 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6388D12420F515250082F280 /* Project object */;
+}
