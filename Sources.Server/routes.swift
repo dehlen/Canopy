@@ -9,12 +9,12 @@ var routes: Routes {
     return routes
 }
 
-private var token: String? {
+private var tokens: [String] {
     set {
-        UserDefaults.standard.set(newValue, forKey: "token")
+        UserDefaults.standard.set(newValue, forKey: "tokens")
     }
     get {
-        return UserDefaults.standard.string(forKey: "token")
+        return UserDefaults.standard.stringArray(forKey: "tokens") ?? []
     }
 }
 
@@ -35,7 +35,8 @@ private func tokenHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             throw E.noBody
         }
         let data = Data(bytes: bytes)
-        token = try JSONDecoder().decode(Response.self, from: data).token
+        let token = try JSONDecoder().decode(Response.self, from: data).token
+        tokens.append(token)
         response.appendBody(string: "got: \(String(describing: token))")
         response.completed()
     } catch {
@@ -47,10 +48,7 @@ private func tokenHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
 private func githubHandler(request: HTTPRequest, _ response: HTTPResponse) {
     print("Receiving Webhook payload")
 
-    guard let token = token else {
-        response.appendBody(string: "No token registered")
-        return response.completed(status: .expectationFailed)
-    }
+    let tokens = gitbell.tokens
 
     guard let eventType = request.header(.custom(name: "X-GitHub-Event")) else {
         response.appendBody(string: "No event type header")
@@ -140,7 +138,7 @@ private func githubHandler(request: HTTPRequest, _ response: HTTPResponse) {
             notificationItems.append(.customPayload("url", url.absoluteString))
         }
 
-        NotificationPusher(apnsTopic: apnsTopicId).pushAPNS(configurationName: apnsTopicId, deviceTokens: [token], notificationItems: notificationItems) { responses in
+        NotificationPusher(apnsTopic: apnsTopicId).pushAPNS(configurationName: apnsTopicId, deviceTokens: tokens, notificationItems: notificationItems) { responses in
             print("APNs said:", responses)
         }
         print("Sent:", notificationItems)
