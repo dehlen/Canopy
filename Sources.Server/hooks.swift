@@ -1,7 +1,7 @@
 import Foundation
 import PerfectHTTP
 
-// https://developer.github.com/v3/activity/events/types/#membershipevent
+// https://developer.github.com/v3/activity/events
 
 protocol Notificatable {
     var title: String? { get }
@@ -82,6 +82,7 @@ struct CheckSuiteEvent: Decodable, Notificatable {
     }
 }
 
+// https://developer.github.com/v3/activity/events/types/#commitcommentevent
 struct CommitComment: Decodable, Notificatable {
     let action: String
     let comment: Comment
@@ -94,10 +95,11 @@ struct CommitComment: Decodable, Notificatable {
         return repository.full_name
     }
     var url: URL? {
-        return comment.url
+        return comment.html_url
     }
 }
 
+// https://developer.github.com/v3/activity/events/types/#createevent
 struct CreateEvent: Decodable, Notificatable {
     let repository: Repository
     let sender: User
@@ -254,7 +256,7 @@ struct IssueCommentEvent: Decodable, Notificatable {
         return "\(repository.full_name)#\(issue.number)"
     }
     var url: URL? {
-        return issue.url
+        return issue.html_url
     }
 }
 
@@ -271,7 +273,7 @@ struct IssuesEvent: Decodable, Notificatable {
         return repository.full_name
     }
     var url: URL? {
-        return issue.url
+        return issue.html_url
     }
 }
 
@@ -494,7 +496,7 @@ struct Repository: Decodable {
 }
 
 struct Deployment: Decodable {
-    let url: URL
+    let url: URL  // is api URL and not “html_url”
     let description: String?
     let environment: String
 }
@@ -505,12 +507,12 @@ struct Installation: Decodable {
 }
 
 struct Issue: Decodable {
-    let url: URL
+    let html_url: URL
     let number: Int
 }
 
 struct Comment: Decodable {
-    let url: URL
+    let html_url: URL
     let body: String
     let user: User
 }
