@@ -131,15 +131,14 @@ private func githubHandler(request: HTTPRequest, _ response: HTTPResponse) {
             notificatable = Oh(title: eventType)
         }
 
-        let notificationItems: [APNSNotificationItem] = [
+        var notificationItems: [APNSNotificationItem] = [
             .alertTitle(notificatable.title ?? "Error"),
             .alertBody(notificatable.body ?? "Error"),
         ]
 
-        // stops the notification getting sent by APNs, (though gives us a 200 back :/)
-//        if let url = notificatable.url {
-//            notificationItems.append(.customPayload("url", url))
-//        }
+        if let url = notificatable.url {
+            notificationItems.append(.customPayload("url", url.absoluteString))
+        }
 
         NotificationPusher(apnsTopic: apnsTopicId).pushAPNS(configurationName: apnsTopicId, deviceTokens: [token], notificationItems: notificationItems) { responses in
             print("APNs said:", responses)
