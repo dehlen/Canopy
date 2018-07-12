@@ -119,9 +119,11 @@ private func githubHandler(request: HTTPRequest, _ response: HTTPResponse) {
             notificatable = try decode(OrgBlockEvent.self)
         case "page_build":
             notificatable = try decode(PageBuildEvent.self)
+        case "pull_request":
+            notificatable = try decode(PullRequestEvent.self)
         case "watch":
             notificatable = try decode(WatchEvent.self)
-        case "marketplace_purchase", "project_card", "project_column", "project", "public", "pull_request", "pull_request_review", "pull_request_review_comment", "release", "repository", "repository_vulnerability_alert", "status", "team", "team_add":
+        case "marketplace_purchase", "project_card", "project_column", "project", "public", "pull_request_review", "pull_request_review_comment", "release", "repository", "repository_vulnerability_alert", "status", "team", "team_add":
             print("Unimplemented event:", eventType)
             fallthrough
         default:

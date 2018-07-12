@@ -465,6 +465,26 @@ struct PushEvent: Decodable, Notificatable {
     }
 }
 
+// https://developer.github.com/v3/activity/events/types/#pullrequestevent
+struct PullRequestEvent: Decodable, Notificatable {
+    let action: String
+    let number: Int
+    let pull_request: PullRequest
+    let repository: Repository
+    let sender: User
+
+    var body: String {
+        if action == "closed", pull_request.merged {
+            return "\(sender.login) merged \(repository.full_name)#\(number)"
+        } else {
+            return "\(sender.login) \(action) \(repository.full_name)#\(number)"
+        }
+    }
+    var url: URL? {
+        return pull_request.html_url
+    }
+}
+
 // Actually: stars
 struct WatchEvent: Decodable, Notificatable {
     let action: String
@@ -520,4 +540,12 @@ struct Comment: Decodable {
     let html_url: URL
     let body: String
     let user: User
+}
+
+struct PullRequest: Decodable {
+    let html_url: URL
+    let state: String
+    let title: String
+    let body: String
+    let merged: Bool
 }
