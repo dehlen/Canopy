@@ -9,12 +9,12 @@ var routes: Routes {
     return routes
 }
 
-private var tokens: [String] {
+private var tokens: Set<String> {
     set {
-        UserDefaults.standard.set(newValue, forKey: "tokens")
+        UserDefaults.standard.set(Array(newValue), forKey: "tokens")
     }
     get {
-        return UserDefaults.standard.stringArray(forKey: "tokens") ?? []
+        return Set(UserDefaults.standard.stringArray(forKey: "tokens") ?? [])
     }
 }
 
@@ -36,8 +36,11 @@ private func tokenHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         }
         let data = Data(bytes: bytes)
         let token = try JSONDecoder().decode(Response.self, from: data).token
-        tokens.append(token)
-        response.appendBody(string: "got: \(String(describing: token))")
+        if tokens.insert(token).inserted {
+            response.appendBody(string: "new token added: \(String(describing: token))")
+        } else {
+            response.appendBody(string: "already knew this token, kthxbai")
+        }
         response.completed()
     } catch {
         response.appendBody(string: "error: \(error)")
@@ -138,7 +141,7 @@ private func githubHandler(request: HTTPRequest, _ response: HTTPResponse) {
             notificationItems.append(.customPayload("url", url.absoluteString))
         }
 
-        NotificationPusher(apnsTopic: apnsTopicId).pushAPNS(configurationName: apnsTopicId, deviceTokens: tokens, notificationItems: notificationItems) { responses in
+        NotificationPusher(apnsTopic: apnsTopicId).pushAPNS(configurationName: apnsTopicId, deviceTokens: Array(tokens), notificationItems: notificationItems) { responses in
             print("APNs said:", responses)
         }
         print("Sent:", notificationItems)
