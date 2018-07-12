@@ -1,17 +1,33 @@
 import UserNotifications
 import AppKit
 
+//NOTE we get log messages in console.app that imply we are doing bad
+// mising UserNotificationCenter and the *old* way, however if we don’t
+// call `NSApp.registerForRemoteNotifications(matching: [.alert, .sound])`
+// no notifications get to our app *at all*
+
+//TODO use spotlight to check if multiple versions are installed
+// if so, warn the user this will break shit
+//TODO store the github key such that if they then install the
+// iOS app it already has the key, probably iCloud ubiquituous storage
+
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var window: NSWindow!
 
-    func applicationWillFinishLaunching(_ notification: Notification) {
+    func applicationWillFinishLaunching(_ note: Notification) {
         NSUserNotificationCenter.default.delegate = self
         UNUserNotificationCenter.current().delegate = self
     }
 
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
+    func applicationDidFinishLaunching(_ note: Notification) {
         NSApp.registerForRemoteNotifications(matching: [.alert, .sound])
+
+        // with 10.14-beta3 at least the UNUserNotificationCenterDelegate is not called
+        // at startup, I think this is an Apple bug though
+        if let rsp = note.userInfo?[NSApplication.launchUserNotificationUserInfoKey] as? UNNotificationResponse {
+            userNotificationCenter(UNUserNotificationCenter.current(), didReceive: rsp, withCompletionHandler: {})
+        }
     }
 
     func application(_ application: NSApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -45,6 +61,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func application(_ application: NSApplication, didReceiveRemoteNotification userInfo: [String: Any]) {
         print(userInfo)
     }
+
+    func processRemoteNotificationUserInfo(_ userInfo: [AnyHashable: Any]) {
+        if let urlString = userInfo["url"] as? String, let url = URL(string: urlString) {
+            NSWorkspace.shared.open(url)
+        }
+    }
 }
 
 // macOS < 10.14
@@ -54,8 +76,8 @@ extension AppDelegate: NSUserNotificationCenterDelegate {
     }
 
     func userNotificationCenter(_ center: NSUserNotificationCenter, didActivate notification: NSUserNotification) {
-        if let userInfo = notification.userInfo, let urlString = userInfo["url"] as? String, let url = URL(string: urlString) {
-            NSWorkspace.shared.open(url)
+        if let userInfo = notification.userInfo {
+            processRemoteNotificationUserInfo(userInfo)
         }
     }
 
@@ -72,10 +94,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        let userInfo = response.notification.request.content.userInfo
-        if let urlString = userInfo["url"] as? String, let url = URL(string: urlString) {
-            NSWorkspace.shared.open(url)
-        }
+        processRemoteNotificationUserInfo(response.notification.request.content.userInfo)
     }
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
