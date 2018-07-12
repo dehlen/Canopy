@@ -1,6 +1,8 @@
 import Foundation
 import PerfectHTTP
 
+// https://developer.github.com/v3/activity/events/types/#membershipevent
+
 protocol Notificatable {
     var title: String? { get }
     var body: String? { get }
@@ -453,13 +455,22 @@ struct PushEvent: Decodable, Notificatable {
     }
 }
 
+// Actually: stars
 struct WatchEvent: Decodable, Notificatable {
     let action: String
     let sender: User
     let repository: Repository
 
+    var mangledAction: String {
+        if action == "started" {
+            return "starred"
+        } else {
+            return action
+        }
+    }
+
     var title: String? {
-        return "\(sender.login) \(action) \(repository.full_name)"
+        return "\(sender.login) \(mangledAction) \(repository.full_name)"
     }
     var body: String? {
         return repository.full_name

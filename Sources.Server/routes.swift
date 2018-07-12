@@ -9,7 +9,7 @@ var routes: Routes {
     return routes
 }
 
-var token: String? {
+private var token: String? {
     set {
         UserDefaults.standard.set(newValue, forKey: "token")
     }
