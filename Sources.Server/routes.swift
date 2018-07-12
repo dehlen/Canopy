@@ -133,10 +133,11 @@ private func githubHandler(request: HTTPRequest, _ response: HTTPResponse) {
         }
 
         var notificationItems: [APNSNotificationItem] = [
-            .alertTitle(notificatable.title ?? "Error"),
-            .alertBody(notificatable.body ?? "Error"),
+            .alertBody(notificatable.body)
         ]
-
+        if let title = notificatable.title {
+            notificationItems.append(.alertTitle(title))
+        }
         if let url = notificatable.url {
             notificationItems.append(.customPayload("url", url.absoluteString))
         }

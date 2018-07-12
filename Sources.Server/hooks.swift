@@ -5,12 +5,12 @@ import PerfectHTTP
 
 protocol Notificatable {
     var title: String? { get }
-    var body: String? { get }
+    var body: String { get }
     var url: URL? { get }
 }
 
 extension Notificatable {
-    var body: String? { return nil }
+    var title: String? { return nil }
     var url: URL? { return nil }
 }
 
@@ -26,16 +26,24 @@ struct PingEvent: Decodable, Notificatable {
         let type: String
     }
 
-    var title: String? {
-        switch hook.type.lowercased() {
-        case "organization":
-            guard let login = organization?.login else { return nil }
-            return "Subscribed to the \(login) organization"
-        case "repository":
-            guard let repo = repository?.full_name else { return nil }
-            return "Subscribed to \(repo)"
-        default:
-            return nil
+    var body: String {
+        enum E: Error {
+            case unexpected
+        }
+
+        do {
+            switch hook.type.lowercased() {
+            case "organization":
+                guard let login = organization?.login else { throw E.unexpected }
+                return "Subscribed to the \(login) organization"
+            case "repository":
+                guard let repo = repository?.full_name else { throw E.unexpected }
+                return "Subscribed to \(repo)"
+            default:
+                throw E.unexpected
+            }
+        } catch {
+            return "Received unexpected ping payload of type: \(hook.type)"
         }
     }
 }
@@ -53,7 +61,7 @@ struct CheckRunEvent: Decodable, Notificatable {
     var title: String? {
         return "Check run \(check_run.status)"
     }
-    var body: String? {
+    var body: String {
         return repository.full_name
     }
     var url: URL? {
@@ -74,7 +82,7 @@ struct CheckSuiteEvent: Decodable, Notificatable {
     var title: String? {
         return "Check suite \(check_suite.status)"
     }
-    var body: String? {
+    var body: String {
         return repository.full_name
     }
     var url: URL? {
@@ -91,7 +99,7 @@ struct CommitComment: Decodable, Notificatable {
     var title: String? {
         return "\(comment.user.login) commented on commit"
     }
-    var body: String? {
+    var body: String {
         return repository.full_name
     }
     var url: URL? {
@@ -107,7 +115,7 @@ struct CreateEvent: Decodable, Notificatable {
     var title: String? {
         return "\(sender.login) created a repository"
     }
-    var body: String? {
+    var body: String {
         return repository.full_name
     }
     var url: URL? {
@@ -122,7 +130,7 @@ struct DeleteEvent: Decodable, Notificatable {
     var title: String? {
         return "\(sender.login) deleted a repository"
     }
-    var body: String? {
+    var body: String {
         return repository.full_name
     }
     var url: URL? {
@@ -138,7 +146,7 @@ struct DeploymentEvent: Decodable, Notificatable {
     var title: String? {
         return "\(sender.login) deployed to \(deployment.environment)"
     }
-    var body: String? {
+    var body: String {
         return [deployment.description, repository.full_name].compactMap{ $0 }.joined(separator: ", ")
     }
     var url: URL? {
@@ -161,7 +169,7 @@ struct DeploymentStatusEvent: Decodable, Notificatable {
     var title: String? {
         return "\(sender.login) deployed to \(deployment.environment)"
     }
-    var body: String? {
+    var body: String {
         return deployment_status.status
     }
     var url: URL? {
@@ -177,7 +185,7 @@ struct ForkEvent: Decodable, Notificatable {
     var title: String? {
         return "\(sender.login) forked \(forkee.full_name)"
     }
-    var body: String? {
+    var body: String {
         return repository.full_name
     }
     var url: URL? {
@@ -201,7 +209,7 @@ struct GollumEvent: Decodable, Notificatable {
     var title: String? {
         return "\(sender.login) wiki’d"
     }
-    var body: String? {
+    var body: String {
         return "\(pages.count) wiki events"
     }
     var url: URL? {
@@ -218,7 +226,7 @@ struct InstallationEvent: Decodable, Notificatable {
     var title: String? {
         return "\(sender.login) \(action) a GitHub app \(installation.app_id)"
     }
-    var body: String? {
+    var body: String {
         return "\(repositories.count) repos affected"
     }
     var url: URL? {
@@ -234,7 +242,7 @@ struct InstallationRepositoriesEvent: Decodable, Notificatable {
     var title: String? {
         return "\(sender.login) \(action) a GitHub app \(installation.app_id)"
     }
-    var body: String? {
+    var body: String {
         return "That’s all we got" //FIXME
     }
     var url: URL? {
@@ -252,7 +260,7 @@ struct IssueCommentEvent: Decodable, Notificatable {
     var title: String? {
         return "\(sender.login) \(action) a comment"
     }
-    var body: String? {
+    var body: String {
         return "\(repository.full_name)#\(issue.number)"
     }
     var url: URL? {
@@ -269,7 +277,7 @@ struct IssuesEvent: Decodable, Notificatable {
     var title: String? {
         return "\(sender.login) \(action) #\(issue.number)"
     }
-    var body: String? {
+    var body: String {
         return repository.full_name
     }
     var url: URL? {
@@ -292,7 +300,7 @@ struct LabelEvent: Decodable, Notificatable {
     var title: String? {
         return "\(sender.login) \(action) a label"
     }
-    var body: String? {
+    var body: String {
         return "\(label.name) (\(label.color))"
     }
     var url: URL? {
@@ -317,7 +325,7 @@ struct MemberEvent: Decodable, Notificatable {
     var title: String? {
         return "\(sender.login) \(action) membership for \(member.login)"
     }
-    var body: String? {
+    var body: String {
         return repository.full_name
     }
     var url: URL? {
@@ -341,7 +349,7 @@ struct MembershipEvent: Decodable, Notificatable {
     var title: String? {
         return "\(sender.login) \(action) membership for \(organization.login)"
     }
-    var body: String? {
+    var body: String {
         return "Added to team: \(team.name)"
     }
     var url: URL? {
@@ -364,7 +372,7 @@ struct MilestoneEvent: Decodable, Notificatable {
     var title: String? {
         return "\(sender.login) \(action) a milestone: \(milestone.title)"
     }
-    var body: String? {
+    var body: String {
         return repository.full_name
     }
     var url: URL? {
@@ -380,7 +388,7 @@ struct OrganizationEvent: Decodable, Notificatable {  //TODO half-arsed
     var title: String? {
         return "\(sender.login) \(action) a member"
     }
-    var body: String? {
+    var body: String {
         return "To: " + organization.login
     }
 }
@@ -394,7 +402,7 @@ struct OrgBlockEvent: Decodable, Notificatable {  //TODO half-arsed
     var title: String? {
         return "\(sender.login) \(action) \(blocked_user.login)"
     }
-    var body: String? {
+    var body: String {
         return "Org: " + organization.login
     }
 }
@@ -417,7 +425,7 @@ struct PageBuildEvent: Decodable, Notificatable {
     var title: String? {
         return "GitHub Pages build complete: \(build.status)"
     }
-    var body: String? {
+    var body: String {
         return repository.full_name
     }
     var url: URL? {
@@ -445,7 +453,7 @@ struct PushEvent: Decodable, Notificatable {
         let force = forced ? "force‑" : ""
         return "\(pusher.name) \(force)pushed to \(repository.full_name)"
     }
-    var body: String? {
+    var body: String {
         if commits.count == 1 {
             return "Contains 1 commit"
         } else {
@@ -471,11 +479,8 @@ struct WatchEvent: Decodable, Notificatable {
         }
     }
 
-    var title: String? {
+    var body: String {
         return "\(sender.login) \(mangledAction) \(repository.full_name)"
-    }
-    var body: String? {
-        return repository.full_name
     }
     var url: URL? {
         return repository.html_url
