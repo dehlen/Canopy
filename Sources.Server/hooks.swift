@@ -1,8 +1,6 @@
 import Foundation
 import PerfectHTTP
 
-// https://developer.github.com/v3/activity/events
-
 protocol Notificatable {
     var title: String? { get }
     var body: String { get }
@@ -14,7 +12,9 @@ extension Notificatable {
     var url: URL? { return nil }
 }
 
-struct PingEvent: Decodable, Notificatable {
+// https://developer.github.com/v3/activity/events
+
+struct PingEvent: Codable, Notificatable {
     let hook: Hook
     let sender: User
 
@@ -22,7 +22,7 @@ struct PingEvent: Decodable, Notificatable {
     let organization: User?
     let repository: Repository?
 
-    struct Hook: Decodable {
+    struct Hook: Codable {
         let type: String
     }
 
@@ -48,12 +48,12 @@ struct PingEvent: Decodable, Notificatable {
     }
 }
 
-struct CheckRunEvent: Decodable, Notificatable {
+struct CheckRunEvent: Codable, Notificatable {
     let action: String
     let check_run: CheckRun
     let repository: Repository
 
-    struct CheckRun: Decodable {
+    struct CheckRun: Codable {
         let url: URL
         let status: String
     }
@@ -69,12 +69,12 @@ struct CheckRunEvent: Decodable, Notificatable {
     }
 }
 
-struct CheckSuiteEvent: Decodable, Notificatable {
+struct CheckSuiteEvent: Codable, Notificatable {
     let action: String
     let check_suite: CheckSuite
     let repository: Repository
 
-    struct CheckSuite: Decodable {
+    struct CheckSuite: Codable {
         let url: URL
         let status: String
     }
@@ -91,7 +91,7 @@ struct CheckSuiteEvent: Decodable, Notificatable {
 }
 
 // https://developer.github.com/v3/activity/events/types/#commitcommentevent
-struct CommitComment: Decodable, Notificatable {
+struct CommitComment: Codable, Notificatable {
     let action: String
     let comment: Comment
     let repository: Repository
@@ -108,7 +108,7 @@ struct CommitComment: Decodable, Notificatable {
 }
 
 // https://developer.github.com/v3/activity/events/types/#createevent
-struct CreateEvent: Decodable, Notificatable {
+struct CreateEvent: Codable, Notificatable {
     let repository: Repository
     let sender: User
 
@@ -123,7 +123,7 @@ struct CreateEvent: Decodable, Notificatable {
     }
 }
 
-struct DeleteEvent: Decodable, Notificatable {
+struct DeleteEvent: Codable, Notificatable {
     let repository: Repository
     let sender: User
 
@@ -138,7 +138,7 @@ struct DeleteEvent: Decodable, Notificatable {
     }
 }
 
-struct DeploymentEvent: Decodable, Notificatable {
+struct DeploymentEvent: Codable, Notificatable {
     let repository: Repository
     let deployment: Deployment
     let sender: User
@@ -154,13 +154,13 @@ struct DeploymentEvent: Decodable, Notificatable {
     }
 }
 
-struct DeploymentStatusEvent: Decodable, Notificatable {
+struct DeploymentStatusEvent: Codable, Notificatable {
     let deployment_status: DeploymentStatus
     let deployment: Deployment
     let repository: Repository
     let sender: User
 
-    struct DeploymentStatus: Decodable {
+    struct DeploymentStatus: Codable {
         let url: URL
         let status: String
         let description: String?
@@ -177,7 +177,7 @@ struct DeploymentStatusEvent: Decodable, Notificatable {
     }
 }
 
-struct ForkEvent: Decodable, Notificatable {
+struct ForkEvent: Codable, Notificatable {
     let forkee: Repository
     let repository: Repository
     let sender: User
@@ -193,12 +193,12 @@ struct ForkEvent: Decodable, Notificatable {
     }
 }
 
-struct GollumEvent: Decodable, Notificatable {
+struct GollumEvent: Codable, Notificatable {
     let pages: [Page]
     let repository: Repository
     let sender: User
 
-    struct Page: Decodable {
+    struct Page: Codable {
         let page_name: String
         let title: String
         let summary: String?
@@ -217,7 +217,7 @@ struct GollumEvent: Decodable, Notificatable {
     }
 }
 
-struct InstallationEvent: Decodable, Notificatable {
+struct InstallationEvent: Codable, Notificatable {
     let action: String
     let installation: Installation
     let repositories: [Repository]
@@ -234,7 +234,7 @@ struct InstallationEvent: Decodable, Notificatable {
     }
 }
 
-struct InstallationRepositoriesEvent: Decodable, Notificatable {
+struct InstallationRepositoriesEvent: Codable, Notificatable {
     let action: String
     let installation: Installation
     let sender: User
@@ -250,7 +250,7 @@ struct InstallationRepositoriesEvent: Decodable, Notificatable {
     }
 }
 
-struct IssueCommentEvent: Decodable, Notificatable {
+struct IssueCommentEvent: Codable, Notificatable {
     let action: String
     let issue: Issue
     let comment: Comment
@@ -268,7 +268,7 @@ struct IssueCommentEvent: Decodable, Notificatable {
     }
 }
 
-struct IssuesEvent: Decodable, Notificatable {
+struct IssuesEvent: Codable, Notificatable {
     let action: String
     let issue: Issue
     let repository: Repository
@@ -285,13 +285,13 @@ struct IssuesEvent: Decodable, Notificatable {
     }
 }
 
-struct LabelEvent: Decodable, Notificatable {
+struct LabelEvent: Codable, Notificatable {
     let action: String
     let label: Label
     let repository: Repository
     let sender: User
 
-    struct Label: Decodable {
+    struct Label: Codable {
         let name: String
         let url: URL
         let color: String
@@ -308,16 +308,16 @@ struct LabelEvent: Decodable, Notificatable {
     }
 }
 
-struct MemberEvent: Decodable, Notificatable {
+struct MemberEvent: Codable, Notificatable {
     let action: String
     let member: User
     //let changes: Changes
     let repository: Repository
     let sender: User
 
-//    struct Changes: Decodable {
+//    struct Changes: Codable {
 //        let permission: Permission
-//        struct Permission: Decodable {
+//        struct Permission: Codable {
 //            let from: String?
 //        }
 //    }
@@ -333,7 +333,7 @@ struct MemberEvent: Decodable, Notificatable {
     }
 }
 
-struct MembershipEvent: Decodable, Notificatable {
+struct MembershipEvent: Codable, Notificatable {
     let action: String
     let scope: String
     let user: User
@@ -341,7 +341,7 @@ struct MembershipEvent: Decodable, Notificatable {
     let organization: User
     let team: Team
 
-    struct Team: Decodable {
+    struct Team: Codable {
         let name: String
         let url: URL
     }
@@ -357,13 +357,13 @@ struct MembershipEvent: Decodable, Notificatable {
     }
 }
 
-struct MilestoneEvent: Decodable, Notificatable {
+struct MilestoneEvent: Codable, Notificatable {
     let action: String
     let sender: User
     let repository: Repository
     let milestone: Milestone
 
-    struct Milestone: Decodable {
+    struct Milestone: Codable {
         let html_url: URL
         let title: String
         let description: String?
@@ -380,7 +380,7 @@ struct MilestoneEvent: Decodable, Notificatable {
     }
 }
 
-struct OrganizationEvent: Decodable, Notificatable {  //TODO half-arsed
+struct OrganizationEvent: Codable, Notificatable {  //TODO half-arsed
     let action: String
     let organization: User
     let sender: User
@@ -393,7 +393,7 @@ struct OrganizationEvent: Decodable, Notificatable {  //TODO half-arsed
     }
 }
 
-struct OrgBlockEvent: Decodable, Notificatable {  //TODO half-arsed
+struct OrgBlockEvent: Codable, Notificatable {  //TODO half-arsed
     let action: String
     let blocked_user: User
     let organization: User
@@ -407,17 +407,17 @@ struct OrgBlockEvent: Decodable, Notificatable {  //TODO half-arsed
     }
 }
 
-struct PageBuildEvent: Decodable, Notificatable {
+struct PageBuildEvent: Codable, Notificatable {
     let build: Build
     let repository: Repository
     let sender: User
 
-    struct Build: Decodable {
+    struct Build: Codable {
         let url: URL
         let status: String
         let error: Error?
 
-        struct Error: Decodable {
+        struct Error: Codable {
             let message: String?
         }
     }
@@ -433,7 +433,7 @@ struct PageBuildEvent: Decodable, Notificatable {
     }
 }
 
-struct PushEvent: Decodable, Notificatable {
+struct PushEvent: Codable, Notificatable {
     let repository: Repository
     let pusher: Pusher
     let commits: [Commit]
@@ -441,10 +441,10 @@ struct PushEvent: Decodable, Notificatable {
     let forced: Bool
     let head_commit: Commit
 
-    struct Pusher: Decodable {
+    struct Pusher: Codable {
         let name: String
     }
-    struct Commit: Decodable {
+    struct Commit: Codable {
         let message: String
         let url: URL
     }
@@ -466,7 +466,7 @@ struct PushEvent: Decodable, Notificatable {
 }
 
 // https://developer.github.com/v3/activity/events/types/#pullrequestevent
-struct PullRequestEvent: Decodable, Notificatable {
+struct PullRequestEvent: Codable, Notificatable {
     let action: String
     let number: Int
     let pull_request: PullRequest
@@ -486,14 +486,14 @@ struct PullRequestEvent: Decodable, Notificatable {
 }
 
 // https://developer.github.com/v3/activity/events/types/#pullrequestreviewevent
-struct PullRequestReviewEvent: Decodable, Notificatable {
+struct PullRequestReviewEvent: Codable, Notificatable {
     let action: String
     let pull_request: PullRequest
     let review: Review
     let sender: User
     let repository: Repository
 
-    struct Review: Decodable {
+    struct Review: Codable {
         let user: User
         let state: String
         let html_url: URL
@@ -508,7 +508,7 @@ struct PullRequestReviewEvent: Decodable, Notificatable {
 }
 
 // Actually: stars
-struct WatchEvent: Decodable, Notificatable {
+struct WatchEvent: Codable, Notificatable {
     let action: String
     let sender: User
     let repository: Repository
@@ -531,40 +531,40 @@ struct WatchEvent: Decodable, Notificatable {
 
 // types
 
-struct User: Decodable {
+struct User: Codable {
     let login: String
 }
 
-struct Repository: Decodable {
+struct Repository: Codable {
     let full_name: String
     let `private`: Bool
     let html_url: URL
     let contributors_url: URL
 }
 
-struct Deployment: Decodable {
+struct Deployment: Codable {
     let url: URL  // is api URL and not “html_url”
     let description: String?
     let environment: String
 }
 
-struct Installation: Decodable {
+struct Installation: Codable {
     let html_url: URL
     let app_id: Int
 }
 
-struct Issue: Decodable {
+struct Issue: Codable {
     let html_url: URL
     let number: Int
 }
 
-struct Comment: Decodable {
+struct Comment: Codable {
     let html_url: URL
     let body: String
     let user: User
 }
 
-struct PullRequest: Decodable {
+struct PullRequest: Codable {
     let html_url: URL
     let state: String
     let title: String

@@ -3,14 +3,14 @@
 import PackageDescription
 
 let package = Package(
-    name: "GitBell.Server",
+    name: "Upstream",
     products: [
-        .executable(name: "gitbell", targets: ["gitbell"])
+        .executable(name: "upstream", targets: ["Upstream"])
     ],
     dependencies: [
         .package(url:"https://github.com/PerfectlySoft/Perfect-Notifications.git", .upToNextMajor(from: "3.0.0"))
     ],
     targets: [
-        .target(name: "gitbell", dependencies: ["PerfectNotifications"], path: "Sources.Server")
+        .target(name: "Upstream", dependencies: ["PerfectNotifications"], path: "Sources.Server")
     ]
 )

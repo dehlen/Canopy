@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:GitBell.xcodeproj">
+      location = "self:/Users/mxcl/src/gitbell/Downstream.xcodeproj">
    </FileRef>
 </Workspace>

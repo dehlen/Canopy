@@ -7,106 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6388D13020F515250082F280 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6388D12F20F515250082F280 /* AppDelegate.swift */; };
+		63562B4120F90CF40076F52B /* etc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63562B4020F90CF40076F52B /* etc.swift */; };
+		63562B4320F9102B0076F52B /* App+NSApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63562B4220F9102B0076F52B /* App+NSApplicationDelegate.swift */; };
+		63562B4520F9105C0076F52B /* App+UserNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63562B4420F9105C0076F52B /* App+UserNotifications.swift */; };
+		6388D13020F515250082F280 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6388D12F20F515250082F280 /* App.swift */; };
 		6388D13220F515270082F280 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6388D13120F515270082F280 /* Assets.xcassets */; };
 		6388D13520F515270082F280 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6388D13320F515270082F280 /* MainMenu.xib */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		638DF01C20F6642600768FEF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = "GitBell.Server::gitbell";
-			remoteInfo = gitbell;
-		};
-		63F75B3820F539C100A3B9AE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = "GitBell.Server::gitbell::Product";
-			remoteInfo = gitbell;
-		};
-		63F75B7D20F55F1E00A3B9AE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = "COpenSSL::COpenSSL::Product";
-			remoteInfo = COpenSSL;
-		};
-		63F75B7F20F55F1E00A3B9AE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = "PerfectHTTPServer::PerfectCHTTPParser::Product";
-			remoteInfo = PerfectCHTTPParser;
-		};
-		63F75B8120F55F1E00A3B9AE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = "PerfectCZlib::PerfectCZlib::Product";
-			remoteInfo = PerfectCZlib;
-		};
-		63F75B8320F55F1E00A3B9AE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = "PerfectCrypto::PerfectCrypto::Product";
-			remoteInfo = PerfectCrypto;
-		};
-		63F75B8520F55F1E00A3B9AE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = "PerfectHTTP::PerfectHTTP::Product";
-			remoteInfo = PerfectHTTP;
-		};
-		63F75B8720F55F1E00A3B9AE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = "PerfectHTTPServer::PerfectHTTPServer::Product";
-			remoteInfo = PerfectHTTPServer;
-		};
-		63F75B8920F55F1E00A3B9AE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = "PerfectLib::PerfectLib::Product";
-			remoteInfo = PerfectLib;
-		};
-		63F75B8B20F55F1E00A3B9AE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = "PerfectNet::PerfectNet::Product";
-			remoteInfo = PerfectNet;
-		};
-		63F75B8D20F55F1E00A3B9AE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = "PerfectNotifications::PerfectNotifications::Product";
-			remoteInfo = PerfectNotifications;
-		};
-		63F75B8F20F55F1E00A3B9AE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = "PerfectThread::PerfectThread::Product";
-			remoteInfo = PerfectThread;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		6388D12C20F515250082F280 /* GitBell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitBell.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6388D12F20F515250082F280 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		63562B4020F90CF40076F52B /* etc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = etc.swift; sourceTree = "<group>"; };
+		63562B4220F9102B0076F52B /* App+NSApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App+NSApplicationDelegate.swift"; sourceTree = "<group>"; };
+		63562B4420F9105C0076F52B /* App+UserNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App+UserNotifications.swift"; sourceTree = "<group>"; };
+		6388D12C20F515250082F280 /* Downstream.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Downstream.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6388D12F20F515250082F280 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		6388D13120F515270082F280 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6388D13420F515270082F280 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		6388D13620F515270082F280 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		63F75B2E20F52EEF00A3B9AE /* GitBell.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GitBell.entitlements; sourceTree = "<group>"; };
-		63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = GitBell.Server.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,7 +43,6 @@
 			children = (
 				6388D12E20F515250082F280 /* Sources.Client */,
 				6388D12D20F515250082F280 /* Products */,
-				63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */,
 				638DF00220F590D200768FEF /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -133,7 +50,7 @@
 		6388D12D20F515250082F280 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6388D12C20F515250082F280 /* GitBell.app */,
+				6388D12C20F515250082F280 /* Downstream.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -141,7 +58,10 @@
 		6388D12E20F515250082F280 /* Sources.Client */ = {
 			isa = PBXGroup;
 			children = (
-				6388D12F20F515250082F280 /* AppDelegate.swift */,
+				6388D12F20F515250082F280 /* App.swift */,
+				63562B4220F9102B0076F52B /* App+NSApplicationDelegate.swift */,
+				63562B4420F9105C0076F52B /* App+UserNotifications.swift */,
+				63562B4020F90CF40076F52B /* etc.swift */,
 				6388D13120F515270082F280 /* Assets.xcassets */,
 				6388D13320F515270082F280 /* MainMenu.xib */,
 				63F75B2E20F52EEF00A3B9AE /* GitBell.entitlements */,
@@ -157,30 +77,12 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		63F75B3020F539C100A3B9AE /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				63F75B7E20F55F1E00A3B9AE /* COpenSSL.framework */,
-				63F75B8020F55F1E00A3B9AE /* PerfectCHTTPParser.framework */,
-				63F75B8220F55F1E00A3B9AE /* PerfectCZlib.framework */,
-				63F75B8420F55F1E00A3B9AE /* PerfectCrypto.framework */,
-				63F75B8620F55F1E00A3B9AE /* PerfectHTTP.framework */,
-				63F75B8820F55F1E00A3B9AE /* PerfectHTTPServer.framework */,
-				63F75B8A20F55F1E00A3B9AE /* PerfectLib.framework */,
-				63F75B8C20F55F1E00A3B9AE /* PerfectNet.framework */,
-				63F75B8E20F55F1E00A3B9AE /* PerfectNotifications.framework */,
-				63F75B9020F55F1E00A3B9AE /* PerfectThread.framework */,
-				63F75B3920F539C100A3B9AE /* gitbell */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6388D12B20F515250082F280 /* GitBell */ = {
+		6388D12B20F515250082F280 /* Downstream */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6388D13A20F515270082F280 /* Build configuration list for PBXNativeTarget "GitBell" */;
+			buildConfigurationList = 6388D13A20F515270082F280 /* Build configuration list for PBXNativeTarget "Downstream" */;
 			buildPhases = (
 				6388D12820F515250082F280 /* Sources */,
 				6388D12920F515250082F280 /* Frameworks */,
@@ -189,11 +91,10 @@
 			buildRules = (
 			);
 			dependencies = (
-				638DF01D20F6642600768FEF /* PBXTargetDependency */,
 			);
-			name = GitBell;
+			name = Downstream;
 			productName = GitBell;
-			productReference = 6388D12C20F515250082F280 /* GitBell.app */;
+			productReference = 6388D12C20F515250082F280 /* Downstream.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -222,7 +123,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6388D12720F515250082F280 /* Build configuration list for PBXProject "GitBell" */;
+			buildConfigurationList = 6388D12720F515250082F280 /* Build configuration list for PBXProject "Downstream" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -233,98 +134,12 @@
 			mainGroup = 6388D12320F515250082F280;
 			productRefGroup = 6388D12D20F515250082F280 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 63F75B3020F539C100A3B9AE /* Products */;
-					ProjectRef = 63F75B2F20F539C100A3B9AE /* GitBell.Server.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
-				6388D12B20F515250082F280 /* GitBell */,
+				6388D12B20F515250082F280 /* Downstream */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		63F75B3920F539C100A3B9AE /* gitbell */ = {
-			isa = PBXReferenceProxy;
-			fileType = text;
-			path = gitbell;
-			remoteRef = 63F75B3820F539C100A3B9AE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		63F75B7E20F55F1E00A3B9AE /* COpenSSL.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = COpenSSL.framework;
-			remoteRef = 63F75B7D20F55F1E00A3B9AE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		63F75B8020F55F1E00A3B9AE /* PerfectCHTTPParser.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = PerfectCHTTPParser.framework;
-			remoteRef = 63F75B7F20F55F1E00A3B9AE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		63F75B8220F55F1E00A3B9AE /* PerfectCZlib.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = PerfectCZlib.framework;
-			remoteRef = 63F75B8120F55F1E00A3B9AE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		63F75B8420F55F1E00A3B9AE /* PerfectCrypto.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = PerfectCrypto.framework;
-			remoteRef = 63F75B8320F55F1E00A3B9AE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		63F75B8620F55F1E00A3B9AE /* PerfectHTTP.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = PerfectHTTP.framework;
-			remoteRef = 63F75B8520F55F1E00A3B9AE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		63F75B8820F55F1E00A3B9AE /* PerfectHTTPServer.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = PerfectHTTPServer.framework;
-			remoteRef = 63F75B8720F55F1E00A3B9AE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		63F75B8A20F55F1E00A3B9AE /* PerfectLib.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = PerfectLib.framework;
-			remoteRef = 63F75B8920F55F1E00A3B9AE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		63F75B8C20F55F1E00A3B9AE /* PerfectNet.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = PerfectNet.framework;
-			remoteRef = 63F75B8B20F55F1E00A3B9AE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		63F75B8E20F55F1E00A3B9AE /* PerfectNotifications.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = PerfectNotifications.framework;
-			remoteRef = 63F75B8D20F55F1E00A3B9AE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		63F75B9020F55F1E00A3B9AE /* PerfectThread.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = PerfectThread.framework;
-			remoteRef = 63F75B8F20F55F1E00A3B9AE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		6388D12A20F515250082F280 /* Resources */ = {
@@ -343,19 +158,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6388D13020F515250082F280 /* AppDelegate.swift in Sources */,
+				63562B4120F90CF40076F52B /* etc.swift in Sources */,
+				6388D13020F515250082F280 /* App.swift in Sources */,
+				63562B4320F9102B0076F52B /* App+NSApplicationDelegate.swift in Sources */,
+				63562B4520F9105C0076F52B /* App+UserNotifications.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		638DF01D20F6642600768FEF /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = gitbell;
-			targetProxy = 638DF01C20F6642600768FEF /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		6388D13320F515270082F280 /* MainMenu.xib */ = {
@@ -527,7 +337,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6388D12720F515250082F280 /* Build configuration list for PBXProject "GitBell" */ = {
+		6388D12720F515250082F280 /* Build configuration list for PBXProject "Downstream" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6388D13820F515270082F280 /* Debug */,
@@ -536,7 +346,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6388D13A20F515270082F280 /* Build configuration list for PBXNativeTarget "GitBell" */ = {
+		6388D13A20F515270082F280 /* Build configuration list for PBXNativeTarget "Downstream" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6388D13B20F515270082F280 /* Debug */,
