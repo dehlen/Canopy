@@ -11,6 +11,15 @@
         }
       },
       {
+        "package": "PerfectCRUD",
+        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-CRUD.git",
+        "state": {
+          "branch": null,
+          "revision": "e79873e28ee9acf96fdf71b6784130a97a4b3f74",
+          "version": "1.0.4"
+        }
+      },
+      {
         "package": "PerfectCrypto",
         "repositoryURL": "https://github.com/PerfectlySoft/Perfect-Crypto.git",
         "state": {
@@ -65,6 +74,24 @@
         }
       },
       {
+        "package": "PerfectSQLite",
+        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-SQLite.git",
+        "state": {
+          "branch": null,
+          "revision": "36d57fa64a1f46aa2e4545a30d79dc5a5c2ef6ed",
+          "version": "3.1.1"
+        }
+      },
+      {
+        "package": "PerfectCSQLite3",
+        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-sqlite3-support.git",
+        "state": {
+          "branch": null,
+          "revision": "fb806c0fd0fcbf27ababa9c03a00e32c2c46464c",
+          "version": "3.0.0"
+        }
+      },
+      {
         "package": "PerfectThread",
         "repositoryURL": "https://github.com/PerfectlySoft/Perfect-Thread.git",
         "state": {
@@ -80,6 +107,15 @@
           "branch": null,
           "revision": "cdc17d544ec8e87da5f3b24cdbda8d02d77bb943",
           "version": "3.1.1"
+        }
+      },
+      {
+        "package": "PromiseKit",
+        "repositoryURL": "https://github.com/mxcl/PromiseKit.git",
+        "state": {
+          "branch": null,
+          "revision": "f70416ab7b5458adf3559365c09c869b81eeb864",
+          "version": "6.3.4"
         }
       }
     ]

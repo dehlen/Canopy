@@ -2,54 +2,8 @@ import PerfectNotifications
 import PerfectHTTP
 import Foundation
 
-var routes: Routes {
-    var routes = Routes()
-    routes.add(method: .post, uri: "/token", handler: tokenHandler)
-    routes.add(method: .post, uri: "/github", handler: githubHandler)
-    return routes
-}
-
-private var tokens: Set<String> {
-    set {
-        UserDefaults.standard.set(Array(newValue), forKey: "tokens")
-    }
-    get {
-        return Set(UserDefaults.standard.stringArray(forKey: "tokens") ?? [])
-    }
-}
-
-private func tokenHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
-
-    print("Receiving token")
-
-    enum E: Error {
-        case noBody
-    }
-
-    // must be Codable because PerfectHTTP is retarded
-    struct Response: Codable {
-        let token: String
-    }
-
-    do {
-        let token = try rq.decode(Response.self).token
-
-        if tokens.insert(token).inserted {
-            response.appendBody(string: "new token added: \(String(describing: token))")
-        } else {
-            response.appendBody(string: "already knew this token, kthxbai")
-        }
-        response.completed()
-    } catch {
-        response.appendBody(string: "error: \(error)")
-        response.completed(status: .badRequest)
-    }
-}
-
-private func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
+func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
     print("Receiving Webhook payload")
-
-    let tokens = gitbell.tokens
 
     guard let eventType = rq.header(.custom(name: "X-GitHub-Event")) else {
         response.appendBody(string: "No event type header")
@@ -82,10 +36,6 @@ private func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             notificatable = try rq.decode(ForkEvent.self)
         case "gollum":
             notificatable = try rq.decode(GollumEvent.self)
-        case "installation":
-            notificatable = try rq.decode(InstallationEvent.self)
-        case "installation_repositories":
-            notificatable = try rq.decode(InstallationRepositoriesEvent.self)
         case "issue_comment":
             notificatable = try rq.decode(IssueCommentEvent.self)
         case "issues":
@@ -117,9 +67,12 @@ private func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             struct Oh: Notificatable {
                 let title: String?
                 let body = "Unknown event type"
+                let context = Context.alert
             }
             notificatable = Oh(title: eventType)
         }
+
+        let tokens = UserDefaults.standard.tokens(for: notificatable.context)
 
         var notificationItems: [APNSNotificationItem] = [
             .alertBody(notificatable.body)
@@ -131,10 +84,13 @@ private func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             notificationItems.append(.customPayload("url", url.absoluteString))
         }
 
-        NotificationPusher(apnsTopic: apnsTopicId).pushAPNS(configurationName: apnsTopicId, deviceTokens: Array(tokens), notificationItems: notificationItems) { responses in
-            print("APNs said:", responses)
+        for (topic, tokens) in tokens {
+            let pusher = NotificationPusher(apnsTopic: topic)
+            pusher.pushAPNS(configurationName: NotificationPusher.confName, deviceTokens: tokens, notificationItems: notificationItems) { responses in
+                print("APNs said:", responses)
+            }
         }
-        print("Sent:", notificationItems)
+        print("Sent to \(tokens.flatMap{ $0.1 }.count) tokens:", notificationItems)
 
         response.completed()
 
@@ -143,3 +99,4 @@ private func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         return response.completed(status: .expectationFailed)
     }
 }
+
