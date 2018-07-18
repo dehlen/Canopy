@@ -32,13 +32,17 @@ extension PMKHTTPError {
 }
 
 extension UserDefaults {
-    var gitHubOAuthToken: String? {
+    @objc dynamic var gitHubOAuthToken: String? {
         get {
             return string(forKey: #function)
         }
         set {
             set(newValue, forKey: #function)
         }
+    }
+
+    func removeGitHubOAuthToken() {
+        removeObject(forKey: "gitHubOAuthToken")
     }
 }
 
@@ -104,7 +108,7 @@ extension URL {
         cc.queryItems = [
             "client_id": clientId,
             "redirect_uri": redirectUri,
-            "scope": "admin:repo_hook admin:org_hook repo:read",
+            "scope": "admin:repo_hook admin:org_hook repo",
             "state": state,
             "allow_signup": "false"  //avoid potential confusion
         ].map(URLQueryItem.init)

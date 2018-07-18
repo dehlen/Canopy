@@ -62,7 +62,7 @@ struct PingEvent: Codable, Notificatable {
         if let org = organization {
             return .organization(id: org.id)
         } else {
-            return Context(repository!)
+            return .repository(id: repository!.id)
         }
     }
 }
@@ -88,7 +88,7 @@ struct CheckRunEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .init(repository)
+        return .repository(id: repository.id)
     }
 }
 
@@ -113,7 +113,7 @@ struct CheckSuiteEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .init(repository)
+        return .repository(id: repository.id)
     }
 }
 
@@ -134,7 +134,7 @@ struct CommitComment: Codable, Notificatable {
     }
 
     var context: Context {
-        return .init(repository)
+        return .repository(id: repository.id)
     }
 }
 
@@ -154,7 +154,7 @@ struct CreateEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .init(repository)
+        return .repository(id: repository.id)
     }
 }
 
@@ -173,7 +173,7 @@ struct DeleteEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .init(repository)
+        return .repository(id: repository.id)
     }
 }
 
@@ -193,7 +193,7 @@ struct DeploymentEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .init(repository)
+        return .repository(id: repository.id)
     }
 }
 
@@ -220,7 +220,7 @@ struct DeploymentStatusEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .init(repository)
+        return .repository(id: repository.id)
     }
 }
 
@@ -237,7 +237,7 @@ struct ForkEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .init(repository)
+        return .repository(id: repository.id)
     }
 }
 
@@ -265,7 +265,7 @@ struct GollumEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .init(repository)
+        return .repository(id: repository.id)
     }
 }
 
@@ -287,7 +287,7 @@ struct IssueCommentEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .init(repository)
+        return .repository(id: repository.id)
     }
 }
 
@@ -308,7 +308,7 @@ struct IssuesEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .init(repository)
+        return .repository(id: repository.id)
     }
 }
 
@@ -335,7 +335,7 @@ struct LabelEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .init(repository)
+        return .repository(id: repository.id)
     }
 }
 
@@ -356,7 +356,7 @@ struct MemberEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .init(repository)
+        return .repository(id: repository.id)
     }
 }
 
@@ -411,7 +411,7 @@ struct MilestoneEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .init(repository)
+        return .repository(id: repository.id)
     }
 }
 
@@ -476,7 +476,7 @@ struct PageBuildEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .init(repository)
+        return .repository(id: repository.id)
     }
 }
 
@@ -512,7 +512,7 @@ struct PushEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .init(repository)
+        return .repository(id: repository.id)
     }
 }
 
@@ -536,7 +536,7 @@ struct PullRequestEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .init(repository)
+        return .repository(id: repository.id)
     }
 }
 
@@ -562,7 +562,7 @@ struct PullRequestReviewEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .init(repository)
+        return .repository(id: repository.id)
     }
 }
 
@@ -588,7 +588,7 @@ struct WatchEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .init(repository)
+        return .repository(id: repository.id)
     }
 }
 

@@ -99,4 +99,3 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         return response.completed(status: .expectationFailed)
     }
 }
-

@@ -162,6 +162,15 @@ class ReposViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        ref = UserDefaults.standard.observe(\.gitHubOAuthToken, options: [.initial, .new, .old]) { [weak self] defaults, change in
+            guard change.newValue != nil, change.oldValue != change.newValue else { return }
+            self?.fetch()
+        }
+    }
+
+    override func viewWillAppear() {
+        super.viewWillAppear()
+
         guard UserDefaults.standard.gitHubOAuthToken == nil, let window = view.window else {
             return
         }
@@ -169,8 +178,8 @@ class ReposViewController: NSViewController {
         let alert = NSAlert()
         alert.addButton(withTitle: "Quit")
         alert.addButton(withTitle: "Sign‑in")
-        alert.messageText = "You must sign‑in to GitHub to use Downstream."
-        alert.informativeText = "Sorry about that."
+        alert.messageText = "You must sign‑in to GitHub"
+        alert.informativeText = "Sign‑in will proceed via your web‑browser."
         alert.alertStyle = .informational
         alert.beginSheetModal(for: window) { rsp in
             if rsp == .alertFirstButtonReturn {
@@ -179,27 +188,13 @@ class ReposViewController: NSViewController {
                 app.signIn()
             }
         }
-
-        ref = UserDefaults.standard.observe(\.gitHubOAuthToken) { [weak self] defaults, change in
-            print("token changed, old:", String(describing: change.oldValue), "new:", String(describing: change.newValue))
-
-            if defaults.gitHubOAuthToken != nil, change.oldValue != change.newValue {
-                self?.fetch()
-            }
-        }
-    }
-
-    override func viewWillAppear() {
-        super.viewWillAppear()
-
-        if repos.isEmpty {
-            fetch()
-        }
     }
 
     private var fetching = false
 
     private func fetch() {
+        dispatchPrecondition(condition: .onQueue(.main))
+
         guard !fetching, let token = UserDefaults.standard.gitHubOAuthToken else {
             return
         }

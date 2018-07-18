@@ -15,6 +15,10 @@ import AppKit
 //TODO verify that members of an organization get read access to all of that org
 // ie. that you cannot make something private to other members
 
+//TODO gracefully handle when oauth token is revoked
+
+//TODO better encrypt/decrupt the state parameter or someone will notice and be weird about it
+
 // 0. Store users on server-db with device tokens & topics & webhook interests
 // 1. Make work on High Sierra then give out to staff
 // 2. Figure out how to ensure private repos only go to valid users†
@@ -47,6 +51,11 @@ class AppDelegate: NSObject {
         } else {
             NSAlert(error: EE.unexpected).runModal()
         }
+    }
+
+    @IBAction func signOut(sender: Any) {
+        UserDefaults.standard.removeGitHubOAuthToken()
+        NSApp.terminate(sender)
     }
 }
 

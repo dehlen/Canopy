@@ -17,13 +17,6 @@ NotificationPusher.addConfigurationAPNS(
     teamId: "TEQMQBRC7B",
     privateKeyPath: "./AuthKey_5354D789X6.p8")
 
-NotificationPusher.addConfigurationAPNS(
-    name: "com.codebasesaga.iOS.Downstream",
-    production: false, // should be false when running pre-release app in debugger
-    keyId: "5354D789X6",
-    teamId: "TEQMQBRC7B",
-    privateKeyPath: "./AuthKey_5354D789X6.p8")
-
 import PerfectHTTPServer
 import PerfectHTTP
 import Foundation
