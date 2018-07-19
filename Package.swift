@@ -3,9 +3,9 @@
 import PackageDescription
 
 let package = Package(
-    name: "Upstream",
+    name: "Debris",
     products: [
-        .executable(name: "upstream", targets: ["upstream"])
+        .executable(name: "debris", targets: ["debris"])
     ],
     dependencies: [
         .package(url: "https://github.com/PerfectlySoft/Perfect-SQLite.git", .upToNextMajor(from: "3.0.0")),
@@ -13,7 +13,7 @@ let package = Package(
         .package(url: "https://github.com/mxcl/PromiseKit.git", .upToNextMajor(from: "6.3.4"))
     ],
     targets: [
-        .target(name: "upstream", dependencies: [
+        .target(name: "debris", dependencies: [
             "PerfectNotifications", "PromiseKit", "PerfectSQLite"
         ], path: "Sources.Server")
     ]

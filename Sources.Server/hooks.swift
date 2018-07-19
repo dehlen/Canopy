@@ -566,6 +566,29 @@ struct PullRequestReviewEvent: Codable, Notificatable {
     }
 }
 
+struct StatusEvent: Codable, Notificatable {
+    let name: String
+    let state: String
+    let sender: User
+    let description: String?
+    let repository: Repository
+    let target_url: URL?
+
+    var title: String {
+        return "The status of \(name) changed to \(state)"
+    }
+    var body: String {
+        return "\(sender.login) did it. \(description ?? "")"
+    }
+    var url: URL? {
+        return target_url
+    }
+
+    var context: Context {
+        return .repository(id: repository.id)
+    }
+}
+
 // Actually: stars
 struct WatchEvent: Codable, Notificatable {
     let action: String

@@ -19,6 +19,10 @@ import AppKit
 
 //TODO better encrypt/decrupt the state parameter or someone will notice and be weird about it
 
+//TODO sucks to open the app when you tap the notifications, should just open safari if poss
+
+//TODO better authorizing… webpage
+
 // 0. Store users on server-db with device tokens & topics & webhook interests
 // 1. Make work on High Sierra then give out to staff
 // 2. Figure out how to ensure private repos only go to valid users†

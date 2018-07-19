@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Upstream::upstream"
-               BuildableName = "upstream"
-               BlueprintName = "upstream"
-               ReferencedContainer = "container:Upstream.xcodeproj">
+               BlueprintIdentifier = "Debris::debris"
+               BuildableName = "debris"
+               BlueprintName = "debris"
+               ReferencedContainer = "container:Debris.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -42,15 +42,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Upstream::upstream"
-            BuildableName = "upstream"
-            BlueprintName = "upstream"
-            ReferencedContainer = "container:Upstream.xcodeproj">
+            BlueprintIdentifier = "Debris::debris"
+            BuildableName = "debris"
+            BlueprintName = "debris"
+            ReferencedContainer = "container:Debris.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>

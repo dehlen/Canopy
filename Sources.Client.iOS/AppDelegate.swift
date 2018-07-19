@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window!.makeKeyAndVisible()
 
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { _, error in
-            application.registerForRemoteNotifications()
+            DispatchQueue.main.async(execute: application.registerForRemoteNotifications)
         }
 
         return true
@@ -54,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
         if let oauthToken = userInfo["oauthToken"] as? String {
-            NSApp.activate(ignoringOtherApps: true)
+            //NSApp.activate(ignoringOtherApps: true)
             UserDefaults.standard.gitHubOAuthToken = oauthToken
         } else if let message = userInfo["oauthTokenError"] as? String {
             alert(message: message, title: "GitHub Authorization Failed")

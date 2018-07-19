@@ -60,7 +60,9 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             notificatable = try rq.decode(PullRequestEvent.self)
         case "watch":
             notificatable = try rq.decode(WatchEvent.self)
-        case "marketplace_purchase", "project_card", "project_column", "project", "public", "pull_request_review_comment", "release", "repository", "repository_vulnerability_alert", "status", "team", "team_add":
+        case "status":
+            notificatable = try rq.decode(StatusEvent.self)
+        case "marketplace_purchase", "project_card", "project_column", "project", "public", "pull_request_review_comment", "release", "repository", "repository_vulnerability_alert", "team", "team_add":
             print("Unimplemented event:", eventType)
             fallthrough
         default:

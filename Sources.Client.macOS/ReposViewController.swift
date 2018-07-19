@@ -348,7 +348,7 @@ extension ReposViewController: NSOutlineViewDelegate {
     func outlineViewSelectionDidChange(_ notification: Notification) {
         installWebhookButton.isEnabled = false
         installWebhookFirstLabel.isHidden = true
-        webhookExplanation.stringValue = "Downstream functions via GitHub webhooks"
+        webhookExplanation.stringValue = "Canopy functions via GitHub webhooks"
 
         let hooked: Guarantee<SwitchState>
         guard let selectedItem = self.selectedItem else {
