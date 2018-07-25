@@ -40,34 +40,12 @@ import AppKit
 @NSApplicationMain
 class AppDelegate: NSObject {
     weak var window: NSWindow!
-    var deviceToken: String?
-    var signInAlert: NSAlert?
+
+    @objc dynamic var deviceToken: String?
 
     func processRemoteNotificationUserInfo(_ userInfo: [AnyHashable: Any]) {
         if let urlString = userInfo["url"] as? String, let url = URL(string: urlString) {
             NSWorkspace.shared.open(url)
-        }
-    }
-
-    func signIn() {
-        guard let deviceToken = deviceToken else { fatalError() } //TODO error handling
-        
-        //TODO bad UX, maybe they need to open the tab *again*
-        let alert = NSAlert()
-        alert.messageText = "Signing‑in"
-        alert.informativeText = "Please check your web‑browser."
-        alert.alertStyle = .informational
-        alert.addButton(withTitle: "") // shows no buttons
-        alert.beginSheetModal(for: window) { _ in
-            //noop
-        }
-        signInAlert = alert
-
-        if let url = URL.signIn(deviceToken: deviceToken) {
-            NSWorkspace.shared.open(url)
-        } else {
-            //TODO need to present previous sheet or better, do a custom modal blocker sheet
-            NSAlert(error: EE.unexpected).runModal()
         }
     }
 

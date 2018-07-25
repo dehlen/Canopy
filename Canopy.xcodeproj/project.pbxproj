@@ -31,6 +31,7 @@
 		638C338C20FD7E160048C52E /* Client.etc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638C338B20FD7E160048C52E /* Client.etc.swift */; };
 		638C338D20FD7E160048C52E /* Client.etc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638C338B20FD7E160048C52E /* Client.etc.swift */; };
 		638C339120FD7FD10048C52E /* etc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638C339020FD7FD10048C52E /* etc.swift */; };
+		63E4E01E21090EC70081E9AB /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E4E01D21090EC70081E9AB /* SignInViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -194,6 +195,7 @@
 		638C338720FD7DBE0048C52E /* Error+legibleDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Error+legibleDescription.swift"; path = "Sources.Common/Error+legibleDescription.swift"; sourceTree = SOURCE_ROOT; };
 		638C338B20FD7E160048C52E /* Client.etc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Client.etc.swift; path = Sources.Common/Client.etc.swift; sourceTree = SOURCE_ROOT; };
 		638C339020FD7FD10048C52E /* etc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = etc.swift; sourceTree = "<group>"; };
+		63E4E01D21090EC70081E9AB /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		63F75B2E20F52EEF00A3B9AE /* Canopy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Canopy.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -287,6 +289,7 @@
 				63562B4220F9102B0076F52B /* App+NSApplicationDelegate.swift */,
 				63562B4420F9105C0076F52B /* App+UserNotifications.swift */,
 				636A40BC20F960520051DE0B /* ReposViewController.swift */,
+				63E4E01D21090EC70081E9AB /* SignInViewController.swift */,
 				63562B4020F90CF40076F52B /* etc.swift */,
 				636A40B620F94DAA0051DE0B /* Detritus */,
 				636A40AE20F94D480051DE0B /* Common */,
@@ -562,6 +565,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63E4E01E21090EC70081E9AB /* SignInViewController.swift in Sources */,
 				638C338C20FD7E160048C52E /* Client.etc.swift in Sources */,
 				636A40BD20F960520051DE0B /* ReposViewController.swift in Sources */,
 				63562B4120F90CF40076F52B /* etc.swift in Sources */,

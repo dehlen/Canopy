@@ -54,9 +54,6 @@ extension AppDelegate: NSApplicationDelegate {
         if let oauthToken = userInfo["oauthToken"] as? String {
             NSApp.activate(ignoringOtherApps: true)
             UserDefaults.standard.gitHubOAuthToken = oauthToken
-            if let alert = signInAlert {
-                window.endSheet(alert.window)
-            }
         } else if let message = userInfo["oauthTokenError"] as? String {
             alert(message: message, title: "GitHub Authorization Failed")
             //TODO allow sign-in again somehow

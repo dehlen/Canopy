@@ -1,6 +1,8 @@
 import AppKit
 
-func alert(_ error: Error, title: String = "Unexpected Error") {
+func alert(_ error: Error, title: String = "Unexpected Error", file: StaticString = #file, line: UInt = #line) {
+    print(file, line, error)
+
     if let error = error as? PMKHTTPError {
         let (message, title) = error.gitHubDescription(defaultTitle: title)
         alert(message: message, title: title)

@@ -168,25 +168,11 @@ class ReposViewController: NSViewController {
         }
     }
 
-    override func viewWillAppear() {
-        super.viewWillAppear()
+    override func viewDidAppear() {
+        super.viewDidAppear()
 
-        guard UserDefaults.standard.gitHubOAuthToken == nil, let window = view.window else {
-            return
-        }
-
-        let alert = NSAlert()
-        alert.addButton(withTitle: "Quit")
-        alert.addButton(withTitle: "Sign‑in")
-        alert.messageText = "You must sign‑in to GitHub"
-        alert.informativeText = "Sign‑in will proceed via your web‑browser."
-        alert.alertStyle = .informational
-        alert.beginSheetModal(for: window) { rsp in
-            if rsp == .alertFirstButtonReturn {
-                NSApp.terminate(self)
-            } else {
-                app.signIn()
-            }
+        if UserDefaults.standard.gitHubOAuthToken == nil {
+            performSegue(withIdentifier: "SignIn", sender: self)
         }
     }
 
