@@ -133,13 +133,6 @@
 			remoteGlobalIDString = "Debris::debris::Product";
 			remoteInfo = debris;
 		};
-		63008CC021001B1A005AF72D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 63008C3021001B0C005AF72D /* Debris.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = "Debris::debris";
-			remoteInfo = debris;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -354,7 +347,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				63008CC121001B1A005AF72D /* PBXTargetDependency */,
 			);
 			name = "Canopy-macOS";
 			productName = GitBell;
@@ -595,14 +587,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		63008CC121001B1A005AF72D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = debris;
-			targetProxy = 63008CC021001B1A005AF72D /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		638C337320FD79740048C52E /* LaunchScreen.storyboard */ = {
