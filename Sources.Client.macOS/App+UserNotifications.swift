@@ -1,4 +1,4 @@
-import UserNotifications
+//import UserNotifications
 import AppKit
 
 // macOS < 10.14
@@ -19,7 +19,10 @@ extension AppDelegate: NSUserNotificationCenterDelegate {
     }
 }
 
-// macOS >= 10.14
+#if swift(>=4.2)
+import UserNotifications
+
+@available(macOS 10.14, *)
 extension AppDelegate: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.alert, .badge, .sound])
@@ -33,3 +36,4 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         //noop
     }
 }
+#endif

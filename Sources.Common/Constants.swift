@@ -18,3 +18,11 @@ struct SignIn: Codable {
     let deviceToken: String
     let apnsTopic: String
 }
+
+#if !swift(>=4.1.5)
+extension Collection where Element: Equatable {
+    public func firstIndex(of member: Element) -> Self.Index? {
+        return self.index(of: member)
+    }
+}
+#endif

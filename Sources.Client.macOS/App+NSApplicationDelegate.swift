@@ -1,4 +1,6 @@
+#if swift(>=4.2)
 import UserNotifications
+#endif
 import PromiseKit
 import AppKit
 
@@ -6,17 +8,30 @@ extension AppDelegate: NSApplicationDelegate {
     func applicationWillFinishLaunching(_ note: Notification) {
         PromiseKit.conf.Q.map = .global()
         NSUserNotificationCenter.default.delegate = self
-        UNUserNotificationCenter.current().delegate = self
+    #if swift(>=4.2)
+        if #available(macOS 10.14, *) {
+            UNUserNotificationCenter.current().delegate = self
+        }
+    #endif
     }
 
     func applicationDidFinishLaunching(_ note: Notification) {
+        window = NSApp.windows.first
+        
         NSApp.registerForRemoteNotifications(matching: [.alert, .sound])
 
         // with 10.14-beta3 at least the UNUserNotificationCenterDelegate is not called
         // at startup, I think this is an Apple bug though
-        if let rsp = note.userInfo?[NSApplication.launchUserNotificationUserInfoKey] as? UNNotificationResponse {
-            userNotificationCenter(UNUserNotificationCenter.current(), didReceive: rsp, withCompletionHandler: {})
+        if let notification = note.userInfo?[NSApplication.launchUserNotificationUserInfoKey] as? NSUserNotification {
+            if let userInfo = notification.userInfo {
+                processRemoteNotificationUserInfo(userInfo)
+            }
         }
+    #if swift(>=4.2)
+        if #available(macOS 10.14, *), let rsp = note.userInfo?[NSApplication.launchUserNotificationUserInfoKey] as? UNNotificationResponse {
+            processRemoteNotificationUserInfo(rsp.notification.request.content.userInfo)
+        }
+    #endif
     }
 
     func application(_ application: NSApplication, didRegisterForRemoteNotificationsWithDeviceToken rawDeviceToken: Data) {
@@ -39,6 +54,9 @@ extension AppDelegate: NSApplicationDelegate {
         if let oauthToken = userInfo["oauthToken"] as? String {
             NSApp.activate(ignoringOtherApps: true)
             UserDefaults.standard.gitHubOAuthToken = oauthToken
+            if let alert = signInAlert {
+                window.endSheet(alert.window)
+            }
         } else if let message = userInfo["oauthTokenError"] as? String {
             alert(message: message, title: "GitHub Authorization Failed")
             //TODO allow sign-in again somehow

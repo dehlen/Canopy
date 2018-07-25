@@ -38,7 +38,7 @@ struct GitHubAPI {
             }
             let set = CharacterSet(charactersIn: "<>").union(.whitespacesAndNewlines)
             for link in link.split(separator: ",") {
-                guard let semicolonIndex = link.firstIndex(of: ";") else { continue }
+                guard let semicolonIndex = link.index(of: ";") else { continue }
                 guard link[semicolonIndex...].contains("next") else { continue } //FIXME better
                 let urlstr = link[..<semicolonIndex].trimmingCharacters(in: set)
                 return URL(string: urlstr)
