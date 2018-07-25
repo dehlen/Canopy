@@ -23,6 +23,8 @@ import AppKit
 
 //TODO better authorizing… webpage
 
+//TODO should use postgres or another not-in-process database since that puts the onus on *us* to never crash
+
 // 0. Store users on server-db with device tokens & topics & webhook interests
 // 1. Make work on High Sierra then give out to staff
 // 2. Figure out how to ensure private repos only go to valid users†

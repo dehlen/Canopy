@@ -67,20 +67,26 @@ extension Repo: Hashable, Equatable {
         return lhs.id == rhs.id
     }
 
-    public func hash(into hasher: inout Hasher) {
+#if swift(>=4.2)
+    func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
+#else
+    var hashValue: Int {
+        return id
+    }
+#endif
 }
 
 extension Sequence {
-    @inlinable
+    //@inlinable
     func map<T>(_ keyPath: KeyPath<Element, T>) -> [T] {
         return map {
             $0[keyPath: keyPath]
         }
     }
 
-    @inlinable
+    //@inlinable
     func compactMap<T>(_ keyPath: KeyPath<Element, T?>) -> [T] {
         return compactMap {
             $0[keyPath: keyPath]

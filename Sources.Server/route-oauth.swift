@@ -59,6 +59,7 @@ private func finish(code: String, state: String) throws {
     }.done { oauthToken in
         send(key: "oauthToken", value: oauthToken) //TODO APPLE SAYS TO ENCRYPT
     }.catch { error in
+        print(#function, error)
         send(key: "oauthTokenError", value: error.legibleDescription)
     }
 }

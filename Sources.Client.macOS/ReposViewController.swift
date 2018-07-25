@@ -380,6 +380,7 @@ extension ReposViewController: NSOutlineViewDelegate {
                 }
             }
         case .repo(let repo):
+            notifyButton.allowsMixedState = false
             notifyButton.state = SwitchState(subscribed.contains(repo.id)).nsControlStateValue
             guard !repo.isOrganization else {
                 webhookExplanation.stringValue = "Webhook is controlled at organization level"

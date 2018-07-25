@@ -9,7 +9,7 @@ func subscriptionsHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
     firstly {
         GitHubAPI(oauthToken: token).me()
     }.done {
-        let foo = UserDefaults.standard.subs(for: $0.id)
+        let foo = try DB().subscriptions(forUserId: $0.id)
         let data = try JSONEncoder().encode(foo)
         response.appendBody(bytes: [UInt8](data))
         response.completed()
@@ -37,9 +37,7 @@ func subscribeHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         }).then { _ in
             api.me()
         }.done { me in
-            for repoId in subs {
-                UserDefaults.standard.addSub(userId: me.id, repoId: repoId)
-            }
+            try DB().add(subscriptions: subs, userId: me.id)
             response.completed()
         }.catch { error in
             response.appendBody(string: "\(error)")

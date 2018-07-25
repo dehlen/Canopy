@@ -5,7 +5,6 @@ let teamId = "TEQMQBRC7B"
 PromiseKit.conf.Q.map = .global()
 PromiseKit.conf.Q.return = .global()
 
-
 import PerfectNotifications
 
 extension NotificationPusher {

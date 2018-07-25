@@ -19,6 +19,6 @@ func updateTokens(oauth: String, device: String, apnsTopicId: String) -> Promise
     return firstly {
         GitHubAPI(oauthToken: oauth).me()
     }.done { me in
-        UserDefaults.standard.addToken(device, forUserId: me.id, forTopic: apnsTopicId)
+        try DB().add(token: device, topic: apnsTopicId, userId: me.id)
     }
 }

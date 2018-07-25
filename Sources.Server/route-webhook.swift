@@ -74,7 +74,13 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             notificatable = Oh(title: eventType)
         }
 
-        let tokens = UserDefaults.standard.tokens(for: notificatable.context)
+        let tokens: [String: [String]]
+        switch notificatable.context {
+        case .repository(id: let id):
+            tokens = try DB().tokens(for: id)
+        default:
+            tokens = try DB().allTokens()
+        }
 
         var notificationItems: [APNSNotificationItem] = [
             .alertBody(notificatable.body)
