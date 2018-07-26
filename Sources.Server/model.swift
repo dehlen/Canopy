@@ -42,7 +42,7 @@ class DB {
         }, handleRow: { statement, row in
             let token = statement.columnText(position: 0)
             let topic = statement.columnText(position: 1)
-            let production = statement.columnInt(position: 1) != 0
+            let production = statement.columnInt(position: 2) != 0
 
             // PerfectSQLite sucks and returns "" for the error condition
             if !token.isEmpty, !topic.isEmpty {
@@ -55,9 +55,9 @@ class DB {
 
     func mxcl() throws -> [APNSConfiguration: String] {
         let sql = """
-            SELECT topic, production
+            SELECT id, topic, production
             FROM tokens
-            WHERE id = 58962
+            WHERE user_id = 58962
             """
 
         var results: [APNSConfiguration: String] = [:]
@@ -65,7 +65,7 @@ class DB {
         try db.forEachRow(statement: sql, handleRow: { statement, row in
             let token = statement.columnText(position: 0)
             let topic = statement.columnText(position: 1)
-            let production = statement.columnInt(position: 1) != 0
+            let production = statement.columnInt(position: 2) != 0
             results[APNSConfiguration(topic: topic, isProduction: production)] = token
         })
 
