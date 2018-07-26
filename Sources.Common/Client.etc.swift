@@ -99,7 +99,7 @@ extension URL {
         guard let bundleId = Bundle.main.bundleIdentifier else {
             return nil
         }
-        let payload = SignIn(deviceToken: deviceToken, apnsTopic: bundleId)
+        let payload = SignIn(deviceToken: deviceToken, apnsTopic: bundleId, production: isProductionAPSEnvironment)
         guard let data = try? JSONEncoder().encode(payload) else {
             return nil
         }
@@ -125,7 +125,12 @@ extension URL {
 func updateTokens(oauth: String, device: String) -> Promise<Void> {
     do {
         let bid = Bundle.main.bundleIdentifier!
-        let up = UpdateTokens(oauth: oauth, device: device, apnsTopic: bid)
+        let up = TokenUpdate(
+            oauthToken: oauth,
+            deviceToken: device,
+            apnsTopic: bid,
+            production: !isProductionAPSEnvironment
+        )
         var rq = URLRequest(url: URL(string: "http://ci.codebasesaga.com:1889/token")!)
         rq.httpMethod = "POST"
         rq.httpBody = try JSONEncoder().encode(up)
@@ -134,4 +139,14 @@ func updateTokens(oauth: String, device: String) -> Promise<Void> {
     } catch {
         return Promise(error: error)
     }
+}
+
+private var isProductionAPSEnvironment: Bool {
+    guard let url = Bundle.main.url(forResource: "embedded", withExtension: "mobileprovision") else {
+        return true
+    }
+    guard let data = try? Data(contentsOf: url), let string = String(data: data, encoding: .ascii) else {
+        return true
+    }
+    return !string.contains("<key>aps-environment</key>\n\t\t<string>development</string>")
 }

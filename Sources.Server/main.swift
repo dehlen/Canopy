@@ -1,3 +1,4 @@
+import func Foundation.exit
 import PromiseKit
 
 let teamId = "TEQMQBRC7B"
@@ -8,12 +9,20 @@ PromiseKit.conf.Q.return = .global()
 import PerfectNotifications
 
 extension NotificationPusher {
-    static let confName = "com.codebasesaga"
+    static let sandboxConfigurationName = "com.codebasesaga.sandbox"
+    static let productionConfigurationName = "com.codebasesaga.production"
 }
 
 NotificationPusher.addConfigurationAPNS(
-    name: NotificationPusher.confName,
-    production: false, // should be false when running pre-release app in debugger
+    name: NotificationPusher.sandboxConfigurationName,
+    production: false,
+    keyId: "5354D789X6",
+    teamId: teamId,
+    privateKeyPath: "./AuthKey_5354D789X6.p8")
+
+NotificationPusher.addConfigurationAPNS(
+    name: NotificationPusher.productionConfigurationName,
+    production: true,
     keyId: "5354D789X6",
     teamId: teamId,
     privateKeyPath: "./AuthKey_5354D789X6.p8")

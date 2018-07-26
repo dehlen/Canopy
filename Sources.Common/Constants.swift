@@ -8,15 +8,17 @@ enum EE: Error {
     case unexpected
 }
 
-struct UpdateTokens: Codable {
-    let oauth: String
-    let device: String
+struct TokenUpdate: Codable {
+    let oauthToken: String
+    let deviceToken: String
     let apnsTopic: String
+    let production: Bool
 }
 
 struct SignIn: Codable {
     let deviceToken: String
     let apnsTopic: String
+    let production: Bool
 }
 
 #if !swift(>=4.1.5)

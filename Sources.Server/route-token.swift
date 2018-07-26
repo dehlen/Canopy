@@ -4,10 +4,13 @@ import Foundation
 import PromiseKit
 
 func updateTokensHandler(request: HTTPRequest, response: HTTPResponse) {
+    print()
+    print("/token")
+
     DispatchQueue.global().async(.promise) {
-        try request.decode(UpdateTokens.self)
-    }.then { token in
-        updateTokens(oauth: token.oauth, device: token.device, apnsTopicId: token.apnsTopic)
+        try request.decode(TokenUpdate.self)
+    }.then {
+        updateTokens(with: $0)
     }.done {
         response.completed()
     }.catch {
@@ -16,11 +19,11 @@ func updateTokensHandler(request: HTTPRequest, response: HTTPResponse) {
     }
 }
 
-func updateTokens(oauth: String, device: String, apnsTopicId: String) -> Promise<Void> {
+func updateTokens(with body: TokenUpdate) -> Promise<Void> {
     return firstly {
-        GitHubAPI(oauthToken: oauth).me()
+        GitHubAPI(oauthToken: body.oauthToken).me()
     }.done { me in
-        try DB().add(token: device, topic: apnsTopicId, userId: me.id)
+        try DB().add(token: body.deviceToken, topic: body.apnsTopic, userId: me.id, production: body.production)
     }.recover { error in
         // code 19 means UNIQUE violation, so we already have this, which is fine
         guard case PerfectSQLite.SQLiteError.Error(let code, _) = error, code == 19 else {

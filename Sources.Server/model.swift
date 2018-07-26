@@ -15,62 +15,80 @@ class DB {
         db.close()
     }
 
-    /// returns dictionary of topicIds to tokens for the provided repo-full-name
-    func tokens(for repoId: Int) throws -> [String: [String]] {
+    func backup() throws {
+        let fmtr = DateFormatter()
+        fmtr.dateFormat = "YYYYMMdd-HHmmss"
+        let filename = "../db.backup." + fmtr.string(from: Date()) + ".sqlite"
+
+        let src = URL(fileURLWithPath: dbPath)
+        let dst = URL(fileURLWithPath: filename)
+        try FileManager.default.copyItem(at: src, to: dst)
+
+        print("Backed up:", dst.path)
+    }
+
+    func tokens(for repoId: Int) throws -> [APNSConfiguration: [String]] {
         let sql = """
-            SELECT id, topic
+            SELECT id, topic, production
             FROM tokens
             INNER JOIN subscriptions ON subscriptions.user_id = tokens.user_id
             WHERE subscriptions.repo_id = :1
             """
 
-        var results: [String: [String]] = [:]
+        var results: [APNSConfiguration: [String]] = [:]
 
         try db.forEachRow(statement: sql, doBindings: {
             try $0.bind(position: 1, repoId)
         }, handleRow: { statement, row in
             let token = statement.columnText(position: 0)
             let topic = statement.columnText(position: 1)
+            let production = statement.columnInt(position: 1) != 0
 
             // PerfectSQLite sucks and returns "" for the error condition
             if !token.isEmpty, !topic.isEmpty {
-                results[topic, default: []].append(token)
+                results[APNSConfiguration(topic: topic, isProduction: production), default: []].append(token)
             }
         })
 
         return results
     }
 
-    func allTokens() throws -> [String: [String]] {
+    func mxcl() throws -> [APNSConfiguration: String] {
         let sql = """
-            SELECT id, topic
+            SELECT topic, production
             FROM tokens
+            WHERE id = 58962
             """
 
-        var results: [String: [String]] = [:]
+        var results: [APNSConfiguration: String] = [:]
 
         try db.forEachRow(statement: sql, handleRow: { statement, row in
             let token = statement.columnText(position: 0)
             let topic = statement.columnText(position: 1)
-
-            // PerfectSQLite sucks and returns "" for the error condition
-            if !token.isEmpty, !topic.isEmpty {
-                results[topic, default: []].append(token)
-            }
+            let production = statement.columnInt(position: 1) != 0
+            results[APNSConfiguration(topic: topic, isProduction: production)] = token
         })
 
         return results
     }
 
-    func add(token: String, topic: String, userId: Int) throws {
+    func add(token: String, topic: String, userId: Int, production: Bool) throws {
         let sql = """
-            INSERT INTO tokens (id, topic, user_id)
-            VALUES (:1, :2, :3)
+            INSERT INTO tokens (id, topic, user_id, production)
+            VALUES (:1, :2, :3, :4)
             """
         try db.execute(statement: sql) { stmt in
             try stmt.bind(position: 1, token)
             try stmt.bind(position: 2, topic)
             try stmt.bind(position: 3, userId)
+            try stmt.bind(position: 4, production ? 1 : 0)
+        }
+    }
+
+    func delete(token: String) throws {
+        let sql = "DELETE from tokens WHERE id = :1"
+        try db.execute(statement: sql) { stmt in
+            try stmt.bind(position: 1, token)
         }
     }
 
@@ -116,4 +134,9 @@ class DB {
 
         return results
     }
+}
+
+struct APNSConfiguration: Hashable {
+    let topic: String
+    let isProduction: Bool
 }

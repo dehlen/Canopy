@@ -46,7 +46,11 @@ private func finish(code: String, state: String) throws {
     }
 
     func send(key: String, value: String) {
-        NotificationPusher(apnsTopic: signInParameters.apnsTopic).pushAPNS(configurationName: NotificationPusher.confName, deviceTokens: [signInParameters.deviceToken], notificationItems: [
+        let confName = signInParameters.production
+            ? NotificationPusher.productionConfigurationName
+            : NotificationPusher.sandboxConfigurationName
+
+        NotificationPusher(apnsTopic: signInParameters.apnsTopic).pushAPNS(configurationName: confName, deviceTokens: [signInParameters.deviceToken], notificationItems: [
             .customPayload(key, value)
         ], callback: { responses in
             print("APNs says:", responses)
@@ -58,11 +62,17 @@ private func finish(code: String, state: String) throws {
     }.map { data, _ in
         try JSONDecoder().decode(Response.self, from: data).access_token
     }.then { oauthToken in
-        updateTokens(oauth: oauthToken, device: signInParameters.deviceToken, apnsTopicId: signInParameters.apnsTopic).map{ oauthToken }
+        updateTokens(with: signInParameters.upgrade(with: oauthToken)).map{ oauthToken }
     }.done { oauthToken in
         send(key: "oauthToken", value: oauthToken) //TODO APPLE SAYS TO ENCRYPT
     }.catch { error in
         print(#function, error)
         send(key: "oauthTokenError", value: error.legibleDescription)
+    }
+}
+
+private extension SignIn {
+    func upgrade(with oauthToken: String) -> TokenUpdate {
+        return TokenUpdate(oauthToken: oauthToken, deviceToken: deviceToken, apnsTopic: apnsTopic, production: production)
     }
 }

@@ -1,4 +1,5 @@
 import PerfectSQLite
+import Foundation
 
 extension DB {
     private func create() throws {
@@ -6,7 +7,8 @@ extension DB {
             CREATE TABLE IF NOT EXISTS tokens (
                 id STRING PRIMARY KEY NOT NULL,
                 topic STRING NOT NULL,
-                user_id INTEGER NOT NULL
+                user_id INTEGER NOT NULL,
+                production INTEGER NOT NULL
             )
             """)
         try db.execute(statement: """
@@ -18,28 +20,42 @@ extension DB {
             """)
     }
 
-    func populate() throws {
+    private func dropAllTables() throws {
         try db.execute(statement: "DROP TABLE tokens")
+        try db.execute(statement: "DROP TABLE subscriptions")
+    }
+
+    func migrate() throws {
+        try backup()
+
+        struct Token {
+            let id: String
+            let topic: String
+            let user_id: Int
+            let production: Bool
+        }
+        struct Subscription {
+            let repo_id: Int
+            let user_id: Int
+        }
+
+        var tokens: [Token] = []
+        try db.forEachRow(statement: "SELECT id, topic, user_id FROM tokens") { stmt, _ in
+            tokens.append(.init(id: stmt.columnText(position: 0), topic: stmt.columnText(position: 1), user_id: stmt.columnInt(position: 2), production: stmt.columnInt(position: 3) != 0))
+        }
+        var subscriptions: [Subscription] = []
+        try db.forEachRow(statement: "SELECT repo_id, user_id FROM subscriptions") { stmt, _ in
+            subscriptions.append(.init(repo_id: stmt.columnInt(position: 0), user_id: stmt.columnInt(position: 1)))
+        }
+
+        try dropAllTables()
         try create()
 
-        let foo = UserDefaults.standard.object(forKey: "tokensDict") as? [String: [String: [String]]] ?? [:]
-        for (userId, tokens) in foo {
-            let userId = Int(userId)!
-            for (topic, tokens) in tokens {
-                for token in tokens {
-                    do {
-                        try add(token: token, topic: topic, userId: userId)
-                    } catch PerfectSQLite.SQLiteError.Error(let code, let msg) {
-                        guard code == 19 else { throw PerfectSQLite.SQLiteError.Error(code: code, msg: msg) }
-                    }
-                }
-            }
-            do {
-                let subs = UserDefaults.standard.subs(for: userId)
-                try add(subscriptions: subs, userId: userId)
-            } catch PerfectSQLite.SQLiteError.Error(let code, let msg) {
-                guard code == 19 else { throw PerfectSQLite.SQLiteError.Error(code: code, msg: msg) }
-            }
+        for token in tokens {
+            try add(token: token.id, topic: token.topic, userId: token.user_id, production: token.production)
+        }
+        for sub in subscriptions {
+            try add(subscriptions: [sub.repo_id], userId: sub.user_id)
         }
     }
 

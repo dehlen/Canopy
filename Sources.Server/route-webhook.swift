@@ -67,6 +67,7 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             if let body = rq.postBodyString {
                 print(body)
             }
+            return
         case "marketplace_purchase", "project_card", "project_column", "project", "public", "pull_request_review_comment", "release", "repository", "repository_vulnerability_alert", "team", "team_add":
             print("Unimplemented event:", eventType)
             fallthrough
@@ -79,7 +80,7 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             notificatable = Oh(title: eventType)
         }
 
-        let tokens: [String: [String]]
+        let tokens: [APNSConfiguration: [String]]
         switch notificatable.context {
         case .repository(id: let id):
             tokens = try DB().tokens(for: id)
@@ -87,7 +88,7 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         #if swift(>=4.1.5)
             #warning("FIXME BEFORE PRODUCTION!")
         #endif
-            tokens = try DB().allTokens()
+            tokens = try DB().mxcl().mapValues{ [$0] }
         }
 
         var notificationItems: [APNSNotificationItem] = [
@@ -103,10 +104,34 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             notificationItems.append(.threadId(threadingId))
         }
 
-        for (topic, tokens) in tokens {
-            let pusher = NotificationPusher(apnsTopic: topic)
-            pusher.pushAPNS(configurationName: NotificationPusher.confName, deviceTokens: tokens, notificationItems: notificationItems) { responses in
-                print("APNs said:", responses)
+        for (apnsConfiguration, tokens) in tokens {
+            let pusher = NotificationPusher(apnsTopic: apnsConfiguration.topic)
+            pusher.expiration = .relative(30)
+            let confname = apnsConfiguration.isProduction
+                ? NotificationPusher.productionConfigurationName
+                : NotificationPusher.sandboxConfigurationName
+
+            pusher.pushAPNS(configurationName: confname, deviceTokens: tokens, notificationItems: notificationItems) { responses in
+                for (index, response) in responses.enumerated() {
+                    do {
+                        let token = tokens[index]
+                        switch response.status {
+                        case .ok:    //200
+                            continue
+                        case .badRequest:  //400
+                            if response.jsonObjectBody["reason"] as? String == "BadDeviceToken" {
+                                fallthrough
+                            }
+                        case .gone:        //410
+                            print("Deleting token due to \(response.status)")
+                            try DB().delete(token: tokens[index])
+                        default:
+                            print("APNs:", response, token)
+                        }
+                    } catch {
+                        print(#function, error)
+                    }
+                }
             }
         }
         print("Sent to \(tokens.flatMap{ $0.1 }.count) tokens:", notificationItems)
