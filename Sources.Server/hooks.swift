@@ -615,6 +615,9 @@ struct WatchEvent: Codable, Notificatable {
         }
     }
 
+    var title: String {
+        return "\(repository.full_name) has \(repository.stargazers_count) stars"
+    }
     var body: String {
         return "\(sender.login) \(mangledAction) \(repository.full_name)"
     }
@@ -642,6 +645,7 @@ struct Repository: Codable {
     let contributors_url: URL
     let name: String
     let owner: User
+    let stargazers_count: Int //TODO only really needed in one place
 }
 
 struct Deployment: Codable {
