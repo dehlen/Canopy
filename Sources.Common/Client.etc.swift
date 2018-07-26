@@ -129,7 +129,7 @@ func updateTokens(oauth: String, device: String) -> Promise<Void> {
             oauthToken: oauth,
             deviceToken: device,
             apnsTopic: bid,
-            production: !isProductionAPSEnvironment
+            production: isProductionAPSEnvironment
         )
         var rq = URLRequest(url: URL(string: "http://ci.codebasesaga.com:1889/token")!)
         rq.httpMethod = "POST"
@@ -142,11 +142,25 @@ func updateTokens(oauth: String, device: String) -> Promise<Void> {
 }
 
 private var isProductionAPSEnvironment: Bool {
+#if os(iOS)
     guard let url = Bundle.main.url(forResource: "embedded", withExtension: "mobileprovision") else {
         return true
     }
+#else
+    let url = Bundle.main.bundleURL.appendingPathComponent("Contents/embedded.provisionprofile")
+#endif
     guard let data = try? Data(contentsOf: url), let string = String(data: data, encoding: .ascii) else {
         return true
     }
-    return !string.contains("<key>aps-environment</key>\n\t\t<string>development</string>")
+#if os(iOS)
+    return !string.contains("""
+        <key>aps-environment</key>
+        \t\t<string>development</string>
+        """)
+#else
+    return !string.contains("""
+        <key>com.apple.developer.aps-environment</key>
+        \t\t<string>development</string>
+        """)
+#endif
 }
