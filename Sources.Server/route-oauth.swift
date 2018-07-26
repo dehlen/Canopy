@@ -4,6 +4,9 @@ import Foundation
 import PromiseKit
 
 func oauthCallback(request rq: HTTPRequest, response: HTTPResponse) {
+    print()
+    print("/oauth")
+
     do {
         let qq = Dictionary(uniqueKeysWithValues: rq.queryParams)
         guard let state = qq["state"], let code = qq["code"] else {

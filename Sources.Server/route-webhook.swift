@@ -3,7 +3,8 @@ import PerfectHTTP
 import Foundation
 
 func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
-    print("Receiving Webhook payload")
+    print()
+    print("/github")
 
     guard let eventType = rq.header(.custom(name: "X-GitHub-Event")) else {
         response.appendBody(string: "No event type header")
@@ -61,7 +62,11 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         case "watch":
             notificatable = try rq.decode(WatchEvent.self)
         case "status":
-            notificatable = try rq.decode(StatusEvent.self)
+            // HEAVY TRAFFIC DUDE! Probably send as a silent notification
+            //let status = try rq.decode(StatusEvent.self)
+            if let body = rq.postBodyString {
+                print(body)
+            }
         case "marketplace_purchase", "project_card", "project_column", "project", "public", "pull_request_review_comment", "release", "repository", "repository_vulnerability_alert", "team", "team_add":
             print("Unimplemented event:", eventType)
             fallthrough
@@ -79,6 +84,9 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         case .repository(id: let id):
             tokens = try DB().tokens(for: id)
         default:
+        #if swift(>=4.1.5)
+            #warning("FIXME BEFORE PRODUCTION!")
+        #endif
             tokens = try DB().allTokens()
         }
 
