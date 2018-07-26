@@ -104,12 +104,16 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             notificationItems.append(.threadId(threadingId))
         }
 
+        print("sending:", notificatable.body)
+
         for (apnsConfiguration, tokens) in tokens {
             let pusher = NotificationPusher(apnsTopic: apnsConfiguration.topic)
             pusher.expiration = .relative(30)
             let confname = apnsConfiguration.isProduction
                 ? NotificationPusher.productionConfigurationName
                 : NotificationPusher.sandboxConfigurationName
+
+            print("sent to:", tokens.count, "tokens to production:", apnsConfiguration.isProduction, "(\(apnsConfiguration.topic))")
 
             pusher.pushAPNS(configurationName: confname, deviceTokens: tokens, notificationItems: notificationItems) { responses in
                 for (index, response) in responses.enumerated() {
@@ -134,7 +138,6 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
                 }
             }
         }
-        print("Sent to \(tokens.flatMap{ $0.1 }.count) tokens:", notificationItems)
 
         response.completed()
 
