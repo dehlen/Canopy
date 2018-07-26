@@ -99,6 +99,9 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         if let url = notificatable.url {
             notificationItems.append(.customPayload("url", url.absoluteString))
         }
+        if let threadingId = notificatable.threadingId {
+            notificationItems.append(.threadId(threadingId))
+        }
 
         for (topic, tokens) in tokens {
             let pusher = NotificationPusher(apnsTopic: topic)

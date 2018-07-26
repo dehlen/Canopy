@@ -16,11 +16,23 @@ protocol Notificatable {
     var body: String { get }
     var url: URL? { get }
     var context: Context { get }
+    var threadingId: String? { get }
 }
 
 extension Notificatable {
     var title: String? { return nil }
     var url: URL? { return nil }
+
+    var threadingId: String? {
+        switch context {
+        case .organization(id: let id):
+            return "orgs/\(id)"
+        case .repository(id: let id):
+            return "repo/\(id)"
+        case .alert:
+            return nil
+        }
+    }
 }
 
 // https://developer.github.com/v3/activity/events
