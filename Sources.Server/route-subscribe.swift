@@ -3,6 +3,9 @@ import Foundation
 import PromiseKit
 
 func subscriptionsHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
+    print()
+    print("/subscribe")
+    
     guard let token = rq.header(.custom(name: "Authorization")) else {
         return response.completed(status: .badRequest)
     }
