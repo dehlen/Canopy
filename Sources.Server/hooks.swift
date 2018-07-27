@@ -21,6 +21,7 @@ protocol Notificatable {
 
 extension Notificatable {
     var url: URL? { return nil }
+    var title: String? { return nil }
 
     var threadingId: String? {
         switch context {
@@ -34,7 +35,7 @@ extension Notificatable {
     }
 }
 
-// https://developer.github.com/v3/activity/events
+// https://developer.github.com/v3/activity/events/types/
 
 struct PingEvent: Codable, Notificatable {
     let hook: Hook
@@ -505,6 +506,117 @@ struct PageBuildEvent: Codable, Notificatable {
     }
 }
 
+struct ProjectCardEvent: Codable, Notificatable {
+    let action: String
+    let project_card: ProjectCard
+    let repository: Repository
+    let sender: User
+
+    var title: String? {
+        return repository.full_name
+    }
+    var body: String {
+        return "\(sender.login) \(action) the “\(project_card.note)” project card"
+    }
+    var url: URL? {
+        // https://github.com/orgs/codebasesaga/projects/1#card-10299301
+        return repository.html_url.appendingPathComponent("projects")
+    }
+    var context: Context {
+        return .init(repository)
+    }
+
+    struct ProjectCard: Codable {
+        let note: String
+    }
+}
+
+struct ProjectColumnEvent: Codable, Notificatable {
+    let action: String
+    let project_column: ProjectColumn
+    let repository: Repository
+    let sender: User
+
+    var title: String? {
+        return repository.full_name
+    }
+    var body: String {
+        return "\(sender.login) \(action) the “\(project_column.name)” project column"
+    }
+    var url: URL? {
+        // https://github.com/orgs/codebasesaga/projects/1#column-2827834
+        return repository.html_url.appendingPathComponent("projects")
+    }
+    var context: Context {
+        return .init(repository)
+    }
+
+    struct ProjectColumn: Codable {
+        let name: String
+    }
+}
+
+struct ProjectEvent: Codable, Notificatable {
+    let action: String
+    let sender: User
+    let repository: Repository
+    let project: Project
+
+    struct Project: Codable {
+        let html_url: URL
+        let name: String
+    }
+
+    var title: String? {
+        return repository.full_name
+    }
+    var body: String {
+        return "\(sender.login) \(action) the project \(project.name)"
+    }
+    var url: URL? {
+        return project.html_url
+    }
+    var context: Context {
+        return .init(repository)
+    }
+}
+
+struct PublicEvent: Codable, Notificatable {
+    let repository: Repository
+    let sender: User
+
+    var body: String {
+        return "\(repository.full_name) was open sourced by \(sender.login)"
+    }
+    var url: URL? {
+        return repository.html_url
+    }
+    var context: Context {
+        return .alert
+    }
+}
+
+struct PullRequestReviewCommentEvent: Codable, Notificatable {
+    let action: String
+    let comment: Comment
+    let pull_request: PullRequest
+    let repository: Repository
+    let sender: User
+
+    var title: String? {
+        return repository.full_name
+    }
+    var body: String {
+        return "\(sender.login) commented on PR review #\(pull_request.number)"
+    }
+    var url: URL? {
+        return pull_request.html_url
+    }
+    var context: Context {
+        return .init(repository)
+    }
+}
+
 struct PushEvent: Codable, Notificatable {
     let repository: Repository
     let pusher: Pusher
@@ -594,6 +706,32 @@ struct PullRequestReviewEvent: Codable, Notificatable {
 
     var context: Context {
         return .repository(id: repository.id)
+    }
+}
+
+struct ReleaseEvent: Codable, Notificatable {
+    let action: String
+    let release: Release
+    let sender: User
+    let repository: Repository
+
+    var title: String? {
+        return repository.full_name
+    }
+    var body: String {
+        return "\(sender.login) released \(release.name ?? release.tag_name)"
+    }
+    var url: URL? {
+        return release.html_url
+    }
+    var context: Context {
+        return .init(repository)
+    }
+
+    struct Release: Codable {
+        let html_url: URL
+        let tag_name: String
+        let name: String?
     }
 }
 

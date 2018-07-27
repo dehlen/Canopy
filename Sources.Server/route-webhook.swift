@@ -55,12 +55,22 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             notificatable = try rq.decode(OrgBlockEvent.self)
         case "page_build":
             notificatable = try rq.decode(PageBuildEvent.self)
+        case "project_card":
+            notificatable = try rq.decode(ProjectCardEvent.self)
+        case "project_column":
+            notificatable = try rq.decode(ProjectColumnEvent.self)
+        case "project":
+            notificatable = try rq.decode(ProjectEvent.self)
+        case "public":
+            notificatable = try rq.decode(PublicEvent.self)
         case "pull_request":
             notificatable = try rq.decode(PullRequestEvent.self)
         case "pull_request_review":
             notificatable = try rq.decode(PullRequestEvent.self)
         case "watch":
             notificatable = try rq.decode(WatchEvent.self)
+        case "release":
+            notificatable = try rq.decode(ReleaseEvent.self)
         case "status":
             // HEAVY TRAFFIC DUDE! Probably send as a silent notification
             //let status = try rq.decode(StatusEvent.self)
@@ -68,7 +78,9 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
                 print(body)
             }
             return
-        case "marketplace_purchase", "project_card", "project_column", "project", "public", "pull_request_review_comment", "release", "repository", "repository_vulnerability_alert", "team", "team_add":
+        case "pull_request_review_comment":
+            notificatable = try rq.decode(PullRequestReviewCommentEvent.self)
+        case "marketplace_purchase", "repository", "repository_vulnerability_alert", "team", "team_add":
             print("Unimplemented event:", eventType)
             fallthrough
         default:
