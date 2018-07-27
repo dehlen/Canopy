@@ -2,7 +2,7 @@ import Foundation
 
 let clientId = "00f34fed06ffad73fe17"
 let serverHostname = "canopy.codebasesaga.com"
-let serverBaseUri = "http://\(serverHostname)"
+let serverBaseUri = "https://\(serverHostname)"
 let redirectUri = "\(serverBaseUri)/oauth"
 let hookUri = "\(serverBaseUri)/github"
 

@@ -41,7 +41,11 @@ routes.add(method: .delete, uri: "/subscribe", handler: unsubscribeHandler)
 routes.add(method: .get, uri: "/apple-app-site-association", handler: appleAppSiteAssociationHandler)
 
 let server = HTTPServer()
-server.serverPort = 80
+server.serverPort = 443
 server.addRoutes(routes)
+server.ssl = (
+    sslCert: "/etc/letsencrypt/live/canopy.codebasesaga.com/fullchain.pem",
+    sslKey: "/etc/letsencrypt/live/canopy.codebasesaga.com/privkey.pem"
+)
 try server.start()
 

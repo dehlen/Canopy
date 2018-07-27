@@ -111,7 +111,7 @@ class ReposViewController: NSViewController {
                     "config": [
                         "url": hookUri,
                         "content_type": "json",
-                        "insecure_ssl": "1" //FIXME
+                        "insecure_ssl": "0"
                     ]
                 ]
                 let path: String
