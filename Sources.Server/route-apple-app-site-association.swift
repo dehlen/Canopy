@@ -1,6 +1,10 @@
 import PerfectHTTP
 
 func appleAppSiteAssociationHandler(request rq: HTTPRequest, response: HTTPResponse) {
+
+    print()
+    print("/apple-app-site-association")
+
     response.appendBody(string: """
         {
             "applinks": {

@@ -63,4 +63,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(userInfo)
         }
     }
+
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        //TODO
+
+        guard let url = userActivity.webpageURL, url.host == "ci.codebasesaga.com" else {
+            return false
+        }
+
+        
+
+        return true
+    }
 }

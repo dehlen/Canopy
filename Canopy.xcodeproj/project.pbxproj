@@ -31,6 +31,8 @@
 		638C338C20FD7E160048C52E /* Client.etc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638C338B20FD7E160048C52E /* Client.etc.swift */; };
 		638C338D20FD7E160048C52E /* Client.etc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638C338B20FD7E160048C52E /* Client.etc.swift */; };
 		638C339120FD7FD10048C52E /* etc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638C339020FD7FD10048C52E /* etc.swift */; };
+		63970545210BA8830063F7E4 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63970529210BA8830063F7E4 /* PromiseKit.framework */; };
+		63970546210BA8830063F7E4 /* PromiseKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 63970529210BA8830063F7E4 /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		63E4E01E21090EC70081E9AB /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E4E01D21090EC70081E9AB /* SignInViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -153,6 +155,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				63970546210BA8830063F7E4 /* PromiseKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -188,6 +191,7 @@
 		638C338720FD7DBE0048C52E /* Error+legibleDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Error+legibleDescription.swift"; path = "Sources.Common/Error+legibleDescription.swift"; sourceTree = SOURCE_ROOT; };
 		638C338B20FD7E160048C52E /* Client.etc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Client.etc.swift; path = Sources.Common/Client.etc.swift; sourceTree = SOURCE_ROOT; };
 		638C339020FD7FD10048C52E /* etc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = etc.swift; sourceTree = "<group>"; };
+		63970529210BA8830063F7E4 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
 		63E4E01D21090EC70081E9AB /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		63F75B2E20F52EEF00A3B9AE /* Canopy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Canopy.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -205,6 +209,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63970545210BA8830063F7E4 /* PromiseKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,6 +332,7 @@
 		638DF00220F590D200768FEF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				63970529210BA8830063F7E4 /* PromiseKit.framework */,
 				636A409320F94D2E0051DE0B /* PromiseKit.framework */,
 			);
 			name = Frameworks;
@@ -399,6 +405,9 @@
 						CreatedOnToolsVersion = 10.0;
 						SystemCapabilities = {
 							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.SafariKeychain = {
 								enabled = 1;
 							};
 						};

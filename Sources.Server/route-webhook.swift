@@ -76,6 +76,8 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             //let status = try rq.decode(StatusEvent.self)
             if let body = rq.postBodyString {
                 print(body)
+            } else {
+                print("status event ignored, also had no string body")
             }
             return
         case "pull_request_review_comment":
