@@ -20,7 +20,6 @@ protocol Notificatable {
 }
 
 extension Notificatable {
-    var title: String? { return nil }
     var url: URL? { return nil }
 
     var threadingId: String? {
@@ -49,6 +48,17 @@ struct PingEvent: Codable, Notificatable {
         let type: String
     }
 
+    var title: String? {
+        switch context {
+        case .repository:
+            return repository?.full_name
+        case .organization:
+            return organization?.login
+        case .alert:
+            return nil
+        }
+    }
+
     var body: String {
         enum E: Error {
             case unexpected
@@ -58,10 +68,10 @@ struct PingEvent: Codable, Notificatable {
             switch hook.type.lowercased() {
             case "organization":
                 guard let login = organization?.login else { throw E.unexpected }
-                return "Subscribed to the \(login) organization"
+                return "Webhook added to the \(login) organization"
             case "repository":
                 guard let repo = repository?.full_name else { throw E.unexpected }
-                return "Subscribed to \(repo)"
+                return "Webhook added to \(repo)"
             default:
                 throw E.unexpected
             }
@@ -90,10 +100,10 @@ struct CheckRunEvent: Codable, Notificatable {
     }
 
     var title: String? {
-        return "Check run \(check_run.status)"
+        return repository.full_name
     }
     var body: String {
-        return repository.full_name
+        return "Check run \(check_run.status)"
     }
     var url: URL? {
         return check_run.url
@@ -115,10 +125,10 @@ struct CheckSuiteEvent: Codable, Notificatable {
     }
 
     var title: String? {
-        return "Check suite \(check_suite.status)"
+        return repository.full_name
     }
     var body: String {
-        return repository.full_name
+        return "Check suite \(check_suite.status)"
     }
     var url: URL? {
         return check_suite.url
@@ -136,10 +146,10 @@ struct CommitComment: Codable, Notificatable {
     let repository: Repository
 
     var title: String? {
-        return "\(comment.user.login) commented on commit"
+        return repository.full_name
     }
     var body: String {
-        return repository.full_name
+        return "\(comment.user.login) commented on a commit"
     }
     var url: URL? {
         return comment.html_url
@@ -156,10 +166,10 @@ struct CreateEvent: Codable, Notificatable {
     let sender: User
 
     var title: String? {
-        return "\(sender.login) created a repository"
+        return repository.full_name
     }
     var body: String {
-        return repository.full_name
+        return "\(sender.login) created a repository"
     }
     var url: URL? {
         return repository.html_url
@@ -175,10 +185,10 @@ struct DeleteEvent: Codable, Notificatable {
     let sender: User
 
     var title: String? {
-        return "\(sender.login) deleted a repository"
+        return repository.full_name
     }
     var body: String {
-        return repository.full_name
+        return "\(sender.login) deleted a repository"
     }
     var url: URL? {
         return repository.html_url  // but… will 404
@@ -195,10 +205,10 @@ struct DeploymentEvent: Codable, Notificatable {
     let sender: User
 
     var title: String? {
-        return "\(sender.login) deployed to \(deployment.environment)"
+        return repository.full_name
     }
     var body: String {
-        return [deployment.description, repository.full_name].compactMap{ $0 }.joined(separator: ", ")
+        return "\(sender.login) deployed to \(deployment.environment)"
     }
     var url: URL? {
         return deployment.url
@@ -222,10 +232,10 @@ struct DeploymentStatusEvent: Codable, Notificatable {
     }
 
     var title: String? {
-        return "\(sender.login) deployed to \(deployment.environment)"
+        return repository.full_name
     }
     var body: String {
-        return deployment_status.status
+        return "\(sender.login) deployed to \(deployment.environment) with status: \(deployment_status.status)"
     }
     var url: URL? {
         return deployment_status.url
@@ -241,6 +251,9 @@ struct ForkEvent: Codable, Notificatable {
     let repository: Repository
     let sender: User
 
+    var title: String? {
+        return repository.full_name
+    }
     var body: String {
         return "\(sender.login) forked \(repository.full_name)"
     }
@@ -267,10 +280,10 @@ struct GollumEvent: Codable, Notificatable {
     }
 
     var title: String? {
-        return "\(sender.login) wiki’d"
+        return repository.full_name
     }
     var body: String {
-        return "\(pages.count) wiki events"
+        return "\(sender.login) triggered \(pages.count) wiki events"
     }
     var url: URL? {
         return pages.first?.html_url
@@ -289,10 +302,10 @@ struct IssueCommentEvent: Codable, Notificatable {
     let sender: User
 
     var title: String? {
-        return "\(sender.login) \(action) a comment"
+        return repository.full_name
     }
     var body: String {
-        return "\(repository.full_name)#\(issue.number)"
+        return "\(sender.login) \(action) a comment on #\(issue.number)"
     }
     var url: URL? {
         return issue.html_url
@@ -310,10 +323,10 @@ struct IssuesEvent: Codable, Notificatable {
     let sender: User
 
     var title: String? {
-        return "\(sender.login) \(action) #\(issue.number)"
+        return repository.full_name
     }
     var body: String {
-        return repository.full_name
+        return "\(sender.login) \(action) #\(issue.number)"
     }
     var url: URL? {
         return issue.html_url
@@ -337,10 +350,10 @@ struct LabelEvent: Codable, Notificatable {
     }
 
     var title: String? {
-        return "\(sender.login) \(action) a label"
+        return repository.full_name
     }
     var body: String {
-        return "\(label.name) (\(label.color))"
+        return "\(sender.login) \(action) a label (\(label.name) (\(label.color))"
     }
     var url: URL? {
         return label.url
@@ -358,10 +371,10 @@ struct MemberEvent: Codable, Notificatable {
     let sender: User
 
     var title: String? {
-        return "\(sender.login) \(action) membership for \(member.login)"
+        return repository.full_name
     }
     var body: String {
-        return repository.full_name
+        return "\(sender.login) \(action) membership for \(member.login)"
     }
     var url: URL? {
         return repository.contributors_url
@@ -386,10 +399,10 @@ struct MembershipEvent: Codable, Notificatable {
     }
 
     var title: String? {
-        return "\(sender.login) \(action) membership for \(organization.login)"
+        return "The \(organization.login) organization"
     }
     var body: String {
-        return "Added to team: \(team.name)"
+        return "\(sender.login) \(action) membership. Added to team: \(team.name)"
     }
     var url: URL? {
         return team.url
@@ -413,10 +426,10 @@ struct MilestoneEvent: Codable, Notificatable {
     }
 
     var title: String? {
-        return "\(sender.login) \(action) a milestone: \(milestone.title)"
+        return repository.full_name
     }
     var body: String {
-        return repository.full_name
+        return "\(sender.login) \(action) a milestone: \(milestone.title)"
     }
     var url: URL? {
         return milestone.html_url
@@ -433,10 +446,10 @@ struct OrganizationEvent: Codable, Notificatable {  //TODO half-arsed
     let sender: User
 
     var title: String? {
-        return "\(sender.login) \(action) a member"
+        return "The \(organization.login) organization"
     }
     var body: String {
-        return "To: " + organization.login
+        return "\(sender.login) \(action) a member"
     }
 
     var context: Context {
@@ -451,10 +464,10 @@ struct OrgBlockEvent: Codable, Notificatable {  //TODO half-arsed
     let sender: User
 
     var title: String? {
-        return "\(sender.login) \(action) \(blocked_user.login)"
+        return "The \(organization.login) organization"
     }
     var body: String {
-        return "Org: " + organization.login
+        return "\(sender.login) \(action) \(blocked_user.login)"
     }
 
     var context: Context {
@@ -478,10 +491,10 @@ struct PageBuildEvent: Codable, Notificatable {
     }
 
     var title: String? {
-        return "GitHub Pages build complete: \(build.status)"
+        return repository.full_name
     }
     var body: String {
-        return repository.full_name
+        return "GitHub Pages build complete: \(build.status)"
     }
     var url: URL? {
         return build.url
@@ -509,15 +522,14 @@ struct PushEvent: Codable, Notificatable {
     }
 
     var title: String? {
-        let force = forced ? "force‑" : ""
-        return "\(pusher.name) \(force)pushed to \(repository.full_name)"
+        return repository.full_name
     }
     var body: String {
-        if commits.count == 1 {
-            return "Contains 1 commit"
-        } else {
-            return "Contains \(commits.count) commits"
-        }
+        let force = forced ? "force‑" : ""
+        let commits = self.commits.count == 1
+            ? "1 commit"
+            : "\(self.commits.count) commits"
+        return "\(pusher.name) \(force)pushed \(commits)"
     }
     var url: URL? {
         return head_commit.url
@@ -535,6 +547,10 @@ struct PullRequestEvent: Codable, Notificatable {
     let pull_request: PullRequest
     let repository: Repository
     let sender: User
+
+    var title: String? {
+        return repository.full_name
+    }
 
     var body: String {
         if action == "closed", pull_request.merged {
@@ -566,6 +582,9 @@ struct PullRequestReviewEvent: Codable, Notificatable {
         let html_url: URL
     }
 
+    var title: String? {
+        return repository.full_name
+    }
     var body: String {
         return "\(review.user.login) \(action) to \(repository.full_name)#\(pull_request.number)"
     }
@@ -586,11 +605,11 @@ struct StatusEvent: Codable, Notificatable {
     let repository: Repository
     let target_url: URL?
 
-    var title: String {
-        return "The status of \(name) changed to \(state)"
+    var title: String? {
+        return repository.full_name
     }
     var body: String {
-        return "\(sender.login) did it. \(description ?? "")"
+        return "The status of \(name) changed to \(state)"
     }
     var url: URL? {
         return target_url
@@ -615,11 +634,11 @@ struct WatchEvent: Codable, Notificatable {
         }
     }
 
-    var title: String {
-        return "\(repository.full_name) has \(repository.stargazers_count) stars"
+    var title: String? {
+        return repository.full_name
     }
     var body: String {
-        return "\(sender.login) \(mangledAction) \(repository.full_name)"
+        return "\(sender.login) \(mangledAction) \(repository.full_name) resulting in \(repository.stargazers_count) stars"
     }
     var url: URL? {
         return repository.html_url
