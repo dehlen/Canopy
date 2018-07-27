@@ -1,13 +1,8 @@
 import AppKit
 
-//NOTE we get log messages in console.app that imply we are doing bad
-// mising UserNotificationCenter and the *old* way, however if we don’t
-// call `NSApp.registerForRemoteNotifications(matching: [.alert, .sound])`
-// no notifications get to our app *at all*
-
 //TODO use spotlight to check if multiple versions are installed
 // if so, warn the user this will break shit
-//TODO store the github key such that if they then install the
+//TODO store the github oauth token such that if they then install the
 // iOS app it already has the key, probably iCloud ubiquituous storage
 
 //TODO at the very least store the github key outside user-defaults
@@ -25,8 +20,6 @@ import AppKit
 
 //TODO should use postgres or another not-in-process database since that puts the onus on *us* to never crash
 
-// 0. Store users on server-db with device tokens & topics & webhook interests
-// 1. Make work on High Sierra then give out to staff
 // 2. Figure out how to ensure private repos only go to valid users†
 // 3. Add secrets to hooks
 // 4. Get own domain, add SSL, add universal links for iOS

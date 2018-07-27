@@ -5,6 +5,7 @@ func appleAppSiteAssociationHandler(request rq: HTTPRequest, response: HTTPRespo
     print()
     print("/apple-app-site-association")
 
+    response.addHeader(.contentType, value: "application/json")
     response.appendBody(string: """
         {
             "applinks": {
