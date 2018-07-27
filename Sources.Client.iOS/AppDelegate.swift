@@ -67,7 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         //TODO
 
-        guard let url = userActivity.webpageURL, url.host == "ci.codebasesaga.com" else {
+        guard let url = userActivity.webpageURL, url.host == serverHostname else {
             return false
         }
 

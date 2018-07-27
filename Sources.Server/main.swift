@@ -41,7 +41,7 @@ routes.add(method: .delete, uri: "/subscribe", handler: unsubscribeHandler)
 routes.add(method: .get, uri: "/apple-app-site-association", handler: appleAppSiteAssociationHandler)
 
 let server = HTTPServer()
-server.serverPort = 1889
+server.serverPort = 80
 server.addRoutes(routes)
 try server.start()
 

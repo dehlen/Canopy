@@ -131,7 +131,7 @@ func updateTokens(oauth: String, device: String) -> Promise<Void> {
             apnsTopic: bid,
             production: isProductionAPSEnvironment
         )
-        var rq = URLRequest(url: URL(string: "http://ci.codebasesaga.com:1889/token")!)
+        var rq = URLRequest(url: URL(string: "\(serverBaseUri)/token")!)
         rq.httpMethod = "POST"
         rq.httpBody = try JSONEncoder().encode(up)
         rq.setValue("application/json", forHTTPHeaderField: "Content-Type")

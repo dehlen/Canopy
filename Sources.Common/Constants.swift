@@ -1,8 +1,10 @@
 import Foundation
 
 let clientId = "00f34fed06ffad73fe17"
-let redirectUri = "http://ci.codebasesaga.com:1889/oauth"
-let hookUri = "http://ci.codebasesaga.com:1889/github"
+let serverHostname = "canopy.codebasesaga.com"
+let serverBaseUri = "http://\(serverHostname)"
+let redirectUri = "\(serverBaseUri)/oauth"
+let hookUri = "\(serverBaseUri)/github"
 
 enum EE: Error {
     case unexpected

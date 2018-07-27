@@ -70,7 +70,7 @@ class ReposViewController: NSViewController {
         let prevControlState = sender.state
         sender.isEnabled = false
 
-        let url = URL(string: "http://ci.codebasesaga.com:1889/subscribe")!
+        let url = URL(string: "\(serverBaseUri)/subscribe")!
         var rq = URLRequest(url: url)
         rq.httpMethod = "POST"
         rq.httpBody = try! JSONEncoder().encode(ids)
@@ -139,7 +139,7 @@ class ReposViewController: NSViewController {
         case .repo(let repo):
             types = [.repo(repo)]
         case .user(let login):
-            types = rootedRepos[login]!.map{ .repo($0) }
+            types = rootedRepos[login]!.map{ .repo($0) }.filter{ hooked[$0] == nil }
         }
 
         firstly {
@@ -186,7 +186,7 @@ class ReposViewController: NSViewController {
         }
 
         func fetchSubs() -> Promise<Set<Int>> {
-            let url = URL(string: "http://ci.codebasesaga.com:1889/subscribe")!
+            let url = URL(string: "\(serverBaseUri)/subscribe")!
             var rq = URLRequest(url: url)
             rq.addValue(token, forHTTPHeaderField: "Authorization")
             return firstly {

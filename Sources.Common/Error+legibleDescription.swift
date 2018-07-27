@@ -1,6 +1,11 @@
 import Foundation
 
 extension Error {
+#if os(Linux)
+    public var legibleDescription: String {
+        return "\(type(of: self)).\(self)"
+    }
+#else
     public var legibleDescription: String {
         switch errorType {
         case .swiftError(.enum?):
@@ -11,7 +16,7 @@ extension Error {
             return msg
         case .nsError(_, "kCLErrorDomain", 0):
             return "The location could not be determined."
-            // ^^ Apple don’t provide a localized description for this
+        // ^^ Apple don’t provide a localized description for this
         case .nsError(let nsError, _, _):
             if !localizedDescription.hasPrefix("The operation couldn’t be completed.") {
                 return localizedDescription
@@ -24,7 +29,7 @@ extension Error {
             }
         }
     }
-    
+
     private var errorType: ErrorType {
         if String(cString: object_getClassName(self)) != "_SwiftNativeNSError" {
             // ^^ ∵ otherwise implicit bridging implicitly casts as for other tests
@@ -37,10 +42,13 @@ extension Error {
             return .swiftError(Mirror(reflecting: self).displayStyle)
         }
     }
+#endif
 }
 
+#if !os(Linux)
 private enum ErrorType {
     case nsError(NSError, domain: String, code: Int)
     case swiftLocalizedError(String)
     case swiftError(Mirror.DisplayStyle?)
 }
+#endif
