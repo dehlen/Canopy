@@ -38,7 +38,6 @@ routes.add(method: .get, uri: "/oauth", handler: oauthCallback)
 routes.add(method: .get, uri: "/subscribe", handler: subscriptionsHandler)
 routes.add(method: .post, uri: "/subscribe", handler: subscribeHandler)
 routes.add(method: .delete, uri: "/subscribe", handler: unsubscribeHandler)
-routes.add(method: .get, uri: "/apple-app-site-association", handler: appleAppSiteAssociationHandler)
 
 let server = HTTPServer()
 server.serverPort = 443

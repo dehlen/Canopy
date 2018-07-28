@@ -52,27 +52,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         alert(error: error)
     }
 
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         if let oauthToken = userInfo["oauthToken"] as? String {
-            //NSApp.activate(ignoringOtherApps: true)
             UserDefaults.standard.gitHubOAuthToken = oauthToken
+
+            let content = UNMutableNotificationContent()
+            content.title = "Authentication Complete"
+            content.body = "Tap to return to Canopy"
+            let rq = UNNotificationRequest(identifier: "foo", content: content, trigger: nil)
+            UNUserNotificationCenter.current().add(rq) { _ in
+                completionHandler(.newData)
+            }
         } else if let message = userInfo["oauthTokenError"] as? String {
             alert(message: message, title: "GitHub Authorization Failed")
             //TODO allow sign-in again somehow
+            completionHandler(.failed)
         } else {
             print(userInfo)
+            completionHandler(.noData)
         }
-    }
-
-    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        //TODO
-
-        guard let url = userActivity.webpageURL, url.host == serverHostname else {
-            return false
-        }
-
-        
-
-        return true
     }
 }

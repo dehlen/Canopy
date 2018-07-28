@@ -16,7 +16,6 @@
 		OBJ_1013 /* hooks.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* hooks.swift */; };
 		OBJ_1014 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* main.swift */; };
 		OBJ_1015 /* model.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* model.swift */; };
-		OBJ_1016 /* route-apple-app-site-association.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* route-apple-app-site-association.swift */; };
 		OBJ_1017 /* route-oauth.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* route-oauth.swift */; };
 		OBJ_1018 /* route-subscribe.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* route-subscribe.swift */; };
 		OBJ_1019 /* route-token.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* route-token.swift */; };
@@ -789,7 +788,6 @@
 		OBJ_157 /* ccm128.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ccm128.c; sourceTree = "<group>"; };
 		OBJ_158 /* cfb128.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = cfb128.c; sourceTree = "<group>"; };
 		OBJ_159 /* cfb64ede.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = cfb64ede.c; sourceTree = "<group>"; };
-		OBJ_16 /* route-apple-app-site-association.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "route-apple-app-site-association.swift"; sourceTree = "<group>"; };
 		OBJ_160 /* cfb64enc.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = cfb64enc.c; sourceTree = "<group>"; };
 		OBJ_161 /* cfb_enc.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = cfb_enc.c; sourceTree = "<group>"; };
 		OBJ_162 /* cm_.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = cm_.c; sourceTree = "<group>"; };
@@ -1893,7 +1891,6 @@
 				OBJ_14 /* main.swift */,
 				OBJ_15 /* model.swift */,
 				63E4E0012108F2140081E9AB /* model+populate.swift */,
-				OBJ_16 /* route-apple-app-site-association.swift */,
 				OBJ_17 /* route-oauth.swift */,
 				OBJ_18 /* route-subscribe.swift */,
 				OBJ_19 /* route-token.swift */,
@@ -2492,7 +2489,6 @@
 				OBJ_1014 /* main.swift in Sources */,
 				63E4E0022108F2140081E9AB /* model+populate.swift in Sources */,
 				OBJ_1015 /* model.swift in Sources */,
-				OBJ_1016 /* route-apple-app-site-association.swift in Sources */,
 				OBJ_1017 /* route-oauth.swift in Sources */,
 				OBJ_1018 /* route-subscribe.swift in Sources */,
 				OBJ_1019 /* route-token.swift in Sources */,

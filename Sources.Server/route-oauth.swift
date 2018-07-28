@@ -45,16 +45,31 @@ private func finish(code: String, state: String) throws {
         let scope: String?  // docs aren't clear if this is always present
     }
 
-    func send(key: String, value: String) {
+    func send(items: APNSNotificationItem...) {
         let confName = signInParameters.production
             ? NotificationPusher.productionConfigurationName
             : NotificationPusher.sandboxConfigurationName
-
-        NotificationPusher(apnsTopic: signInParameters.apnsTopic).pushAPNS(configurationName: confName, deviceTokens: [signInParameters.deviceToken], notificationItems: [
-            .customPayload(key, value)
-        ], callback: { responses in
-            print("APNs says:", responses)
+        NotificationPusher(apnsTopic: signInParameters.apnsTopic).pushAPNS(configurationName: confName, deviceTokens: [signInParameters.deviceToken], notificationItems: items, callback: { responses in
+            print("APNs says:", responses[0])
         })
+    }
+
+    func success(token: String) {
+        //TODO APPLE SAYS TO ENCRYPT
+        if signInParameters.apnsTopic.isMac {
+            send(items: .customPayload("oauthToken", token))
+        } else {
+            send(items: .customPayload("oauthToken", token), .contentAvailable)
+        }
+    }
+
+    func failure(error: Error) {
+        print(#function, error)
+        if signInParameters.apnsTopic.isMac {
+            send(items: .customPayload("oauthTokenError", error.legibleDescription))
+        } else {
+            send(items: .alertTitle("Sign‑in Error"), .alertBody(error.legibleDescription))
+        }
     }
 
     firstly {
@@ -64,15 +79,20 @@ private func finish(code: String, state: String) throws {
     }.then { oauthToken in
         updateTokens(with: signInParameters.upgrade(with: oauthToken)).map{ oauthToken }
     }.done { oauthToken in
-        send(key: "oauthToken", value: oauthToken) //TODO APPLE SAYS TO ENCRYPT
+        success(token: oauthToken)
     }.catch { error in
-        print(#function, error)
-        send(key: "oauthTokenError", value: error.legibleDescription)
+        failure(error: error)
     }
 }
 
 private extension SignIn {
     func upgrade(with oauthToken: String) -> TokenUpdate {
         return TokenUpdate(oauthToken: oauthToken, deviceToken: deviceToken, apnsTopic: apnsTopic, production: production)
+    }
+}
+
+private extension String {
+    var isMac: Bool {
+        return self == "com.codebasesaga.GitBell"
     }
 }
