@@ -11,6 +11,7 @@ class ReposViewController: NSViewController {
     @IBOutlet weak var installWebhookButton: NSButton!
     @IBOutlet weak var webhookExplanation: NSTextField!
     @IBOutlet weak var installWebhookFirstLabel: NSTextField!
+    @IBOutlet weak var privateReposAdviceLabel: NSTextField!
 
     var rootedRepos: [String: [Repo]] {
         return Dictionary(grouping: repos, by: { $0.owner.login })
@@ -161,6 +162,9 @@ class ReposViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        privateReposAdviceLabel.isHidden = true
+        installWebhookFirstLabel.isHidden = true
 
         ref = UserDefaults.standard.observe(\.gitHubOAuthToken, options: [.initial, .new, .old]) { [weak self] defaults, change in
             guard change.newValue != nil, change.oldValue != change.newValue else { return }
@@ -335,6 +339,7 @@ extension ReposViewController: NSOutlineViewDelegate {
         notifyButton.isEnabled = false
         installWebhookButton.isEnabled = false
         installWebhookFirstLabel.isHidden = true
+        privateReposAdviceLabel.isHidden = true
         webhookExplanation.stringValue = "Canopy functions via GitHub webhooks"
 
         let hooked: Guarantee<SwitchState>
@@ -346,10 +351,12 @@ extension ReposViewController: NSOutlineViewDelegate {
 
         switch selectedItem {
         case .organization(let id, let login):
+            privateReposAdviceLabel.isHidden = rootedRepos[login]!.allSatisfy{ !$0.private }
             installWebhookButton.isEnabled = true
             notifyButton.state = SwitchState(rootedRepos[login]!, where: { subscribed.contains($0.id) }).nsControlStateValue
             hooked = hooks(for: .organization(id, login)).map(SwitchState.init)
         case .user(let login):
+            privateReposAdviceLabel.isHidden = rootedRepos[login]!.allSatisfy{ !$0.private }
             installWebhookButton.isEnabled = false
 
             let repos = rootedRepos[login]!
@@ -365,13 +372,14 @@ extension ReposViewController: NSOutlineViewDelegate {
                 }
             }
         case .repo(let repo):
+            privateReposAdviceLabel.isHidden = !repo.private
             notifyButton.allowsMixedState = false
             notifyButton.state = SwitchState(subscribed.contains(repo.id)).nsControlStateValue
-            guard !repo.isOrganization else {
-                webhookExplanation.stringValue = "Webhook is controlled at organization level"
-                return
+            if repo.isPartOfOrganization {
+                hooked = hooks(for: .organization(repo.owner.id, repo.owner.login)).map(SwitchState.init)
+            } else {
+                hooked = hooks(for: .repo(repo)).map(SwitchState.init)
             }
-            hooked = hooks(for: .repo(repo)).map(SwitchState.init)
         }
 
         // otherwise clicking transitions to the “mixed” state
@@ -385,18 +393,29 @@ extension ReposViewController: NSOutlineViewDelegate {
 
             switch $0 {
             case .on:
+                let webhookExplanationText: String
                 switch selectedItem {
                 case .organization:
-                    self.webhookExplanation.stringValue = "Organization webhook installed"
+                    webhookExplanationText = "Organization webhook installed"
                 case .user:
-                    self.webhookExplanation.stringValue = "All children have webhooks installed"
-                case .repo:
-                    self.webhookExplanation.stringValue = "Webhook installed"
+                    webhookExplanationText = "All children have webhooks installed"
+                case .repo(let repo):
+                    if repo.isPartOfOrganization {
+                        webhookExplanationText = "Webhook installed at organization level"
+                    } else {
+                        webhookExplanationText = "Webhook installed"
+                    }
                 }
+                self.webhookExplanation.stringValue = webhookExplanationText
                 self.installWebhookButton.isEnabled = false
                 self.notifyButton.isEnabled = true
             case .off:
-                self.installWebhookButton.isEnabled = true
+                if case .repo(let repo) = selectedItem, repo.isPartOfOrganization {
+                    self.webhookExplanation.stringValue = "Webhook installation is controlled at the organization level"
+                    self.installWebhookButton.isEnabled = false
+                } else {
+                    self.installWebhookButton.isEnabled = true
+                }
                 self.notifyButton.isEnabled = false
                 self.installWebhookFirstLabel.isHidden = false
             case .mixed:
@@ -441,7 +460,7 @@ private struct Hook: Decodable {
 
 private extension Array where Element == Repo {
     var isOrganization: Bool {
-        if let first = first, first.isOrganization {
+        if let first = first, first.isPartOfOrganization {
             return true
         } else {
             return false

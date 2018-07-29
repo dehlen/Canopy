@@ -50,6 +50,7 @@ struct Repo: Decodable {
     let id: Int
     let full_name: String
     let owner: Owner
+    let `private`: Bool
 
     struct Owner: Decodable, Hashable {
         let id: Int
@@ -57,7 +58,7 @@ struct Repo: Decodable {
         let type: String
     }
 
-    var isOrganization: Bool {
+    var isPartOfOrganization: Bool {
         return owner.type.lowercased() == "organization"
     }
 }

@@ -713,23 +713,23 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ReposViewController" customModule="Canopy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="380" height="499"/>
+                        <rect key="frame" x="0.0" y="0.0" width="403" height="499"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NXw-D2-3nV">
-                                <rect key="frame" x="0.0" y="0.0" width="215" height="499"/>
+                                <rect key="frame" x="0.0" y="0.0" width="238" height="499"/>
                                 <clipView key="contentView" drawsBackground="NO" id="RTj-pS-YmG">
-                                    <rect key="frame" x="0.0" y="0.0" width="215" height="499"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="238" height="499"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" autosaveColumns="NO" indentationPerLevel="16" outlineTableColumn="5t4-ur-x1R" id="Tn7-qK-wuj">
-                                            <rect key="frame" x="0.0" y="0.0" width="215" height="499"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="238" height="499"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn editable="NO" width="212" minWidth="16" maxWidth="1000" id="5t4-ur-x1R">
+                                                <tableColumn editable="NO" width="235" minWidth="16" maxWidth="1000" id="5t4-ur-x1R">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -752,7 +752,7 @@
                                     <nil key="backgroundColor"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="KNQ-mI-SYh">
-                                    <rect key="frame" x="0.0" y="424" width="197" height="16"/>
+                                    <rect key="frame" x="0.0" y="483" width="0.0" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="xoq-Kv-1P3">
@@ -761,7 +761,7 @@
                                 </scroller>
                             </scrollView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Lcr-HS-PQC">
-                                <rect key="frame" x="233" y="463" width="129" height="18"/>
+                                <rect key="frame" x="256" y="463" width="129" height="18"/>
                                 <buttonCell key="cell" type="check" title="Notify" bezelStyle="regularSquare" imagePosition="left" enabled="NO" inset="2" id="hZE-ed-mwP">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -771,7 +771,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j5Z-8i-YX8">
-                                <rect key="frame" x="229" y="43" width="137" height="32"/>
+                                <rect key="frame" x="252" y="43" width="137" height="32"/>
                                 <buttonCell key="cell" type="push" title="Install Webhook" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HAr-QH-A9t">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -781,38 +781,61 @@
                                 </connections>
                             </button>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="aSB-P9-wN8">
-                                <rect key="frame" x="233" y="20" width="129" height="22"/>
+                                <rect key="frame" x="256" y="20" width="129" height="22"/>
                                 <textFieldCell key="cell" selectable="YES" alignment="center" title="Canopy functions via GitHub webhooks" id="rto-8y-yFw">
                                     <font key="font" metaFont="miniSystem"/>
                                     <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="69d-su-MaN">
-                                <rect key="frame" x="233" y="442" width="129" height="15"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Install webhook first" id="mlc-4H-uQp">
-                                    <font key="font" metaFont="smallSystem"/>
-                                    <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
+                            <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hld-xX-SYI">
+                                <rect key="frame" x="258" y="408" width="125" height="49"/>
+                                <subviews>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="69d-su-MaN">
+                                        <rect key="frame" x="-2" y="34" width="110" height="15"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Install webhook first" id="mlc-4H-uQp">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3GB-2A-KKb">
+                                        <rect key="frame" x="-2" y="0.0" width="119" height="30"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" id="xgh-Rp-AW9">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <string key="title">Private repositories
+require a subscription</string>
+                                            <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                </subviews>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="NXw-D2-3nV" secondAttribute="bottom" id="0o0-AP-bQF"/>
-                            <constraint firstItem="69d-su-MaN" firstAttribute="top" secondItem="Lcr-HS-PQC" secondAttribute="bottom" constant="8" id="9Al-bT-Xsm"/>
                             <constraint firstItem="Lcr-HS-PQC" firstAttribute="leading" secondItem="NXw-D2-3nV" secondAttribute="trailing" constant="20" id="9ya-Lg-jEg"/>
                             <constraint firstItem="NXw-D2-3nV" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="KWK-eP-I2c"/>
                             <constraint firstItem="aSB-P9-wN8" firstAttribute="leading" secondItem="NXw-D2-3nV" secondAttribute="trailing" constant="20" id="McG-ab-kNG"/>
                             <constraint firstItem="j5Z-8i-YX8" firstAttribute="leading" secondItem="NXw-D2-3nV" secondAttribute="trailing" constant="20" id="OE8-wF-5rr"/>
-                            <constraint firstItem="69d-su-MaN" firstAttribute="leading" secondItem="Lcr-HS-PQC" secondAttribute="leading" id="PcV-Rh-sHs"/>
+                            <constraint firstAttribute="trailing" secondItem="Hld-xX-SYI" secondAttribute="trailing" constant="20" id="XSr-yY-Kmp"/>
                             <constraint firstAttribute="trailing" secondItem="j5Z-8i-YX8" secondAttribute="trailing" constant="20" id="a4V-fa-c0K"/>
                             <constraint firstItem="aSB-P9-wN8" firstAttribute="top" secondItem="j5Z-8i-YX8" secondAttribute="bottom" constant="8" id="asS-5k-Aw8"/>
+                            <constraint firstItem="Hld-xX-SYI" firstAttribute="leading" secondItem="Lcr-HS-PQC" secondAttribute="leading" id="bip-GX-pCw"/>
                             <constraint firstAttribute="trailing" secondItem="aSB-P9-wN8" secondAttribute="trailing" constant="20" id="gTe-wi-hnl"/>
                             <constraint firstItem="NXw-D2-3nV" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="h2a-ox-g0l"/>
                             <constraint firstAttribute="trailing" secondItem="Lcr-HS-PQC" secondAttribute="trailing" constant="20" id="kfR-7s-xYf"/>
                             <constraint firstAttribute="bottom" secondItem="aSB-P9-wN8" secondAttribute="bottom" constant="20" id="mB9-fg-X8V"/>
+                            <constraint firstItem="Hld-xX-SYI" firstAttribute="top" secondItem="Lcr-HS-PQC" secondAttribute="bottom" constant="8" id="pLV-SR-x82"/>
                             <constraint firstItem="Lcr-HS-PQC" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="rJz-k9-zrc"/>
-                            <constraint firstItem="69d-su-MaN" firstAttribute="trailing" secondItem="Lcr-HS-PQC" secondAttribute="trailing" id="vsI-M3-gCb"/>
                         </constraints>
                     </view>
                     <connections>
@@ -820,13 +843,14 @@
                         <outlet property="installWebhookFirstLabel" destination="69d-su-MaN" id="HZJ-2f-yKY"/>
                         <outlet property="notifyButton" destination="Lcr-HS-PQC" id="A6e-mh-OLe"/>
                         <outlet property="outlineView" destination="Tn7-qK-wuj" id="NDN-fO-H6j"/>
+                        <outlet property="privateReposAdviceLabel" destination="3GB-2A-KKb" id="Sm5-Ai-qbE"/>
                         <outlet property="webhookExplanation" destination="aSB-P9-wN8" id="mYq-QV-Ndv"/>
                         <segue destination="eRY-as-3te" kind="sheet" identifier="SignIn" id="sxB-hL-FML"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="810"/>
+            <point key="canvasLocation" x="83.5" y="809.5"/>
         </scene>
         <!--WaitingToken-->
         <scene sceneID="ly1-PT-1NG">
