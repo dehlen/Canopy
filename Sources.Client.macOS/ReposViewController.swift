@@ -332,17 +332,16 @@ extension ReposViewController: NSOutlineViewDelegate {
     }
 
     func outlineViewSelectionDidChange(_ notification: Notification) {
+        notifyButton.isEnabled = false
         installWebhookButton.isEnabled = false
         installWebhookFirstLabel.isHidden = true
         webhookExplanation.stringValue = "Canopy functions via GitHub webhooks"
 
         let hooked: Guarantee<SwitchState>
         guard let selectedItem = self.selectedItem else {
-            notifyButton.isEnabled = false
             return
         }
 
-        notifyButton.isEnabled = true
         notifyButton.allowsMixedState = true
 
         switch selectedItem {
@@ -395,11 +394,13 @@ extension ReposViewController: NSOutlineViewDelegate {
                     self.webhookExplanation.stringValue = "Webhook installed"
                 }
                 self.installWebhookButton.isEnabled = false
+                self.notifyButton.isEnabled = true
             case .off:
                 self.installWebhookButton.isEnabled = true
                 self.notifyButton.isEnabled = false
                 self.installWebhookFirstLabel.isHidden = false
             case .mixed:
+                self.notifyButton.isEnabled = true
                 self.installWebhookButton.isEnabled = true
                 self.webhookExplanation.stringValue = "Some children have webhook installed"
             }
