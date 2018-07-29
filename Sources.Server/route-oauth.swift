@@ -93,6 +93,6 @@ private extension SignIn {
 
 private extension String {
     var isMac: Bool {
-        return self == "com.codebasesaga.GitBell"
+        return self == "com.codebasesaga.GitBell" || self == "com.codebasesaga.macOS.Canopy"
     }
 }

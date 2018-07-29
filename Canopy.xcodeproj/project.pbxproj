@@ -747,7 +747,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.codebasesaga.GitBell;
+				PRODUCT_BUNDLE_IDENTIFIER = com.codebasesaga.macOS.Canopy;
 				PRODUCT_NAME = Canopy;
 				SWIFT_VERSION = 4.2;
 			};
@@ -771,7 +771,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.codebasesaga.GitBell;
+				PRODUCT_BUNDLE_IDENTIFIER = com.codebasesaga.macOS.Canopy;
 				PRODUCT_NAME = Canopy;
 				SWIFT_VERSION = 4.2;
 			};
@@ -794,7 +794,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.codebasesaga.iOS.Downstream;
+				PRODUCT_BUNDLE_IDENTIFIER = com.codebasesaga.iOS.Canopy;
 				PRODUCT_NAME = Canopy;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 4.2;
@@ -819,7 +819,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.codebasesaga.iOS.Downstream;
+				PRODUCT_BUNDLE_IDENTIFIER = com.codebasesaga.iOS.Canopy;
 				PRODUCT_NAME = Canopy;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 4.2;
