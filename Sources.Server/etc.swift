@@ -38,7 +38,9 @@ extension APNSConfiguration {
     }
 }
 
-func alert(message: String) {
+func alert(message: String, function: StaticString = #function) {
+    print(function, message)
+
     guard let confs = try? DB().mxcl() else {
         return
     }

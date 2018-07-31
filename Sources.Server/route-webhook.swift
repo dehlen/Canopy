@@ -17,6 +17,8 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
     do {
         let notificatable = try rq.decodeNotificatable()
 
+        print(type(of: notificatable))
+
         var notificationItems: [APNSNotificationItem] = [
             .alertBody(notificatable.body),
             .threadId(notificatable.threadingId)
