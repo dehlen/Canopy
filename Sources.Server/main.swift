@@ -42,11 +42,14 @@ routes.add(method: .post, uri: "/subscribe", handler: subscribeHandler)
 routes.add(method: .delete, uri: "/subscribe", handler: unsubscribeHandler)
 
 let server = HTTPServer()
-server.serverPort = 443
 server.addRoutes(routes)
-server.ssl = (
-    sslCert: "/etc/letsencrypt/live/canopy.codebasesaga.com/fullchain.pem",
-    sslKey: "/etc/letsencrypt/live/canopy.codebasesaga.com/privkey.pem"
-)
+#if os(Linux)
+    server.serverPort = 443
+    server.ssl = (
+        sslCert: "/etc/letsencrypt/live/canopy.codebasesaga.com/fullchain.pem",
+        sslKey: "/etc/letsencrypt/live/canopy.codebasesaga.com/privkey.pem"
+    )
+#else
+    server.serverPort = 1088
+#endif
 try server.start()
-
