@@ -1,8 +1,9 @@
 import PerfectSQLite
+import CommonCrypto
 import Foundation
 import PromiseKit
 
-private let dbPath = "./db.sqlite"
+private let dbPath = "../db.sqlite"
 
 class DB {
     let db: SQLite
@@ -13,6 +14,10 @@ class DB {
 
     deinit {
         db.close()
+    }
+
+    enum E: Error {
+        case tokenNotFound(user: Int)
     }
 
     func backup() throws {
@@ -27,7 +32,7 @@ class DB {
         print("Backed up:", dst.path)
     }
 
-    func tokens(for repoId: Int) throws -> [APNSConfiguration: [String]] {
+    func apnsTokens(for repoId: Int) throws -> [APNSConfiguration: [String]] {
         let sql = """
             SELECT id, topic, production
             FROM tokens
@@ -53,32 +58,50 @@ class DB {
         return results
     }
 
-    func mxcl() throws -> [APNSConfiguration: String] {
+    func mxcl() throws -> [APNSConfiguration: [String]] {
         let sql = """
             SELECT id, topic, production
             FROM tokens
             WHERE user_id = 58962
             """
 
-        var results: [APNSConfiguration: String] = [:]
+        var results: [APNSConfiguration: [String]] = [:]
 
         try db.forEachRow(statement: sql, handleRow: { statement, row in
             let token = statement.columnText(position: 0)
             let topic = statement.columnText(position: 1)
             let production = statement.columnInt(position: 2) != 0
-            results[APNSConfiguration(topic: topic, isProduction: production)] = token
+            results[APNSConfiguration(topic: topic, isProduction: production), default: []].append(token)
         })
 
         return results
     }
 
-    func add(token: String, topic: String, userId: Int, production: Bool) throws {
+    func allAPNsTokens() throws -> [APNSConfiguration: [String]] {
+        let sql = """
+            SELECT id, topic, production
+            FROM tokens
+            """
+
+        var results: [APNSConfiguration: [String]] = [:]
+
+        try db.forEachRow(statement: sql, handleRow: { statement, row in
+            let token = statement.columnText(position: 0)
+            let topic = statement.columnText(position: 1)
+            let production = statement.columnInt(position: 2) != 0
+            results[APNSConfiguration(topic: topic, isProduction: production), default: []].append(token)
+        })
+
+        return results
+    }
+
+    func add(apnsToken: String, topic: String, userId: Int, production: Bool) throws {
         let sql = """
             INSERT INTO tokens (id, topic, user_id, production)
             VALUES (:1, :2, :3, :4)
             """
         try db.execute(statement: sql) { stmt in
-            try stmt.bind(position: 1, token)
+            try stmt.bind(position: 1, apnsToken)
             try stmt.bind(position: 2, topic)
             try stmt.bind(position: 3, userId)
             try stmt.bind(position: 4, production ? 1 : 0)
@@ -89,6 +112,38 @@ class DB {
         let sql = "DELETE from tokens WHERE id = :1"
         try db.execute(statement: sql) { stmt in
             try stmt.bind(position: 1, token)
+        }
+    }
+
+    func add(oauthToken: String, userId: Int) throws {
+        let (encryptedToken, encryptionSalt) = try encrypt(oauthToken)
+        let sql = """
+            INSERT INTO auth (token, user_id, salt)
+            VALUES (:1, :2, :3)
+            """
+        try db.execute(statement: sql) {
+            try $0.bind(position: 1, [UInt8](encryptedToken))
+            try $0.bind(position: 2, userId)
+            try $0.bind(position: 3, encryptionSalt)
+        }
+    }
+
+    func oauthToken(user userId: Int) throws -> String {
+        let sql = """
+            SELECT FROM auth (token, salt)
+            WHERE user_id = \(userId)
+            """
+        var token: Data?
+        var salt: String?
+        try db.forEachRow(statement: sql) { stmt, _ in
+            var bytes: [UInt8] = stmt.columnIntBlob(position: 0)
+            token = Data(bytes: &bytes, count: bytes.count)
+            salt = stmt.columnText(position: 1)
+        }
+        if let token = token, let salt = salt {
+            return try decrypt(token, salt: salt)
+        } else {
+            throw E.tokenNotFound(user: userId)
         }
     }
 
@@ -113,7 +168,20 @@ class DB {
             DELETE FROM subscriptions
             WHERE repo_id = :1 and user_id = :2
             """
-        try db.execute(statement: sql)
+        try db.execute(statement: sql) { stmt in
+            try stmt.bind(position: 1, repoId)
+            try stmt.bind(position: 2, userId)
+        }
+    }
+
+    func delete(repository repoId: Int) throws {
+        let sql = """
+            DELETE FROM subscriptions
+            WHERE repo_id = :1
+            """
+        try db.execute(statement: sql) { stmt in
+            try stmt.bind(position: 1, repoId)
+        }
     }
 
     func subscriptions(forUserId userId: Int) throws -> [Int] {
