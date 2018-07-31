@@ -2,13 +2,8 @@ import Foundation
 import PerfectHTTP
 
 enum Context {
-    case organization(id: Int)
-    case repository(id: Int)
-    case alert
-
-    init(_ repo: Repository) {
-        self = .repository(id: repo.id)
-    }
+    case organization(User)
+    case repository(Repository)
 }
 
 protocol Notificatable {
@@ -16,21 +11,27 @@ protocol Notificatable {
     var body: String { get }
     var url: URL? { get }
     var context: Context { get }
-    var threadingId: String? { get }
+    var threadingId: String { get }
 }
 
 extension Notificatable {
     var url: URL? { return nil }
-    var title: String? { return nil }
 
-    var threadingId: String? {
+    var title: String? {
+        switch context {
+        case .repository(let repo):
+            return repo.full_name
+        case .organization(let org):
+            return "The \(org.login) organization"
+        }
+    }
+
+    var threadingId: String {
         switch context {
         case .organization(id: let id):
             return "orgs/\(id)"
         case .repository(id: let id):
             return "repo/\(id)"
-        case .alert:
-            return nil
         }
     }
 }
@@ -40,52 +41,51 @@ extension Notificatable {
 struct PingEvent: Codable, Notificatable {
     let hook: Hook
     let sender: User
+    let context: Context
 
-    // which is set depends on Hook.type
-    let organization: User?
-    let repository: Repository?
+    init(from decoder: Decoder) throws {
+
+        enum E: Error {
+            case invalidPingHookType(String)
+        }
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        hook = try container.decode(Hook.self, forKey: .hook)
+        if hook.type == "organization" {
+            let org = try container.decode(User.self, forKey: .organization)
+            context = .organization(org)
+        } else if hook.type == "repostory" {
+            let repo = try container.decode(Repository.self, forKey: .repository)
+            context = .repository(repo)
+        } else {
+            throw E.invalidPingHookType(hook.type)
+        }
+        sender = try container.decode(User.self, forKey: .sender)
+    }
+
+    func encode(to encoder: Encoder) throws {
+        // required for Perfect (due to poor API design)
+        fatalError()
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case organization
+        case repository
+        case hook
+        case sender
+    }
 
     struct Hook: Codable {
         let type: String
-    }
-
-    var title: String? {
-        switch context {
-        case .repository:
-            return repository?.full_name
-        case .organization:
-            return organization?.login
-        case .alert:
-            return nil
-        }
+        let id: Int
     }
 
     var body: String {
-        enum E: Error {
-            case unexpected
-        }
-
-        do {
-            switch hook.type.lowercased() {
-            case "organization":
-                guard let login = organization?.login else { throw E.unexpected }
-                return "Webhook added to the \(login) organization"
-            case "repository":
-                guard let repo = repository?.full_name else { throw E.unexpected }
-                return "Webhook added to \(repo)"
-            default:
-                throw E.unexpected
-            }
-        } catch {
-            return "Received unexpected ping payload of type: \(hook.type)"
-        }
-    }
-
-    var context: Context {
-        if let org = organization {
-            return .organization(id: org.id)
-        } else {
-            return .repository(id: repository!.id)
+        switch context {
+        case .organization(let org):
+            return "Webhook added to the \(org.login) organization"
+        case .repository(let repo):
+            return "Webhook added to \(repo.full_name)"
         }
     }
 }
@@ -100,9 +100,6 @@ struct CheckRunEvent: Codable, Notificatable {
         let status: String
     }
 
-    var title: String? {
-        return repository.full_name
-    }
     var body: String {
         return "Check run \(check_run.status)"
     }
@@ -111,7 +108,7 @@ struct CheckRunEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .repository(id: repository.id)
+        return .repository(repository)
     }
 }
 
@@ -125,9 +122,6 @@ struct CheckSuiteEvent: Codable, Notificatable {
         let status: String
     }
 
-    var title: String? {
-        return repository.full_name
-    }
     var body: String {
         return "Check suite \(check_suite.status)"
     }
@@ -136,7 +130,7 @@ struct CheckSuiteEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .repository(id: repository.id)
+        return .repository(repository)
     }
 }
 
@@ -146,9 +140,6 @@ struct CommitComment: Codable, Notificatable {
     let comment: Comment
     let repository: Repository
 
-    var title: String? {
-        return repository.full_name
-    }
     var body: String {
         return "\(comment.user.login) commented on a commit"
     }
@@ -157,7 +148,7 @@ struct CommitComment: Codable, Notificatable {
     }
 
     var context: Context {
-        return .repository(id: repository.id)
+        return .repository(repository)
     }
 }
 
@@ -166,9 +157,6 @@ struct CreateEvent: Codable, Notificatable {
     let repository: Repository
     let sender: User
 
-    var title: String? {
-        return repository.full_name
-    }
     var body: String {
         return "\(sender.login) created a repository"
     }
@@ -177,7 +165,7 @@ struct CreateEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .repository(id: repository.id)
+        return .repository(repository)
     }
 }
 
@@ -185,9 +173,6 @@ struct DeleteEvent: Codable, Notificatable {
     let repository: Repository
     let sender: User
 
-    var title: String? {
-        return repository.full_name
-    }
     var body: String {
         return "\(sender.login) deleted a repository"
     }
@@ -196,7 +181,7 @@ struct DeleteEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .repository(id: repository.id)
+        return .repository(repository)
     }
 }
 
@@ -205,9 +190,6 @@ struct DeploymentEvent: Codable, Notificatable {
     let deployment: Deployment
     let sender: User
 
-    var title: String? {
-        return repository.full_name
-    }
     var body: String {
         return "\(sender.login) deployed to \(deployment.environment)"
     }
@@ -216,7 +198,7 @@ struct DeploymentEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .repository(id: repository.id)
+        return .repository(repository)
     }
 }
 
@@ -232,9 +214,6 @@ struct DeploymentStatusEvent: Codable, Notificatable {
         let description: String?
     }
 
-    var title: String? {
-        return repository.full_name
-    }
     var body: String {
         return "\(sender.login) deployed to \(deployment.environment) with status: \(deployment_status.status)"
     }
@@ -243,7 +222,7 @@ struct DeploymentStatusEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .repository(id: repository.id)
+        return .repository(repository)
     }
 }
 
@@ -252,9 +231,6 @@ struct ForkEvent: Codable, Notificatable {
     let repository: Repository
     let sender: User
 
-    var title: String? {
-        return repository.full_name
-    }
     var body: String {
         return "\(sender.login) forked \(repository.full_name)"
     }
@@ -263,7 +239,7 @@ struct ForkEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .repository(id: repository.id)
+        return .repository(repository)
     }
 }
 
@@ -280,9 +256,6 @@ struct GollumEvent: Codable, Notificatable {
         let html_url: URL
     }
 
-    var title: String? {
-        return repository.full_name
-    }
     var body: String {
         return "\(sender.login) triggered \(pages.count) wiki events"
     }
@@ -291,7 +264,7 @@ struct GollumEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .repository(id: repository.id)
+        return .repository(repository)
     }
 }
 
@@ -302,9 +275,6 @@ struct IssueCommentEvent: Codable, Notificatable {
     let repository: Repository
     let sender: User
 
-    var title: String? {
-        return repository.full_name
-    }
     var body: String {
         return "\(sender.login) \(action) a comment on #\(issue.number)"
     }
@@ -313,7 +283,7 @@ struct IssueCommentEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .repository(id: repository.id)
+        return .repository(repository)
     }
 }
 
@@ -323,9 +293,6 @@ struct IssuesEvent: Codable, Notificatable {
     let repository: Repository
     let sender: User
 
-    var title: String? {
-        return repository.full_name
-    }
     var body: String {
         return "\(sender.login) \(action) #\(issue.number)"
     }
@@ -334,7 +301,7 @@ struct IssuesEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .repository(id: repository.id)
+        return .repository(repository)
     }
 }
 
@@ -350,9 +317,6 @@ struct LabelEvent: Codable, Notificatable {
         let color: String
     }
 
-    var title: String? {
-        return repository.full_name
-    }
     var body: String {
         return "\(sender.login) \(action) a label (\(label.name) (\(label.color))"
     }
@@ -361,19 +325,20 @@ struct LabelEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .repository(id: repository.id)
+        return .repository(repository)
     }
 }
 
 struct MemberEvent: Codable, Notificatable {
-    let action: String
+    let action: Action
     let member: User
     let repository: Repository
     let sender: User
 
-    var title: String? {
-        return repository.full_name
+    enum Action: String, Codable {
+        case deleted, edited, added
     }
+
     var body: String {
         return "\(sender.login) \(action) membership for \(member.login)"
     }
@@ -382,26 +347,30 @@ struct MemberEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .repository(id: repository.id)
+        return .repository(repository)
     }
 }
 
 struct MembershipEvent: Codable, Notificatable {
-    let action: String
-    let scope: String
-    let user: User
+    let action: Action
+    let scope: Scope
     let sender: User
     let organization: User
     let team: Team
+    let member: User
+
+    enum Action: String, Codable {
+        case added, removed
+    }
+    enum Scope: String, Codable {
+        case team
+    }
 
     struct Team: Codable {
         let name: String
         let url: URL
     }
 
-    var title: String? {
-        return "The \(organization.login) organization"
-    }
     var body: String {
         return "\(sender.login) \(action) membership. Added to team: \(team.name)"
     }
@@ -410,15 +379,19 @@ struct MembershipEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .organization(id: organization.id)
+        return .organization(organization)
     }
 }
 
 struct MilestoneEvent: Codable, Notificatable {
-    let action: String
+    let action: Action
     let sender: User
     let repository: Repository
     let milestone: Milestone
+
+    enum Action: String, Codable {
+        case created, closed, opened, edited, deleted
+    }
 
     struct Milestone: Codable {
         let html_url: URL
@@ -426,9 +399,6 @@ struct MilestoneEvent: Codable, Notificatable {
         let description: String?
     }
 
-    var title: String? {
-        return repository.full_name
-    }
     var body: String {
         return "\(sender.login) \(action) a milestone: \(milestone.title)"
     }
@@ -437,24 +407,30 @@ struct MilestoneEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .repository(id: repository.id)
+        return .repository(repository)
     }
 }
 
 struct OrganizationEvent: Codable, Notificatable {  //TODO half-arsed
-    let action: String
+    let action: Action
     let organization: User
     let sender: User
+    let membership: Membership
 
-    var title: String? {
-        return "The \(organization.login) organization"
+    struct Membership: Codable {
+        let user: User
     }
+
+    enum Action: String, Codable {
+        case member_added, member_removed, member_invited
+    }
+
     var body: String {
         return "\(sender.login) \(action) a member"
     }
 
     var context: Context {
-        return .organization(id: organization.id)
+        return .organization(organization)
     }
 }
 
@@ -464,15 +440,16 @@ struct OrgBlockEvent: Codable, Notificatable {  //TODO half-arsed
     let organization: User
     let sender: User
 
-    var title: String? {
-        return "The \(organization.login) organization"
+    enum Action: String, Codable {
+        case blocked, unblocked
     }
+
     var body: String {
         return "\(sender.login) \(action) \(blocked_user.login)"
     }
 
     var context: Context {
-        return .organization(id: organization.id)
+        return .organization(organization)
     }
 }
 
@@ -491,9 +468,6 @@ struct PageBuildEvent: Codable, Notificatable {
         }
     }
 
-    var title: String? {
-        return repository.full_name
-    }
     var body: String {
         return "GitHub Pages build complete: \(build.status)"
     }
@@ -502,7 +476,7 @@ struct PageBuildEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .repository(id: repository.id)
+        return .repository(repository)
     }
 }
 
@@ -512,9 +486,6 @@ struct ProjectCardEvent: Codable, Notificatable {
     let repository: Repository
     let sender: User
 
-    var title: String? {
-        return repository.full_name
-    }
     var body: String {
         return "\(sender.login) \(action) the “\(project_card.note)” project card"
     }
@@ -523,7 +494,7 @@ struct ProjectCardEvent: Codable, Notificatable {
         return repository.html_url.appendingPathComponent("projects")
     }
     var context: Context {
-        return .init(repository)
+        return .repository(repository)
     }
 
     struct ProjectCard: Codable {
@@ -537,9 +508,6 @@ struct ProjectColumnEvent: Codable, Notificatable {
     let repository: Repository
     let sender: User
 
-    var title: String? {
-        return repository.full_name
-    }
     var body: String {
         return "\(sender.login) \(action) the “\(project_column.name)” project column"
     }
@@ -548,7 +516,7 @@ struct ProjectColumnEvent: Codable, Notificatable {
         return repository.html_url.appendingPathComponent("projects")
     }
     var context: Context {
-        return .init(repository)
+        return .repository(repository)
     }
 
     struct ProjectColumn: Codable {
@@ -567,9 +535,6 @@ struct ProjectEvent: Codable, Notificatable {
         let name: String
     }
 
-    var title: String? {
-        return repository.full_name
-    }
     var body: String {
         return "\(sender.login) \(action) the project \(project.name)"
     }
@@ -577,7 +542,7 @@ struct ProjectEvent: Codable, Notificatable {
         return project.html_url
     }
     var context: Context {
-        return .init(repository)
+        return .repository(repository)
     }
 }
 
@@ -592,7 +557,7 @@ struct PublicEvent: Codable, Notificatable {
         return repository.html_url
     }
     var context: Context {
-        return .alert
+        return .repository(repository)
     }
 }
 
@@ -603,9 +568,6 @@ struct PullRequestReviewCommentEvent: Codable, Notificatable {
     let repository: Repository
     let sender: User
 
-    var title: String? {
-        return repository.full_name
-    }
     var body: String {
         return "\(sender.login) commented on PR review #\(pull_request.number)"
     }
@@ -613,7 +575,7 @@ struct PullRequestReviewCommentEvent: Codable, Notificatable {
         return pull_request.html_url
     }
     var context: Context {
-        return .init(repository)
+        return .repository(repository)
     }
 }
 
@@ -633,9 +595,6 @@ struct PushEvent: Codable, Notificatable {
         let url: URL
     }
 
-    var title: String? {
-        return repository.full_name
-    }
     var body: String {
         let force = forced ? "force‑" : ""
         let commits = self.commits.count == 1
@@ -648,7 +607,7 @@ struct PushEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .repository(id: repository.id)
+        return .repository(repository)
     }
 }
 
@@ -659,10 +618,6 @@ struct PullRequestEvent: Codable, Notificatable {
     let pull_request: PullRequest
     let repository: Repository
     let sender: User
-
-    var title: String? {
-        return repository.full_name
-    }
 
     var body: String {
         if action == "closed", pull_request.merged {
@@ -676,7 +631,7 @@ struct PullRequestEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .repository(id: repository.id)
+        return .repository(repository)
     }
 }
 
@@ -694,9 +649,6 @@ struct PullRequestReviewEvent: Codable, Notificatable {
         let html_url: URL
     }
 
-    var title: String? {
-        return repository.full_name
-    }
     var body: String {
         return "\(review.user.login) \(action) to \(repository.full_name)#\(pull_request.number)"
     }
@@ -705,7 +657,7 @@ struct PullRequestReviewEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .repository(id: repository.id)
+        return .repository(repository)
     }
 }
 
@@ -715,9 +667,6 @@ struct ReleaseEvent: Codable, Notificatable {
     let sender: User
     let repository: Repository
 
-    var title: String? {
-        return repository.full_name
-    }
     var body: String {
         return "\(sender.login) released \(release.name ?? release.tag_name)"
     }
@@ -725,7 +674,7 @@ struct ReleaseEvent: Codable, Notificatable {
         return release.html_url
     }
     var context: Context {
-        return .init(repository)
+        return .repository(repository)
     }
 
     struct Release: Codable {
@@ -743,9 +692,6 @@ struct StatusEvent: Codable, Notificatable {
     let repository: Repository
     let target_url: URL?
 
-    var title: String? {
-        return repository.full_name
-    }
     var body: String {
         return "The status of \(name) changed to \(state)"
     }
@@ -754,7 +700,7 @@ struct StatusEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .repository(id: repository.id)
+        return .repository(repository)
     }
 }
 
@@ -772,9 +718,6 @@ struct WatchEvent: Codable, Notificatable {
         }
     }
 
-    var title: String? {
-        return repository.full_name
-    }
     var body: String {
         return "\(sender.login) \(mangledAction) \(repository.full_name) resulting in \(repository.stargazers_count) stars"
     }
@@ -783,7 +726,7 @@ struct WatchEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .repository(id: repository.id)
+        return .repository(repository)
     }
 }
 
