@@ -2,6 +2,19 @@ import PerfectSQLite
 import Foundation
 
 extension DB {
+    func create() throws {
+        try db.execute(statement: """
+            CREATE TABLE IF NOT EXISTS auths (
+                user_id INTEGER UNIQUE NOT NULL,
+                token BLOB NOT NULL,
+                salt STRING UNIQUE NOT NULL
+            )
+            """)
+    }
+}
+
+#if false
+extension DB {
     private func create() throws {
         try db.execute(statement: """
             CREATE TABLE IF NOT EXISTS tokens (
@@ -130,3 +143,4 @@ private extension UserDefaults {
         }
     }
 }
+#endif
