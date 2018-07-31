@@ -12,6 +12,13 @@ func encrypt(_ token: String) throws -> (encrypted: Data, salt: String) {
     return (encryptedData, salt)
 }
 
+// perfect is stupid
+func decrypt(_ encryptedData: [UInt8], salt: String) throws -> String {
+    var bytes = encryptedData
+    let data = Data(bytes: &bytes, count: encryptedData.count)
+    return try aesDecrypt(input: data, key: encryptionKey, iv: salt)
+}
+
 func decrypt(_ encryptedData: Data, salt: String) throws -> String {
     return try aesDecrypt(input: encryptedData, key: encryptionKey, iv: salt)
 }

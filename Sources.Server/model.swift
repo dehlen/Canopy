@@ -58,6 +58,47 @@ class DB {
         return results
     }
 
+    func tokens(forRepoId repoId: Int) throws -> [String: [APNSConfiguration: [String]]] {
+
+        // we intend do a HEAD request for the repo with each oauth-token
+        // and we’re assuming that 99% will return 200, thus we may as
+        // well fetch the resulting device-tokens in the same query
+
+        let sql = """
+            SELECT tokens.id, tokens.topic, tokens.production, auths.token, auths.salt
+            FROM tokens
+            INNER JOIN auths ON auths.user_id = tokens.user_id
+            INNER JOIN subscriptions ON subscriptions.user_id = tokens.user_id
+            WHERE subscriptions.repo_id = :1
+            """
+
+        var results: [String: [APNSConfiguration: [String]]] = [:]
+
+        try db.forEachRow(statement: sql, doBindings: {
+            try $0.bind(position: 1, repoId)
+        }, handleRow: { statement, row in
+            let apnsDeviceToken = statement.columnText(position: 0)
+            let topic = statement.columnText(position: 1)
+            let production = statement.columnInt(position: 2) != 0
+            let encryptedOAuthToken: [UInt8] = statement.columnIntBlob(position: 3)
+            let encryptionSalt = statement.columnText(position: 4)
+
+            do {
+                let oauthToken = try decrypt(encryptedOAuthToken, salt: encryptionSalt)
+
+                // PerfectSQLite sucks and returns "" for the error condition
+                if !apnsDeviceToken.isEmpty, !topic.isEmpty, !encryptedOAuthToken.isEmpty, !encryptionSalt.isEmpty {
+                    let conf = APNSConfiguration(topic: topic, isProduction: production)
+                    results[oauthToken, default: [:]][conf, default: []].append(apnsDeviceToken)
+                }
+            } catch {
+                print(#function, error.legibleDescription)
+            }
+        })
+
+        return results
+    }
+
     func mxcl() throws -> [APNSConfiguration: [String]] {
         let sql = """
             SELECT id, topic, production
@@ -108,6 +149,7 @@ class DB {
         }
     }
 
+    @inline(__always)
     func delete(token: String) throws {
         let sql = "DELETE from tokens WHERE id = :1"
         try db.execute(statement: sql) { stmt in
@@ -115,35 +157,29 @@ class DB {
         }
     }
 
+    func delete(tokens: [String]) throws {
+        let tokens = tokens.enumerated()
+        let values = tokens.map { x, _ in
+            ":\(x + 1)"
+        }.joined(separator: ",")
+        let sql = "DELETE from tokens WHERE id IN \(values)"
+        try db.execute(statement: sql) { stmt in
+            for (index, token) in tokens {
+                try stmt.bind(position: index + 1, token)
+            }
+        }
+    }
+
     func add(oauthToken: String, userId: Int) throws {
         let (encryptedToken, encryptionSalt) = try encrypt(oauthToken)
         let sql = """
-            INSERT INTO auth (token, user_id, salt)
+            INSERT INTO auths (token, user_id, salt)
             VALUES (:1, :2, :3)
             """
         try db.execute(statement: sql) {
             try $0.bind(position: 1, [UInt8](encryptedToken))
             try $0.bind(position: 2, userId)
             try $0.bind(position: 3, encryptionSalt)
-        }
-    }
-
-    func oauthToken(user userId: Int) throws -> String {
-        let sql = """
-            SELECT FROM auth (token, salt)
-            WHERE user_id = \(userId)
-            """
-        var token: Data?
-        var salt: String?
-        try db.forEachRow(statement: sql) { stmt, _ in
-            var bytes: [UInt8] = stmt.columnIntBlob(position: 0)
-            token = Data(bytes: &bytes, count: bytes.count)
-            salt = stmt.columnText(position: 1)
-        }
-        if let token = token, let salt = salt {
-            return try decrypt(token, salt: salt)
-        } else {
-            throw E.tokenNotFound(user: userId)
         }
     }
 

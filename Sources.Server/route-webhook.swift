@@ -28,28 +28,47 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             notificationItems.append(.customPayload("url", url.absoluteString))
         }
 
-        let confs: [APNSConfiguration: [String]]
-
-        if notificatable is PublicEvent {
-            // TELL EVERYBODY!
-            confs = try DB().allAPNsTokens()
-        } else {
-            switch notificatable.context {
-            case .repository(let repo):
-                confs = try DB().apnsTokens(for: repo.id)
-            case .organization:
-            #if swift(>=4.1.5)
-                #warning("FIXME BEFORE PRODUCTION!")
-            #endif
-                confs = try DB().mxcl()
+        func send(to confs: [APNSConfiguration: [String]]) {
+            print("sending:", notificatable.body)
+            for (apnsConfiguration, tokens) in confs {
+                apnsConfiguration.send(notificationItems, to: tokens)
             }
         }
 
-        print("sending:", notificatable.body)
-        for (apnsConfiguration, tokens) in confs {
-            apnsConfiguration.send(notificationItems, to: tokens)
+        switch SendType(notificatable) {
+        case .broadcast:
+            send(to: try DB().allAPNsTokens())
+        case .private(let repo):
+            // maybe this looks less efficient, but actually apns only
+            // accepts one device-tokens at a time anyway
+            // However, it would be nice if we could avoid these checks
+            // in theory we could just use webhooks to know when to remove
+            // user-access to repos
+
+            let db = try DB()
+            for (oauthToken, confs) in try db.tokens(forRepoId: repo.id) {
+                firstly {
+                    GitHubAPI(oauthToken: oauthToken).hasClearance(for: repo.id)
+                }.done {
+                    if $0 {
+                        send(to: confs)
+                    } else {
+                        try db.delete(tokens: confs.values.flatMap{ $0 })
+                    }
+                }.catch {
+                    alert(message: $0.legibleDescription)
+                }
+            }
+        case .public(let repo):
+            send(to: try DB().apnsTokens(for: repo.id))
+        case .organization:
+        #if swift(>=4.1.5)
+            #warning("FIXME BEFORE PRODUCTION!")
+        #endif
+            send(to: try DB().mxcl())
         }
 
+        //github say we should do this sooner
         response.completed()
 
     } catch E.unimplemented(let eventType) {
@@ -149,10 +168,9 @@ private extension HTTPRequest {
 
 /// checks if user has access to information about this private repository
 /// if so, send APNs, if not, delete the subscription
-func security(repo repoId: Int, user userId: Int) -> Promise<Bool> {
-
-    func check(with token: String) -> Promise<Bool> {
-        var rq = GitHubAPI(oauthToken: token).request(path: "/repos/\(repoId)")
+private extension GitHubAPI {
+    func hasClearance(for repoId: Int) -> Promise<Bool> {
+        var rq = request(path: "/repos/\(repoId)")
         rq.httpMethod = "HEAD"
         return firstly {
             URLSession.shared.dataTask(.promise, with: rq).validate()
@@ -166,10 +184,27 @@ func security(repo repoId: Int, user userId: Int) -> Promise<Bool> {
             }
         }
     }
+}
 
-    return DispatchQueue.global().async(.promise) {
-        try DB().oauthToken(user: userId)
-    }.then {
-        check(with: $0)
+private enum SendType {
+    case `public`(Repository)
+    case `private`(Repository)
+    case organization(User)
+    case broadcast
+
+    init(_ notificatable: Notificatable) {
+        if notificatable is PublicEvent {
+            // TELL EVERYBODY!
+            self = .broadcast
+        } else {
+            switch notificatable.context {
+            case .repository(let repo) where repo.private:
+                self = .private(repo)
+            case .repository(let repo):
+                self = .public(repo)
+            case .organization(let org):
+                self = .organization(org)
+            }
+        }
     }
 }

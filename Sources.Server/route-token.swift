@@ -28,6 +28,9 @@ func updateTokens(with body: TokenUpdate) -> Promise<Void> {
         try db.add(apnsToken: body.deviceToken, topic: body.apnsTopic, userId: me.id, production: body.production)
         try db.add(oauthToken: body.oauthToken, userId: me.id)
     }.recover { error in
+        //FIXME ok: user signs out and in as a different user THEREFORE we need
+        // to actually assign this token to that new oauthToken… sigh
+
         // code 19 means UNIQUE violation, so we already have this, which is fine
         guard case PerfectSQLite.SQLiteError.Error(let code, _) = error, code == 19 else {
             throw error
