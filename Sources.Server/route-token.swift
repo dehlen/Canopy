@@ -2,6 +2,7 @@ import enum PerfectSQLite.SQLiteError
 import PerfectHTTP
 import Foundation
 import PromiseKit
+import Roots
 
 func updateTokensHandler(request: HTTPRequest, response: HTTPResponse) {
     print()

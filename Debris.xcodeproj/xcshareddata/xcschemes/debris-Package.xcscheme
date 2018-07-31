@@ -14,6 +14,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "Debris::Roots"
+               BuildableName = "Roots.framework"
+               BlueprintName = "Roots"
+               ReferencedContainer = "container:Debris.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "Debris::debris"
                BuildableName = "debris"
                BlueprintName = "debris"
@@ -42,16 +56,15 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Debris::debris"
-            BuildableName = "debris"
-            BlueprintName = "debris"
+            BlueprintIdentifier = "Debris::Roots"
+            BuildableName = "Roots.framework"
+            BlueprintName = "Roots"
             ReferencedContainer = "container:Debris.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>

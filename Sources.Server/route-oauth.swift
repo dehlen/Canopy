@@ -2,6 +2,7 @@ import PerfectNotifications
 import PerfectHTTP
 import Foundation
 import PromiseKit
+import Roots
 
 func oauthCallback(request rq: HTTPRequest, response: HTTPResponse) {
     print()

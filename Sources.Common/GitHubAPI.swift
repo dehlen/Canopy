@@ -1,8 +1,12 @@
 import Foundation
 import PromiseKit
 
-struct GitHubAPI {
-    let oauthToken: String
+public struct GitHubAPI {
+    private let oauthToken: String
+
+    public init(oauthToken: String) {
+        self.oauthToken = oauthToken
+    }
 
     private func request(url: URL) -> URLRequest {
         var rq = URLRequest(url: url)
@@ -11,11 +15,11 @@ struct GitHubAPI {
         return rq
     }
 
-    func request(path: String) -> URLRequest {
+    public func request(path: String) -> URLRequest {
         return request(url: URL(string: "https://api.github.com")!.appendingPathComponent(path))
     }
 
-    func me() -> Promise<Me> {
+    public func me() -> Promise<Me> {
         return firstly {
             URLSession.shared.dataTask(.promise, with: request(path: "user"))
         }.map {
@@ -23,7 +27,7 @@ struct GitHubAPI {
         }
     }
 
-    func task(path: String, paginatedHandler: @escaping (Data) -> Promise<Void>) -> Promise<Void> {
+    public func task(path: String, paginatedHandler: @escaping (Data) -> Promise<Void>) -> Promise<Void> {
         func page(for rq: URLRequest) -> Promise<URLResponse> {
             return firstly {
                 URLSession.shared.dataTask(.promise, with: rq).validate()
@@ -61,9 +65,9 @@ struct GitHubAPI {
         return go(rq: request(path: path))
     }
 
-    struct Me: Decodable {
-        let id: Int
-        let login: String
-        let avatar_url: URL
+    public struct Me: Decodable {
+        public let id: Int
+        public let login: String
+        public let avatar_url: URL
     }
 }

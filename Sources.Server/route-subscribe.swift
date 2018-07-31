@@ -1,6 +1,7 @@
 import PerfectHTTP
 import Foundation
 import PromiseKit
+import Roots
 
 func subscriptionsHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
     print()
