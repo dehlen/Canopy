@@ -1,9 +1,11 @@
 import PerfectSQLite
-import CommonCrypto
 import Foundation
-import PromiseKit
 
 private let dbPath = "../db.sqlite"
+
+private enum CryptoError: Error {
+    case couldNotDecrypt(forUserId: Int)
+}
 
 class DB {
     let db: SQLite
@@ -81,18 +83,16 @@ class DB {
             let topic = statement.columnText(position: 1)
             let production = statement.columnInt(position: 2) != 0
             let encryptedOAuthToken: [UInt8] = statement.columnIntBlob(position: 3)
-            let encryptionSalt = statement.columnText(position: 4)
+            let encryptionSalt: [UInt8] = statement.columnIntBlob(position: 4)
 
-            do {
-                let oauthToken = try decrypt(encryptedOAuthToken, salt: encryptionSalt)
+            guard let oauthToken = decrypt(encryptedOAuthToken, salt: encryptionSalt) else {
+                return alert(message: "Failed decrypting token for a user. We don’t know which")
+            }
 
-                // PerfectSQLite sucks and returns "" for the error condition
-                if !apnsDeviceToken.isEmpty, !topic.isEmpty, !encryptedOAuthToken.isEmpty, !encryptionSalt.isEmpty {
-                    let conf = APNSConfiguration(topic: topic, isProduction: production)
-                    results[oauthToken, default: [:]][conf, default: []].append(apnsDeviceToken)
-                }
-            } catch {
-                print(#function, error.legibleDescription)
+            // PerfectSQLite sucks and returns "" for the error condition
+            if !apnsDeviceToken.isEmpty, !topic.isEmpty, !encryptedOAuthToken.isEmpty, !encryptionSalt.isEmpty {
+                let conf = APNSConfiguration(topic: topic, isProduction: production)
+                results[oauthToken, default: [:]][conf, default: []].append(apnsDeviceToken)
             }
         })
 
@@ -171,7 +171,9 @@ class DB {
     }
 
     func add(oauthToken: String, userId: Int) throws {
-        let (encryptedToken, encryptionSalt) = try encrypt(oauthToken)
+        guard let (encryptedToken, encryptionSalt) = encrypt(oauthToken) else {
+            throw CryptoError.couldNotDecrypt(forUserId: userId)
+        }
         let sql = """
             INSERT INTO auths (token, user_id, salt)
             VALUES (:1, :2, :3)
