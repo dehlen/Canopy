@@ -1,33 +1,20 @@
 import AppKit
 
-//TODO use spotlight to check if multiple versions are installed
-// if so, warn the user this will break shit
-//TODO store the github oauth token such that if they then install the
-// iOS app it already has the key, probably iCloud ubiquituous storage
-
-//TODO at the very least store the github key outside user-defaults
-
-//TODO verify that members of an organization get read access to all of that org
-// ie. that you cannot make something private to other members
-
-//TODO gracefully handle when oauth token is revoked
-
-//TODO better encrypt/decrupt the state parameter or someone will notice and be weird about it
-
-//TODO sucks to open the app when you tap the notifications, should just open safari if poss
-
-//TODO better authorizing… webpage
-
+//TODO store oauth token in at least the keychain
+//TODO encrypt the state parameter or someone will notice and be weird about it
+//TODO prettier authorizing… webpage
 //TODO should use postgres or another not-in-process database since that puts the onus on *us* to never crash
-
-// 2. Figure out how to ensure private repos only go to valid users†
-// 3. Add secrets to hooks
-// 4. Get own domain, add SSL, add universal links for iOS
-// 5. Icon
-// 6. IAP for private repos, or initial launch doesn't support them
-// 7. FAQ on website that desribes how we get private data briefly (maybe github apps can fix that?)
-
-// † How can we handle this for users that are removed from orgs?
+//TODO Laurie couldn't see that the webhook was installed, may be necessary to store this info serverside
+//  unless switching to a github app fixes this
+//TODO Add secrets to hooks
+//TODO icon
+//TODO IAP-subscription for private repos
+//TODO ensure private repos only go to valid users (HEAD request with oauth token)
+//TODO FAQ on website that desribes how we get private data briefly (maybe github apps can fix that?)
+//  talks about future server app distibution, talks about how we plan to improve this
+//TODO ensure we are transactional where it counts (let's never break ffs!)
+//TODO db backups
+//TODO organization events have to be directed someplace, maybe API request to get list of members?
 
 
 @NSApplicationMain
