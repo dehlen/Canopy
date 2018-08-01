@@ -40,8 +40,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             sheet.addAction(.init(title: "Open Safari", style: .default, handler: { _ in
                 if let url = URL.signIn(deviceToken: deviceToken) {
                     UIApplication.shared.open(url)
-                } else {
-                    alert(error: EE.unexpected)
                 }
             }))
             window!.rootViewController!.present(sheet, animated: true)

@@ -7,6 +7,10 @@ extension String {
     }
 }
 
+enum CanopyError: Error {
+    case badURL
+}
+
 extension PMKHTTPError {
     func gitHubDescription(defaultTitle: String) -> (String, String) {
         switch self {
@@ -136,7 +140,7 @@ func updateTokens(oauth: String, device: String) -> Promise<Void> {
         rq.httpMethod = "POST"
         rq.httpBody = try JSONEncoder().encode(up)
         rq.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        return URLSession.shared.dataTask(.promise, with: rq).asVoid()
+        return URLSession.shared.dataTask(.promise, with: rq).validate().asVoid()
     } catch {
         return Promise(error: error)
     }

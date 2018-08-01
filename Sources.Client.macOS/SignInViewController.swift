@@ -30,9 +30,6 @@ class SignInViewController: NSViewController {
 
         if let url = URL.signIn(deviceToken: deviceToken) {
             NSWorkspace.shared.open(url)
-        } else {
-            //TODO need to present previous sheet or better, do a custom modal blocker sheet
-            NSAlert(error: EE.unexpected).runModal()
         }
     }
 }
