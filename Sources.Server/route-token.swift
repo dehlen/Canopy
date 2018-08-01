@@ -16,7 +16,24 @@ func updateTokensHandler(request: HTTPRequest, response: HTTPResponse) {
         response.completed()
     }.catch {
         response.appendBody(string: $0.legibleDescription)
-        response.completed(status: .badGateway)
+        if $0 is SQLiteError {
+            response.completed(status: .internalServerError)
+        } else {
+            response.completed(status: .badRequest)
+        }
+    }
+}
+
+func deleteTokenHandler(request: HTTPRequest, response: HTTPResponse) {
+    do {
+        // we don't require auth, since that makes the state machine more error-prone
+        // and if you know the token, then well, good for you
+        if let token = request.postBodyString {
+            try DB().delete(apnsDeviceToken: token)
+        }
+        response.completed()
+    } catch {
+        response.completed(status: .badRequest)
     }
 }
 
@@ -27,13 +44,5 @@ func updateTokens(with body: TokenUpdate) -> Promise<Void> {
         let db = try DB()
         try db.add(apnsToken: body.deviceToken, topic: body.apnsTopic, userId: me.id, production: body.production)
         try db.add(oauthToken: body.oauthToken, userId: me.id)
-    }.recover { error in
-        //FIXME ok: user signs out and in as a different user THEREFORE we need
-        // to actually assign this token to that new oauthToken… sigh
-
-        // code 19 means UNIQUE violation, so we already have this, which is fine
-        guard case PerfectSQLite.SQLiteError.Error(let code, _) = error, code == 19 else {
-            throw error
-        }
     }
 }

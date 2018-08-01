@@ -138,7 +138,7 @@ class DB {
 
     func add(apnsToken: String, topic: String, userId: Int, production: Bool) throws {
         let sql = """
-            INSERT INTO tokens (id, topic, user_id, production)
+            REPLACE INTO tokens (id, topic, user_id, production)
             VALUES (:1, :2, :3, :4)
             """
         try db.execute(statement: sql) { stmt in
@@ -149,33 +149,24 @@ class DB {
         }
     }
 
-    @inline(__always)
-    func delete(token: String) throws {
+    func delete(apnsDeviceToken: String) throws {
         let sql = "DELETE from tokens WHERE id = :1"
         try db.execute(statement: sql) { stmt in
-            try stmt.bind(position: 1, token)
-        }
-    }
-
-    func delete(tokens: [String]) throws {
-        let tokens = tokens.enumerated()
-        let values = tokens.map { x, _ in
-            ":\(x + 1)"
-        }.joined(separator: ",")
-        let sql = "DELETE from tokens WHERE id IN \(values)"
-        try db.execute(statement: sql) { stmt in
-            for (index, token) in tokens {
-                try stmt.bind(position: index + 1, token)
-            }
+            try stmt.bind(position: 1, apnsDeviceToken)
         }
     }
 
     func add(oauthToken: String, userId: Int) throws {
+
+        // we could easily have multiple tokens per user-id
+        // since they could be using many devices. Or… perhaps
+        // github vends the same tokens per oauth-app?
+
         guard let (encryptedToken, encryptionSalt) = encrypt(oauthToken) else {
             throw CryptoError.couldNotDecrypt(forUserId: userId)
         }
         let sql = """
-            INSERT INTO auths (token, user_id, salt)
+            REPLACE INTO auths (token, user_id, salt)
             VALUES (:1, :2, :3)
             """
         try db.execute(statement: sql) {
@@ -201,7 +192,7 @@ class DB {
         }
     }
 
-    func delete(subcsription repoId: Int, userId: Int) throws {
+    func delete(subscription repoId: Int, userId: Int) throws {
         let sql = """
             DELETE FROM subscriptions
             WHERE repo_id = :1 and user_id = :2

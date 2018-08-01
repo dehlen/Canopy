@@ -6,7 +6,7 @@ let teamId = "TEQMQBRC7B"
 PromiseKit.conf.Q.map = .global()
 PromiseKit.conf.Q.return = .global()
 
-try DB().create()
+try DB().migrate()
 
 import PerfectNotifications
 
@@ -36,6 +36,7 @@ import Foundation
 var routes = Routes()
 routes.add(method: .post, uri: "/github", handler: githubHandler)
 routes.add(method: .post, uri: "/token", handler: updateTokensHandler)
+routes.add(method: .delete, uri: "/token", handler: deleteTokenHandler)
 routes.add(method: .get, uri: "/oauth", handler: oauthCallback)
 routes.add(method: .get, uri: "/subscribe", handler: subscriptionsHandler)
 routes.add(method: .post, uri: "/subscribe", handler: subscribeHandler)

@@ -48,14 +48,26 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             // user-access to repos
 
             let db = try DB()
-            for (oauthToken, confs) in try db.tokens(forRepoId: repo.id) {
+
+            print("checking clearance for private repo:", repo.full_name)
+            let tokens = try db.tokens(forRepoId: repo.id)
+            print("got:", tokens.count, "tokens")
+
+            for (oauthToken, confs) in tokens {
+                let gitHubAPI = GitHubAPI(oauthToken: oauthToken)
                 firstly {
-                    GitHubAPI(oauthToken: oauthToken).hasClearance(for: repo.id)
+                    gitHubAPI.hasClearance(for: repo.id)
                 }.done {
                     if $0 {
+                        print("Clearance!")
                         send(to: confs)
                     } else {
-                        try db.delete(tokens: confs.values.flatMap{ $0 })
+                        print("No clearance!")
+                        gitHubAPI.me().done {
+                            try db.delete(subscription: repo.id, userId: $0.id)
+                        }.catch {
+                            alert(message: $0.legibleDescription)
+                        }
                     }
                 }.catch {
                     alert(message: $0.legibleDescription)
@@ -172,13 +184,14 @@ private extension HTTPRequest {
 /// if so, send APNs, if not, delete the subscription
 private extension GitHubAPI {
     func hasClearance(for repoId: Int) -> Promise<Bool> {
-        var rq = request(path: "/repos/\(repoId)")
+        var rq = request(path: "/repositories/\(repoId)")
         rq.httpMethod = "HEAD"
         return firstly {
             URLSession.shared.dataTask(.promise, with: rq).validate()
         }.map(on: nil) { _ in
             true
         }.recover { error -> Promise<Bool> in
+            print(error)
             if case PMKHTTPError.badStatusCode(404, _, _) = error {
                 return .value(false)
             } else {

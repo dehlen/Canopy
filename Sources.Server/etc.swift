@@ -26,7 +26,7 @@ extension APNSConfiguration {
                         }
                     case .gone:        //410
                         print("Deleting token due to \(response.status)")
-                        try DB().delete(token: tokens[index])
+                        try DB().delete(apnsDeviceToken: tokens[index])
                     default:
                         print("APNs:", response, token)
                     }
