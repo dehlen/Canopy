@@ -1,3 +1,4 @@
+import PromiseKit
 import AppKit
 
 //TODO store oauth token in at least the keychain
@@ -30,8 +31,18 @@ class AppDelegate: NSObject {
     }
 
     @IBAction func signOut(sender: Any) {
-        UserDefaults.standard.removeGitHubOAuthToken()
-        NSApp.terminate(sender)
+        let url = URL(string: serverBaseUri)!.appendingPathComponent("subscribe")
+        var rq = URLRequest(url: url)
+        rq.httpBody = deviceToken?.data(using: .utf8)
+
+        firstly {
+            URLSession.shared.dataTask(.promise, with: rq).validate()
+        }.done { _ in
+            UserDefaults.standard.removeGitHubOAuthToken()
+            NSApp.terminate(sender)
+        }.catch {
+            alert($0)
+        }
     }
 }
 
