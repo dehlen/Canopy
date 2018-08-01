@@ -6,8 +6,6 @@ let teamId = "TEQMQBRC7B"
 PromiseKit.conf.Q.map = .global()
 PromiseKit.conf.Q.return = .global()
 
-try DB().migrate()
-
 import PerfectNotifications
 
 extension NotificationPusher {
@@ -45,6 +43,7 @@ routes.add(method: .delete, uri: "/subscribe", handler: unsubscribeHandler)
 let server = HTTPServer()
 server.addRoutes(routes)
 #if os(Linux)
+    server.runAsUser = "ubuntu"
     server.serverPort = 443
     server.ssl = (
         sslCert: "/etc/letsencrypt/live/canopy.codebasesaga.com/fullchain.pem",

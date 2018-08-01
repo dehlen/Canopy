@@ -1,6 +1,7 @@
 import PerfectSQLite
 import Foundation
 
+#if false
 extension DB {
     private func create() throws {
         try db.execute(statement: """
@@ -67,3 +68,4 @@ extension DB {
         }
     }
 }
+#endif
