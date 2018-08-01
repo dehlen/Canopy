@@ -28,10 +28,10 @@ extension Notificatable {
 
     var threadingId: String {
         switch context {
-        case .organization(id: let id):
-            return "orgs/\(id)"
-        case .repository(id: let id):
-            return "repo/\(id)"
+        case .organization(let org):
+            return "orgs/\(org.login)"  // github reserve this prefix
+        case .repository(let repo):
+            return "repo/\(repo.id)"
         }
     }
 }
