@@ -156,10 +156,28 @@ struct CommitComment: Codable, Notificatable {
 struct CreateEvent: Codable, Notificatable {
     let repository: Repository
     let sender: User
+    let ref_type: RefType
+    let ref: String?
+
+    enum RefType: String, Codable {
+        case repository
+        case branch
+        case tag
+    }
 
     var body: String {
-        return "\(sender.login) created a repository"
+        switch ref_type {
+        case .branch:
+            guard let ref = ref else { fallthrough }
+            return "\(sender.login) branched “\(ref)"
+        case .tag:
+            guard let ref = ref else { fallthrough }
+            return "\(sender.login) tagged “\(ref)"
+        case .repository:
+            return "\(sender.login) created a new \(ref_type)"
+        }
     }
+
     var url: URL? {
         return repository.html_url
     }
