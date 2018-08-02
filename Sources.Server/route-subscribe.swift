@@ -54,5 +54,21 @@ func subscribeHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
 }
 
 func unsubscribeHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
-    fatalError()
+    guard let token = rq.header(.authorization) else {
+        return response.completed(status: .badRequest)
+    }
+    do {
+        let subs = try rq.decode([Int].self)
+        firstly {
+            GitHubAPI(oauthToken: token).me()
+        }.done {
+            try DB().delete(subscriptions: subs, userId: $0.id)
+        }.catch { error in
+            response.appendBody(string: error.legibleDescription)
+            response.completed(status: .badRequest)
+        }
+    } catch {
+        response.appendBody(string: error.legibleDescription)
+        response.completed(status: .badRequest)
+    }
 }

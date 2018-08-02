@@ -105,12 +105,6 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="aJh-i4-bef"/>
-                                        <menuItem title="Sign Out" id="jPF-lm-n2K">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="signOutWithSender:" target="Ady-hI-5gd" id="9S4-4a-Cb9"/>
-                                            </connections>
-                                        </menuItem>
                                         <menuItem title="Page Setup…" hidden="YES" keyEquivalent="P" id="qIS-W8-SiK">
                                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                                             <connections>
@@ -120,6 +114,20 @@
                                         <menuItem title="Print…" hidden="YES" keyEquivalent="p" id="aTl-1u-JFS">
                                             <connections>
                                                 <action selector="print:" target="Ady-hI-5gd" id="qaZ-4w-aoO"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="Eqw-Ph-TkA"/>
+                                        <menuItem title="Subscribe…" id="99a-Vu-5Ge">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="subscribeWithSender:" target="Ady-hI-5gd" id="9X8-ga-uYc"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="UER-t5-FhZ"/>
+                                        <menuItem title="Sign Out" id="jPF-lm-n2K">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="signOutWithSender:" target="Ady-hI-5gd" id="9S4-4a-Cb9"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -807,7 +815,7 @@
 for private repositories
 requires a subscription.
 Installing the webhook
-is free</string>
+is free.</string>
                                             <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>

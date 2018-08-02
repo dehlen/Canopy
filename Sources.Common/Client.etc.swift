@@ -35,8 +35,17 @@ extension PMKHTTPError {
     }
 }
 
+////// auth
+extension Notification.Name {
+    static var credsUpdated: Notification.Name { return Notification.Name("CredsUpdatedNotification") }
+}
+
+private let keychain = Keychain(server: "https://github.com", protocolType: .https)
+    .accessibility(.whenUnlocked)
+    .synchronizable(true)
+
 extension UserDefaults {
-    @objc dynamic var gitHubOAuthToken: String? {
+    var username: String? {
         get {
             return string(forKey: #function)
         }
@@ -44,17 +53,57 @@ extension UserDefaults {
             set(newValue, forKey: #function)
         }
     }
+}
 
-    func removeGitHubOAuthToken() {
-        removeObject(forKey: "gitHubOAuthToken")
+var creds: (username: String, token: String)? {
+    get {
+        guard let username = UserDefaults.standard.username else { return nil }
+        do {
+            guard let token = try keychain.get(username) else {
+                print(#function, "Unexpected nil for token from keychain")
+                return nil
+            }
+            return (username, token)
+        } catch {
+            print(#function, error)
+            return nil
+        }
+    }
+    set {
+        if let (login, token) = newValue {
+            do {
+                try keychain.set(token, key: login)
+                UserDefaults.standard.username = login
+
+                NotificationCenter.default.post(name: .credsUpdated, object: nil, userInfo: [
+                    "token": token,
+                    "login": login
+                ])
+            } catch {
+                if let user = UserDefaults.standard.username {
+                    keychain[user] = nil
+                }
+                UserDefaults.standard.username = nil
+                NotificationCenter.default.post(name: .credsUpdated, object: nil)
+            }
+        } else if let user = UserDefaults.standard.username {
+            keychain[user] = nil
+            NotificationCenter.default.post(name: .credsUpdated, object: nil)
+        }
     }
 }
 
+////// repo
 struct Repo: Decodable {
     let id: Int
     let full_name: String
     let owner: Owner
     let `private`: Bool
+    let permissions: Permissions
+
+    struct Permissions: Decodable {
+        let admin: Bool
+    }
 
     struct Owner: Decodable, Hashable {
         let id: Int
@@ -81,22 +130,6 @@ extension Repo: Hashable, Equatable {
         return id
     }
 #endif
-}
-
-extension Sequence {
-    //@inlinable
-    func map<T>(_ keyPath: KeyPath<Element, T>) -> [T] {
-        return map {
-            $0[keyPath: keyPath]
-        }
-    }
-
-    //@inlinable
-    func compactMap<T>(_ keyPath: KeyPath<Element, T?>) -> [T] {
-        return compactMap {
-            $0[keyPath: keyPath]
-        }
-    }
 }
 
 extension URL {
@@ -146,7 +179,7 @@ func updateTokens(oauth: String, device: String) -> Promise<Void> {
     }
 }
 
-private var isProductionAPSEnvironment: Bool {
+var isProductionAPSEnvironment: Bool {
 #if os(iOS)
     guard let url = Bundle.main.url(forResource: "embedded", withExtension: "mobileprovision") else {
         return true

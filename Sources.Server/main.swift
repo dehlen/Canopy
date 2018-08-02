@@ -1,5 +1,11 @@
 import func Foundation.exit
+import class Foundation.FileManager
+import struct Foundation.ObjCBool
 import PromiseKit
+
+var isDir: ObjCBool = false
+precondition(FileManager.default.fileExists(atPath: "../receipts", isDirectory: &isDir) && isDir.boolValue)
+precondition(FileManager.default.fileExists(atPath: "../db.sqlite"))
 
 let teamId = "TEQMQBRC7B"
 
@@ -39,6 +45,7 @@ routes.add(method: .get, uri: "/oauth", handler: oauthCallback)
 routes.add(method: .get, uri: "/subscribe", handler: subscriptionsHandler)
 routes.add(method: .post, uri: "/subscribe", handler: subscribeHandler)
 routes.add(method: .delete, uri: "/subscribe", handler: unsubscribeHandler)
+routes.add(method: .post, uri: "/receipt", handler: receiptHandler)
 
 let server = HTTPServer()
 server.addRoutes(routes)

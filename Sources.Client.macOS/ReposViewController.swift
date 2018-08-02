@@ -28,7 +28,7 @@ class ReposViewController: NSViewController {
     enum Foo: Equatable {
         case repo(Repo)
         case organization(Int, String)
-        case user(String)
+        case user(Int, String)
     }
 
     var selectedItem: Foo? {
@@ -39,10 +39,11 @@ class ReposViewController: NSViewController {
         if let login = item as? String {
             let repos = rootedRepos[login]!
             if repos.isOrganization {
-                let owner = repos[0].owner
+                let owner = repos[0].owner  // safe as we wouldn't show anything if empty
                 return .organization(owner.id, owner.login)
             } else {
-                return .user(login)
+                let id = repos[0].owner.id  // safe as we wouldn't show anything if empty
+                return .user(id, login)
             }
         } else {
             return .repo(item as! Repo)
@@ -50,10 +51,7 @@ class ReposViewController: NSViewController {
     }
 
     @IBAction private func toggleNotify(sender: NSButton) {
-        guard sender.state == .on else {
-            return alert(message: "Can only enable notifications for MVP", title: "Doh")
-        }
-        guard let token = UserDefaults.standard.gitHubOAuthToken else {
+        guard let token = creds?.token else {
             return alert(message: "No GitHub auth token", title: "Unexpected Error")
         }
         guard let selectedItem = selectedItem else {
@@ -61,7 +59,7 @@ class ReposViewController: NSViewController {
         }
         var ids: [Int] {
             switch selectedItem {
-            case .organization(_, let login), .user(let login):
+            case .organization(_, let login), .user(_, let login):
                 return rootedRepos[login]!.map(\.id)
             case .repo(let repo):
                 return [repo.id]
@@ -73,27 +71,32 @@ class ReposViewController: NSViewController {
 
         let url = URL(string: "\(serverBaseUri)/subscribe")!
         var rq = URLRequest(url: url)
-        rq.httpMethod = "POST"
+        rq.httpMethod = sender.state == .on ? "POST" : "DELETE"
         rq.httpBody = try! JSONEncoder().encode(ids)
         rq.setValue("application/json", forHTTPHeaderField: "Content-Type")
         rq.setValue(token, forHTTPHeaderField: "Authorization")
+
         firstly {
             URLSession.shared.dataTask(.promise, with: rq).validate()
         }.done { _ in
             for id in ids {
-                self.subscribed.insert(id)
+                if sender.state == .on {
+                    self.subscribed.insert(id)
+                } else {
+                    self.subscribed.remove(id)
+                }
             }
             self.outlineView.reloadData()
         }.catch {
-            alert($0)
             sender.state = prevControlState
+            alert($0)
         }.finally {
             sender.isEnabled = true
         }
     }
 
     @IBAction private func installWebhook(sender: NSButton) {
-        guard let token = UserDefaults.standard.gitHubOAuthToken else {
+        guard let token = creds?.token else {
             return alert(message: "No GitHub auth token", title: "Unexpected Error")
         }
         guard let selectedItem = selectedItem else {
@@ -139,7 +142,7 @@ class ReposViewController: NSViewController {
             types = [.organization(id, login)]
         case .repo(let repo):
             types = [.repo(repo)]
-        case .user(let login):
+        case .user(_, let login):
             types = rootedRepos[login]!.map{ .repo($0) }.filter{ hooked[$0] == nil }
         }
 
@@ -158,34 +161,31 @@ class ReposViewController: NSViewController {
         }
     }
 
-    private var ref: Any?
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         privateReposAdviceLabel.isHidden = true
         installWebhookFirstLabel.isHidden = true
 
-        ref = UserDefaults.standard.observe(\.gitHubOAuthToken, options: [.initial, .new, .old]) { [weak self] defaults, change in
-            guard change.newValue != nil, change.oldValue != change.newValue else { return }
-            self?.fetch()
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(fetch), name: .credsUpdated, object: nil)
     }
 
     override func viewDidAppear() {
         super.viewDidAppear()
 
-        if UserDefaults.standard.gitHubOAuthToken == nil {
+        if creds == nil {
             performSegue(withIdentifier: "SignIn", sender: self)
+        } else {
+            fetch()
         }
     }
 
     private var fetching = false
 
-    private func fetch() {
+    @objc private func fetch() {
         dispatchPrecondition(condition: .onQueue(.main))
 
-        guard !fetching, let token = UserDefaults.standard.gitHubOAuthToken else {
+        guard !fetching, let token = creds?.token else {
             return
         }
 
@@ -231,7 +231,7 @@ class ReposViewController: NSViewController {
     private func hooks(for hookType: HookType) -> Guarantee<Bool> {
         dispatchPrecondition(condition: .onQueue(.main))
 
-        guard let token = UserDefaults.standard.gitHubOAuthToken else {
+        guard let token = creds?.token else {
             return .value(false)
         }
         func get(_ prefix: String) -> Guarantee<Bool> {
@@ -336,11 +336,12 @@ extension ReposViewController: NSOutlineViewDelegate {
     }
 
     func outlineViewSelectionDidChange(_ notification: Notification) {
+        let defaultWebhookExplanation = "Canopy functions via GitHub webhooks"
         notifyButton.isEnabled = false
         installWebhookButton.isEnabled = false
         installWebhookFirstLabel.isHidden = true
         privateReposAdviceLabel.isHidden = true
-        webhookExplanation.stringValue = "Canopy functions via GitHub webhooks"
+        webhookExplanation.stringValue = defaultWebhookExplanation
 
         let hooked: Guarantee<SwitchState>
         guard let selectedItem = self.selectedItem else {
@@ -355,7 +356,7 @@ extension ReposViewController: NSOutlineViewDelegate {
             installWebhookButton.isEnabled = true
             notifyButton.state = SwitchState(rootedRepos[login]!, where: { subscribed.contains($0.id) }).nsControlStateValue
             hooked = hooks(for: .organization(id, login)).map(SwitchState.init)
-        case .user(let login):
+        case .user(_, let login):
             privateReposAdviceLabel.isHidden = rootedRepos[login]!.allSatisfy{ !$0.private }
             installWebhookButton.isEnabled = false
 
@@ -391,9 +392,15 @@ extension ReposViewController: NSOutlineViewDelegate {
             guard selectedItem == self.selectedItem else { return }
             // ^^ verify selectedItem hasn't changed while we were fetching state
 
+            let webhookExplanationText: String
+            let webhookButtonEnabled: Bool
+            let notifyButtonEnabled: Bool
+
             switch $0 {
             case .on:
-                let webhookExplanationText: String
+                webhookButtonEnabled = false
+                notifyButtonEnabled = true
+
                 switch selectedItem {
                 case .organization:
                     webhookExplanationText = "Organization webhook installed"
@@ -406,23 +413,44 @@ extension ReposViewController: NSOutlineViewDelegate {
                         webhookExplanationText = "Webhook installed"
                     }
                 }
-                self.webhookExplanation.stringValue = webhookExplanationText
-                self.installWebhookButton.isEnabled = false
-                self.notifyButton.isEnabled = true
             case .off:
-                if case .repo(let repo) = selectedItem, repo.isPartOfOrganization {
-                    self.webhookExplanation.stringValue = "Webhook installation is controlled at the organization level"
-                    self.installWebhookButton.isEnabled = false
-                } else {
-                    self.installWebhookButton.isEnabled = true
+                notifyButtonEnabled = false
+
+                switch selectedItem {
+                case .repo(let repo):
+                    if repo.isPartOfOrganization {
+                        webhookExplanationText = "Webhook installation is controlled at the organization level"
+                        webhookButtonEnabled = false
+                    } else if repo.permissions.admin {
+                        webhookExplanationText = defaultWebhookExplanation
+                        webhookButtonEnabled = true
+                    } else {
+                        webhookExplanationText = "Contact the repo admin to install the webhook"
+                        webhookButtonEnabled = false
+                    }
+                case .organization(_, let login), .user(_, let login):
+                    switch self.rootedRepos[login]!.satisfaction({ $0.permissions.admin }) {
+                    case .none:
+                        webhookButtonEnabled = false
+                        webhookExplanationText = "Contact the repo admin to install the webhook"
+                    case .some:
+                        webhookButtonEnabled = false
+                        webhookExplanationText = "You do not have admin clearance for all repositories"
+                    case .all:
+                        webhookButtonEnabled = true
+                        webhookExplanationText = defaultWebhookExplanation
+                    }
                 }
-                self.notifyButton.isEnabled = false
-                self.installWebhookFirstLabel.isHidden = false
             case .mixed:
-                self.notifyButton.isEnabled = true
-                self.installWebhookButton.isEnabled = true
-                self.webhookExplanation.stringValue = "Some children have webhook installed"
+                notifyButtonEnabled = false
+                webhookButtonEnabled = true
+                webhookExplanationText = "Some children have webhook installed"
             }
+
+            self.notifyButton.isEnabled = notifyButtonEnabled
+            self.webhookExplanation.stringValue = webhookExplanationText
+            self.installWebhookButton.isEnabled = webhookButtonEnabled
+            self.installWebhookFirstLabel.isHidden = notifyButtonEnabled
         }
     }
 

@@ -46,30 +46,34 @@ private func finish(code: String, state: String) throws {
         let scope: String?  // docs aren't clear if this is always present
     }
 
-    func send(items: APNSNotificationItem...) {
+    func send(items: [APNSNotificationItem]) {
         let confName = signInParameters.production
             ? NotificationPusher.productionConfigurationName
             : NotificationPusher.sandboxConfigurationName
+        print("sending:", items)
         NotificationPusher(apnsTopic: signInParameters.apnsTopic).pushAPNS(configurationName: confName, deviceTokens: [signInParameters.deviceToken], notificationItems: items, callback: { responses in
             print("APNs says:", responses[0])
         })
     }
 
-    func success(token: String) {
-        //TODO APPLE SAYS TO ENCRYPT
-        if signInParameters.apnsTopic.isMac {
-            send(items: .customPayload("oauthToken", token))
-        } else {
-            send(items: .customPayload("oauthToken", token), .contentAvailable)
+    func success(login: String, token: String) {
+        var items: [APNSNotificationItem] = [
+            .customPayload("token", token), //TODO APPLE SAYS TO ENCRYPT
+            .customPayload("login", login)
+        ]
+        if !signInParameters.apnsTopic.isMac {
+            items.append(.contentAvailable)
         }
+        send(items: items)
     }
 
     func failure(error: Error) {
-        print(#function, error)
+        alert(message: error.legibleDescription)
+
         if signInParameters.apnsTopic.isMac {
-            send(items: .customPayload("oauthTokenError", error.legibleDescription))
+            send(items: [.customPayload("error", error.legibleDescription)])
         } else {
-            send(items: .alertTitle("Sign‑in Error"), .alertBody(error.legibleDescription))
+            send(items: [.alertTitle("Sign‑in Error"), .alertBody(error.legibleDescription)])
         }
     }
 
@@ -78,10 +82,8 @@ private func finish(code: String, state: String) throws {
     }.map { data, _ in
         try JSONDecoder().decode(Response.self, from: data).access_token
     }.then { oauthToken in
-        updateTokens(with: signInParameters.upgrade(with: oauthToken)).map{ oauthToken }
-    }.done { oauthToken in
-        success(token: oauthToken)
-    }.catch { error in
+        updateTokens(with: signInParameters.upgrade(with: oauthToken)).map{ ($0, oauthToken) }
+    }.done(success).catch { error in
         failure(error: error)
     }
 }

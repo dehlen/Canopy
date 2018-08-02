@@ -2,6 +2,7 @@
 import UserNotifications
 #endif
 import PromiseKit
+import StoreKit
 import AppKit
 
 extension AppDelegate: NSApplicationDelegate {
@@ -32,12 +33,15 @@ extension AppDelegate: NSApplicationDelegate {
             processRemoteNotificationUserInfo(rsp.notification.request.content.userInfo)
         }
     #endif
+
+        SKPaymentQueue.default().add(self)
+        postReceiptIfPossible()
     }
 
     func application(_ application: NSApplication, didRegisterForRemoteNotificationsWithDeviceToken rawDeviceToken: Data) {
         deviceToken = String(deviceToken: rawDeviceToken)
 
-        if let oauthToken = UserDefaults.standard.gitHubOAuthToken, let deviceToken = deviceToken {
+        if let oauthToken = creds?.token, let deviceToken = deviceToken {
             firstly {
                 updateTokens(oauth: oauthToken, device: deviceToken)
             }.catch {
@@ -51,11 +55,11 @@ extension AppDelegate: NSApplicationDelegate {
     }
 
     func application(_ application: NSApplication, didReceiveRemoteNotification userInfo: [String: Any]) {
-        if let oauthToken = userInfo["oauthToken"] as? String {
+        if let oauthToken = userInfo["token"] as? String, let login = userInfo["login"] as? String {
+            creds = (username: login, token: oauthToken)
             NSApp.activate(ignoringOtherApps: true)
-            UserDefaults.standard.gitHubOAuthToken = oauthToken
-        } else if let message = userInfo["oauthTokenError"] as? String {
-            alert(message: message, title: "GitHub Authorization Failed")
+        } else if let message = userInfo["error"] {
+            alert(message: "\(message)", title: "GitHub Authorization Failed")
             //TODO allow sign-in again somehow
         } else {
             print(userInfo)

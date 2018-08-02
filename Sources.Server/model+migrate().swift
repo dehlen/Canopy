@@ -19,17 +19,22 @@ extension DB {
                 UNIQUE(repo_id, user_id)
             )
             """)
-        try db.execute(statement: """
-            CREATE TABLE auths (
-                user_id INTEGER PRIMARY KEY,
-                token BLOB NOT NULL,
-                salt BLOB UNIQUE NOT NULL
-            )
-            """)
+//        try db.execute(statement: """
+//            CREATE TABLE auths (
+//                user_id INTEGER PRIMARY KEY,
+//                token BLOB NOT NULL,
+//                salt BLOB UNIQUE NOT NULL
+//            )
+//            """)
+//        try db.execute(statement: """
+//            CREATE TABLE receipts (
+//                user_id INTEGER PRIMARY KEY,
+//                expires STRING NOT NULL
+//            )
+//            """)
     }
 
     private func dropAllTables() throws {
-        try db.execute(statement: "DROP TABLE auths")
         try db.execute(statement: "DROP TABLE tokens")
         try db.execute(statement: "DROP TABLE subscriptions")
     }

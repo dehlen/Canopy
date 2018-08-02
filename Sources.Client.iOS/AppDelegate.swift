@@ -51,8 +51,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        if let oauthToken = userInfo["oauthToken"] as? String {
-            UserDefaults.standard.gitHubOAuthToken = oauthToken
+        if let token = userInfo["token"] as? String, let login = userInfo["login"] as? String {
+            creds = (login, token)
 
             let content = UNMutableNotificationContent()
             content.title = "Authentication Complete"
@@ -61,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UNUserNotificationCenter.current().add(rq) { _ in
                 completionHandler(.newData)
             }
-        } else if let message = userInfo["oauthTokenError"] as? String {
+        } else if let message = userInfo["error"] as? String {
             alert(message: message, title: "GitHub Authorization Failed")
             //TODO allow sign-in again somehow
             completionHandler(.failed)

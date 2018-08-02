@@ -42,32 +42,28 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             send(to: try DB().allAPNsTokens())
         case .private(let repo):
             // maybe this looks less efficient, but actually apns only
-            // accepts one device-tokens at a time anyway
+            // accepts one device-token at a time anyway
             // However, it would be nice if we could avoid these checks
             // in theory we could just use webhooks to know when to remove
             // user-access to repos
 
             let db = try DB()
 
-            print("checking clearance for private repo:", repo.full_name)
+            print("checking clearances & receipts for private repo:", repo.full_name)
             let tokens = try db.tokens(forRepoId: repo.id)
             print("got:", tokens.count, "tokens")
 
-            for (oauthToken, confs) in tokens {
-                let gitHubAPI = GitHubAPI(oauthToken: oauthToken)
-                firstly {
-                    gitHubAPI.hasClearance(for: repo.id)
-                }.done {
-                    if $0 {
-                        print("Clearance!")
-                        send(to: confs)
+            for (oauthToken, foo) in tokens {
+                DispatchQueue.global().async(.promise) {
+                    guard try db.isReceiptValid(forUserId: foo.userId) else { throw PMKError.cancelled }
+                }.then {
+                    GitHubAPI(oauthToken: oauthToken).hasClearance(for: repo.id)
+                }.done { cleared in
+                    if cleared {
+                        send(to: foo.confs)
                     } else {
                         print("No clearance!")
-                        gitHubAPI.me().done {
-                            try db.delete(subscription: repo.id, userId: $0.id)
-                        }.catch {
-                            alert(message: $0.legibleDescription)
-                        }
+                        try db.delete(subscription: repo.id, userId: foo.userId)
                     }
                 }.catch {
                     alert(message: $0.legibleDescription)

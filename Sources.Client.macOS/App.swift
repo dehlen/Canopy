@@ -1,7 +1,6 @@
 import PromiseKit
 import AppKit
 
-//TODO store oauth token in at least the keychain
 //TODO encrypt the state parameter or someone will notice and be weird about it
 //TODO prettier authorizing… webpage
 //TODO look into how sqlite handles crashes and CTRL-C
@@ -16,6 +15,8 @@ import AppKit
 //TODO db backups
 //TODO organization events have to be directed someplace, maybe API request to get list of members?
 //TODO allow disabling actions made by yourself (leave *on* since it is a good wow-moment to get the push when you do stuff)
+//TODO organization subscription plan
+//TODO check no fatalErrors!
 
 @NSApplicationMain
 class AppDelegate: NSObject {
@@ -37,7 +38,7 @@ class AppDelegate: NSObject {
         firstly {
             URLSession.shared.dataTask(.promise, with: rq).validate()
         }.done { _ in
-            UserDefaults.standard.removeGitHubOAuthToken()
+            creds = nil
             NSApp.terminate(sender)
         }.catch {
             alert($0)

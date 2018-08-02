@@ -60,21 +60,26 @@ class DB {
         return results
     }
 
-    func tokens(forRepoId repoId: Int) throws -> [String: [APNSConfiguration: [String]]] {
+    struct Foo {
+        var confs: [APNSConfiguration: [String]]
+        let userId: Int
+    }
+
+    func tokens(forRepoId repoId: Int) throws -> [String: Foo] {
 
         // we intend do a HEAD request for the repo with each oauth-token
         // and we’re assuming that 99% will return 200, thus we may as
         // well fetch the resulting device-tokens in the same query
 
         let sql = """
-            SELECT tokens.id, tokens.topic, tokens.production, auths.token, auths.salt
+            SELECT tokens.id, tokens.topic, tokens.production, auths.token, auths.salt, tokens.user_id
             FROM tokens
             INNER JOIN auths ON auths.user_id = tokens.user_id
             INNER JOIN subscriptions ON subscriptions.user_id = tokens.user_id
             WHERE subscriptions.repo_id = :1
             """
 
-        var results: [String: [APNSConfiguration: [String]]] = [:]
+        var results: [String: Foo] = [:]
 
         try db.forEachRow(statement: sql, doBindings: {
             try $0.bind(position: 1, repoId)
@@ -84,6 +89,7 @@ class DB {
             let production = statement.columnInt(position: 2) != 0
             let encryptedOAuthToken: [UInt8] = statement.columnIntBlob(position: 3)
             let encryptionSalt: [UInt8] = statement.columnIntBlob(position: 4)
+            let userId = statement.columnInt(position: 5)
 
             guard let oauthToken = decrypt(encryptedOAuthToken, salt: encryptionSalt) else {
                 return alert(message: "Failed decrypting token for a user. We don’t know which")
@@ -92,7 +98,7 @@ class DB {
             // PerfectSQLite sucks and returns "" for the error condition
             if !apnsDeviceToken.isEmpty, !topic.isEmpty, !encryptedOAuthToken.isEmpty, !encryptionSalt.isEmpty {
                 let conf = APNSConfiguration(topic: topic, isProduction: production)
-                results[oauthToken, default: [:]][conf, default: []].append(apnsDeviceToken)
+                results[oauthToken, default: Foo(confs: [:], userId: userId)].confs[conf, default: []].append(apnsDeviceToken)
             }
         })
 
@@ -203,6 +209,16 @@ class DB {
         }
     }
 
+    func delete(subscriptions repoIds: [Int], userId: Int) throws {
+        try db.doWithTransaction {
+            //TODO inefficient
+            for id in repoIds {
+                try delete(subscription: id, userId: userId)
+            }
+        }
+    }
+
+
     func delete(repository repoId: Int) throws {
         let sql = """
             DELETE FROM subscriptions
@@ -231,9 +247,55 @@ class DB {
 
         return results
     }
+
+    func add(receiptForUserId userId: Int, expires: Date) throws {
+        let sql = """
+            REPLACE INTO receipts (user_id, expires)
+            VALUES (:1, :2)
+            """
+        try db.execute(statement: sql) {
+            try $0.bind(position: 1, userId)
+            try $0.bind(position: 2, Formatter.iso8601.string(from: expires))
+        }
+    }
+
+    func isReceiptValid(forUserId userId: Int) throws -> Bool {
+        let sql = """
+            SELECT expires
+            FROM receipts
+            WHERE user_id = \(userId)
+            """
+        var dateString: String?
+        try db.forEachRow(statement: sql) { statement, row in
+            dateString = statement.columnText(position: 0)
+        }
+        if let dateString = dateString, let expiryDate = Formatter.iso8601.date(from: dateString), Date() < expiryDate {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    func remove(receiptForUserId userId: Int) throws {
+        try db.execute(statement: """
+            DELETE FROM receipts
+            WHERE userId = \(userId)
+            """)
+    }
 }
 
 struct APNSConfiguration: Hashable {
     let topic: String
     let isProduction: Bool
+}
+
+private extension Formatter {
+    static var iso8601: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .iso8601)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
+        return formatter
+    }
 }

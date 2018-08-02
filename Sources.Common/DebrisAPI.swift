@@ -17,3 +17,8 @@ public struct SignIn: Codable {
     public let apnsTopic: String
     public let production: Bool
 }
+
+public struct Receipt: Codable {
+    public let isProduction: Bool
+    public let base64: String
+}

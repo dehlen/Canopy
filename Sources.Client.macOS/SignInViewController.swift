@@ -6,10 +6,12 @@ class SignInViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        ref = UserDefaults.standard.observe(\.gitHubOAuthToken, options: .new) { [weak self] _, value in
-            if let value = value.newValue, value != nil {
-                self?.dismiss(nil)
-            }
+        NotificationCenter.default.addObserver(self, selector: #selector(dismissIfSignedIn), name: .credsUpdated, object: nil)
+    }
+
+    @objc private func dismissIfSignedIn() {
+        if creds?.token != nil {
+            dismiss(nil)
         }
     }
 

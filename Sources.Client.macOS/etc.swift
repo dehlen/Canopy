@@ -39,3 +39,36 @@ extension NSStoryboardSegue.Identifier: ExpressibleByStringLiteral {
     }
 }
 #endif
+
+enum Satisfaction {
+    case all
+    case some
+    case none
+}
+
+extension Collection {
+    func satisfaction(_ predicate: (Element) -> Bool) -> Satisfaction {
+        if isEmpty {
+            return .none
+        }
+        var seenTrue = false
+        var seenFalse = false
+        for ee in self {
+            if predicate(ee) {
+                if seenFalse {
+                    return .some
+                }
+                seenTrue = true
+            } else if seenTrue {
+                return .some
+            } else {
+                seenFalse = true
+            }
+        }
+        if seenTrue, !seenFalse {
+            return .all
+        } else {
+            return .none
+        }
+    }
+}

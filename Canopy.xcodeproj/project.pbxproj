@@ -12,6 +12,9 @@
 		63562B4120F90CF40076F52B /* etc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63562B4020F90CF40076F52B /* etc.swift */; };
 		63562B4320F9102B0076F52B /* App+NSApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63562B4220F9102B0076F52B /* App+NSApplicationDelegate.swift */; };
 		63562B4520F9105C0076F52B /* App+UserNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63562B4420F9105C0076F52B /* App+UserNotifications.swift */; };
+		635ACB8D21136E5D0007C4EE /* App+StoreKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635ACB8C21136E5D0007C4EE /* App+StoreKit.swift */; };
+		635ACBAB21136F000007C4EE /* SKProductsRequest+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635ACBAA21136F000007C4EE /* SKProductsRequest+Promise.swift */; };
+		635ACBAD2113750B0007C4EE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 635ACBAC2113750B0007C4EE /* StoreKit.framework */; };
 		636A40AA20F94D2E0051DE0B /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 636A409320F94D2E0051DE0B /* PromiseKit.framework */; };
 		636A40AB20F94D2E0051DE0B /* PromiseKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 636A409320F94D2E0051DE0B /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		636A40BD20F960520051DE0B /* ReposViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636A40BC20F960520051DE0B /* ReposViewController.swift */; };
@@ -38,6 +41,7 @@
 		63970545210BA8830063F7E4 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63970529210BA8830063F7E4 /* PromiseKit.framework */; };
 		63970546210BA8830063F7E4 /* PromiseKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 63970529210BA8830063F7E4 /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		63E4E01E21090EC70081E9AB /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E4E01D21090EC70081E9AB /* SignInViewController.swift */; };
+		63F1CF0B21126D630084C76E /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F1CF0A21126D630084C76E /* Keychain.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -179,6 +183,9 @@
 		63562B4020F90CF40076F52B /* etc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = etc.swift; sourceTree = "<group>"; };
 		63562B4220F9102B0076F52B /* App+NSApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App+NSApplicationDelegate.swift"; sourceTree = "<group>"; };
 		63562B4420F9105C0076F52B /* App+UserNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App+UserNotifications.swift"; sourceTree = "<group>"; };
+		635ACB8C21136E5D0007C4EE /* App+StoreKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App+StoreKit.swift"; sourceTree = "<group>"; };
+		635ACBAA21136F000007C4EE /* SKProductsRequest+Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SKProductsRequest+Promise.swift"; path = "Carthage/Checkouts/PromiseKit/Extensions/StoreKit/Sources/SKProductsRequest+Promise.swift"; sourceTree = SOURCE_ROOT; };
+		635ACBAC2113750B0007C4EE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		636A409320F94D2E0051DE0B /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/Mac/PromiseKit.framework; sourceTree = "<group>"; };
 		636A40AF20F94D710051DE0B /* Error+legibleDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Error+legibleDescription.swift"; path = "Sources.Common/Error+legibleDescription.swift"; sourceTree = SOURCE_ROOT; };
 		636A40B320F94D9E0051DE0B /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Sources.Common/Constants.swift; sourceTree = SOURCE_ROOT; };
@@ -187,11 +194,11 @@
 		6380FF86210E79A500544476 /* Compatability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Compatability.swift; path = Sources.Common/Compatability.swift; sourceTree = SOURCE_ROOT; };
 		6380FF8A210E79A500544476 /* DebrisAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DebrisAPI.swift; path = Sources.Common/DebrisAPI.swift; sourceTree = SOURCE_ROOT; };
 		6387B81E211105D800D17446 /* Client.etc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Client.etc.swift; sourceTree = "<group>"; };
-		6388D12C20F515250082F280 /* Canopy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Canopy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6388D12C20F515250082F280 /* Canopy.macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Canopy.macOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6388D12F20F515250082F280 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		6388D13120F515270082F280 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6388D13620F515270082F280 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		638C336820FD79730048C52E /* Canopy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Canopy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		638C336820FD79730048C52E /* Canopy.iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Canopy.iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		638C336A20FD79730048C52E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		638C336C20FD79730048C52E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		638C337120FD79740048C52E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -202,6 +209,7 @@
 		638C339020FD7FD10048C52E /* etc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = etc.swift; sourceTree = "<group>"; };
 		63970529210BA8830063F7E4 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
 		63E4E01D21090EC70081E9AB /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		63F1CF0A21126D630084C76E /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		63F75B2E20F52EEF00A3B9AE /* Canopy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Canopy.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -211,6 +219,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				636A40AA20F94D2E0051DE0B /* PromiseKit.framework in Frameworks */,
+				635ACBAD2113750B0007C4EE /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,8 +282,8 @@
 		6388D12D20F515250082F280 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6388D12C20F515250082F280 /* Canopy.app */,
-				638C336820FD79730048C52E /* Canopy.app */,
+				6388D12C20F515250082F280 /* Canopy.macOS.app */,
+				638C336820FD79730048C52E /* Canopy.iOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -285,9 +294,12 @@
 				6388D12F20F515250082F280 /* App.swift */,
 				63562B4220F9102B0076F52B /* App+NSApplicationDelegate.swift */,
 				63562B4420F9105C0076F52B /* App+UserNotifications.swift */,
+				635ACB8C21136E5D0007C4EE /* App+StoreKit.swift */,
 				636A40BC20F960520051DE0B /* ReposViewController.swift */,
 				63E4E01D21090EC70081E9AB /* SignInViewController.swift */,
 				63562B4020F90CF40076F52B /* etc.swift */,
+				63F1CF0A21126D630084C76E /* Keychain.swift */,
+				635ACBAA21136F000007C4EE /* SKProductsRequest+Promise.swift */,
 				636A40B620F94DAA0051DE0B /* Detritus */,
 			);
 			path = Sources.Client.macOS;
@@ -332,6 +344,7 @@
 		638DF00220F590D200768FEF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				635ACBAC2113750B0007C4EE /* StoreKit.framework */,
 				63970529210BA8830063F7E4 /* PromiseKit.framework */,
 				636A409320F94D2E0051DE0B /* PromiseKit.framework */,
 			);
@@ -356,7 +369,7 @@
 			);
 			name = "Canopy-macOS";
 			productName = GitBell;
-			productReference = 6388D12C20F515250082F280 /* Canopy.app */;
+			productReference = 6388D12C20F515250082F280 /* Canopy.macOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 		638C336720FD79730048C52E /* Canopy-iOS */ = {
@@ -374,7 +387,7 @@
 			);
 			name = "Canopy-iOS";
 			productName = "Downstream-iOS";
-			productReference = 638C336820FD79730048C52E /* Canopy.app */;
+			productReference = 638C336820FD79730048C52E /* Canopy.iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -391,6 +404,9 @@
 						CreatedOnToolsVersion = 10.0;
 						SystemCapabilities = {
 							com.apple.HardenedRuntime = {
+								enabled = 1;
+							};
+							com.apple.InAppPurchase = {
 								enabled = 1;
 							};
 							com.apple.Push = {
@@ -580,6 +596,7 @@
 				6380FF92210E79D500544476 /* URLSession+Promise.swift in Sources */,
 				6380FF94210E79D500544476 /* Error+legibleDescription.swift in Sources */,
 				636A40BD20F960520051DE0B /* ReposViewController.swift in Sources */,
+				635ACB8D21136E5D0007C4EE /* App+StoreKit.swift in Sources */,
 				6380FF93210E79D500544476 /* Constants.swift in Sources */,
 				63562B4120F90CF40076F52B /* etc.swift in Sources */,
 				6388D13020F515250082F280 /* App.swift in Sources */,
@@ -589,6 +606,8 @@
 				63562B4520F9105C0076F52B /* App+UserNotifications.swift in Sources */,
 				6387B83B211105D800D17446 /* Client.etc.swift in Sources */,
 				6380FF90210E79D500544476 /* Compatability.swift in Sources */,
+				63F1CF0B21126D630084C76E /* Keychain.swift in Sources */,
+				635ACBAB21136F000007C4EE /* SKProductsRequest+Promise.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -657,6 +676,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -680,6 +700,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				SEMANTIC_PROJECT_VERSION = 1.0.0;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -719,6 +740,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -735,6 +757,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
+				SEMANTIC_PROJECT_VERSION = 1.0.0;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
@@ -759,7 +782,8 @@
 					"@executable_path/../Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.codebasesaga.macOS.Canopy;
-				PRODUCT_NAME = Canopy;
+				PRODUCT_MODULE_NAME = Canopy;
+				PRODUCT_NAME = Canopy.macOS;
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
@@ -783,7 +807,8 @@
 					"@executable_path/../Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.codebasesaga.macOS.Canopy;
-				PRODUCT_NAME = Canopy;
+				PRODUCT_MODULE_NAME = Canopy;
+				PRODUCT_NAME = Canopy.macOS;
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
@@ -806,7 +831,8 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.codebasesaga.iOS.Canopy;
-				PRODUCT_NAME = Canopy;
+				PRODUCT_MODULE_NAME = Canopy;
+				PRODUCT_NAME = Canopy.iOS;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -831,7 +857,8 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.codebasesaga.iOS.Canopy;
-				PRODUCT_NAME = Canopy;
+				PRODUCT_MODULE_NAME = Canopy;
+				PRODUCT_NAME = Canopy.iOS;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
