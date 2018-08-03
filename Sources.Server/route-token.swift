@@ -30,8 +30,10 @@ func deleteTokenHandler(request: HTTPRequest, response: HTTPResponse) {
         // and if you know the token, then well, good for you
         if let token = request.postBodyString {
             try DB().delete(apnsDeviceToken: token)
+            response.completed()
+        } else {
+            response.completed(status: .badRequest)
         }
-        response.completed()
     } catch {
         response.completed(status: .badRequest)
     }
