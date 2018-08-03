@@ -3,7 +3,11 @@ import Foundation
 extension Error {
 #if os(Linux)
     public var legibleDescription: String {
-        return "\(type(of: self)).\(self)"
+        if let err = self as? LocalizedError, let msg = err.errorDescription {
+            return msg
+        } else {
+            return "\(type(of: self)).\(self)"
+        }
     }
 #else
     public var legibleDescription: String {

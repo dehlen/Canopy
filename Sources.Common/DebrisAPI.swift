@@ -1,3 +1,5 @@
+import protocol Foundation.LocalizedError
+
 public struct TokenUpdate: Codable {
     public let oauthToken: String
     public let deviceToken: String
@@ -21,4 +23,12 @@ public struct SignIn: Codable {
 public struct Receipt: Codable {
     public let isProduction: Bool
     public let base64: String
+}
+
+public enum ServerError: Int {
+    case authentication
+}
+
+public protocol XPError: LocalizedError {
+    var serverError: ServerError { get }
 }

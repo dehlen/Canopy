@@ -46,6 +46,33 @@ private func finish(code: String, state: String) throws {
         let scope: String?  // docs aren't clear if this is always present
     }
 
+    struct ErrorResponse: Decodable, XPError {
+        let error: String
+        let error_description: String
+        let error_uri: URL
+
+        var serverError: ServerError {
+            return .authentication
+        }
+
+        var errorDescription: String? {
+            return error_description
+        }
+    }
+
+    func decode(_ data: Data) throws -> Response {
+        let decoder = JSONDecoder()
+        do {
+            return try decoder.decode(Response.self, from: data)
+        } catch {
+            if let error = try? decoder.decode(ErrorResponse.self, from: data) {
+                throw error
+            } else {
+                throw error
+            }
+        }
+    }
+
     func send(items: [APNSNotificationItem]) {
         let confName = signInParameters.production
             ? NotificationPusher.productionConfigurationName
@@ -67,20 +94,25 @@ private func finish(code: String, state: String) throws {
         send(items: items)
     }
 
-    func failure(error: Error) {
-        alert(message: error.legibleDescription)
-
-        if signInParameters.apnsTopic.isMac {
-            send(items: [.customPayload("error", error.legibleDescription)])
-        } else {
-            send(items: [.alertTitle("Sign‑in Error"), .alertBody(error.legibleDescription)])
+    func failure(error rawError: Error) {
+        guard let error = rawError as? XPError else {
+            return alert(message: rawError.legibleDescription)
         }
+
+        var items = [APNSNotificationItem.customPayload("error-code", error.serverError.rawValue)]
+        if signInParameters.apnsTopic.isMac {
+            items.append(.customPayload("error", error.legibleDescription))
+        } else {
+            items.append(.alertTitle("Sign‑in Error"))
+            items.append(.alertBody(error.legibleDescription))
+        }
+        send(items: items)
     }
 
     firstly {
         URLSession.shared.dataTask(.promise, with: rq)
     }.map { data, _ in
-        try JSONDecoder().decode(Response.self, from: data).access_token
+        try decode(data).access_token
     }.then { oauthToken in
         updateTokens(with: signInParameters.upgrade(with: oauthToken)).map{ ($0, oauthToken) }
     }.done(success).catch { error in

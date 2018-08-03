@@ -55,18 +55,42 @@ extension AppDelegate: NSApplicationDelegate {
     }
 
     func application(_ application: NSApplication, didReceiveRemoteNotification userInfo: [String: Any]) {
-        if let oauthToken = userInfo["token"] as? String, let login = userInfo["login"] as? String {
-            creds = (username: login, token: oauthToken)
+        switch Response(userInfo: userInfo) {
+        case .creds(let login, let token):
+            creds = (username: login, token: token)
             NSApp.activate(ignoringOtherApps: true)
-        } else if let message = userInfo["error"] {
-            alert(message: "\(message)", title: "GitHub Authorization Failed")
-            //TODO allow sign-in again somehow
-        } else {
+        case .error(let message, .authentication?):
+            if creds == nil {
+                fallthrough
+            }
+            // else… ignore. mostly happens because: user left auth page open
+            // and this causes a POST to our auth endpoint, but the code was
+            // consumed so GitHub errors
+        case .error(let message, nil):
+            alert(message: message, title: "Server Error")
+        case .unknown:
             print(userInfo)
         }
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         return true
+    }
+}
+
+private enum Response {
+    case creds(login: String, token: String)
+    case error(message: String, ServerError?)
+    case unknown
+
+    init(userInfo: [String: Any]) {
+        if let token = userInfo["token"] as? String, let login = userInfo["login"] as? String {
+            self = .creds(login: login, token: token)
+        } else if let message = userInfo["error"] {
+            let code = userInfo["error-code"] as? Int
+            self = .error(message: "\(message)", code.flatMap(ServerError.init))
+        } else {
+            self = .unknown
+        }
     }
 }
