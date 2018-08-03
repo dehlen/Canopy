@@ -13,8 +13,11 @@ func subscriptionsHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
     firstly {
         GitHubAPI(oauthToken: token).me()
     }.done {
-        let foo = try DB().subscriptions(forUserId: $0.id)
+        let db = try DB()
+        let foo = try db.subscriptions(forUserId: $0.id)
         let data = try JSONEncoder().encode(foo)
+        let hasReceipt = try db.isReceiptValid(forUserId: $0.id)
+        response.setHeader(.upgrade, value: hasReceipt ? "true" : "false")
         response.appendBody(bytes: [UInt8](data))
         response.completed()
     }.catch { error in
@@ -24,6 +27,12 @@ func subscriptionsHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
 }
 
 func subscribeHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
+
+    //NOTE we don't check if user has receipt, they can sub to
+    // stuff without one, we just won't deliver their notifications.
+    // we allow sub’ing so they can state what they want, though they
+    // cannot yet get.
+
     guard let token = rq.header(.authorization) else {
         return response.completed(status: .badRequest)
     }
@@ -63,6 +72,7 @@ func unsubscribeHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             GitHubAPI(oauthToken: token).me()
         }.done {
             try DB().delete(subscriptions: subs, userId: $0.id)
+            response.completed()
         }.catch { error in
             response.appendBody(string: error.legibleDescription)
             response.completed(status: .badRequest)

@@ -184,7 +184,7 @@
 		63562B4220F9102B0076F52B /* App+NSApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App+NSApplicationDelegate.swift"; sourceTree = "<group>"; };
 		63562B4420F9105C0076F52B /* App+UserNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App+UserNotifications.swift"; sourceTree = "<group>"; };
 		635ACB8C21136E5D0007C4EE /* App+StoreKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App+StoreKit.swift"; sourceTree = "<group>"; };
-		635ACBAA21136F000007C4EE /* SKProductsRequest+Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SKProductsRequest+Promise.swift"; path = "Carthage/Checkouts/PromiseKit/Extensions/StoreKit/Sources/SKProductsRequest+Promise.swift"; sourceTree = SOURCE_ROOT; };
+		635ACBAA21136F000007C4EE /* SKProductsRequest+Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SKProductsRequest+Promise.swift"; path = "Sources.Client.macOS/SKProductsRequest+Promise.swift"; sourceTree = SOURCE_ROOT; };
 		635ACBAC2113750B0007C4EE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		636A409320F94D2E0051DE0B /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/Mac/PromiseKit.framework; sourceTree = "<group>"; };
 		636A40AF20F94D710051DE0B /* Error+legibleDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Error+legibleDescription.swift"; path = "Sources.Common/Error+legibleDescription.swift"; sourceTree = SOURCE_ROOT; };
@@ -256,6 +256,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		635ACBB42114C7510007C4EE /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				63F1CF0A21126D630084C76E /* Keychain.swift */,
+				635ACBAA21136F000007C4EE /* SKProductsRequest+Promise.swift */,
+			);
+			name = Vendor;
+			sourceTree = "<group>";
+		};
 		636A40B620F94DAA0051DE0B /* Detritus */ = {
 			isa = PBXGroup;
 			children = (
@@ -298,8 +307,7 @@
 				636A40BC20F960520051DE0B /* ReposViewController.swift */,
 				63E4E01D21090EC70081E9AB /* SignInViewController.swift */,
 				63562B4020F90CF40076F52B /* etc.swift */,
-				63F1CF0A21126D630084C76E /* Keychain.swift */,
-				635ACBAA21136F000007C4EE /* SKProductsRequest+Promise.swift */,
+				635ACBB42114C7510007C4EE /* Vendor */,
 				636A40B620F94DAA0051DE0B /* Detritus */,
 			);
 			path = Sources.Client.macOS;

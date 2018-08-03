@@ -13,7 +13,7 @@ extension AppDelegate: SKPaymentTransactionObserver {
         //SOLUTION modal blocker even for menu during this
 
         guard let login = creds?.username else {
-            return alert(message: "As a courtesy, we don’t allow you to subscribe before we can provide you with content.", title: "Sign in Required")
+            return Canopy.alert(message: "As a courtesy, we don’t allow you to subscribe before we can provide you with content.", title: "Sign in Required")
         }
 
         let request = SKProductsRequest(productIdentifiers: ["sub1"])
@@ -27,12 +27,13 @@ extension AppDelegate: SKPaymentTransactionObserver {
             payment.applicationUsername = login.data(using: .utf8)?.sha256
             SKPaymentQueue.default().add(payment)
         }.catch {
-            alert($0)
+            Canopy.alert($0)
         }
     }
 
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        for transaction in transactions {
+
+        func handle(transaction: SKPaymentTransaction) {
             switch transaction.transactionState {
             case .purchasing:
                 print(#function, "purchasing", transaction)
@@ -50,11 +51,16 @@ extension AppDelegate: SKPaymentTransactionObserver {
                 }
             case .failed:
                 print(#function, "failed", transaction)
+                if let error = transaction.error as? SKError, error.code == .paymentCancelled { return }
                 alert(transaction.error ?? CocoaError.error(.coderInvalidValue))
             case .deferred:
                 //TODO should I finish or what?
                 print(#function, "deferred", transaction)
             }
+        }
+
+        for transaction in transactions {
+            handle(transaction: transaction)
         }
     }
 
@@ -69,9 +75,9 @@ extension AppDelegate: SKPaymentTransactionObserver {
             rq.setValue(token, forHTTPHeaderField: "Authorization")
             return rq
         }.then { rq in
-            URLSession.shared.dataTask(.promise, with: rq)
-        }.done {
-            print(String(data: $0.data, encoding: .utf8)!)
+            URLSession.shared.dataTask(.promise, with: rq).validate()
+        }.done { _ in
+            NotificationCenter.default.post(name: .receiptVerified, object: nil)
         }
     }
 
@@ -96,5 +102,11 @@ private extension Data {
             CC_SHA256(bytes, CC_LONG(count), &hash)
         }
         return Data(bytes: hash, count: hash.count).base64EncodedString()
+    }
+}
+
+extension Notification.Name {
+    static var receiptVerified: Notification.Name {
+        return .init("com.codebasesaga.receiptVerified")
     }
 }

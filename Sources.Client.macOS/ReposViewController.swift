@@ -5,6 +5,7 @@ class ReposViewController: NSViewController {
     var repos = [Repo]()
     var hooked = [HookType: Guarantee<Bool>]()
     var subscribed = Set<Int>()
+    var hasVerifiedReceipt = false
 
     @IBOutlet weak var outlineView: NSOutlineView!
     @IBOutlet weak var notifyButton: NSButton!
@@ -50,13 +51,57 @@ class ReposViewController: NSViewController {
         }
     }
 
-    @IBAction private func toggleNotify(sender: NSButton) {
-        guard let token = creds?.token else {
-            return alert(message: "No GitHub auth token", title: "Unexpected Error")
+    func requiresReceipt(item: Foo) -> Bool {
+        switch item {
+        case .organization(_, let login), .user(_, let login):
+            return rootedRepos[login]!.satisfaction{ $0.private } == .none
+        case .repo(let repo):
+            return repo.private
         }
+    }
+
+    func paymentPrompt() {
+        guard let window = view.window else { return }
+        let alert = NSAlert()
+        alert.messageText = "Private Repository Subscription"
+        alert.informativeText = "Receiving notifications for private repositories requires a recurring subscription fee."
+        alert.addButton(withTitle: "Subscribe")
+        alert.addButton(withTitle: "Cancel")
+        alert.beginSheetModal(for: window) { rsp in
+            switch rsp {
+            case .cancel:
+                break
+            default:
+                app.subscribe(sender: self)
+            }
+        }
+    }
+
+    private func state(for item: Foo) -> SwitchState {
+        switch item {
+        case .organization(_, let login), .user(_, let login):
+            return SwitchState(rootedRepos[login]!, where: { subscribed.contains($0.id) })
+        case .repo(let repo):
+            return subscribed.contains(repo.id) ? .on : .off
+        }
+    }
+
+    @IBAction private func toggleNotify(sender: NSButton) {
         guard let selectedItem = selectedItem else {
             return
         }
+        let subscribe = sender.state == .on
+        let restoreState = state(for: selectedItem).nsControlStateValue
+
+        guard let token = creds?.token else {
+            sender.state = restoreState
+            return alert(message: "No GitHub auth token", title: "Unexpected Error")
+        }
+        if subscribe, !hasVerifiedReceipt, requiresReceipt(item: selectedItem) {
+            sender.state = restoreState
+            return paymentPrompt()
+        }
+
         var ids: [Int] {
             switch selectedItem {
             case .organization(_, let login), .user(_, let login):
@@ -66,12 +111,11 @@ class ReposViewController: NSViewController {
             }
         }
 
-        let prevControlState = sender.state
         sender.isEnabled = false
 
         let url = URL(string: "\(serverBaseUri)/subscribe")!
         var rq = URLRequest(url: url)
-        rq.httpMethod = sender.state == .on ? "POST" : "DELETE"
+        rq.httpMethod = subscribe ? "POST" : "DELETE"
         rq.httpBody = try! JSONEncoder().encode(ids)
         rq.setValue("application/json", forHTTPHeaderField: "Content-Type")
         rq.setValue(token, forHTTPHeaderField: "Authorization")
@@ -80,7 +124,7 @@ class ReposViewController: NSViewController {
             URLSession.shared.dataTask(.promise, with: rq).validate()
         }.done { _ in
             for id in ids {
-                if sender.state == .on {
+                if subscribe {
                     self.subscribed.insert(id)
                 } else {
                     self.subscribed.remove(id)
@@ -88,7 +132,7 @@ class ReposViewController: NSViewController {
             }
             self.outlineView.reloadData()
         }.catch {
-            sender.state = prevControlState
+            sender.state = restoreState
             alert($0)
         }.finally {
             sender.isEnabled = true
@@ -168,6 +212,11 @@ class ReposViewController: NSViewController {
         installWebhookFirstLabel.isHidden = true
 
         NotificationCenter.default.addObserver(self, selector: #selector(fetch), name: .credsUpdated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(subscriptionPurchased), name: .receiptVerified, object: nil)
+    }
+
+    @objc func subscriptionPurchased() {
+        hasVerifiedReceipt = true
     }
 
     override func viewDidAppear() {
@@ -189,14 +238,16 @@ class ReposViewController: NSViewController {
             return
         }
 
-        func fetchSubs() -> Promise<Set<Int>> {
+        func fetchSubs() -> Promise<(Set<Int>, Bool)> {
             let url = URL(string: "\(serverBaseUri)/subscribe")!
             var rq = URLRequest(url: url)
             rq.addValue(token, forHTTPHeaderField: "Authorization")
             return firstly {
                 URLSession.shared.dataTask(.promise, with: rq).validate()
-            }.map {
-                Set(try JSONDecoder().decode([Int].self, from: $0.data))
+            }.map { data, rsp -> (Set<Int>, Bool) in
+                let subs = Set(try JSONDecoder().decode([Int].self, from: data))
+                let verifiedReceipt = (rsp as? HTTPURLResponse)?.allHeaderFields["Upgrade"] as? String == "true"
+                return (subs, verifiedReceipt)
             }
         }
 
@@ -217,8 +268,10 @@ class ReposViewController: NSViewController {
 
         firstly {
             when(fulfilled: p1, p2)
-        }.done { _, subs in
+        }.done {
+            let (subs, hasReceipt) = $1
             self.subscribed = subs
+            self.hasVerifiedReceipt = hasReceipt
             self.outlineView.reloadData()
             self.outlineView.expandItem(nil, expandChildren: true)
         }.catch {
@@ -295,7 +348,7 @@ extension ReposViewController: NSOutlineViewDataSource {
 }
 
 extension ReposViewController: NSOutlineViewDelegate {
-    enum SwitchState {
+    fileprivate enum SwitchState {
         case on
         case off
         case mixed
@@ -349,20 +402,22 @@ extension ReposViewController: NSOutlineViewDelegate {
         }
 
         notifyButton.allowsMixedState = true
+        notifyButton.state = state(for: selectedItem).nsControlStateValue
+        // otherwise clicking transitions to the “mixed” state
+        if notifyButton.state != .mixed {
+            notifyButton.allowsMixedState = false
+        }
 
         switch selectedItem {
         case .organization(let id, let login):
             privateReposAdviceLabel.isHidden = rootedRepos[login]!.allSatisfy{ !$0.private }
             installWebhookButton.isEnabled = true
-            notifyButton.state = SwitchState(rootedRepos[login]!, where: { subscribed.contains($0.id) }).nsControlStateValue
             hooked = hooks(for: .organization(id, login)).map(SwitchState.init)
         case .user(_, let login):
             privateReposAdviceLabel.isHidden = rootedRepos[login]!.allSatisfy{ !$0.private }
             installWebhookButton.isEnabled = false
 
             let repos = rootedRepos[login]!
-            notifyButton.state = SwitchState(repos, where: { subscribed.contains($0.id) }).nsControlStateValue
-
             let promises = repos.map{ hooks(for: .repo($0)) }
             let voided = promises.map{ $0.asVoid() }
             hooked = when(guarantees: voided).map { _ -> SwitchState in
@@ -375,17 +430,11 @@ extension ReposViewController: NSOutlineViewDelegate {
         case .repo(let repo):
             privateReposAdviceLabel.isHidden = !repo.private
             notifyButton.allowsMixedState = false
-            notifyButton.state = SwitchState(subscribed.contains(repo.id)).nsControlStateValue
             if repo.isPartOfOrganization {
                 hooked = hooks(for: .organization(repo.owner.id, repo.owner.login)).map(SwitchState.init)
             } else {
                 hooked = hooks(for: .repo(repo)).map(SwitchState.init)
             }
-        }
-
-        // otherwise clicking transitions to the “mixed” state
-        if notifyButton.state != .mixed {
-            notifyButton.allowsMixedState = false
         }
 
         hooked.done {
