@@ -21,3 +21,11 @@ public extension Sequence {
         }
     }
 }
+
+import struct Foundation.Data
+
+public extension Data {
+    var xor: Data {
+        return Data(map{ $0 ^ 176 })
+    }
+}

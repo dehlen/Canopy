@@ -141,9 +141,7 @@ extension URL {
         guard let data = try? JSONEncoder().encode(payload) else {
             return nil
         }
-        guard let state = String(data: data, encoding: .utf8) else {
-            return nil
-        }
+        let state = data.xor.base64EncodedString()
 
         var cc = URLComponents()
         cc.scheme = "https"

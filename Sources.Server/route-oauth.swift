@@ -24,10 +24,10 @@ func oauthCallback(request rq: HTTPRequest, response: HTTPResponse) {
 
 private func finish(code: String, state: String) throws {
     let url = URL(string: "https://github.com/login/oauth/access_token")!
-    guard let data = state.data(using: .utf8) else {
+    guard let parametersData = Data(base64Encoded: state)?.xor else {
         throw HTTPResponseError(status: .badRequest, description: "Bad state string")
     }
-    let signInParameters = try JSONDecoder().decode(SignIn.self, from: data)
+    let signInParameters = try JSONDecoder().decode(SignIn.self, from: parametersData)
     let json = [
         "client_id": clientId,
         "client_secret": "2397959358b460caf90f943c9a0f548cb084d5f2",
