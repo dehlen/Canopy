@@ -40,10 +40,24 @@ class WaitingTokenViewController: NSViewController {
     private var ref: Any?
 
     override func viewDidLoad() {
+        super.viewDidLoad()
+
         ref = app.observe(\.deviceToken, options: .new) { [weak self] _, value in
             if let value = value.newValue, value != nil {
                 self?.dismiss(nil)
             }
         }
+    }
+
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        view.window?.preventsApplicationTerminationWhenModal = false
+    }
+}
+
+class WaitingAuthViewController: NSViewController {
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        view.window?.preventsApplicationTerminationWhenModal = false
     }
 }
