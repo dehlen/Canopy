@@ -127,7 +127,7 @@
                                         <menuItem title="Sign Out" id="jPF-lm-n2K">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <action selector="signOutWithSender:" target="Ady-hI-5gd" id="9S4-4a-Cb9"/>
+                                                <action selector="signOutWithSender:" target="Ady-hI-5gd" id="rOw-z7-MgB"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -930,10 +930,10 @@ is free.</string>
             </objects>
             <point key="canvasLocation" x="572.5" y="809.5"/>
         </scene>
-        <!--View Controller-->
+        <!--Waiting Auth View Controller-->
         <scene sceneID="zF4-mn-pRY">
             <objects>
-                <viewController id="icT-F2-iwI" sceneMemberID="viewController">
+                <viewController id="icT-F2-iwI" customClass="WaitingAuthViewController" customModule="Canopy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="NIx-8T-0sv">
                         <rect key="frame" x="0.0" y="0.0" width="276" height="122"/>
                         <autoresizingMask key="autoresizingMask"/>
