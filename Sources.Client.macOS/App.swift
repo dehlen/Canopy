@@ -1,16 +1,14 @@
 import PromiseKit
 import AppKit
 
-//TODO encrypt the state parameter or someone will notice and be weird about it
 //TODO Laurie couldn't see that the webhook was installed, may be necessary to store this info serverside
 //  unless switching to a github app fixes this
 //TODO Add secrets to hooks
+
 //TODO icon
-//TODO check no fatalErrors!
-//TODO research scaling AWS instance
 //TODO need a safe way to shutdown the app
 //TODO can we rely on push to deliver the oauth token back? Debug mode suggests not.
-
+//TODO research scaling AWS instance
 //TODO prettier authorizing… webpage
 //TODO FAQ on website that desribes how we get private data briefly (maybe github apps can fix that?)
 //  talks about future server app distibution, talks about how we plan to improve this
