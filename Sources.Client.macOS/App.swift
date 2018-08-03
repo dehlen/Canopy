@@ -31,15 +31,15 @@ class AppDelegate: NSObject {
     }
 
     @IBAction func signOut(sender: Any) {
-        let url = URL(string: serverBaseUri)!.appendingPathComponent("subscribe")
+        let url = URL(string: serverBaseUri)!.appendingPathComponent("token")
         var rq = URLRequest(url: url)
+        rq.httpMethod = "DELETE"
         rq.httpBody = deviceToken?.data(using: .utf8)
 
         firstly {
             URLSession.shared.dataTask(.promise, with: rq).validate()
         }.done { _ in
             creds = nil
-            NSApp.terminate(sender)
         }.catch {
             alert($0)
         }

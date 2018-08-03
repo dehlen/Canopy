@@ -88,6 +88,7 @@ var creds: (username: String, token: String)? {
             }
         } else if let user = UserDefaults.standard.username {
             keychain[user] = nil
+            UserDefaults.standard.username = nil
             NotificationCenter.default.post(name: .credsUpdated, object: nil)
         }
     }
@@ -149,7 +150,6 @@ extension URL {
         cc.path = "/login/oauth/authorize"
         cc.queryItems = [
             "client_id": clientId,
-            "redirect_uri": redirectUri,
             "scope": "admin:repo_hook admin:org_hook repo",
             "state": state,
             "allow_signup": "false"  //avoid potential confusion

@@ -234,7 +234,15 @@ class ReposViewController: NSViewController {
     @objc private func fetch() {
         dispatchPrecondition(condition: .onQueue(.main))
 
-        guard !fetching, let token = creds?.token else {
+        guard !fetching else {
+            return
+        }
+        guard let token = creds?.token else {
+            repos = []
+            hooked = [:]
+            subscribed = []
+            outlineView.reloadData()
+            performSegue(withIdentifier: "SignIn", sender: self)
             return
         }
 
