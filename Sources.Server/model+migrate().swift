@@ -32,6 +32,15 @@ extension DB {
 //                expires STRING NOT NULL
 //            )
 //            """)
+//        try db.execute(statement: """
+//            CREATE TABLE hooks (
+//                id INTEGER PRIMARY KEY,
+//                secret STRING UNIQUE NOT NULL,
+//                target_id INTEGER UNIQUE NOT NULL,
+//                target_type INTEGER NOT NULL,
+//                full_name STRING NOT NULL
+//            )
+//            """)
     }
 
     private func dropAllTables() throws {

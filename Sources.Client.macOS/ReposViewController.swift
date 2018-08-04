@@ -3,7 +3,7 @@ import AppKit
 
 class ReposViewController: NSViewController {
     var repos = [Repo]()
-    var hooked = [HookType: Guarantee<Bool>]()
+    var hooked = [Node: Guarantee<Bool>]()
     var subscribed = Set<Int>()
     var hasVerifiedReceipt = false
 
@@ -21,18 +21,13 @@ class ReposViewController: NSViewController {
         return rootedRepos.keys.map{ ($0, $0.lowercased()) }.sorted{ $0.1 < $1.1 }.map{ $0.0 }
     }
 
-    enum HookType: Hashable {
+    enum OutlineViewItem: Equatable {
         case repo(Repo)
-        case organization(Int, String)
+        case organization(String)
+        case user(String)
     }
 
-    enum Foo: Equatable {
-        case repo(Repo)
-        case organization(Int, String)
-        case user(Int, String)
-    }
-
-    var selectedItem: Foo? {
+    var selectedItem: OutlineViewItem? {
         guard outlineView.selectedRow != -1 else { return nil }
 
         let item = outlineView.item(atRow: outlineView.selectedRow)
@@ -41,19 +36,18 @@ class ReposViewController: NSViewController {
             let repos = rootedRepos[login]!
             if repos.isOrganization {
                 let owner = repos[0].owner  // safe as we wouldn't show anything if empty
-                return .organization(owner.id, owner.login)
+                return .organization(owner.login)
             } else {
-                let id = repos[0].owner.id  // safe as we wouldn't show anything if empty
-                return .user(id, login)
+                return .user(login)
             }
         } else {
             return .repo(item as! Repo)
         }
     }
 
-    func requiresReceipt(item: Foo) -> Bool {
+    func requiresReceipt(item: OutlineViewItem) -> Bool {
         switch item {
-        case .organization(_, let login), .user(_, let login):
+        case .organization(let login), .user(let login):
             return rootedRepos[login]!.satisfaction{ $0.private } == .none
         case .repo(let repo):
             return repo.private
@@ -77,9 +71,9 @@ class ReposViewController: NSViewController {
         }
     }
 
-    private func state(for item: Foo) -> SwitchState {
+    private func state(for item: OutlineViewItem) -> SwitchState {
         switch item {
-        case .organization(_, let login), .user(_, let login):
+        case .organization(let login), .user(let login):
             return SwitchState(rootedRepos[login]!, where: { subscribed.contains($0.id) })
         case .repo(let repo):
             return subscribed.contains(repo.id) ? .on : .off
@@ -104,7 +98,7 @@ class ReposViewController: NSViewController {
 
         var ids: [Int] {
             switch selectedItem {
-            case .organization(_, let login), .user(_, let login):
+            case .organization(let login), .user(let login):
                 return rootedRepos[login]!.map(\.id)
             case .repo(let repo):
                 return [repo.id]
@@ -150,29 +144,14 @@ class ReposViewController: NSViewController {
         //TODO don't allow toggling during activity
         //TODO UI feedback for activity
 
-        func createHook(for hookType: HookType) -> Promise<HookType> {
+        func createHook(for node: Node) -> Promise<Node> {
             do {
-                //TODO secret, which means probably doing this server side…
-                let json: [String: Any] = [
-                    "name": "web",
-                    "events": ["*"],
-                    "config": [
-                        "url": hookUri,
-                        "content_type": "json",
-                        "insecure_ssl": "0"
-                    ]
-                ]
-                let path: String
-                switch hookType {
-                case .organization(_, let login):
-                    path = "/orgs/\(login)/hooks"
-                case .repo(let repo):
-                    path = "/repos/\(repo.full_name)/hooks"
-                }
-                var rq = GitHubAPI(oauthToken: token).request(path: path)
+                var rq = URLRequest(url: URL(string: serverBaseUri)!.appendingPathComponent("hook"))
                 rq.httpMethod = "POST"
-                rq.httpBody = try JSONSerialization.data(withJSONObject: json)
-                return URLSession.shared.dataTask(.promise, with: rq).validate().map{ _ in hookType }
+                rq.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                rq.setValue(token, forHTTPHeaderField: "Authorization")
+                rq.httpBody = try JSONEncoder().encode(node)
+                return URLSession.shared.dataTask(.promise, with: rq).validate().map{ _ in node }
             } catch {
                 return Promise(error: error)
             }
@@ -180,14 +159,14 @@ class ReposViewController: NSViewController {
 
         installWebhookButton.isEnabled = false
 
-        let types: [HookType]
+        let types: [Node]
         switch selectedItem {
-        case .organization(let id, let login):
-            types = [.organization(id, login)]
+        case .organization(let login):
+            types = [.organization(login)]
         case .repo(let repo):
-            types = [.repo(repo)]
-        case .user(_, let login):
-            types = rootedRepos[login]!.map{ .repo($0) }.filter{ hooked[$0] == nil }
+            types = [Node(repo)]
+        case .user(let login):
+            types = rootedRepos[login]!.map(Node.init).filter{ hooked[$0] == nil }
         }
 
         firstly {
@@ -195,8 +174,8 @@ class ReposViewController: NSViewController {
         }.done { results in
             for result in results {
                 switch result {
-                case .fulfilled(let hookType):
-                    self.hooked[hookType] = .value(true)
+                case .fulfilled(let Hook):
+                    self.hooked[Hook] = .value(true)
                 case .rejected(let error):
                     alert(error)
                     self.installWebhookButton.isEnabled = true
@@ -289,19 +268,29 @@ class ReposViewController: NSViewController {
         }
     }
 
-    private func hooks(for hookType: HookType) -> Guarantee<Bool> {
+    private func hooks(for hook: Node) -> Guarantee<Bool> {
         dispatchPrecondition(condition: .onQueue(.main))
+
+        struct HookResponse: Decodable {
+            let id: Int
+            let config: Config
+
+            struct Config: Decodable {
+                let url: String?
+                let content_type: String?  //TODO flag if wrong
+            }
+        }
 
         guard let token = creds?.token else {
             return .value(false)
         }
-        func get(_ prefix: String) -> Guarantee<Bool> {
-            let rq = GitHubAPI(oauthToken: token).request(path: "\(prefix)/hooks")
+        func get(_ hook: Node) -> Guarantee<Bool> {
+            let rq = GitHubAPI(oauthToken: token).request(path: "\(hook.ref)/hooks")
             return firstly {
                 URLSession.shared.dataTask(.promise, with: rq).validate()
             }.map { data, rsp in
-                try JSONDecoder().decode([Hook].self, from: data)
-            }.recover { error -> Guarantee<[Hook]> in
+                try JSONDecoder().decode([HookResponse].self, from: data)
+            }.recover { error -> Guarantee<[HookResponse]> in
                 print(#function, error)
                 return .value([]) //FIXME
             }.map {
@@ -309,17 +298,11 @@ class ReposViewController: NSViewController {
             }
         }
 
-        if let promise = hooked[hookType] {
+        if let promise = hooked[hook] {
             return promise
         } else {
-            let promise: Guarantee<Bool>
-            switch hookType {
-            case .organization(_, let login):
-                promise = get("/orgs/\(login)")
-            case .repo(let repo):
-                promise = get("/repos/\(repo.full_name)")
-            }
-            hooked[hookType] = promise
+            let promise = get(hook)
+            hooked[hook] = promise
             return promise
         }
     }
@@ -417,16 +400,16 @@ extension ReposViewController: NSOutlineViewDelegate {
         }
 
         switch selectedItem {
-        case .organization(let id, let login):
+        case .organization(let login):
             privateReposAdviceLabel.isHidden = rootedRepos[login]!.allSatisfy{ !$0.private }
             installWebhookButton.isEnabled = true
-            hooked = hooks(for: .organization(id, login)).map(SwitchState.init)
-        case .user(_, let login):
+            hooked = hooks(for: .organization(login)).map(SwitchState.init)
+        case .user(let login):
             privateReposAdviceLabel.isHidden = rootedRepos[login]!.allSatisfy{ !$0.private }
             installWebhookButton.isEnabled = false
 
             let repos = rootedRepos[login]!
-            let promises = repos.map{ hooks(for: .repo($0)) }
+            let promises = repos.map{ hooks(for: Node($0)) }
             let voided = promises.map{ $0.asVoid() }
             hooked = when(guarantees: voided).map { _ -> SwitchState in
                 if Set(promises.map{ $0.value! }).count == 1 {
@@ -439,9 +422,9 @@ extension ReposViewController: NSOutlineViewDelegate {
             privateReposAdviceLabel.isHidden = !repo.private
             notifyButton.allowsMixedState = false
             if repo.isPartOfOrganization {
-                hooked = hooks(for: .organization(repo.owner.id, repo.owner.login)).map(SwitchState.init)
+                hooked = hooks(for: .organization(repo.owner.login)).map(SwitchState.init)
             } else {
-                hooked = hooks(for: .repo(repo)).map(SwitchState.init)
+                hooked = hooks(for: Node(repo)).map(SwitchState.init)
             }
         }
 
@@ -485,7 +468,7 @@ extension ReposViewController: NSOutlineViewDelegate {
                         webhookExplanationText = "Contact the repo admin to install the webhook"
                         webhookButtonEnabled = false
                     }
-                case .organization(_, let login), .user(_, let login):
+                case .organization(let login), .user(let login):
                     switch self.rootedRepos[login]!.satisfaction({ $0.permissions.admin }) {
                     case .none:
                         webhookButtonEnabled = false
@@ -517,29 +500,14 @@ extension ReposViewController: NSOutlineViewDelegate {
         }
         let integrated: Bool
         if let login = item as? String {
-            let set = Set(rootedRepos[login]!.map{ subscribed.contains($0.id) })
-            if set.count == 1 {
-                integrated = set.first!
-            } else {
-                integrated = false //TODO mixed
-            }
+            integrated = rootedRepos[login]!.satisfaction{ subscribed.contains($0.id) } == .all
+        } else if let repo = item as? Repo {
+            integrated = subscribed.contains(repo.id)
         } else {
-            integrated = subscribed.contains((item as! Repo).id)
+            return nil
         }
-        cell.textColor = integrated
-            ? .labelColor
-            : .secondaryLabelColor
+        cell.textColor = integrated ? .labelColor : .secondaryLabelColor
         return cell
-    }
-}
-
-private struct Hook: Decodable {
-    let id: Int
-    let config: Config
-
-    struct Config: Decodable {
-        let url: String?
-        let content_type: String?
     }
 }
 
@@ -550,5 +518,11 @@ private extension Array where Element == Repo {
         } else {
             return false
         }
+    }
+}
+
+private extension Node {
+    init(_ repo: Repo) {
+        self = .repository(repo.owner.login, repo.name)
     }
 }

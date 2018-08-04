@@ -101,6 +101,7 @@ struct Repo: Decodable {
     let owner: Owner
     let `private`: Bool
     let permissions: Permissions
+    let name: String
 
     struct Permissions: Decodable {
         let admin: Bool

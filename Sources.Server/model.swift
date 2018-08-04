@@ -1,3 +1,4 @@
+import enum Roots.Node
 import PerfectSQLite
 import Foundation
 
@@ -284,6 +285,21 @@ class DB {
             WHERE userId = \(userId)
             """)
     }
+
+    func record(hook: Int, secret: String, node: (Node, id: Int)) throws {
+        let sql = """
+            REPLACE INTO hooks (id, secret, target_id, target_type, full_name)
+            VALUES (:1, :2, :3, :4, :5)
+            """
+        // replace because github replaces if we create a hook that already exists
+        try db.execute(statement: sql) {
+            try $0.bind(position: 1, hook)
+            try $0.bind(position: 2, secret)
+            try $0.bind(position: 3, node.id)
+            try $0.bind(position: 4, node.0.dbType)
+            try $0.bind(position: 5, node.0.ref)
+        }
+    }
 }
 
 struct APNSConfiguration: Hashable {
@@ -299,5 +315,16 @@ private extension Formatter {
         formatter.timeZone = TimeZone(secondsFromGMT: 0)
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
         return formatter
+    }
+}
+
+private extension Node {
+    var dbType: Int {
+        switch self {
+        case .repository:
+            return 1
+        case .organization:
+            return 2
+        }
     }
 }

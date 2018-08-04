@@ -27,7 +27,7 @@ class SignInViewController: NSViewController {
     @IBAction func signIn(sender: NSButton) {
         //TODO wait for token and show message to that effect
         guard let deviceToken = app.deviceToken else {
-            alert(message: "Pending Device Token", title: "Please check your Internet connection.")
+            return alert(message: "Pending Device Token", title: "Please check your Internet connection.")
         }
 
         performSegue(withIdentifier: "Authenticating", sender: sender)

@@ -51,10 +51,10 @@ struct PingEvent: Codable, Notificatable {
 
         let container = try decoder.container(keyedBy: CodingKeys.self)
         hook = try container.decode(Hook.self, forKey: .hook)
-        if hook.type == "organization" {
+        if hook.type == "Organization" {
             let org = try container.decode(User.self, forKey: .organization)
             context = .organization(org)
-        } else if hook.type == "repostory" {
+        } else if hook.type == "Repository" {
             let repo = try container.decode(Repository.self, forKey: .repository)
             context = .repository(repo)
         } else {
