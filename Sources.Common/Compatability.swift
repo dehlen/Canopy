@@ -29,3 +29,30 @@ public extension Data {
         return Data(map{ $0 ^ 176 })
     }
 }
+
+import struct Foundation.URLRequest
+
+extension URLRequest {
+    var description: String {
+        var data : String = ""
+        let complement = "\\\n    "
+        let method = "-X \(httpMethod ?? "GET") \(complement)"
+        let url = "\"\(self.url?.absoluteString ?? "")\""
+
+        var header = ""
+
+        if let httpHeaders = allHTTPHeaderFields, httpHeaders.keys.count > 0 {
+            for (key,value) in httpHeaders {
+                header += "-H \"\(key): \(value)\" \(complement)"
+            }
+        }
+
+        if let bodyData = httpBody, let bodyString = String(data:bodyData, encoding:.utf8) {
+            data = "-d \"\(bodyString)\" \(complement)"
+        }
+
+        let command = "curl -i " + complement + method + header + data + url
+
+        return command
+    }
+}
