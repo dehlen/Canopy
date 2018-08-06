@@ -144,9 +144,7 @@ extension ReposViewController {
             URLSession.shared.dataTask(.promise, with: rq).validate()
         }.map {
             try JSONDecoder().decode([Int].self, from: $0.data)
-        }.compactMapValues(unconvert).map(Set.init).get {
-            print($0)
-        }
+        }.compactMapValues(unconvert).map(Set.init)
     }
 }
 
