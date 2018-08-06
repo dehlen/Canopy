@@ -11,16 +11,25 @@
     rsync --archive --human-readable --compress --verbose --delete \
           --exclude .build --exclude Carthage --exclude AuthKey_5354D789X6.p8 \
           . canopy:src
+  
+# FAQ
 
-# Notable Missing Events
+> I cannot see a particular private repo.
 
-There are no webhooks (or often other types of event) for these:
+The GitHub API does not return results for private repositories forked from private repositories that are not organizations.
+To add such repositories you have to create a personal-access-token and replace the keychain entry for Canopy with that token.
 
-* Repositories renamed
-* Gist creation
-* Activity on other repos you watch that have no hooks
-  eg. you comment on a thread, now you are subscribed, you'll get an email and
-  notification bell about this on github.com, but Canopy cannot see this unless
-  they have a webhook installed and you subscribe to that repo, but then you
-  get *all* notifications, which isn’t what you want. I guess if they have it installed
-  we could notify you sine you are involved. We could figure that out.
+> I do not get certain notifications I was expecting
+
+Canopy can only report activity that is supported by GitHub’s webhook system, notably this does not include:
+
+* Activity on other people’s repositories that you are watching
+* Activity on issue trackers that occurs after you have commented
+* Activity on your gists
+* Repository rename events
+
+> Why do you ask for full access to my repositories
+
+Unfortunately this permission is the lowest we can request in order to list your private repositories.
+
+GitHub need to offer more granularity in their permission scope system.
