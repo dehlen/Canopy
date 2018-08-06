@@ -43,6 +43,8 @@ extension Notification.Name {
 private let keychain = Keychain(server: "https://github.com", protocolType: .https)
     .accessibility(.whenUnlocked)
     .synchronizable(true)
+    .label("Canopy")
+    .comment("GitHub OAuth Token")
 
 extension UserDefaults {
     var username: String? {
