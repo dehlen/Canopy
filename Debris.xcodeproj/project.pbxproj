@@ -2506,6 +2506,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 9999;
+				TargetAttributes = {
+					"PromiseKit::PromiseKit" = {
+						LastSwiftMigration = 1000;
+					};
+				};
 			};
 			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "Debris" */;
 			compatibilityVersion = "Xcode 3.2";

@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken rawDeviceToken: Data) {
         deviceToken = String(deviceToken: rawDeviceToken)
 
-        if let oauthToken = UserDefaults.standard.gitHubOAuthToken, let deviceToken = deviceToken {
+        if let oauthToken = creds?.token, let deviceToken = deviceToken {
             firstly {
                 updateTokens(oauth: oauthToken, device: deviceToken)
             }.catch {
