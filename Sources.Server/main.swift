@@ -47,6 +47,7 @@ routes.add(method: .post, uri: "/subscribe", handler: subscribeHandler)
 routes.add(method: .delete, uri: "/subscribe", handler: unsubscribeHandler)
 routes.add(method: .post, uri: "/receipt", handler: receiptHandler)
 routes.add(method: .post, uri: "/hook", handler: createHookHandler)
+routes.add(method: .get, uri: "/hook", handler: hookQueryHandler)
 
 let server = HTTPServer()
 server.addRoutes(routes)

@@ -71,4 +71,10 @@ extension Collection {
             return .none
         }
     }
+
+    func satisfaction(_ keyPath: KeyPath<Element, Bool>) ->Satisfaction {
+        return satisfaction {
+            $0[keyPath: keyPath]
+        }
+    }
 }

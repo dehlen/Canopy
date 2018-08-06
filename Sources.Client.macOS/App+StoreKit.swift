@@ -66,11 +66,11 @@ extension AppDelegate: SKPaymentTransactionObserver {
 
     private func _postReceipt(token: String, receipt: URL) -> Promise<Void> {
         return DispatchQueue.global().async(.promise) {
-            let receiptData = try! Data(contentsOf: receipt).base64EncodedString()
+            let receiptData = try Data(contentsOf: receipt).base64EncodedString()
             let receipt = Receipt(isProduction: isProductionAPSEnvironment, base64: receiptData)
             var rq = URLRequest(url: URL(string: "https://canopy.codebasesaga.com/receipt")!)
             rq.httpMethod = "POST"
-            rq.httpBody = try! JSONEncoder().encode(receipt)
+            rq.httpBody = try JSONEncoder().encode(receipt)
             rq.setValue("application/json", forHTTPHeaderField: "Content-Type")
             rq.setValue(token, forHTTPHeaderField: "Authorization")
             return rq
@@ -82,7 +82,7 @@ extension AppDelegate: SKPaymentTransactionObserver {
     }
 
     func postReceiptIfPossible() {
-        guard let url = Bundle.main.appStoreReceiptURL, let token = creds?.token else {
+        guard let url = Bundle.main.appStoreReceiptURL, let token = creds?.token, FileManager.default.isReadableFile(atPath: url.path) else {
             return
         }
         firstly {

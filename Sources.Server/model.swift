@@ -300,6 +300,23 @@ class DB {
             try $0.bind(position: 5, node.0.ref)
         }
     }
+
+    func whichAreHooked(ids: [Int]) throws -> [Int] {
+        let ids = ids.enumerated()
+        let values = ids.map { x, _ in
+            ":\(x + 1)"
+        }.joined(separator: ",")
+        var results: [Int] = []
+        let sql = "SELECT target_id FROM hooks WHERE target_id IN (\(values))"
+        try db.forEachRow(statement: sql, doBindings: {
+            for (x, id) in ids {
+                try $0.bind(position: x + 1, id)
+            }
+        }, handleRow: { stmt, _ in
+            results.append(stmt.columnInt(position: 0))
+        })
+        return results
+    }
 }
 
 struct APNSConfiguration: Hashable {

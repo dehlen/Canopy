@@ -159,6 +159,18 @@ extension URL {
     }
 }
 
+extension URLRequest {
+    init(canopy path: String) {
+        self.init(url: URL(string: serverBaseUri)!.appendingPathComponent(path))
+    }
+}
+
+extension URLComponents {
+    init(canopy path: String) {
+        self.init(url: URL(string: serverBaseUri)!.appendingPathComponent(path), resolvingAgainstBaseURL: false)!
+    }
+}
+
 func updateTokens(oauth: String, device: String) -> Promise<Void> {
     do {
         let bid = Bundle.main.bundleIdentifier!

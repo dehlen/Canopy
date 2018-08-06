@@ -46,6 +46,15 @@ public enum Node: Codable {
         }
     }
 
+    public var apiPath: String {
+        switch self {
+        case .organization:
+            return "/\(ref)"
+        case .repository(let owner, let name):
+            return "/repos/\(owner)/\(name)"
+        }
+    }
+
     enum CodingKeys: String, CodingKey {
         case node
     }

@@ -15,6 +15,9 @@
 		635ACB8D21136E5D0007C4EE /* App+StoreKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635ACB8C21136E5D0007C4EE /* App+StoreKit.swift */; };
 		635ACBAB21136F000007C4EE /* SKProductsRequest+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635ACBAA21136F000007C4EE /* SKProductsRequest+Promise.swift */; };
 		635ACBAD2113750B0007C4EE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 635ACBAC2113750B0007C4EE /* StoreKit.framework */; };
+		636440A22116284C0098DE10 /* ReposViewController+Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636440A12116284C0098DE10 /* ReposViewController+Networking.swift */; };
+		636440C0211628CF0098DE10 /* ReposViewController+OutlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636440BF211628CF0098DE10 /* ReposViewController+OutlineView.swift */; };
+		636440C221162B960098DE10 /* ReposViewController+Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636440C121162B960098DE10 /* ReposViewController+Types.swift */; };
 		636A40AA20F94D2E0051DE0B /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 636A409320F94D2E0051DE0B /* PromiseKit.framework */; };
 		636A40AB20F94D2E0051DE0B /* PromiseKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 636A409320F94D2E0051DE0B /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		636A40BD20F960520051DE0B /* ReposViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636A40BC20F960520051DE0B /* ReposViewController.swift */; };
@@ -186,6 +189,9 @@
 		635ACB8C21136E5D0007C4EE /* App+StoreKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App+StoreKit.swift"; sourceTree = "<group>"; };
 		635ACBAA21136F000007C4EE /* SKProductsRequest+Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SKProductsRequest+Promise.swift"; path = "Sources.Client.macOS/SKProductsRequest+Promise.swift"; sourceTree = SOURCE_ROOT; };
 		635ACBAC2113750B0007C4EE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		636440A12116284C0098DE10 /* ReposViewController+Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReposViewController+Networking.swift"; sourceTree = "<group>"; };
+		636440BF211628CF0098DE10 /* ReposViewController+OutlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReposViewController+OutlineView.swift"; sourceTree = "<group>"; };
+		636440C121162B960098DE10 /* ReposViewController+Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReposViewController+Types.swift"; sourceTree = "<group>"; };
 		636A409320F94D2E0051DE0B /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/Mac/PromiseKit.framework; sourceTree = "<group>"; };
 		636A40AF20F94D710051DE0B /* Error+legibleDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Error+legibleDescription.swift"; path = "Sources.Common/Error+legibleDescription.swift"; sourceTree = SOURCE_ROOT; };
 		636A40B320F94D9E0051DE0B /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Sources.Common/Constants.swift; sourceTree = SOURCE_ROOT; };
@@ -194,7 +200,7 @@
 		6380FF86210E79A500544476 /* Compatability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Compatability.swift; path = Sources.Common/Compatability.swift; sourceTree = SOURCE_ROOT; };
 		6380FF8A210E79A500544476 /* DebrisAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DebrisAPI.swift; path = Sources.Common/DebrisAPI.swift; sourceTree = SOURCE_ROOT; };
 		6387B81E211105D800D17446 /* Client.etc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Client.etc.swift; sourceTree = "<group>"; };
-		6388D12C20F515250082F280 /* Canopy.macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Canopy.macOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6388D12C20F515250082F280 /* Canopy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Canopy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6388D12F20F515250082F280 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		6388D13120F515270082F280 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6388D13620F515270082F280 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -291,7 +297,7 @@
 		6388D12D20F515250082F280 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6388D12C20F515250082F280 /* Canopy.macOS.app */,
+				6388D12C20F515250082F280 /* Canopy.app */,
 				638C336820FD79730048C52E /* Canopy.iOS.app */,
 			);
 			name = Products;
@@ -305,6 +311,9 @@
 				63562B4420F9105C0076F52B /* App+UserNotifications.swift */,
 				635ACB8C21136E5D0007C4EE /* App+StoreKit.swift */,
 				636A40BC20F960520051DE0B /* ReposViewController.swift */,
+				636440A12116284C0098DE10 /* ReposViewController+Networking.swift */,
+				636440BF211628CF0098DE10 /* ReposViewController+OutlineView.swift */,
+				636440C121162B960098DE10 /* ReposViewController+Types.swift */,
 				63E4E01D21090EC70081E9AB /* SignInViewController.swift */,
 				63562B4020F90CF40076F52B /* etc.swift */,
 				635ACBB42114C7510007C4EE /* Vendor */,
@@ -377,7 +386,7 @@
 			);
 			name = "Canopy-macOS";
 			productName = GitBell;
-			productReference = 6388D12C20F515250082F280 /* Canopy.macOS.app */;
+			productReference = 6388D12C20F515250082F280 /* Canopy.app */;
 			productType = "com.apple.product-type.application";
 		};
 		638C336720FD79730048C52E /* Canopy-iOS */ = {
@@ -560,7 +569,7 @@
 		};
 		63008C6921001B0C005AF72D /* debris */ = {
 			isa = PBXReferenceProxy;
-			fileType = text;
+			fileType = "compiled.mach-o.executable";
 			path = debris;
 			remoteRef = 63008C6821001B0C005AF72D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -609,10 +618,13 @@
 				63562B4120F90CF40076F52B /* etc.swift in Sources */,
 				6388D13020F515250082F280 /* App.swift in Sources */,
 				6380FF95210E79D500544476 /* GitHubAPI.swift in Sources */,
+				636440C221162B960098DE10 /* ReposViewController+Types.swift in Sources */,
 				63562B4320F9102B0076F52B /* App+NSApplicationDelegate.swift in Sources */,
+				636440C0211628CF0098DE10 /* ReposViewController+OutlineView.swift in Sources */,
 				6380FF91210E79D500544476 /* DebrisAPI.swift in Sources */,
 				63562B4520F9105C0076F52B /* App+UserNotifications.swift in Sources */,
 				6387B83B211105D800D17446 /* Client.etc.swift in Sources */,
+				636440A22116284C0098DE10 /* ReposViewController+Networking.swift in Sources */,
 				6380FF90210E79D500544476 /* Compatability.swift in Sources */,
 				63F1CF0B21126D630084C76E /* Keychain.swift in Sources */,
 				635ACBAB21136F000007C4EE /* SKProductsRequest+Promise.swift in Sources */,
@@ -791,7 +803,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.codebasesaga.macOS.Canopy;
 				PRODUCT_MODULE_NAME = Canopy;
-				PRODUCT_NAME = Canopy.macOS;
+				PRODUCT_NAME = Canopy;
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
@@ -816,7 +828,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.codebasesaga.macOS.Canopy;
 				PRODUCT_MODULE_NAME = Canopy;
-				PRODUCT_NAME = Canopy.macOS;
+				PRODUCT_NAME = Canopy;
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
