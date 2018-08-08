@@ -690,23 +690,23 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ReposViewController" customModule="Canopy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="403" height="499"/>
+                        <rect key="frame" x="0.0" y="0.0" width="356" height="499"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NXw-D2-3nV">
-                                <rect key="frame" x="0.0" y="0.0" width="238" height="499"/>
+                            <scrollView horizontalCompressionResistancePriority="1000" borderType="none" autohidesScrollers="YES" horizontalLineScroll="98" horizontalPageScroll="10" verticalLineScroll="98" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NXw-D2-3nV">
+                                <rect key="frame" x="0.0" y="105" width="191" height="394"/>
                                 <clipView key="contentView" drawsBackground="NO" id="RTj-pS-YmG">
-                                    <rect key="frame" x="0.0" y="0.0" width="238" height="499"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="191" height="394"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" autosaveColumns="NO" indentationPerLevel="16" outlineTableColumn="5t4-ur-x1R" id="Tn7-qK-wuj">
-                                            <rect key="frame" x="0.0" y="0.0" width="238" height="499"/>
+                                        <outlineView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" autosaveColumns="NO" rowHeight="96" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="16" outlineTableColumn="5t4-ur-x1R" id="Tn7-qK-wuj">
+                                            <rect key="frame" x="0.0" y="0.0" width="191" height="394"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn editable="NO" width="235" minWidth="16" maxWidth="1000" id="5t4-ur-x1R">
+                                                <tableColumn editable="NO" width="188" minWidth="16" maxWidth="1000" id="5t4-ur-x1R">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -729,7 +729,7 @@
                                     <nil key="backgroundColor"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="KNQ-mI-SYh">
-                                    <rect key="frame" x="0.0" y="483" width="212" height="16"/>
+                                    <rect key="frame" x="0.0" y="350" width="169" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="xoq-Kv-1P3">
@@ -737,8 +737,43 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="Cqe-Sb-Bh5" userLabel="Info" customClass="ViewWithBackgroundColor" customModule="Canopy" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="191" height="105"/>
+                                <subviews>
+                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="TLB-yb-KTX">
+                                        <rect key="frame" x="14" y="12" width="163" height="60"/>
+                                        <textFieldCell key="cell" selectable="YES" title="The GitHub API tends to hide forks of private repos, if so, add them manually via the File menu." id="k7V-8J-66u">
+                                            <font key="font" metaFont="system" size="11"/>
+                                            <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="h5C-3c-04s">
+                                        <rect key="frame" x="14" y="76" width="163" height="15"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Missing Repositories?" id="Qpp-Qn-pSl">
+                                            <font key="font" metaFont="systemSemibold" size="11"/>
+                                            <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="h5C-3c-04s" firstAttribute="top" secondItem="Cqe-Sb-Bh5" secondAttribute="top" constant="14" id="3Zi-GY-Jww"/>
+                                    <constraint firstAttribute="trailing" secondItem="TLB-yb-KTX" secondAttribute="trailing" constant="16" id="C5s-sH-iy8"/>
+                                    <constraint firstItem="TLB-yb-KTX" firstAttribute="leading" secondItem="Cqe-Sb-Bh5" secondAttribute="leading" constant="16" id="EQh-8E-dGZ"/>
+                                    <constraint firstItem="h5C-3c-04s" firstAttribute="leading" secondItem="Cqe-Sb-Bh5" secondAttribute="leading" constant="16" id="Jk8-B7-LSW"/>
+                                    <constraint firstAttribute="trailing" secondItem="h5C-3c-04s" secondAttribute="trailing" constant="16" id="YUC-de-9vd"/>
+                                    <constraint firstAttribute="bottom" secondItem="TLB-yb-KTX" secondAttribute="bottom" constant="12" id="agb-dj-RLi"/>
+                                    <constraint firstItem="TLB-yb-KTX" firstAttribute="top" secondItem="h5C-3c-04s" secondAttribute="bottom" constant="4" id="c3s-L0-KpW"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                        <color key="value" name="underPageBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </customView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Lcr-HS-PQC">
-                                <rect key="frame" x="256" y="463" width="129" height="18"/>
+                                <rect key="frame" x="209" y="463" width="129" height="18"/>
                                 <buttonCell key="cell" type="check" title="Notify" bezelStyle="regularSquare" imagePosition="left" enabled="NO" inset="2" id="hZE-ed-mwP">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -747,8 +782,8 @@
                                     <action selector="toggleNotifyWithSender:" target="XfG-lQ-9wD" id="caQ-7r-Ny6"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j5Z-8i-YX8">
-                                <rect key="frame" x="252" y="43" width="137" height="32"/>
+                            <button horizontalHuggingPriority="1000" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j5Z-8i-YX8">
+                                <rect key="frame" x="205" y="43" width="137" height="32"/>
                                 <buttonCell key="cell" type="push" title="Install Webhook" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HAr-QH-A9t">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -758,7 +793,7 @@
                                 </connections>
                             </button>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="aSB-P9-wN8">
-                                <rect key="frame" x="256" y="20" width="129" height="22"/>
+                                <rect key="frame" x="209" y="20" width="129" height="22"/>
                                 <textFieldCell key="cell" selectable="YES" alignment="center" title="Canopy functions via GitHub webhooks" id="rto-8y-yFw">
                                     <font key="font" metaFont="miniSystem"/>
                                     <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
@@ -766,7 +801,7 @@
                                 </textFieldCell>
                             </textField>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hld-xX-SYI">
-                                <rect key="frame" x="258" y="363" width="125" height="94"/>
+                                <rect key="frame" x="211" y="363" width="125" height="94"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="69d-su-MaN">
                                         <rect key="frame" x="-2" y="79" width="110" height="15"/>
@@ -801,8 +836,10 @@ is free.</string>
                             </stackView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="NXw-D2-3nV" secondAttribute="bottom" id="0o0-AP-bQF"/>
                             <constraint firstItem="Lcr-HS-PQC" firstAttribute="leading" secondItem="NXw-D2-3nV" secondAttribute="trailing" constant="20" id="9ya-Lg-jEg"/>
+                            <constraint firstItem="NXw-D2-3nV" firstAttribute="trailing" secondItem="Cqe-Sb-Bh5" secondAttribute="trailing" id="C4u-rb-TzN"/>
+                            <constraint firstItem="Cqe-Sb-Bh5" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="Cwc-MR-3L3"/>
+                            <constraint firstItem="Cqe-Sb-Bh5" firstAttribute="top" secondItem="NXw-D2-3nV" secondAttribute="bottom" id="G8c-3K-SmW"/>
                             <constraint firstItem="NXw-D2-3nV" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="KWK-eP-I2c"/>
                             <constraint firstItem="aSB-P9-wN8" firstAttribute="leading" secondItem="NXw-D2-3nV" secondAttribute="trailing" constant="20" id="McG-ab-kNG"/>
                             <constraint firstItem="j5Z-8i-YX8" firstAttribute="leading" secondItem="NXw-D2-3nV" secondAttribute="trailing" constant="20" id="OE8-wF-5rr"/>
@@ -816,6 +853,7 @@ is free.</string>
                             <constraint firstAttribute="bottom" secondItem="aSB-P9-wN8" secondAttribute="bottom" constant="20" id="mB9-fg-X8V"/>
                             <constraint firstItem="Hld-xX-SYI" firstAttribute="top" secondItem="Lcr-HS-PQC" secondAttribute="bottom" constant="8" id="pLV-SR-x82"/>
                             <constraint firstItem="Lcr-HS-PQC" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="rJz-k9-zrc"/>
+                            <constraint firstAttribute="bottom" secondItem="Cqe-Sb-Bh5" secondAttribute="bottom" id="xPV-R3-pyb"/>
                         </constraints>
                     </view>
                     <connections>
@@ -830,7 +868,7 @@ is free.</string>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="810"/>
+            <point key="canvasLocation" x="74" y="811"/>
         </scene>
         <!--Sign In View Controller-->
         <scene sceneID="ly1-PT-1NG">
