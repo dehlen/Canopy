@@ -120,7 +120,7 @@ struct Repo: Decodable {
     }
 }
 
-extension Repo: Hashable, Equatable {
+extension Repo: Hashable, Equatable, Comparable {
     static func == (lhs: Repo, rhs: Repo) -> Bool {
         return lhs.id == rhs.id
     }
@@ -134,6 +134,10 @@ extension Repo: Hashable, Equatable {
         return id
     }
 #endif
+
+    static func < (lhs: Repo, rhs: Repo) -> Bool {
+        return lhs.full_name < rhs.full_name
+    }
 }
 
 extension URL {

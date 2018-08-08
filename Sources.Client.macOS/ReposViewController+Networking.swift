@@ -10,7 +10,7 @@ extension ReposViewController {
             return
         }
         guard let token = creds?.token else {
-            repos = []
+            repos = .init()
             hooked = []
             subscribed = []
             outlineView.reloadData()
@@ -19,14 +19,16 @@ extension ReposViewController {
         }
 
         fetching = true
-        repos = []
+        repos = .init()
         subscribed = []
 
-        let fetchRepos = GitHubAPI(oauthToken: token).task(path: "/user/repos") { data in
+        let api = GitHubAPI(oauthToken: token)
+
+        let fetchRepos = api.task(path: "/user/repos") { data in
             DispatchQueue.global().async(.promise) {
                 try JSONDecoder().decode([Repo].self, from: data)
             }.done {
-                self.repos.append(contentsOf: $0)
+                self.repos.insert(contentsOf: $0)
                 self.outlineView.reloadData()
             }
         }
@@ -56,6 +58,21 @@ extension ReposViewController {
             return nil
         }
 
+        func stragglers() -> Promise<[Repo]> {
+            let repoIds = Set(repos.map(\.id))
+            let stragglers = subscribed.filter { sub in
+                !repoIds.contains(sub)
+            }.map {
+                api.request(path: "/repositories/\($0)")
+            }.map {
+                URLSession.shared.dataTask(.promise, with: $0).validate()
+            }
+            print(#function, stragglers)
+            return when(fulfilled: stragglers).mapValues {
+                try JSONDecoder().decode(Repo.self, from: $0.data)
+            }
+        }
+
         firstly {
             when(fulfilled: fetchRepos, fetchSubs(token: token))
         }.done {
@@ -65,6 +82,11 @@ extension ReposViewController {
             self.hasVerifiedReceipt = hasReceipt
             self.outlineView.reloadData()
             self.outlineView.expandItem(nil, expandChildren: true)
+        }.then {
+            stragglers()
+        }.done {
+            self.repos.insert(contentsOf: $0)
+            self.outlineView.reloadData()
         }.then {
             fetchInstallations(for: self.nodes.compactMap(convert))
         }.map {
@@ -177,7 +199,7 @@ extension ReposViewController {
                 if let node = $0 {
                     self.hooked.insert(node)
                 }
-                self.repos.append(repo)
+                self.repos.insert(repo)
                 self.outlineView.reloadData()
             }
         }.catch {

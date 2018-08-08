@@ -2,7 +2,7 @@ import PromiseKit
 import AppKit
 
 class ReposViewController: NSViewController {
-    var repos = [Repo]()
+    var repos = SortedArray<Repo>()
     var hooked = Set<Node>()
     var fetching = false
     var subscribed = Set<Int>()
