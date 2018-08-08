@@ -176,6 +176,12 @@ class ReposViewController: NSViewController {
             }
         }
     }
+
+    @IBAction func showHelp(_ sender: Any) {
+        if let url = URL(string: "https://codebasesaga.com/canopy/") {
+            NSWorkspace.shared.open(url)
+        }
+    }
 }
 
 private extension Array where Element == Repo {
