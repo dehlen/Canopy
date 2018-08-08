@@ -631,14 +631,18 @@ struct PushEvent: Codable, Notificatable {
 
 // https://developer.github.com/v3/activity/events/types/#pullrequestevent
 struct PullRequestEvent: Codable, Notificatable {
-    let action: String
+    let action: Action
     let number: Int
     let pull_request: PullRequest
     let repository: Repository
     let sender: User
 
+    enum Action: String, Codable {
+        case assigned, unassigned, review_requested, review_request_removed, labeled, unlabeled, opened, edited, closed, reopened
+    }
+
     var body: String {
-        if action == "closed", pull_request.merged {
+        if action == .closed, let merged = pull_request.merged, merged {
             return "\(sender.login) merged \(repository.full_name)#\(number)"
         } else {
             return "\(sender.login) \(action) \(repository.full_name)#\(number)"
@@ -793,6 +797,6 @@ struct PullRequest: Codable {
     let state: String
     let title: String
     let body: String
-    let merged: Bool
+    let merged: Bool?
     let number: Int
 }
