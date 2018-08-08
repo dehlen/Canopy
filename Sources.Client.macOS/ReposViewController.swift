@@ -158,6 +158,24 @@ class ReposViewController: NSViewController {
             fetch()
         }
     }
+
+    @IBAction func addManualSubscription(sender: Any) {
+        let tf = NSTextField(frame: CGRect(x: 0, y: 0, width: 200, height: 24))
+        tf.placeholderString = "owner/repository"
+
+        let alert = NSAlert()
+        alert.alertStyle = .informational
+        alert.messageText = "Add Repository"
+        alert.informativeText = "Get updates for any repository that has the Canopy webhook installed."
+        alert.accessoryView = tf
+        alert.addButton(withTitle: "Add").tag = NSApplication.ModalResponse.OK.rawValue
+        alert.addButton(withTitle: "Cancel").tag = NSApplication.ModalResponse.cancel.rawValue
+        alert.beginSheetModal(for: view.window!) { rsp in
+            if rsp == .OK {
+                self.add(repoFullName: tf.stringValue)
+            }
+        }
+    }
 }
 
 private extension Array where Element == Repo {

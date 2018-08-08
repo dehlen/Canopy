@@ -31,16 +31,44 @@ extension ReposViewController {
             }
         }
 
+        func convert(_ node: Node) -> Int? {
+            switch node {
+            case .organization(let login):
+                for repo in repos where repo.owner.login == login {
+                    return repo.owner.id
+                }
+            case .repository(let login, let name):
+                for repo in repos where repo.owner.login == login && repo.name == name {
+                    return repo.id
+                }
+            }
+            return nil
+        }
+
+        func unconvert(_ id: Int) -> Node? {
+            for repo in repos {
+                if repo.id == id {
+                    return .init(repo)
+                } else if repo.owner.id == id {
+                    return .organization(repo.owner.login)
+                }
+            }
+            return nil
+        }
+
         firstly {
             when(fulfilled: fetchRepos, fetchSubs(token: token))
         }.done {
+            //TODO may have subs that github doesn't list due to token bug, need to show them!
             let (subs, hasReceipt) = $1
             self.subscribed = subs
             self.hasVerifiedReceipt = hasReceipt
             self.outlineView.reloadData()
             self.outlineView.expandItem(nil, expandChildren: true)
         }.then {
-            self.fetchInstallations()
+            fetchInstallations(for: self.nodes.compactMap(convert))
+        }.map {
+            Set($0.compactMap(unconvert))
         }.done {
             self.hooked = $0
         }.catch {
@@ -110,41 +138,51 @@ extension ReposViewController {
         }
     }
 
-    private func fetchInstallations() -> Promise<Set<Node>> {
-        func convert(_ node: Node) -> Int? {
-            switch node {
-            case .organization(let login):
-                for repo in repos where repo.owner.login == login {
-                    return repo.owner.id
+    func add(repoFullName full_name: String) {
+        guard full_name.contains("/"), let token = creds?.token else {
+            return
+        }
+
+        //TODO ust refresh hook information, maybe it's been days and the user knows the data is stale!
+        func fetchInstallation(for repo: Repo) -> Promise<Node?> {
+            var node: Node {
+                if repo.isPartOfOrganization {
+                    return .organization(repo.owner.login)
+                } else {
+                    return .repository(repo.owner.login, repo.name)
                 }
-            case .repository(let login, let name):
-                for repo in repos where repo.owner.login == login && repo.name == name {
+            }
+            var id: Int {
+                switch node {
+                case .organization:
+                    return repo.owner.id
+                case .repository:
                     return repo.id
                 }
             }
-            return nil
-        }
-
-        func unconvert(_ id: Int) -> Node? {
-            for repo in repos {
-                if repo.id == id {
-                    return .init(repo)
-                } else if repo.owner.id == id {
-                    return .organization(repo.owner.login)
-                }
+            return firstly {
+                fetchInstallations(for: [id])
+            }.map {
+                $0.isEmpty ? nil : node
             }
-            return nil
         }
 
-        //FIXME need to store ids in Node really, ids are stable, names are not
-        var cc = URLComponents(canopy: "/hook")
-        cc.queryItems = nodes.compactMap(convert).map{ URLQueryItem(name: "ids[]", value: String($0)) }
-        let rq = URLRequest(url: cc.url!)
-        return firstly {
+        let rq = GitHubAPI(oauthToken: token).request(path: "/repos/\(full_name)")
+        firstly {
             URLSession.shared.dataTask(.promise, with: rq).validate()
         }.map {
-            try JSONDecoder().decode([Int].self, from: $0.data)
-        }.compactMapValues(unconvert).map(Set.init)
+            try JSONDecoder().decode(Repo.self, from: $0.data)
+        }.then { repo in
+            fetchInstallation(for: repo).done {
+                if let node = $0 {
+                    self.hooked.insert(node)
+                }
+                self.repos.append(repo)
+                self.outlineView.reloadData()
+            }
+        }.catch {
+            alert($0)
+        }
     }
 }
 
@@ -158,4 +196,17 @@ private func fetchSubs(token: String) -> Promise<(Set<Int>, Bool)> {
         let verifiedReceipt = (rsp as? HTTPURLResponse)?.allHeaderFields["Upgrade"] as? String == "true"
         return (subs, verifiedReceipt)
     }
+}
+
+
+func fetchInstallations(for nodes: [Int]) -> Promise<Set<Int>> {
+    //FIXME need to store ids in Node really, ids are stable, names are not
+    var cc = URLComponents(canopy: "/hook")
+    cc.queryItems = nodes.map{ URLQueryItem(name: "ids[]", value: String($0)) }
+    let rq = URLRequest(url: cc.url!)
+    return firstly {
+        URLSession.shared.dataTask(.promise, with: rq).validate()
+    }.map {
+        try JSONDecoder().decode([Int].self, from: $0.data)
+    }.map(Set.init)
 }
