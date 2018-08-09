@@ -600,28 +600,29 @@ struct PullRequestReviewCommentEvent: Codable, Notificatable {
 struct PushEvent: Codable, Notificatable {
     let repository: Repository
     let pusher: Pusher
-    let commits: [Commit]
     let compare: URL
     let forced: Bool
-    let head_commit: Commit
+    let distinct_size: Int?
+    let commits: [Commit]
+
+    struct Commit: Codable {
+        let message: String
+    }
 
     struct Pusher: Codable {
         let name: String
     }
-    struct Commit: Codable {
-        let message: String
-        let url: URL
-    }
 
     var body: String {
+        let size = distinct_size ?? self.commits.count
         let force = forced ? "force‑" : ""
-        let commits = self.commits.count == 1
+        let commits = size == 1
             ? "1 commit"
-            : "\(self.commits.count) commits"
+            : "\(size) commits"
         return "\(pusher.name) \(force)pushed \(commits)"
     }
     var url: URL? {
-        return head_commit.url
+        return compare
     }
 
     var context: Context {
@@ -638,12 +639,14 @@ struct PullRequestEvent: Codable, Notificatable {
     let sender: User
 
     enum Action: String, Codable {
-        case assigned, unassigned, review_requested, review_request_removed, labeled, unlabeled, opened, edited, closed, reopened
+        case assigned, unassigned, review_requested, review_request_removed, labeled, unlabeled, opened, edited, closed, reopened, synchronize
     }
 
     var body: String {
         if action == .closed, let merged = pull_request.merged, merged {
             return "\(sender.login) merged \(repository.full_name)#\(number)"
+        } else if action == .synchronize {
+            return "\(sender.login) synchronized \(repository.full_name)#\(number)"
         } else {
             return "\(sender.login) \(action) \(repository.full_name)#\(number)"
         }

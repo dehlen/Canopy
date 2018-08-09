@@ -87,10 +87,8 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
     } catch E.noEventType {
         alert(message: "No event type provided by GitHub!")
         response.completed(status: .expectationFailed)
-    } catch E.ignoring(let body) {
-        if let body = body {
-            print(body)
-        }
+    } catch E.ignoring(_) {
+        print("Ignoring status event")
         response.completed()
     } catch {
         alert(message: error.legibleDescription)
