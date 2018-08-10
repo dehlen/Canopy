@@ -1,6 +1,6 @@
-import func Foundation.exit
-import class Foundation.FileManager
 import struct Foundation.ObjCBool
+import class Foundation.FileManager
+import func Foundation.exit
 import PromiseKit
 
 var isDir: ObjCBool = false
@@ -67,4 +67,27 @@ server.addRoutes(routes)
 #else
     server.serverPort = 1088
 #endif
+
+
+import Dispatch
+
+signal(SIGINT, SIG_IGN) // prevent termination
+
+var running = true
+let sigint = DispatchSource.makeSignalSource(signal: SIGINT, queue: .global())
+sigint.setEventHandler {
+    //TODO thread-safety
+    if running {
+        running = false
+        print("Clean shutdown initiated")
+        server.stop()
+        //FIXME no way to cleanly stop the APNs engine
+    } else {
+        print("Already shutting down or not yet started")
+    }
+}
+sigint.resume()
+
 try server.start()
+
+print("HTTPServer shutdown")
