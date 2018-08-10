@@ -662,11 +662,15 @@ struct PullRequestEvent: Codable, Notificatable {
 
 // https://developer.github.com/v3/activity/events/types/#pullrequestreviewevent
 struct PullRequestReviewEvent: Codable, Notificatable {
-    let action: String
+    let action: Action
     let pull_request: PullRequest
     let review: Review
     let sender: User
     let repository: Repository
+
+    enum Action: String, Codable {
+        case submitted, edited, dismissed
+    }
 
     struct Review: Codable {
         let user: User

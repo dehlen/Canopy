@@ -157,7 +157,7 @@ private extension HTTPRequest {
         case "pull_request":
             return try rq.decode(PullRequestEvent.self)
         case "pull_request_review":
-            return try rq.decode(PullRequestEvent.self)
+            return try rq.decode(PullRequestReviewEvent.self)
         case "watch":
             return try rq.decode(WatchEvent.self)
         case "release":
