@@ -41,7 +41,7 @@ func createHookHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             "name": "web",
             "events": ["*"],
             "config": [
-                "url": hookUri,
+                "url": URL(.grapnel).absoluteString,
                 "content_type": "json",
                 "insecure_ssl": "0",
                 "secret": secret

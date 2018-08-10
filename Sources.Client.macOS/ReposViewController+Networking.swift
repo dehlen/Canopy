@@ -114,7 +114,7 @@ extension ReposViewController {
 
         func createHook(for node: Node) -> Promise<Node> {
             do {
-                var rq = URLRequest(canopy: "hook")
+                var rq = URLRequest(.hook)
                 rq.httpMethod = "POST"
                 rq.setValue("application/json", forHTTPHeaderField: "Content-Type")
                 rq.setValue(token, forHTTPHeaderField: "Authorization")
@@ -209,7 +209,7 @@ extension ReposViewController {
 }
 
 private func fetchSubs(token: String) -> Promise<(Set<Int>, Bool)> {
-    var rq = URLRequest(canopy: "/subscribe")
+    var rq = URLRequest(.subscribe)
     rq.addValue(token, forHTTPHeaderField: "Authorization")
     return firstly {
         URLSession.shared.dataTask(.promise, with: rq).validate()
@@ -223,7 +223,7 @@ private func fetchSubs(token: String) -> Promise<(Set<Int>, Bool)> {
 
 func fetchInstallations(for nodes: [Int]) -> Promise<Set<Int>> {
     //FIXME need to store ids in Node really, ids are stable, names are not
-    var cc = URLComponents(canopy: "/hook")
+    var cc = URLComponents(.hook)
     cc.queryItems = nodes.map{ URLQueryItem(name: "ids[]", value: String($0)) }
     let rq = URLRequest(url: cc.url!)
     return firstly {

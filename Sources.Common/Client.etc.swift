@@ -166,14 +166,8 @@ extension URL {
 }
 
 extension URLRequest {
-    init(canopy path: String) {
-        self.init(url: URL(string: serverBaseUri)!.appendingPathComponent(path))
-    }
-}
-
-extension URLComponents {
-    init(canopy path: String) {
-        self.init(url: URL(string: serverBaseUri)!.appendingPathComponent(path), resolvingAgainstBaseURL: false)!
+    init(_ canopy: URL.Canopy) {
+        self.init(url: URL(canopy))
     }
 }
 
@@ -186,7 +180,7 @@ func updateTokens(oauth: String, device: String) -> Promise<Void> {
             apnsTopic: bid,
             production: isProductionAPSEnvironment
         )
-        var rq = URLRequest(url: URL(string: "\(serverBaseUri)/token")!)
+        var rq = URLRequest(.token)
         rq.httpMethod = "POST"
         rq.httpBody = try JSONEncoder().encode(up)
         rq.setValue("application/json", forHTTPHeaderField: "Content-Type")

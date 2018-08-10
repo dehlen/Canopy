@@ -37,17 +37,23 @@ import PerfectHTTPServer
 import PerfectHTTP
 import Foundation
 
+private extension Routes {
+    mutating func add(method: HTTPMethod, uri: URL.Canopy, handler: @escaping RequestHandler) {
+        add(method: method, uri: uri.path, handler: handler)
+    }
+}
+
 var routes = Routes()
-routes.add(method: .post, uri: "/github", handler: githubHandler)
-routes.add(method: .post, uri: "/token", handler: updateTokensHandler)
-routes.add(method: .delete, uri: "/token", handler: deleteTokenHandler)
-routes.add(method: .get, uri: "/oauth", handler: oauthCallback)
-routes.add(method: .get, uri: "/subscribe", handler: subscriptionsHandler)
-routes.add(method: .post, uri: "/subscribe", handler: subscribeHandler)
-routes.add(method: .delete, uri: "/subscribe", handler: unsubscribeHandler)
-routes.add(method: .post, uri: "/receipt", handler: receiptHandler)
-routes.add(method: .post, uri: "/hook", handler: createHookHandler)
-routes.add(method: .get, uri: "/hook", handler: hookQueryHandler)
+routes.add(method: .post, uri: .grapnel, handler: githubHandler)
+routes.add(method: .post, uri: .token, handler: updateTokensHandler)
+routes.add(method: .delete, uri: .token, handler: deleteTokenHandler)
+routes.add(method: .get, uri: .redirect, handler: oauthCallback)
+routes.add(method: .get, uri: .subscribe, handler: subscriptionsHandler)
+routes.add(method: .post, uri: .subscribe, handler: subscribeHandler)
+routes.add(method: .delete, uri: .subscribe, handler: unsubscribeHandler)
+routes.add(method: .post, uri: .receipt, handler: receiptHandler)
+routes.add(method: .post, uri: .hook, handler: createHookHandler)
+routes.add(method: .get, uri: .hook, handler: hookQueryHandler)
 
 let server = HTTPServer()
 server.addRoutes(routes)

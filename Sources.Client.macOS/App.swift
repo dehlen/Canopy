@@ -14,8 +14,7 @@ class AppDelegate: NSObject {
     }
 
     @IBAction func signOut(sender: Any) {
-        let url = URL(string: serverBaseUri)!.appendingPathComponent("token")
-        var rq = URLRequest(url: url)
+        var rq = URLRequest(.token)
         rq.httpMethod = "DELETE"
         rq.httpBody = deviceToken?.data(using: .utf8)
 

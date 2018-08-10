@@ -110,7 +110,7 @@ class ReposViewController: NSViewController {
 
         sender.isEnabled = false
 
-        var rq = URLRequest(canopy: "/subscribe")
+        var rq = URLRequest(.subscribe)
         rq.httpMethod = subscribe ? "POST" : "DELETE"
         rq.httpBody = try! JSONEncoder().encode(ids)
         rq.setValue("application/json", forHTTPHeaderField: "Content-Type")

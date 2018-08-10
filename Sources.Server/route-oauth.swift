@@ -32,7 +32,7 @@ private func finish(code: String, state: String) throws {
         "client_id": clientId,
         "client_secret": "2397959358b460caf90f943c9a0f548cb084d5f2",
         "code": code,
-        "redirect_uri": redirectUri,
+        "redirect_uri": URL(.redirect).absoluteString,
         "state": state
     ]
     var rq = URLRequest(url: url)
