@@ -109,7 +109,12 @@ private extension HTTPRequest {
         case "ping":
             return try rq.decode(PingEvent.self)
         case "push":
-            return try rq.decode(PushEvent.self)
+            let push = try rq.decode(PushEvent.self)
+            if push.commits.isEmpty, let str = rq.postBodyString {
+                // trying to figure out what is going on in these circumstances
+                print(#function, str)
+            }
+            return push
         case "check_run":
             return try rq.decode(CheckRunEvent.self)
         case "check_suite":

@@ -190,9 +190,15 @@ struct CreateEvent: Codable, Notificatable {
 struct DeleteEvent: Codable, Notificatable {
     let repository: Repository
     let sender: User
+    let ref_type: RefType
+    let ref: String
+
+    enum RefType: String, Codable {
+        case branch, tag
+    }
 
     var body: String {
-        return "\(sender.login) deleted a repository"
+        return "\(sender.login) deleted the \(ref_type) “\(ref)”"
     }
     var url: URL? {
         return repository.html_url  // but… will 404
