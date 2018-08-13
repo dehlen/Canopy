@@ -83,7 +83,13 @@ public enum Node: Codable {
     }
 }
 
-#if os(macOS)
+extension Node {
+    init(_ repo: Repo) {
+        self = .repository(repo.owner.login, repo.name)
+    }
+}
+
+#if os(macOS) || os(iOS)
 extension Node: Equatable, Hashable
 {}
 #endif

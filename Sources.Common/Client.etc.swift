@@ -40,26 +40,17 @@ extension Notification.Name {
     static var credsUpdated: Notification.Name { return Notification.Name("com.codebasesaga.credsUpdated") }
 }
 
-private let keychain = Keychain(server: "https://github.com", protocolType: .https)
-    .accessibility(.whenUnlocked)
+private let keychain = Keychain(service: "com.codebasesaga.Canopy.GitHub", accessGroup: "TEQMQBRC7B.com.codebasesaga.Canopy")
+    .accessibility(.afterFirstUnlock)
     .synchronizable(true)
     .label("Canopy")
-    .comment("GitHub OAuth Token")
-
-extension UserDefaults {
-    var username: String? {
-        get {
-            return string(forKey: #function)
-        }
-        set {
-            set(newValue, forKey: #function)
-        }
-    }
-}
+    .comment("OAuth Token")
 
 var creds: (username: String, token: String)? {
     get {
-        guard let username = UserDefaults.standard.username else { return nil }
+        guard let username = keychain.allItems().first?["key"] as? String else {
+            return nil
+        }
         do {
             guard let token = try keychain.get(username) else {
                 print(#function, "Unexpected nil for token from keychain")
@@ -72,25 +63,18 @@ var creds: (username: String, token: String)? {
         }
     }
     set {
-        if let (login, token) = newValue {
-            do {
-                try keychain.set(token, key: login)
-                UserDefaults.standard.username = login
-
-                NotificationCenter.default.post(name: .credsUpdated, object: nil, userInfo: [
-                    "token": token,
-                    "login": login
-                ])
-            } catch {
-                if let user = UserDefaults.standard.username {
-                    keychain[user] = nil
-                }
-                UserDefaults.standard.username = nil
-                NotificationCenter.default.post(name: .credsUpdated, object: nil)
+        do {
+            guard let (login, token) = newValue else {
+                throw CocoaError.error(.coderInvalidValue)
             }
-        } else if let user = UserDefaults.standard.username {
-            keychain[user] = nil
-            UserDefaults.standard.username = nil
+            try keychain.set(token, key: login)
+
+            NotificationCenter.default.post(name: .credsUpdated, object: nil, userInfo: [
+                "token": token,
+                "login": login
+            ])
+        } catch {
+            try! keychain.removeAll()
             NotificationCenter.default.post(name: .credsUpdated, object: nil)
         }
     }

@@ -12,21 +12,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
+    var tabBarController: UITabBarController {
+        return window!.rootViewController as! UITabBarController
+    }
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions opts: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow()
-        window!.rootViewController = ViewController()
+        window!.rootViewController = UITabBarController()
+        setupTabBar()
         window!.makeKeyAndVisible()
 
+    #if !targetEnvironment(simulator)
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { _, error in
             DispatchQueue.main.async(execute: application.registerForRemoteNotifications)
         }
+    #endif
 
         return true
     }
 
+    func setupTabBar() {
+        let repos = ReposViewController()
+        repos.title = "Canopy"
+        let settings = SettingsViewController()
+        settings.title = "Settings"
+        let ncs = [repos, settings].map(UINavigationController.init)
+        tabBarController.setViewControllers(ncs, animated: false)
+        ncs[0].tabBarItem.title = "Repositories"
+    }
+
+#if !targetEnvironment(simulator)
     var deviceToken: String?
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken rawDeviceToken: Data) {
+
         deviceToken = String(deviceToken: rawDeviceToken)
 
         if let oauthToken = creds?.token, let deviceToken = deviceToken {
@@ -45,7 +64,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window!.rootViewController!.present(sheet, animated: true)
         }
     }
-
+#endif
+    
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         alert(error: error)
     }

@@ -220,7 +220,6 @@ private func fetchSubs(token: String) -> Promise<(Set<Int>, Bool)> {
     }
 }
 
-
 func fetchInstallations(for nodes: [Int]) -> Promise<Set<Int>> {
     //FIXME need to store ids in Node really, ids are stable, names are not
     var cc = URLComponents(.hook)

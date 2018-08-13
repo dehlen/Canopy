@@ -19,6 +19,8 @@ func alert(message: String, title: String = "Unexpected Error", file: StaticStri
     let alert = UIAlertController(title: message, message: message, preferredStyle: .alert)
     alert.addAction(.init(title: "OK", style: .default, handler: seal))
 
+    print("\(file):\(line)", message)  // you should log some of these to Sentry
+
     guard let vc = UIApplication.shared.visibleViewController else {
         print("error: Could not present UIAlertViewController")
         return Guarantee()
@@ -31,8 +33,6 @@ func alert(message: String, title: String = "Unexpected Error", file: StaticStri
     } else {
         vc.present(alert, animated: true)
     }
-
-    print("\(file):\(line)", message)  // you should log some of these to Sentry
 
     return promise.asVoid()
 }

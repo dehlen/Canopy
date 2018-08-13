@@ -47,9 +47,3 @@ extension ReposViewController {
         }
     }
 }
-
-extension Node {
-    init(_ repo: Repo) {
-        self = .repository(repo.owner.login, repo.name)
-    }
-}
