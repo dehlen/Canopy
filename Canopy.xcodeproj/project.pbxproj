@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		630DCCA021111D64007D2093 /* Client.etc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6387B81E211105D800D17446 /* Client.etc.swift */; };
-		632633B9211F57E400D112EA /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632633B8211F57E400D112EA /* SettingsViewController.swift */; };
+		632633B9211F57E400D112EA /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632633B8211F57E400D112EA /* AccountViewController.swift */; };
 		6335A0DD211B9AF400E2EDB0 /* SortedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6335A0DC211B9AF400E2EDB0 /* SortedArray.swift */; };
 		634D405320FCE59A0075C1E7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 634D405220FCE59A0075C1E7 /* Main.storyboard */; };
 		63562B4120F90CF40076F52B /* etc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63562B4020F90CF40076F52B /* etc.swift */; };
@@ -188,7 +188,7 @@
 
 /* Begin PBXFileReference section */
 		63008C3021001B0C005AF72D /* Debris.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Debris.xcodeproj; sourceTree = SOURCE_ROOT; };
-		632633B8211F57E400D112EA /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		632633B8211F57E400D112EA /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		6335A0DC211B9AF400E2EDB0 /* SortedArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortedArray.swift; sourceTree = "<group>"; };
 		634D405220FCE59A0075C1E7 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		63562B4020F90CF40076F52B /* etc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = etc.swift; sourceTree = "<group>"; };
@@ -326,7 +326,7 @@
 			children = (
 				638C336A20FD79730048C52E /* AppDelegate.swift */,
 				638C336C20FD79730048C52E /* ReposViewController.swift */,
-				632633B8211F57E400D112EA /* SettingsViewController.swift */,
+				632633B8211F57E400D112EA /* AccountViewController.swift */,
 				638C339020FD7FD10048C52E /* etc.swift */,
 				638C338F20FD7EC00048C52E /* Detritus */,
 			);
@@ -678,7 +678,7 @@
 				638C336B20FD79730048C52E /* AppDelegate.swift in Sources */,
 				638C337D20FD7CA30048C52E /* Error+legibleDescription.swift in Sources */,
 				638C337E20FD7CA30048C52E /* GitHubAPI.swift in Sources */,
-				632633B9211F57E400D112EA /* SettingsViewController.swift in Sources */,
+				632633B9211F57E400D112EA /* AccountViewController.swift in Sources */,
 				638C338420FD7D8C0048C52E /* URLSession+Promise.swift in Sources */,
 				638C337C20FD7CA30048C52E /* Constants.swift in Sources */,
 			);

@@ -2,6 +2,12 @@ import UIKit
 
 class ReposViewController: UITableViewController {
     let mgr = SubscriptionsManager()
+
+    var hasReceipt: Bool {
+        set { (UIApplication.shared.delegate as! AppDelegate).hasReceipt = newValue }
+        get { return (UIApplication.shared.delegate as! AppDelegate).hasReceipt }
+    }
+
     var repos = SortedArray<Repo>() {
         didSet {
             tableView.reloadData()
@@ -17,8 +23,6 @@ class ReposViewController: UITableViewController {
             tableView.reloadData()
         }
     }
-    
-    var hasReceipt = false
 
     //TODO DUPED
     var rootedRepos: [String: [Repo]] {
@@ -43,7 +47,6 @@ class ReposViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .white
         mgr.token = creds?.token
         mgr.delegate = self
         tableView.register(Cell.self, forCellReuseIdentifier: #file)

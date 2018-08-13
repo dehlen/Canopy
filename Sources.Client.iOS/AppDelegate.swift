@@ -6,6 +6,11 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var hasReceipt = false
+
+    static var shared: AppDelegate {
+        return UIApplication.shared.delegate as! AppDelegate
+    }
 
     func application(_ application: UIApplication, willFinishLaunchingWithOptions opts: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         PromiseKit.conf.Q.map = .global()
@@ -32,10 +37,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func setupTabBar() {
-        let repos = ReposViewController()
+        let repos = ReposViewController(style: .grouped)
         repos.title = "Canopy"
-        let settings = SettingsViewController()
-        settings.title = "Settings"
+        let settings = AccountViewController(style: .grouped)
+        settings.title = "Account"
         let ncs = [repos, settings].map(UINavigationController.init)
         tabBarController.setViewControllers(ncs, animated: false)
         ncs[0].tabBarItem.title = "Repositories"
