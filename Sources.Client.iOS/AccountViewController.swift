@@ -45,6 +45,10 @@ class AccountViewController: UITableViewController {
             return nil
         }
     }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }
 
 private class ButtonCell: UITableViewCell {
