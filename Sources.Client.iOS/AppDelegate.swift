@@ -3,22 +3,28 @@ import PromiseKit
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder {
     var window: UIWindow?
     var hasReceipt = false
+#if !targetEnvironment(simulator)
+    var deviceToken: String?
+#endif
 
     static var shared: AppDelegate {
         return UIApplication.shared.delegate as! AppDelegate
     }
 
+    var tabBarController: UITabBarController {
+        return window!.rootViewController as! UITabBarController
+    }
+}
+
+extension AppDelegate: UIApplicationDelegate {
     func application(_ application: UIApplication, willFinishLaunchingWithOptions opts: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         PromiseKit.conf.Q.map = .global()
         return true
     }
 
-    var tabBarController: UITabBarController {
-        return window!.rootViewController as! UITabBarController
-    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions opts: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow()
@@ -27,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window!.makeKeyAndVisible()
 
     #if !targetEnvironment(simulator)
+        UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { _, error in
             DispatchQueue.main.async(execute: application.registerForRemoteNotifications)
         }
@@ -46,8 +53,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 #if !targetEnvironment(simulator)
-    var deviceToken: String?
-
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken rawDeviceToken: Data) {
 
         deviceToken = String(deviceToken: rawDeviceToken)
@@ -74,9 +79,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         alert(error: error)
     }
 
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        if let token = userInfo["token"] as? String, let login = userInfo["login"] as? String {
-            creds = (login, token)
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        switch RemoteNotificationUserInfo(userInfo: userInfo) {
+        case .creds(let login, let token):
+            creds = (username: login, token: token)
 
             let content = UNMutableNotificationContent()
             content.title = "Authentication Complete"
@@ -85,13 +91,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UNUserNotificationCenter.current().add(rq) { _ in
                 completionHandler(.newData)
             }
-        } else if let message = userInfo["error"] as? String {
+
+        case .error(let message, .authentication?):
+            if creds == nil {
+                fallthrough
+            }
+            // else… ignore. mostly happens because: user left auth page open
+            // and this causes a POST to our auth endpoint, but the code was
+        // consumed so GitHub errors
+        case .error(let message, nil):
             alert(message: message, title: "GitHub Authorization Failed")
-            //TODO allow sign-in again somehow
             completionHandler(.failed)
-        } else {
+        case .unknown:
             print(userInfo)
             completionHandler(.noData)
+        }
+    }
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    public func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        if let urlstr = response.notification.request.content.userInfo["url"] as? String, let url = URL(string: urlstr) {
+            UIApplication.shared.open(url)
         }
     }
 }

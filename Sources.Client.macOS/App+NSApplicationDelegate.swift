@@ -55,7 +55,7 @@ extension AppDelegate: NSApplicationDelegate {
     }
 
     func application(_ application: NSApplication, didReceiveRemoteNotification userInfo: [String: Any]) {
-        switch Response(userInfo: userInfo) {
+        switch RemoteNotificationUserInfo(userInfo: userInfo) {
         case .creds(let login, let token):
             creds = (username: login, token: token)
             NSApp.activate(ignoringOtherApps: true)

@@ -93,3 +93,20 @@ extension Node {
 extension Node: Equatable, Hashable
 {}
 #endif
+
+enum RemoteNotificationUserInfo {
+    case creds(login: String, token: String)
+    case error(message: String, ServerError?)
+    case unknown
+
+    init(userInfo: [AnyHashable: Any]) {
+        if let token = userInfo["token"] as? String, let login = userInfo["login"] as? String {
+            self = .creds(login: login, token: token)
+        } else if let message = userInfo["error"] {
+            let code = userInfo["error-code"] as? Int
+            self = .error(message: "\(message)", code.flatMap(ServerError.init))
+        } else {
+            self = .unknown
+        }
+    }
+}
