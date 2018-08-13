@@ -259,7 +259,7 @@ struct ForkEvent: Codable, Notificatable {
         return "\(sender.login) forked \(repository.full_name)"
     }
     var url: URL? {
-        return repository.html_url
+        return forkee.html_url
     }
 
     var context: Context {
