@@ -98,6 +98,15 @@ extension ReposViewController/*: UITableViewDelegate*/ {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return rootedReposKeys[section]
     }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = RepoViewController()
+        vc.completion = {
+            // otherwise (despite UITableViewController) doesn't happen for some reason
+            self.tableView.deselectRow(at: indexPath, animated: true)
+        }
+        AppDelegate.shared.tabBarController.present(vc, animated: true)
+    }
 }
 
 extension ReposViewController: SubscriptionsManagerDelegate {
@@ -118,8 +127,10 @@ extension ReposViewController: SubscriptionsManagerDelegate {
         self.hasReceipt = hasReceipt
     }
 
-    func subscriptionsManager(_: SubscriptionsManager, installations: Set<Int>) {
-        self.installations = installations
+    func subscriptionsManager(_: SubscriptionsManager, append installations: Set<Int>) {
+        for x in installations {
+            self.installations.insert(x)
+        }
     }
 
     func subscriptionsManager(_: SubscriptionsManager, error: Error) {

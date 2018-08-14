@@ -7,7 +7,7 @@ protocol SubscriptionsManagerDelegate: class {
     func subscriptionsManager(_: SubscriptionsManager, isUpdating: Bool)
     func subscriptionsManager(_: SubscriptionsManager, append: [Repo])
     func subscriptionsManager(_: SubscriptionsManager, subscriptions: Set<Int>, hasReceipt: Bool)
-    func subscriptionsManager(_: SubscriptionsManager, installations: Set<Int>)
+    func subscriptionsManager(_: SubscriptionsManager, append: Set<Int>)
     func subscriptionsManager(_: SubscriptionsManager, error: Error)
 }
 
@@ -32,10 +32,12 @@ class SubscriptionsManager {
 
     private var fetching = false {
         didSet {
-            if fetching != oldValue {
-                delegate?.subscriptionsManager(self, isUpdating: fetching)
-            }
+            updateFetching()
         }
+    }
+
+    private func updateFetching() {
+        delegate?.subscriptionsManager(self, isUpdating: fetching || !installing.isEmpty)
     }
 
     enum E: Error {
@@ -101,11 +103,56 @@ class SubscriptionsManager {
         }.then {
             fetchInstallations(for: $0)
         }.done {
-            self.delegate?.subscriptionsManager(self, installations: $0)
+            self.delegate?.subscriptionsManager(self, append: $0)
         }.catch {
             self.delegate?.subscriptionsManager(self, error: $0)
         }.finally {
             self.fetching = false
+        }
+    }
+
+    private var installing: Set<Int> = [] {
+        didSet {
+            updateFetching()
+        }
+    }
+
+    func installWebhook(repo: Repo) {
+        let node = repo.isPartOfOrganization
+            ? Node.organization(repo.owner.login)
+            : .init(repo)
+
+        let id = repo.isPartOfOrganization
+            ? repo.owner.id
+            : repo.id
+
+        guard !installing.contains(id) else {
+            return
+        }
+        guard let token = token else {
+            delegate?.subscriptionsManager(self, error: E.noToken)
+            return
+        }
+
+        func createHook(for node: Node) throws -> Promise<Void> {
+            var rq = URLRequest(.hook)
+            rq.httpMethod = "POST"
+            rq.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            rq.setValue(token, forHTTPHeaderField: "Authorization")
+            rq.httpBody = try JSONEncoder().encode(node)
+            return URLSession.shared.dataTask(.promise, with: rq).validate().asVoid()
+        }
+
+        installing.insert(id)
+
+        firstly {
+            try createHook(for: node)
+        }.done { _ in
+            self.delegate?.subscriptionsManager(self, append: [id])
+        }.catch {
+            self.delegate?.subscriptionsManager(self, error: $0)
+        }.finally {
+            self.installing.remove(id)
         }
     }
 }
