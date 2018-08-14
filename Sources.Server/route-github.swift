@@ -7,7 +7,7 @@ import Roots
 private enum E: Error {
     case noEventType
     case unimplemented(String)
-    case ignoring(String?)
+    case ignoring
 }
 
 func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
@@ -15,13 +15,18 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
     print("/github")
 
     do {
-        let notificatable = try rq.decodeNotificatable()
+        let (eventType, notificatable) = try rq.decodeNotificatable()
 
         print(type(of: notificatable))
 
+        guard !notificatable.shouldIgnore else {
+            throw E.ignoring
+        }
+
         var notificationItems: [APNSNotificationItem] = [
             .alertBody(notificatable.body),
-            .threadId(notificatable.threadingId)
+            .threadId(notificatable.threadingId),
+            .category(eventType)
         ]
         if let title = notificatable.title {
             notificationItems.append(.alertTitle(title))
@@ -87,7 +92,7 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
     } catch E.noEventType {
         alert(message: "No event type provided by GitHub!")
         response.completed(status: .expectationFailed)
-    } catch E.ignoring(_) {
+    } catch E.ignoring {
         print("Ignoring status event")
         response.completed()
     } catch {
@@ -98,23 +103,20 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
 }
 
 private extension HTTPRequest {
-    func decodeNotificatable() throws -> Notificatable {
-        let rq = self
-
-        guard let eventType = rq.header(.custom(name: "X-GitHub-Event")) else {
+    func decodeNotificatable() throws -> (eventType: String, Notificatable) {
+        guard let eventType = header(.custom(name: "X-GitHub-Event")) else {
             throw E.noEventType
         }
+        return (eventType, try _decode(eventType: eventType))
+    }
 
+    private func _decode(eventType: String) throws -> Notificatable {
+        let rq = self
         switch eventType {
         case "ping":
             return try rq.decode(PingEvent.self)
         case "push":
-            let push = try rq.decode(PushEvent.self)
-            if push.commits.isEmpty, let str = rq.postBodyString {
-                // trying to figure out what is going on in these circumstances
-                print(#function, str)
-            }
-            return push
+            return try rq.decode(PushEvent.self)
         case "check_run":
             return try rq.decode(CheckRunEvent.self)
         case "check_suite":
@@ -170,7 +172,7 @@ private extension HTTPRequest {
         case "status":
             // HEAVY TRAFFIC DUDE! Probably send as a silent notification
             // happens for eg. EVERY SINGLE travis build job
-            throw E.ignoring(rq.postBodyString)
+            throw E.ignoring
         case "pull_request_review_comment":
             return try rq.decode(PullRequestReviewCommentEvent.self)
         case "marketplace_purchase", "repository", "repository_vulnerability_alert", "team", "team_add", _:

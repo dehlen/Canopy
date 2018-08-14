@@ -12,6 +12,7 @@ protocol Notificatable {
     var url: URL? { get }
     var context: Context { get }
     var threadingId: String { get }
+    var shouldIgnore: Bool { get }
 }
 
 extension Notificatable {
@@ -33,6 +34,10 @@ extension Notificatable {
         case .repository(let repo):
             return "repo/\(repo.id)"
         }
+    }
+
+    var shouldIgnore: Bool {
+        return false
     }
 }
 
@@ -445,12 +450,27 @@ struct OrganizationEvent: Codable, Notificatable {  //TODO half-arsed
         let user: User
     }
 
-    enum Action: String, Codable {
+    enum Action: String, Codable, CustomStringConvertible {
         case member_added, member_removed, member_invited
+
+        var description: String {
+            switch self {
+            case .member_added:
+                return "added"
+            case .member_removed:
+                return "removed"
+            case .member_invited:
+                return "invited"
+            }
+        }
     }
 
     var body: String {
-        return "\(sender.login) \(action) a member"
+        return "\(sender.login) \(action) \(membership.user.login)"
+    }
+
+    var url: URL {
+        return membership.user.html_url
     }
 
     var context: Context {
@@ -610,6 +630,7 @@ struct PushEvent: Codable, Notificatable {
     let forced: Bool
     let distinct_size: Int?
     let commits: [Commit]
+    let after: String
 
     struct Commit: Codable {
         let message: String
@@ -619,20 +640,30 @@ struct PushEvent: Codable, Notificatable {
         let name: String
     }
 
+    var size: Int {
+        return distinct_size ?? self.commits.count
+    }
+
     var body: String {
-        let size = distinct_size ?? self.commits.count
         let force = forced ? "force‑" : ""
         let commits = size == 1
             ? "1 commit"
             : "\(size) commits"
         return "\(pusher.name) \(force)pushed \(commits)"
     }
+
     var url: URL? {
         return compare
     }
 
     var context: Context {
         return .repository(repository)
+    }
+
+    var shouldIgnore: Bool {
+        // indicates the push events directly after the merge event
+        // and it is uninteresting to the user
+        return size == 0 && after == "0000000000000000000000000000000000000000"
     }
 }
 
@@ -649,12 +680,22 @@ struct PullRequestEvent: Codable, Notificatable {
     }
 
     var body: String {
-        if action == .closed, let merged = pull_request.merged, merged {
-            return "\(sender.login) merged \(repository.full_name)#\(number)"
-        } else if action == .synchronize {
-            return "\(sender.login) synchronized \(repository.full_name)#\(number)"
-        } else {
-            return "\(sender.login) \(action) \(repository.full_name)#\(number)"
+        let ticket = "\(repository.full_name)#\(number)"
+        switch action {
+        case .closed:
+            if let merged = pull_request.merged, merged {
+                return "\(sender.login) merged \(ticket)"
+            } else {
+                return "\(sender.login) closed \(ticket)"
+            }
+        case .synchronize:
+            return "\(sender.login) synchronized \(ticket)"
+        case .review_requested:
+            return "\(sender.login) requested review for \(ticket)"
+        case .review_request_removed:
+            return "\(sender.login) removed the review request for \(ticket)"
+        default:
+            return "\(sender.login) \(action) \(ticket)"
         }
     }
     var url: URL? {
@@ -663,6 +704,10 @@ struct PullRequestEvent: Codable, Notificatable {
 
     var context: Context {
         return .repository(repository)
+    }
+
+    var shouldIgnore: Bool {
+        return action == .synchronize
     }
 }
 
@@ -737,6 +782,10 @@ struct StatusEvent: Codable, Notificatable {
     var context: Context {
         return .repository(repository)
     }
+
+    var shouldIgnore: Bool {
+        return true
+    }
 }
 
 // Actually: stars
@@ -770,6 +819,7 @@ struct WatchEvent: Codable, Notificatable {
 struct User: Codable {
     let id: Int
     let login: String
+    let html_url: URL
 }
 
 struct Repository: Codable {
