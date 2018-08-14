@@ -401,7 +401,7 @@ struct MembershipEvent: Codable, Notificatable {
     }
 
     var body: String {
-        return "\(sender.login) \(action) membership. Added to team: \(team.name)"
+        return "\(sender.login) \(action) \(member.login) to the \(team.name) team"
     }
     var url: URL? {
         return team.url

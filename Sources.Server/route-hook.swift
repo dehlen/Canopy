@@ -81,9 +81,7 @@ func createHookHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
 public func hookQueryHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
     do {
         var ids = rq.queryParams.compactMap{ Int($1) }
-        print(#function, ids)
         ids = try DB().whichAreHooked(ids: ids)
-        print(#function, ids)
         try response.setBody(json: ids)
         response.completed()
     } catch {
