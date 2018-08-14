@@ -727,12 +727,17 @@ struct PullRequestReviewEvent: Codable, Notificatable {
 
     struct Review: Codable {
         let user: User
-        let state: String
+        let state: State
         let html_url: URL
+
+        enum State: String, Codable {
+            case pending, changes_requested, approved, dismissed, commented
+        }
     }
 
     var body: String {
-        return "\(review.user.login) \(action) to \(repository.full_name)#\(pull_request.number)"
+        let review_state = review.state.rawValue.replacingOccurrences(of: "_", with: " ")
+        return "\(review.user.login) \(action) \(review_state) to \(repository.full_name)#\(pull_request.number)"
     }
     var url: URL? {
         return review.html_url
