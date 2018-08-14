@@ -626,7 +626,7 @@ struct PullRequestReviewCommentEvent: Codable, Notificatable {
 struct PushEvent: Codable, Notificatable {
     let repository: Repository
     let pusher: Pusher
-    let compare: URL
+    let compare: String // is actually URL, but GitHub are not URL-encoding the ^ character so URL.init fails
     let forced: Bool
     let distinct_size: Int?
     let commits: [Commit]
@@ -653,7 +653,8 @@ struct PushEvent: Codable, Notificatable {
     }
 
     var url: URL? {
-        return compare
+        // THANKS GITHUB YOU JERKS
+        return URL(string: compare.replacingOccurrences(of: "^", with: "%5E"))
     }
 
     var context: Context {
