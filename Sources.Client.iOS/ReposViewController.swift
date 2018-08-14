@@ -100,7 +100,11 @@ extension ReposViewController/*: UITableViewDelegate*/ {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = RepoViewController()
+        let key = rootedReposKeys[indexPath.section]
+        let repo = rootedRepos[key]![indexPath.row]
+        //let hasHook = installations.contains(repo.isPartOfOrganization ? repo.owner.id : repo.id)
+
+        let vc = RepoViewController(repo: repo)
         vc.completion = {
             // otherwise (despite UITableViewController) doesn't happen for some reason
             self.tableView.deselectRow(at: indexPath, animated: true)

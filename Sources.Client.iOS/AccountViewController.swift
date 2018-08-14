@@ -37,9 +37,7 @@ class AccountViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        if section == 0 {
-            return "Signs out of Canopy on all devices."
-        } else if AppDelegate.shared.hasReceipt {
+        if section == 1, AppDelegate.shared.hasReceipt {
             return "You can manage your subscription in the iPhone Settings app."
         } else {
             return nil
@@ -48,6 +46,14 @@ class AccountViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        UIView.performWithoutAnimation {
+            tableView.reloadSections([Row.subscriptionActive.indexPath.section], with: .none)
+        }
     }
 }
 
@@ -79,7 +85,7 @@ private enum Row: CaseIterable {
             return "Sign Out"
         case .subscriptionActive:
             if AppDelegate.shared.hasReceipt {
-                return "Subscribed, renewing monthly"
+                return "✅ Subscribed"
             } else {
                 return "Not subscribed"
             }

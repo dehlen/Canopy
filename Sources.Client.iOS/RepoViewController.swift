@@ -1,12 +1,14 @@
+import PromiseKit
 import UIKit
 
 class RepoViewController: UIViewController {
-
-    let base = UIView()
+    let base = UIStackView()
+    let repo: Repo
     var completion: (() -> Void)?
 
-    override init(nibName: String?, bundle: Bundle?) {
-        super.init(nibName: nibName, bundle: bundle)
+    init(repo: Repo) {
+        self.repo = repo
+        super.init(nibName: nil, bundle: nil)
         transitioningDelegate = self
         modalPresentationStyle = .custom
     }
@@ -23,11 +25,11 @@ class RepoViewController: UIViewController {
 
         view.addSubview(base)
         base.translatesAutoresizingMaskIntoConstraints = false
+        base.layoutMargins = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
         NSLayoutConstraint.activate([
             base.leftAnchor.constraint(equalTo: view.leftAnchor),
             base.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             base.rightAnchor.constraint(equalTo: view.rightAnchor),
-            base.heightAnchor.constraint(equalToConstant: 100),
         ])
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(_dismiss))
