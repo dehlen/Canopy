@@ -59,7 +59,7 @@ struct PingEvent: Codable, Notificatable {
         sender = try container.decode(User.self, forKey: .sender)
 
         if hook.type == "Organization" {
-            let org = try container.decode(User.self, forKey: .organization)
+            let org = try container.decode(Organization.self, forKey: .organization)
             context = .organization(org, admin: sender)
         } else if hook.type == "Repository" {
             let repo = try container.decode(Repository.self, forKey: .repository)
@@ -526,46 +526,129 @@ struct PageBuildEvent: Codable, Notificatable {
 }
 
 struct ProjectCardEvent: Codable, Notificatable {
-    let action: String
+    let action: Action
     let project_card: ProjectCard
-    let repository: Repository
+    let context: Context
     let sender: User
 
-    var body: String {
-        return "\(sender.login) \(action) the “\(project_card.note)” project card"
-    }
-    var url: URL? {
-        // https://github.com/orgs/codebasesaga/projects/1#card-10299301
-        return repository.html_url.appendingPathComponent("projects")
-    }
-    var context: Context {
-        return .repository(repository)
+    enum Action: String, Codable {
+        case created, edited, converted, moved, deleted
     }
 
     struct ProjectCard: Codable {
-        let note: String
+        let note: String?
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case action
+        case project_card
+        case repository
+        case organization
+        case sender
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        action = try container.decode(Action.self, forKey: .action)
+        sender = try container.decode(User.self, forKey: .sender)
+        project_card = try container.decode(ProjectCard.self, forKey: .project_card)
+
+        enum E: Error {
+            case missingContext
+        }
+
+        if container.contains(.repository) {
+            context = .repository(try container.decode(Repository.self, forKey: .repository))
+        } else if container.contains(.organization) {
+            context = .organization(try container.decode(Organization.self, forKey: .organization), admin: sender)
+        } else {
+            throw E.missingContext
+        }
+    }
+
+    func encode(to encoder: Encoder) throws {
+        // required for Perfect (due to poor API design)
+        fatalError()
+    }
+
+    var body: String {
+        if let name = project_card.note {
+            return "\(sender.login) \(action) the “\(name)” project card"
+        } else {
+            return "\(sender.login) \(action) a project card"
+        }
+    }
+
+    var url: URL? {
+        switch context {
+        case .organization(let org, _):
+            return URL(string: "https://github.com/orgs/\(org.login)/projects")
+        case .repository(let repo):
+            // https://github.com/orgs/codebasesaga/projects/1#card-10299301
+            return repo.html_url.appendingPathComponent("projects")
+        }
     }
 }
 
 struct ProjectColumnEvent: Codable, Notificatable {
-    let action: String
+    let action: Action
     let project_column: ProjectColumn
-    let repository: Repository
     let sender: User
+    let context: Context
 
-    var body: String {
-        return "\(sender.login) \(action) the “\(project_column.name)” project column"
-    }
-    var url: URL? {
-        // https://github.com/orgs/codebasesaga/projects/1#column-2827834
-        return repository.html_url.appendingPathComponent("projects")
-    }
-    var context: Context {
-        return .repository(repository)
+    enum Action: String, Codable {
+        case created, edited, moved, deleted
     }
 
     struct ProjectColumn: Codable {
         let name: String
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case action
+        case project_column
+        case repository
+        case organization
+        case sender
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        action = try container.decode(Action.self, forKey: .action)
+        sender = try container.decode(User.self, forKey: .sender)
+        project_column = try container.decode(ProjectColumn.self, forKey: .project_column)
+
+        enum E: Error {
+            case missingContext
+        }
+
+        if container.contains(.repository) {
+            context = .repository(try container.decode(Repository.self, forKey: .repository))
+        } else if container.contains(.organization) {
+            context = .organization(try container.decode(Organization.self, forKey: .organization), admin: sender)
+        } else {
+            throw E.missingContext
+        }
+    }
+
+    func encode(to encoder: Encoder) throws {
+        // required for Perfect (due to poor API design)
+        fatalError()
+    }
+
+    var body: String {
+        return "\(sender.login) \(action) the “\(project_column.name)” project column"
+    }
+
+    var url: URL? {
+        //FIXME payload doesn't contain project id :(
+        // https://github.com/orgs/codebasesaga/projects/1#column-2827834
+        switch context {
+        case .organization(let org, _):
+            return URL(string: "https://github.com/orgs/\(org.login)/projects")
+        case .repository(let repo):
+            return repo.html_url.appendingPathComponent("projects")
+        }
     }
 }
 
@@ -829,6 +912,11 @@ struct User: Codable {
     let html_url: URL
 }
 
+struct Organization: Codable {
+    let id: Int
+    let login: String
+}
+
 struct Repository: Codable {
     let id: Int
     let full_name: String
@@ -870,5 +958,3 @@ struct PullRequest: Codable {
     let merged: Bool?
     let number: Int
 }
-
-typealias Organization = User
