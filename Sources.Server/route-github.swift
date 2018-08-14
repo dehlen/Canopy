@@ -5,17 +5,22 @@ import PromiseKit
 import Roots
 
 private enum E: Error {
-    case noEventType
     case unimplemented(String)
     case ignoring
 }
 
 func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
+    guard let eventType = rq.header(.custom(name: "X-GitHub-Event")) else {
+        alert(message: "No event type provided by GitHub!")
+        response.completed(status: .expectationFailed)
+        return
+    }
+
     print()
-    print("/github")
+    print("/github:", eventType)
 
     do {
-        let (eventType, notificatable) = try rq.decodeNotificatable()
+        let notificatable = try rq.decodeNotificatable(eventType: eventType)
 
         print(type(of: notificatable))
 
@@ -89,11 +94,8 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
     } catch E.unimplemented(let eventType) {
         alert(message: "Unknown/unimplemented event type: \(eventType)")
         response.completed(status: .internalServerError)
-    } catch E.noEventType {
-        alert(message: "No event type provided by GitHub!")
-        response.completed(status: .expectationFailed)
     } catch E.ignoring {
-        print("Ignoring status event")
+        print("Ignoring event")
         response.completed()
     } catch {
         alert(message: error.legibleDescription)
@@ -192,7 +194,6 @@ private extension GitHubAPI {
         }.map(on: nil) { _ in
             true
         }.recover { error -> Promise<Bool> in
-            print(error)
             if case PMKHTTPError.badStatusCode(404, _, _) = error {
                 return .value(false)
             } else {
