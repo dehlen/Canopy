@@ -124,6 +124,12 @@ extension Repo: Hashable, Equatable, Comparable {
     }
 }
 
+extension Node {
+    init(_ repo: Repo) {
+        self = .repository(repo.owner.login, repo.name)
+    }
+}
+
 extension URL {
     static func signIn(deviceToken: String) -> URL? {
         guard let bundleId = Bundle.main.bundleIdentifier else {
