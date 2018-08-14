@@ -35,7 +35,7 @@ class DB {
         print("Backed up:", dst.path)
     }
 
-    func apnsTokens(for repoId: Int) throws -> [APNSConfiguration: [String]] {
+    func apnsTokens(forRepoId repoId: Int) throws -> [APNSConfiguration: [String]] {
         let sql = """
             SELECT id, topic, production
             FROM tokens
@@ -57,6 +57,30 @@ class DB {
                 results[APNSConfiguration(topic: topic, isProduction: production), default: []].append(token)
             }
         })
+
+        return results
+    }
+
+    func apnsTokens(forUserIds uids: [Int]) throws -> [APNSConfiguration: [String]] {
+        let uidstrs = uids.map(String.init).joined(separator: ",")
+        let sql = """
+            SELECT id, topic, production
+            FROM tokens
+            WHERE user_id IN (\(uidstrs))
+            """
+
+        var results: [APNSConfiguration: [String]] = [:]
+
+        try db.forEachRow(statement: sql) { statement, row in
+            let token = statement.columnText(position: 0)
+            let topic = statement.columnText(position: 1)
+            let production = statement.columnInt(position: 2) != 0
+
+            // PerfectSQLite sucks and returns "" for the error condition
+            if !token.isEmpty, !topic.isEmpty {
+                results[APNSConfiguration(topic: topic, isProduction: production), default: []].append(token)
+            }
+        }
 
         return results
     }
@@ -123,6 +147,32 @@ class DB {
         })
 
         return results
+    }
+
+    func oauthToken(forUser uid: Int) throws -> String {
+        let sql = """
+            SELECT salt, token
+            FROM auths
+            WHERE user_id = \(uid)
+            """
+
+        var _oauthToken: String?
+        try db.forEachRow(statement: sql) { stmt, _ in
+            let encryptedOAuthToken: [UInt8] = stmt.columnIntBlob(position: 1)
+            let encryptionSalt: [UInt8] = stmt.columnIntBlob(position: 0)
+
+            guard let oauthToken = decrypt(encryptedOAuthToken, salt: encryptionSalt) else {
+                return alert(message: "Failed decrypting token for a user. We don’t know which")
+            }
+
+            _oauthToken = oauthToken
+        }
+
+        guard let oauthToken = _oauthToken else {
+            throw E.tokenNotFound(user: uid)
+        }
+
+        return oauthToken
     }
 
     func allAPNsTokens() throws -> [APNSConfiguration: [String]] {

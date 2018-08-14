@@ -2,7 +2,7 @@ import Foundation
 import PerfectHTTP
 
 enum Context {
-    case organization(User)
+    case organization(Organization, admin: User)
     case repository(Repository)
 }
 
@@ -22,14 +22,14 @@ extension Notificatable {
         switch context {
         case .repository(let repo):
             return repo.full_name
-        case .organization(let org):
+        case .organization(let org, _):
             return "The \(org.login) organization"
         }
     }
 
     var threadingId: String {
         switch context {
-        case .organization(let org):
+        case .organization(let org, _):
             return "orgs/\(org.login)"  // github reserve this prefix
         case .repository(let repo):
             return "repo/\(repo.id)"
@@ -56,16 +56,17 @@ struct PingEvent: Codable, Notificatable {
 
         let container = try decoder.container(keyedBy: CodingKeys.self)
         hook = try container.decode(Hook.self, forKey: .hook)
+        sender = try container.decode(User.self, forKey: .sender)
+
         if hook.type == "Organization" {
             let org = try container.decode(User.self, forKey: .organization)
-            context = .organization(org)
+            context = .organization(org, admin: sender)
         } else if hook.type == "Repository" {
             let repo = try container.decode(Repository.self, forKey: .repository)
             context = .repository(repo)
         } else {
             throw E.invalidPingHookType(hook.type)
         }
-        sender = try container.decode(User.self, forKey: .sender)
     }
 
     func encode(to encoder: Encoder) throws {
@@ -87,7 +88,7 @@ struct PingEvent: Codable, Notificatable {
 
     var body: String {
         switch context {
-        case .organization(let org):
+        case .organization(let org, _):
             return "Webhook added to the \(org.login) organization"
         case .repository(let repo):
             return "Webhook added to \(repo.full_name)"
@@ -174,10 +175,10 @@ struct CreateEvent: Codable, Notificatable {
         switch ref_type {
         case .branch:
             guard let ref = ref else { fallthrough }
-            return "\(sender.login) branched “\(ref)"
+            return "\(sender.login) created the “\(ref)” branch"
         case .tag:
             guard let ref = ref else { fallthrough }
-            return "\(sender.login) tagged “\(ref)"
+            return "\(sender.login) tagged “\(ref)”"
         case .repository:
             return "\(sender.login) created a new \(ref_type)"
         }
@@ -384,7 +385,7 @@ struct MembershipEvent: Codable, Notificatable {
     let action: Action
     let scope: Scope
     let sender: User
-    let organization: User
+    let organization: Organization
     let team: Team
     let member: User
 
@@ -408,7 +409,7 @@ struct MembershipEvent: Codable, Notificatable {
     }
 
     var context: Context {
-        return .organization(organization)
+        return .organization(organization, admin: sender)
     }
 }
 
@@ -442,7 +443,7 @@ struct MilestoneEvent: Codable, Notificatable {
 
 struct OrganizationEvent: Codable, Notificatable {  //TODO half-arsed
     let action: Action
-    let organization: User
+    let organization: Organization
     let sender: User
     let membership: Membership
 
@@ -474,14 +475,14 @@ struct OrganizationEvent: Codable, Notificatable {  //TODO half-arsed
     }
 
     var context: Context {
-        return .organization(organization)
+        return .organization(organization, admin: sender)
     }
 }
 
 struct OrgBlockEvent: Codable, Notificatable {  //TODO half-arsed
     let action: String
     let blocked_user: User
-    let organization: User
+    let organization: Organization
     let sender: User
 
     enum Action: String, Codable {
@@ -493,7 +494,7 @@ struct OrgBlockEvent: Codable, Notificatable {  //TODO half-arsed
     }
 
     var context: Context {
-        return .organization(organization)
+        return .organization(organization, admin: sender)
     }
 }
 
@@ -864,3 +865,5 @@ struct PullRequest: Codable {
     let merged: Bool?
     let number: Int
 }
+
+typealias Organization = User

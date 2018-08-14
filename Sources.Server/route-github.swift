@@ -58,21 +58,18 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             // user-access to repos
 
             let db = try DB()
-
-            print("checking clearances & receipts for private repo:", repo.full_name)
             let tokens = try db.tokens(forRepoId: repo.id)
-            print("got:", tokens.count, "tokens")
 
             for (oauthToken, foo) in tokens {
                 DispatchQueue.global().async(.promise) {
                     guard try db.isReceiptValid(forUserId: foo.userId) else { throw PMKError.cancelled }
                 }.then {
-                    GitHubAPI(oauthToken: oauthToken).hasClearance(for: repo.id)
+                    GitHubAPI(oauthToken: oauthToken).hasClearance(for: repo)
                 }.done { cleared in
                     if cleared {
                         send(to: foo.confs)
                     } else {
-                        print("No clearance!")
+                        print("No clearance! Deleting token for:", foo.userId)
                         try db.delete(subscription: repo.id, userId: foo.userId)
                     }
                 }.catch {
@@ -80,12 +77,19 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
                 }
             }
         case .public(let repo):
-            send(to: try DB().apnsTokens(for: repo.id))
-        case .organization:
-        #if swift(>=4.1.5)
-            #warning("FIXME BEFORE PRODUCTION!")
-        #endif
-            send(to: try DB().mxcl())
+            send(to: try DB().apnsTokens(forRepoId: repo.id))
+        case .organization(let org, let admin):
+            let db = try DB()
+            let oauthToken = try db.oauthToken(forUser: admin.id)
+            firstly {
+                GitHubAPI(oauthToken: oauthToken).members(for: org)
+            }.map {
+                try db.apnsTokens(forUserIds: $0)
+            }.done {
+                send(to: $0)
+            }.catch {
+                alert(message: $0.legibleDescription)
+            }
         }
 
         //github say we should do this sooner
@@ -105,14 +109,7 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
 }
 
 private extension HTTPRequest {
-    func decodeNotificatable() throws -> (eventType: String, Notificatable) {
-        guard let eventType = header(.custom(name: "X-GitHub-Event")) else {
-            throw E.noEventType
-        }
-        return (eventType, try _decode(eventType: eventType))
-    }
-
-    private func _decode(eventType: String) throws -> Notificatable {
+    func decodeNotificatable(eventType: String) throws -> Notificatable {
         let rq = self
         switch eventType {
         case "ping":
@@ -186,8 +183,9 @@ private extension HTTPRequest {
 /// checks if user has access to information about this private repository
 /// if so, send APNs, if not, delete the subscription
 private extension GitHubAPI {
-    func hasClearance(for repoId: Int) -> Promise<Bool> {
-        var rq = request(path: "/repositories/\(repoId)")
+
+    private func _wrap(type: String, id: Int) -> Promise<Bool> {
+        var rq = request(path: "/\(type)/\(id)")
         rq.httpMethod = "HEAD"
         return firstly {
             URLSession.shared.dataTask(.promise, with: rq).validate()
@@ -201,12 +199,37 @@ private extension GitHubAPI {
             }
         }
     }
+
+    func hasClearance(for repo: Repository) -> Promise<Bool> {
+        return _wrap(type: "repositories", id: repo.id)
+    }
+
+    func hasClearance(for org: Organization) -> Promise<Bool> {
+        return _wrap(type: "organizations", id: org.id)
+    }
+
+    func members(for org: Organization) -> Promise<[Int]> {
+        let q = DispatchQueue(label: #file + #function)
+        struct Response: Decodable {
+            let id: Int
+        }
+        var ids: [Int] = []
+        return task(path: "/orgs/\(org)/members") { data in
+            DispatchQueue.global().async(.promise) {
+                try JSONDecoder().decode([Response].self, from: data)
+            }.done(on: q) {
+                ids.append(contentsOf: $0.map(\.id))
+            }
+        }.map {
+            ids
+        }
+    }
 }
 
 private enum SendType {
     case `public`(Repository)
     case `private`(Repository)
-    case organization(User)
+    case organization(Organization, admin: User)
     case broadcast
 
     init(_ notificatable: Notificatable) {
@@ -219,8 +242,8 @@ private enum SendType {
                 self = .private(repo)
             case .repository(let repo):
                 self = .public(repo)
-            case .organization(let org):
-                self = .organization(org)
+            case .organization(let org, let admin):
+                self = .organization(org, admin: admin)
             }
         }
     }
