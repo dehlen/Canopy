@@ -47,7 +47,6 @@
 		638C338420FD7D8C0048C52E /* URLSession+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638C338320FD7D8C0048C52E /* URLSession+Promise.swift */; };
 		638C339120FD7FD10048C52E /* etc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638C339020FD7FD10048C52E /* etc.swift */; };
 		63970545210BA8830063F7E4 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63970529210BA8830063F7E4 /* PromiseKit.framework */; };
-		63970546210BA8830063F7E4 /* PromiseKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 63970529210BA8830063F7E4 /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		63CCA3CE2118ABF2000EEB88 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCA3CD2118ABF2000EEB88 /* Keychain.swift */; };
 		63CCA3CF2118ABF2000EEB88 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCA3CD2118ABF2000EEB88 /* Keychain.swift */; };
 		63CCA3D02118AC0B000EEB88 /* SKProductsRequest+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635ACBAA21136F000007C4EE /* SKProductsRequest+Promise.swift */; };
@@ -170,17 +169,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				636A40AB20F94D2E0051DE0B /* PromiseKit.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		638C338220FD7D670048C52E /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				63970546210BA8830063F7E4 /* PromiseKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -411,7 +399,7 @@
 				638C336420FD79730048C52E /* Sources */,
 				638C336520FD79730048C52E /* Frameworks */,
 				638C336620FD79730048C52E /* Resources */,
-				638C338220FD7D670048C52E /* Embed Frameworks */,
+				6354B980212391AE000F98E9 /* Embed Carthage Frameworks */,
 			);
 			buildRules = (
 			);
@@ -636,6 +624,29 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6354B980212391AE000F98E9 /* Embed Carthage Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/PromiseKit.framework",
+			);
+			name = "Embed Carthage Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/PromiseKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "carthage copy-frameworks\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6388D12820F515250082F280 /* Sources */ = {
