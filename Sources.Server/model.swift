@@ -162,7 +162,7 @@ class DB {
             let encryptionSalt: [UInt8] = stmt.columnIntBlob(position: 0)
 
             guard let oauthToken = decrypt(encryptedOAuthToken, salt: encryptionSalt) else {
-                return alert(message: "Failed decrypting token for a user. We don’t know which")
+                return alert(message: "Failed decrypting token for user: \(uid)")
             }
 
             _oauthToken = oauthToken
@@ -175,6 +175,7 @@ class DB {
         return oauthToken
     }
 
+    //FIXME TODO WOAH MEMORY CONSUMPTION, ideally needs to be a lazy sequence
     func allAPNsTokens() throws -> [APNSConfiguration: [String]] {
         let sql = """
             SELECT id, topic, production

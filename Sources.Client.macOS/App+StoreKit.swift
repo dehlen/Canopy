@@ -67,7 +67,7 @@ extension AppDelegate: SKPaymentTransactionObserver {
     private func _postReceipt(token: String, receipt: URL) -> Promise<Void> {
         return DispatchQueue.global().async(.promise) {
             let receiptData = try Data(contentsOf: receipt).base64EncodedString()
-            let receipt = Receipt(isProduction: isProductionAPSEnvironment, base64: receiptData)
+            let receipt = Receipt(isProduction: isProductionAPNsEnvironment, base64: receiptData)
             var rq = URLRequest(.receipt)
             rq.httpMethod = "POST"
             rq.httpBody = try JSONEncoder().encode(receipt)

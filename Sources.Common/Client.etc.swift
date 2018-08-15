@@ -135,7 +135,7 @@ extension URL {
         guard let bundleId = Bundle.main.bundleIdentifier else {
             return nil
         }
-        let payload = SignIn(deviceToken: deviceToken, apnsTopic: bundleId, production: isProductionAPSEnvironment)
+        let payload = SignIn(deviceToken: deviceToken, apnsTopic: bundleId, production: isProductionAPNsEnvironment)
         guard let data = try? JSONEncoder().encode(payload) else {
             return nil
         }
@@ -168,7 +168,7 @@ func updateTokens(oauth: String, device: String) -> Promise<Void> {
             oauthToken: oauth,
             deviceToken: device,
             apnsTopic: bid,
-            production: isProductionAPSEnvironment
+            production: isProductionAPNsEnvironment
         )
         var rq = URLRequest(.token)
         rq.httpMethod = "POST"
@@ -180,7 +180,7 @@ func updateTokens(oauth: String, device: String) -> Promise<Void> {
     }
 }
 
-var isProductionAPSEnvironment: Bool {
+var isProductionAPNsEnvironment: Bool {
 #if os(iOS)
     guard let url = Bundle.main.url(forResource: "embedded", withExtension: "mobileprovision") else {
         return true
