@@ -74,15 +74,6 @@
         }
       },
       {
-        "package": "PerfectNotifications",
-        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-Notifications.git",
-        "state": {
-          "branch": null,
-          "revision": "8980ae22430c979cecabb6b67aa12cfcc4339eb5",
-          "version": "3.0.4"
-        }
-      },
-      {
         "package": "PerfectSQLite",
         "repositoryURL": "https://github.com/PerfectlySoft/Perfect-SQLite.git",
         "state": {

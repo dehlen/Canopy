@@ -19,6 +19,8 @@ func createHookHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
     let api = GitHubAPI(oauthToken: token)
     let decoder = JSONDecoder()
 
+    print("Creating hook:", node.apiPath)
+
     func nodeId() -> Promise<Int> {
         return firstly {
             URLSession.shared.dataTask(.promise, with: api.request(path: node.apiPath)).validate()
@@ -69,7 +71,7 @@ func createHookHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         response.completed()
     }.catch { error in
         if case PMKHTTPError.badStatusCode(422, _, _) = error {
-            print(#function, error)
+            print(#function, "Hook already installed!")
             response.completed() // hook already installed!
         } else {
             response.appendBody(string: error.legibleDescription)

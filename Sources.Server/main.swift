@@ -1,5 +1,6 @@
 import struct Foundation.ObjCBool
 import class Foundation.FileManager
+import class Dispatch.DispatchQueue
 import func Foundation.exit
 import PromiseKit
 
@@ -9,29 +10,11 @@ precondition(FileManager.default.fileExists(atPath: "../db.sqlite"))
 
 let teamId = "TEQMQBRC7B"
 
-PromiseKit.conf.Q.map = .global()
-PromiseKit.conf.Q.return = .global()
-
-import PerfectNotifications
-
-extension NotificationPusher {
-    static let sandboxConfigurationName = "com.codebasesaga.sandbox"
-    static let productionConfigurationName = "com.codebasesaga.production"
-}
-
-NotificationPusher.addConfigurationAPNS(
-    name: NotificationPusher.sandboxConfigurationName,
-    production: false,
-    keyId: "5354D789X6",
-    teamId: teamId,
-    privateKeyPath: "./AuthKey_5354D789X6.p8")
-
-NotificationPusher.addConfigurationAPNS(
-    name: NotificationPusher.productionConfigurationName,
-    production: true,
-    keyId: "5354D789X6",
-    teamId: teamId,
-    privateKeyPath: "./AuthKey_5354D789X6.p8")
+#if os(Linux)
+let pmkQ = DispatchQueue(label: "pmkQ", qos: .default, attributes: .concurrent, autoreleaseFrequency: .workItem)
+PromiseKit.conf.Q.map = pmkQ
+PromiseKit.conf.Q.return = pmkQ
+#endif
 
 import PerfectHTTPServer
 import PerfectHTTP

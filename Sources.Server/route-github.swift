@@ -1,4 +1,3 @@
-import PerfectNotifications
 import PerfectHTTP
 import Foundation
 import PromiseKit
@@ -22,41 +21,20 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
     do {
         let notificatable = try rq.decodeNotificatable(eventType: eventType)
 
-        print(type(of: notificatable))
-
         guard !notificatable.shouldIgnore else {
             throw E.ignoring
         }
 
-        var notificationItems: [APNSNotificationItem] = [
-            .alertBody(notificatable.body),
-            .threadId(notificatable.threadingId),
-            .category(eventType)
-        ]
-        if let title = notificatable.title {
-            notificationItems.append(.alertTitle(title))
-        }
-        if let url = notificatable.url {
-            notificationItems.append(.customPayload("url", url.absoluteString))
-        }
-
-        func send(to confs: [APNSConfiguration: [String]]) {
-            print("sending:", notificatable.body)
-            for (apnsConfiguration, tokens) in confs {
-                apnsConfiguration.send(notificationItems, to: tokens)
+        func send(to confs: [APNSConfiguration: [String]]) throws {
+            for (conf, tokens) in confs where conf.isProduction {
+                try send_(to: tokens, topic: conf.topic, notificatable, category: eventType)
             }
         }
 
         switch SendType(notificatable) {
         case .broadcast:
-            send(to: try DB().allAPNsTokens())
+            try send(to: DB().allAPNsTokens())
         case .private(let repo):
-            // maybe this looks less efficient, but actually apns only
-            // accepts one device-token at a time anyway
-            // However, it would be nice if we could avoid these checks
-            // in theory we could just use webhooks to know when to remove
-            // user-access to repos
-
             let db = try DB()
             let tokens = try db.tokens(forRepoId: repo.id)
 
@@ -67,7 +45,7 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
                     GitHubAPI(oauthToken: oauthToken).hasClearance(for: repo)
                 }.done { cleared in
                     if cleared {
-                        send(to: foo.confs)
+                        try send(to: foo.confs)
                     } else {
                         print("No clearance! Deleting token for:", foo.userId)
                         try db.delete(subscription: repo.id, userId: foo.userId)
@@ -77,7 +55,7 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
                 }
             }
         case .public(let repo):
-            send(to: try DB().apnsTokens(forRepoId: repo.id))
+            try send(to: DB().apnsTokens(forRepoId: repo.id))
         case .organization(let org, let admin):
             let db = try DB()
             let oauthToken = try db.oauthToken(forUser: admin.id)
@@ -86,13 +64,12 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             }.map {
                 try db.apnsTokens(forUserIds: $0)
             }.done {
-                send(to: $0)
+                try send(to: $0)
             }.catch {
                 alert(message: $0.legibleDescription)
             }
         }
 
-        //github say we should do this sooner
         response.completed()
 
     } catch E.unimplemented(let eventType) {
@@ -247,4 +224,17 @@ private enum SendType {
             }
         }
     }
+}
+
+private func send_(to tokens: [String], topic: String, _ notificatable: Notificatable, category: String) throws {
+    var extra: [String: Any]?
+    if let url = notificatable.url {
+        extra = ["url": url.absoluteString]
+    }
+    try send(to: tokens, topic: topic, .alert(
+        body: notificatable.body,
+        title: notificatable.title,
+        category: category,
+        threadId: notificatable.threadingId,
+        extra: extra))
 }

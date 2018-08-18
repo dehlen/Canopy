@@ -1,4 +1,3 @@
-import PerfectNotifications
 import PerfectHTTP
 import Foundation
 import PromiseKit
@@ -73,40 +72,26 @@ private func finish(code: String, state: String) throws {
         }
     }
 
-    func send(items: [APNSNotificationItem]) {
-        let confName = signInParameters.production
-            ? NotificationPusher.productionConfigurationName
-            : NotificationPusher.sandboxConfigurationName
-        print("sending:", items)
-        NotificationPusher(apnsTopic: signInParameters.apnsTopic).pushAPNS(configurationName: confName, deviceTokens: [signInParameters.deviceToken], notificationItems: items, callback: { responses in
-            print("APNs says:", responses[0])
-        })
-    }
-
-    func success(login: String, token: String) {
-        var items: [APNSNotificationItem] = [
-            .customPayload("token", token), //TODO APPLE SAYS TO ENCRYPT
-            .customPayload("login", login)
-        ]
-        if !signInParameters.apnsTopic.isMac {
-            items.append(.contentAvailable)
-        }
-        send(items: items)
+    func success(login: String, token: String) throws {
+        try send(to: [token], topic: signInParameters.apnsTopic, .silent([
+            "token": token,
+            "login": login
+        ]))
     }
 
     func failure(error rawError: Error) {
         guard let error = rawError as? XPError else {
             return alert(message: rawError.legibleDescription)
         }
+        let extra = ["error-code": error.serverError.rawValue]
 
-        var items = [APNSNotificationItem.customPayload("error-code", error.serverError.rawValue)]
+        let apns: APNsNotification
         if signInParameters.apnsTopic.isMac {
-            items.append(.customPayload("error", error.legibleDescription))
+            apns = .silent(extra)
         } else {
-            items.append(.alertTitle("Sign‑in Error"))
-            items.append(.alertBody(error.legibleDescription))
+            apns = .alert(body: error.legibleDescription, title: "Sign‑in error", category: nil, threadId: nil, extra: extra)
         }
-        send(items: items)
+        _ = try? send(to: [signInParameters.deviceToken], topic: signInParameters.apnsTopic, apns)
     }
 
     firstly {
@@ -128,6 +113,6 @@ private extension SignIn {
 
 private extension String {
     var isMac: Bool {
-        return self == "com.codebasesaga.GitBell" || self == "com.codebasesaga.macOS.Canopy"
+        return self == "com.codebasesaga.macOS.Canopy"
     }
 }
