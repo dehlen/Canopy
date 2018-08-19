@@ -18,22 +18,25 @@ private var queue = Guarantee()
 private var _http: Guarantee<HTTP2Client>?
 let qq = DispatchQueue(label: "HTTP2Client")
 private var http: Guarantee<HTTP2Client> {
-    func reconnect() -> Guarantee<HTTP2Client> {
+    func _reconnect() -> Guarantee<HTTP2Client> {
         print("RECONNECTING")
-        return qq.sync {
-            _http = Guarantee { seal in
-                let http = HTTP2Client()
-                http.connect(host: "api.push.apple.com", port: 443, ssl: true, timeoutSeconds: 5) {
-                    if $0 {
-                        seal(http)
-                    } else {
-                        qq.async {
-                            // can't reject or we'll never try to reconnect!
-                            _http = nil
-                        }
+        return Guarantee { seal in
+            let http = HTTP2Client()
+            http.connect(host: "api.push.apple.com", port: 443, ssl: true, timeoutSeconds: 5) {
+                if $0 {
+                    seal(http)
+                } else {
+                    qq.async {
+                        // can't reject or we'll never try to reconnect!
+                        _http = nil
                     }
                 }
             }
+        }
+    }
+    func reconnect() -> Guarantee<HTTP2Client> {
+        return qq.sync {
+            _http = _reconnect()
             lastPing = Date()
             return _http!
         }
@@ -47,7 +50,7 @@ private var http: Guarantee<HTTP2Client> {
                     if $0 {
                         seal(http)
                     } else {
-                        reconnect().done(seal)
+                        _reconnect().done(seal)
                     }
                 }
             }
