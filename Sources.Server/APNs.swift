@@ -59,7 +59,7 @@ private var http: Guarantee<HTTP2Client> {
         }
     }
     if let http = qq.sync(execute: { _http }) {
-        if let http = http.value, lastPing.timeIntervalSinceNow < -60 {
+        if let http = http.value, http.isConnected, lastPing.timeIntervalSinceNow < -60 {
             return ping(with: http)
         } else {
             return http
