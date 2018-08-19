@@ -95,11 +95,21 @@ enum APNsNotification {
     }
 }
 
-//TODO re-encoding json again and again is not so efficient
+func send(to confs: [APNSConfiguration: [String]], note: APNsNotification) throws {
+    // probably parallel this
+    let json = try JSONSerialization.data(withJSONObject: note.payload)
+    for (conf, tokens) in confs where conf.isProduction {
+        try send(to: tokens, topic: conf.topic, json: json)
+    }
+}
+
 func send(to tokens: [String], topic: String, _ note: APNsNotification) throws {
     // probably parallel this
     let json = try JSONSerialization.data(withJSONObject: note.payload)
+    try send(to: tokens, topic: topic, json: json)
+}
 
+private func send(to tokens: [String], topic: String, json: Data) throws {
     func send(to token: String, http: HTTP2Client) -> Guarantee<Void> {
         print("Sending \(token) (\(topic))")
 
