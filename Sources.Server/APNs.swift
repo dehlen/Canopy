@@ -13,11 +13,13 @@ private enum E: Error {
     case noConnect
 }
 
+private var lastPing = Date(timeIntervalSince1970: 0)
 private var queue = Guarantee()
 private var _http: Guarantee<HTTP2Client>?
 let qq = DispatchQueue(label: "HTTP2Client")
 private var http: Guarantee<HTTP2Client> {
     func reconnect() -> Guarantee<HTTP2Client> {
+        print("RECONNECTING")
         return qq.sync {
             _http = Guarantee { seal in
                 let http = HTTP2Client()
@@ -32,15 +34,32 @@ private var http: Guarantee<HTTP2Client> {
                     }
                 }
             }
+            lastPing = Date()
             return _http!
         }
     }
-
+    func ping(with http: HTTP2Client) -> Guarantee<HTTP2Client> {
+        print("ping")
+        return qq.sync {
+            _http = Guarantee { seal in
+                http.sendPing {
+                    print("ping result", $0)
+                    if $0 {
+                        seal(http)
+                    } else {
+                        reconnect().done(seal)
+                    }
+                }
+            }
+            lastPing = Date()
+            return _http!
+        }
+    }
     if let http = qq.sync(execute: { _http }) {
-        return http.then {
-            $0.isConnected
-                ? .value($0)
-                : reconnect()
+        if let http = http.value, lastPing.timeIntervalSinceNow < -60 {
+            return ping(with: http)
+        } else {
+            return http
         }
     } else {
         return reconnect()
@@ -75,12 +94,12 @@ enum APNsNotification {
 
 //TODO re-encoding json again and again is not so efficient
 func send(to tokens: [String], topic: String, _ note: APNsNotification) throws {
-    print("Sending \(tokens) (\(topic))")
-
     // probably parallel this
     let json = try JSONSerialization.data(withJSONObject: note.payload)
 
     func send(to token: String, http: HTTP2Client) -> Guarantee<Void> {
+        print("Sending \(token) (\(topic))")
+
         let rq = http.createRequest()
         rq.method = .post
         rq.postBodyBytes = [UInt8](json)
@@ -114,9 +133,11 @@ func send(to tokens: [String], topic: String, _ note: APNsNotification) throws {
         }
     }
 
-    http.done(on: qq) { http in
+    qq.sync {
         for token in tokens {
             queue = queue.then {
+                http
+            }.then { http in
                 send(to: token, http: http)
             }
         }
