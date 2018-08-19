@@ -771,21 +771,22 @@ struct PullRequestEvent: Codable, Notificatable {
 
     var body: String {
         let ticket = "\(repository.full_name)#\(number)"
+        let title = "“\(pull_request.title)” (\(ticket))"
         switch action {
         case .closed:
             if let merged = pull_request.merged, merged {
-                return "\(sender.login) merged \(ticket)"
+                return "\(sender.login) merged \(title)"
             } else {
-                return "\(sender.login) closed \(ticket)"
+                return "\(sender.login) closed \(title)"
             }
         case .synchronize:
-            return "\(sender.login) synchronized \(ticket)"
+            return "\(sender.login) synchronized \(title)"
         case .review_requested:
-            return "\(sender.login) requested review for \(ticket)"
+            return "\(sender.login) requested review for \(title)"
         case .review_request_removed:
-            return "\(sender.login) removed the review request for \(ticket)"
+            return "\(sender.login) removed the review request for \(title)"
         default:
-            return "\(sender.login) \(action) \(ticket)"
+            return "\(sender.login) \(action) \(title)"
         }
     }
     var url: URL? {
