@@ -715,6 +715,7 @@ struct PushEvent: Codable, Notificatable {
     let distinct_size: Int?
     let commits: [Commit]
     let after: String
+    let ref: String
 
     struct Commit: Codable {
         let message: String
@@ -730,10 +731,14 @@ struct PushEvent: Codable, Notificatable {
 
     var body: String {
         let force = forced ? "force‑" : ""
-        let commits = size == 1
-            ? "1 commit"
-            : "\(size) commits"
-        return "\(pusher.name) \(force)pushed \(commits)"
+        if size <= 0 {
+            return "\(pusher.name) \(force)pushed to \(ref)"
+        } else {
+            let commits = size == 1
+                ? "1 commit"
+                : "\(size) commits"
+            return "\(pusher.name) \(force)pushed \(commits)"
+        }
     }
 
     var url: URL? {
