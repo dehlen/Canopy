@@ -4,6 +4,8 @@ import class Dispatch.DispatchQueue
 import func Foundation.exit
 import PromiseKit
 
+CurlVersionHelper().checkVersion()
+
 var isDir: ObjCBool = false
 precondition(FileManager.default.fileExists(atPath: "../receipts", isDirectory: &isDir) && isDir.boolValue)
 precondition(FileManager.default.fileExists(atPath: "../db.sqlite"))

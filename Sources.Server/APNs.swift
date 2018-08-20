@@ -2,72 +2,23 @@ import class PerfectHTTPServer.HTTP2Client
 import PerfectCrypto
 import Foundation
 import PromiseKit
+import CCurl
 
 //TODO apns-collapse-id
 
-//NOTE this is a bad implementation, we can only send one notification at a time
-// while we should be able to open multiple streams (docs say only after one successful
-// push though) as a result the speed is bad.
-
 private enum E: Error {
-    case noConnect
+    case badToken
+    case other(Int, String?)
 }
 
-private var lastPing = Date(timeIntervalSince1970: 0)
-private var queue = Guarantee()
-private var _http: Guarantee<HTTP2Client>?
-let qq = DispatchQueue(label: "HTTP2Client")
-private var http: Guarantee<HTTP2Client> {
-    func _reconnect() -> Guarantee<HTTP2Client> {
-        print("RECONNECTING")
-        return Guarantee { seal in
-            let http = HTTP2Client()
-            http.connect(host: "api.push.apple.com", port: 443, ssl: true, timeoutSeconds: 5) {
-                if $0 {
-                    seal(http)
-                } else {
-                    qq.async {
-                        // can't reject or we'll never try to reconnect!
-                        _http = nil
-                    }
-                }
-            }
-        }
-    }
-    func reconnect() -> Guarantee<HTTP2Client> {
-        return qq.sync {
-            _http = _reconnect()
-            lastPing = Date()
-            return _http!
-        }
-    }
-    func ping(with http: HTTP2Client) -> Guarantee<HTTP2Client> {
-        print("ping")
-        return qq.sync {
-            _http = Guarantee { seal in
-                http.sendPing {
-                    print("ping result", $0)
-                    if $0 {
-                        seal(http)
-                    } else {
-                        _reconnect().done(seal)
-                    }
-                }
-            }
-            lastPing = Date()
-            return _http!
-        }
-    }
-    if let http = qq.sync(execute: { _http }) {
-        if let http = http.value, http.isConnected, lastPing.timeIntervalSinceNow < -60 {
-            return ping(with: http)
-        } else {
-            return http
-        }
-    } else {
-        return reconnect()
-    }
-}
+private var curlHandle: UnsafeMutableRawPointer = {
+    let curlHandle = curl_easy_init()
+    //curlHelperSetOptBool(curlHandle, CURLOPT_VERBOSE, CURL_TRUE)
+    curlHelperSetOptInt(curlHandle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2_0)
+    return curlHandle!
+}()
+
+let qq = DispatchQueue(label: "cURL HTTP2 serial-Q")
 
 enum APNsNotification {
     case silent([String: Any])
@@ -99,60 +50,123 @@ func send(to confs: [APNSConfiguration: [String]], note: APNsNotification) throw
     // probably parallel this
     let json = try JSONSerialization.data(withJSONObject: note.payload)
     for (conf, tokens) in confs where conf.isProduction {
-        try send(to: tokens, topic: conf.topic, json: json)
+        for token in tokens {
+            send(to: token, topic: conf.topic, json: json)
+        }
     }
 }
 
 func send(to tokens: [String], topic: String, _ note: APNsNotification) throws {
     // probably parallel this
     let json = try JSONSerialization.data(withJSONObject: note.payload)
-    try send(to: tokens, topic: topic, json: json)
+    for token in tokens {
+        send(to: token, topic: topic, json: json)
+    }
 }
 
-private func send(to tokens: [String], topic: String, json: Data) throws {
-    func send(to token: String, http: HTTP2Client) -> Guarantee<Void> {
-        print("Sending \(token) (\(topic))")
+private func send(to token: String, topic: String, json: Data) {
+    qq.async {
+        do {
+            print("Sending to:", token)
+            try _send(to: token, topic: topic, json: json)
+            print("OK")
+        } catch E.badToken {
+            print("Deleting bad token:", token)
+            _ = try? DB().delete(apnsDeviceToken: token)
+        } catch {
+            print(error)
+        }
+    }
+}
 
-        let rq = http.createRequest()
-        rq.method = .post
-        rq.postBodyBytes = [UInt8](json)
-        rq.setHeader(.contentType, value: "application/json; charset=utf-8")
-        rq.setHeader(.custom(name: "apns-topic"), value: topic)
-        rq.setHeader(.authorization, value: "bearer \(jwt)")
-        rq.path = "/3/device/\(token)"
-        return Guarantee { seal in
-            http.sendRequest(rq) {
-                switch $0?.status {
-                case .badRequest?:
-                    print($0!.status)
-                    struct Response: Decodable {
-                        let reason: String
-                    }
-                    //Perfect sucks, why is this a string ffs?
-                    if let data = $1?.data(using: .utf8), (try? JSONDecoder().decode(Response.self, from: data))?.reason == "BadDeviceToken" {
-                        fallthrough
-                    }
-                case .gone?:
-                    print($0!.status)
-                    try! DB().delete(apnsDeviceToken: token)
-                case nil:
-                    print("NO RESPONSE PROVIDED", $1 ?? "Perfect sucks")
-                default:
-                    print($0!.status)
-                }
+private func _send(to token: String, topic: String, json: Data) throws {
+#if os(Linux)
+    dispatchPrecondition(condition: .onQueue(qq))
+#endif
 
-                seal(())
-            }
+    // Set URL
+    var url = "https://api.push.apple.com/3/device/\(token)"
+    url.withCString {
+        var str = UnsafeMutablePointer(mutating: $0)
+        curlHelperSetOptString(curlHandle, CURLOPT_URL, str)
+    }
+
+    curlHelperSetOptInt(curlHandle, CURLOPT_PORT, 443)
+    curlHelperSetOptBool(curlHandle, CURLOPT_FOLLOWLOCATION, CURL_TRUE)
+    curlHelperSetOptBool(curlHandle, CURLOPT_FAILONERROR, CURL_TRUE) // Fail for non 200-299 status code
+    curlHelperSetOptBool(curlHandle, CURLOPT_POST, CURL_TRUE)
+    curlHelperSetOptBool(curlHandle, CURLOPT_HEADER, CURL_TRUE) // Tell CURL to add headers
+
+    // setup payload
+    var json = json
+    json.append(0)
+    json.withUnsafeMutableBytes {
+        _ = curlHelperSetOptString(curlHandle, CURLOPT_POSTFIELDS, $0)
+    }
+    curlHelperSetOptInt(curlHandle, CURLOPT_POSTFIELDSIZE, json.count - 1)
+
+    //Headers
+    var curlHeaders: UnsafeMutablePointer<curl_slist>?
+    curlHeaders = curl_slist_append(curlHeaders, "Authorization: bearer \(jwt)")
+    curlHeaders = curl_slist_append(curlHeaders, "User-Agent: Canopy, Codebase LLC")
+    curlHeaders = curl_slist_append(curlHeaders, "apns-topic: \(topic)")
+    curlHeaders = curl_slist_append(curlHeaders, "Accept: application/json")
+    curlHeaders = curl_slist_append(curlHeaders, "Content-Type: application/json; charset=utf-8")
+    curlHelperSetOptHeaders(curlHandle, curlHeaders)
+    defer {
+        if let curlHeaders = curlHeaders {
+            curl_slist_free_all(curlHeaders)
         }
     }
 
-    qq.sync {
-        for token in tokens {
-            queue = queue.then {
-                http
-            }.then { http in
-                send(to: token, http: http)
-            }
+    class WriteStorage {
+        var data = Data()
+    }
+
+    // Get response
+    var writeStorage = WriteStorage()
+    curlHelperSetOptWriteFunc(curlHandle, &writeStorage) { (ptr, size, nMemb, privateData) -> Int in
+        let storage = privateData?.assumingMemoryBound(to: WriteStorage.self)
+        let realsize = size * nMemb
+
+        var bytes = [UInt8](repeating: 0, count: realsize)
+        memcpy(&bytes, ptr!, realsize)
+
+        for byte in bytes {
+            storage?.pointee.data.append(byte)
+        }
+        return realsize
+    }
+
+    let ret = curl_easy_perform(curlHandle)
+
+    if ret == CURLE_OK {
+        return
+    }
+    var code = 500
+    curlHelperGetInfoLong(curlHandle, CURLINFO_RESPONSE_CODE, &code)
+
+    switch code {
+    case 400:
+        guard let error = curl_easy_strerror(ret), let string = String(utf8String: error) else {
+            throw E.other(400, nil)
+        }
+        let data = string.data(using: .utf8)!
+        struct Response: Decodable {
+            let reason: String
+        }
+        if (try? JSONDecoder().decode(Response.self, from: data))?.reason == "BadDeviceToken" {
+            throw E.badToken
+        } else {
+            throw E.other(400, string)
+        }
+    case 410:
+        throw E.badToken
+    default:
+        if let error = curl_easy_strerror(ret), let message = String(utf8String: error) {
+            throw E.other(code, message)
+        } else {
+            throw E.other(code, nil)
         }
     }
 }
@@ -167,20 +181,16 @@ private var jwt: String {
     let t = q.sync{ sigtime }
     if t.timeIntervalSince(now) < -3590 {
         return q.sync(flags: .barrier) {
+            let payload: [String: Any] = ["iss": teamId, "iat": Int(now.timeIntervalSince1970)]
+            let jwt = JWTCreator(payload: payload)!
+            let pem = try! PEMKey(pemPath: "AuthKey_5354D789X6.p8")
+            lastJwt = try! jwt.sign(alg: JWT.Alg.es256, key: pem, headers: ["kid": "5354D789X6"])
             sigtime = now
-            lastJwt = _jwt(now: now)
             return lastJwt
         }
     } else {
         return q.sync{ lastJwt }
     }
-}
-private func _jwt(now: Date) -> String {
-    let payload: [String: Any] = ["iss": teamId, "iat": Int(now.timeIntervalSince1970)]
-    let jwt = JWTCreator(payload: payload)!
-    let pem = try! PEMKey(pemPath: "AuthKey_5354D789X6.p8")
-    let sig = try! jwt.sign(alg: JWT.Alg.es256, key: pem, headers: ["kid": "5354D789X6"])
-    return sig
 }
 
 func alert(message: String, function: StaticString = #function) {
@@ -192,5 +202,78 @@ func alert(message: String, function: StaticString = #function) {
     let apns = APNsNotification.alert(body: message, title: nil, category: nil, threadId: nil, extra: nil)
     for (conf, tokens) in confs where conf.isProduction {
         _ = try? send(to: tokens, topic: conf.topic, apns)
+    }
+}
+
+
+//
+//  CurlVersionHelper.swift
+//  VaporAPNS
+//
+//  Created by Matthijs Logemann on 01/01/2017.
+//
+//
+
+class CurlVersionHelper {
+    public enum Result {
+        case ok
+        case old(got: String, wanted: String)
+        case noHTTP2
+        case unknown
+    }
+
+    public func checkVersion() {
+        switch checkVersionNum() {
+        case .old(let got, let wanted):
+            print("Your current version of curl (\(got)) is out of date!")
+            print("APNS needs at least \(wanted).")
+        case .noHTTP2:
+            print("Your current version of curl lacks HTTP2!")
+            print("APNS will not work with this version of curl.")
+        default:
+            break
+        }
+    }
+
+    private func checkVersionNum() -> Result {
+        let version = curl_version_info(CURLVERSION_FOURTH)
+        let verBytes = version?.pointee.version
+        let versionString = String.init(cString: verBytes!)
+        //        return .old
+
+        guard checkVersionNumber(versionString, "7.51.0") >= 0 else {
+            return .old(got: versionString, wanted: "7.51.0")
+        }
+
+        let features = version?.pointee.features
+
+        if ((features! & CURL_VERSION_HTTP2) == CURL_VERSION_HTTP2) {
+            return .ok
+        }else {
+            return .noHTTP2
+        }
+    }
+
+    private func checkVersionNumber(_ strVersionA: String, _ strVersionB: String) -> Int{
+        var arrVersionA = strVersionA.split(separator: ".").map({ Int($0) })
+        guard arrVersionA.count == 3 else {
+            fatalError("Wrong curl version scheme! \(strVersionA)")
+        }
+
+        var arrVersionB = strVersionB.split(separator: ".").map({ Int($0) })
+        guard arrVersionB.count == 3 else {
+            fatalError("Wrong curl version scheme! \(strVersionB)")
+        }
+
+        let intVersionA = (100000000 * arrVersionA[0]!) + (1000000 * arrVersionA[1]!) + (10000 * arrVersionA[2]!)
+        let intVersionB = (100000000 * arrVersionB[0]!) + (1000000 * arrVersionB[1]!) + (10000 * arrVersionB[2]!)
+
+        if intVersionA > intVersionB {
+            return 1
+        } else if intVersionA < intVersionB {
+            return -1
+        } else {
+            return 0
+        }
     }
 }

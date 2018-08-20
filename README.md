@@ -4,7 +4,9 @@
 
 # Server
 
-    swift build -c release && sudo .build/release/debris
+You must install an HTTP2 compliant curl that is new enough from source, then:
+
+    swift build -Xswiftc -I/usr/local/include && sudo LD_LIBRARY_PATH=/usr/local/lib .build/debug/debris
 
 # Sync
 

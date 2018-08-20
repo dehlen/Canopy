@@ -11,7 +11,8 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/PerfectlySoft/Perfect-HTTPServer.git", .upToNextMajor(from: "3.0.0")),
         .package(url: "https://github.com/PerfectlySoft/Perfect-SQLite.git", .upToNextMajor(from: "3.0.0")),
-        .package(url: "https://github.com/mxcl/PromiseKit.git", .upToNextMajor(from: "6.3.4"))
+        .package(url: "https://github.com/mxcl/PromiseKit.git", .upToNextMajor(from: "6.3.4")),
+        .package(url: "https://github.com/boostcode/CCurl.git", .upToNextMajor(from: "0.2.0")),
     ],
     targets: [
         .target(name: "debris", dependencies: ["PerfectSQLite", "PerfectHTTPServer", "Roots"], path: "Sources.Server"),
