@@ -141,17 +141,19 @@ private extension HTTPRequest {
             return try rq.decode(PullRequestEvent.self)
         case "pull_request_review":
             return try rq.decode(PullRequestReviewEvent.self)
-        case "watch":
-            return try rq.decode(WatchEvent.self)
         case "release":
             return try rq.decode(ReleaseEvent.self)
+        case "repository":
+            return try rq.decode(RepositoryEvent.self)
         case "status":
             // HEAVY TRAFFIC DUDE! Probably send as a silent notification
             // happens for eg. EVERY SINGLE travis build job
             throw E.ignoring
+        case "watch":
+            return try rq.decode(WatchEvent.self)
         case "pull_request_review_comment":
             return try rq.decode(PullRequestReviewCommentEvent.self)
-        case "marketplace_purchase", "repository", "repository_vulnerability_alert", "team", "team_add", _:
+        case "marketplace_purchase", "repository_vulnerability_alert", "team", "team_add", _:
             throw E.unimplemented(eventType)
         }
     }
@@ -191,7 +193,7 @@ private extension GitHubAPI {
             let id: Int
         }
         var ids: [Int] = []
-        return task(path: "/orgs/\(org)/members") { data in
+        return task(path: "/orgs/\(org.login)/members") { data in
             DispatchQueue.global().async(.promise) {
                 try JSONDecoder().decode([Response].self, from: data)
             }.done(on: q) {

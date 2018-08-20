@@ -23,14 +23,14 @@ extension Notificatable {
         case .repository(let repo):
             return repo.full_name
         case .organization(let org, _):
-            return "The \(org.login) organization"
+            return "orgs/\(org.login)"
         }
     }
 
     var threadingId: String {
         switch context {
         case .organization(let org, _):
-            return "orgs/\(org.login)"  // github reserve this prefix
+            return "orgs/\(org.id)"
         case .repository(let repo):
             return "repo/\(repo.id)"
         }
@@ -838,7 +838,6 @@ struct PullRequestReviewEvent: Codable, Notificatable {
 }
 
 struct ReleaseEvent: Codable, Notificatable {
-    let action: String
     let release: Release
     let sender: User
     let repository: Repository
@@ -857,6 +856,25 @@ struct ReleaseEvent: Codable, Notificatable {
         let html_url: URL
         let tag_name: String
         let name: String?
+    }
+}
+
+struct RepositoryEvent: Codable, Notificatable {
+    let action: Action
+    let repository: Repository
+    let sender: User
+
+    enum Action: String, Codable {
+        case created, deleted
+        case archived, unarchived, publicized, privatized  //orgs only
+    }
+
+    var body: String {
+        return "\(sender.login) \(action) \(repository.full_name)"
+    }
+
+    var context: Context {
+        return .repository(repository)
     }
 }
 
