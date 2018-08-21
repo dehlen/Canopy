@@ -9,6 +9,7 @@ import CCurl
 private enum E: Error {
     case badToken
     case other(Int, String?)
+    case fundamental
 }
 
 private var curlHandle: UnsafeMutableRawPointer = {
@@ -93,7 +94,6 @@ private func _send(to token: String, topic: String, json: Data) throws {
 
     curlHelperSetOptInt(curlHandle, CURLOPT_PORT, 443)
     curlHelperSetOptBool(curlHandle, CURLOPT_FOLLOWLOCATION, CURL_TRUE)
-    curlHelperSetOptBool(curlHandle, CURLOPT_FAILONERROR, CURL_TRUE) // Fail for non 200-299 status code
     curlHelperSetOptBool(curlHandle, CURLOPT_POST, CURL_TRUE)
     curlHelperSetOptBool(curlHandle, CURLOPT_HEADER, CURL_TRUE) // Tell CURL to add headers
 
@@ -140,34 +140,35 @@ private func _send(to token: String, topic: String, json: Data) throws {
 
     let ret = curl_easy_perform(curlHandle)
 
-    if ret == CURLE_OK {
-        return
+    if ret != CURLE_OK {
+        throw E.fundamental
     }
     var code = 500
     curlHelperGetInfoLong(curlHandle, CURLINFO_RESPONSE_CODE, &code)
 
     switch code {
     case 400:
-        guard let error = curl_easy_strerror(ret), let string = String(utf8String: error) else {
+        guard let str = String(data: writeStorage.data, encoding: .utf8) else {
             throw E.other(400, nil)
         }
-        let data = string.data(using: .utf8)!
+        let parts = str.components(separatedBy: "\r\n\r\n")
+        guard parts.count == 2, let data = parts[1].data(using: .utf8) else {
+            throw E.other(400, str)
+        }
         struct Response: Decodable {
             let reason: String
         }
         if (try? JSONDecoder().decode(Response.self, from: data))?.reason == "BadDeviceToken" {
             throw E.badToken
         } else {
-            throw E.other(400, string)
+            throw E.other(400, String(data: writeStorage.data, encoding: .utf8))
         }
     case 410:
         throw E.badToken
+    case 200..<300:
+        print(String(data: writeStorage.data, encoding: .utf8) ?? "OK")
     default:
-        if let error = curl_easy_strerror(ret), let message = String(utf8String: error) {
-            throw E.other(code, message)
-        } else {
-            throw E.other(code, nil)
-        }
+        throw E.other(code, String(data: writeStorage.data, encoding: .utf8))
     }
 }
 
