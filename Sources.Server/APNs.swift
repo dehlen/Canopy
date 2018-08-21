@@ -48,7 +48,7 @@ enum APNsNotification {
 }
 
 func send(to confs: [APNSConfiguration: [String]], note: APNsNotification) throws {
-    // probably parallel this
+    //TODO parallel
     let json = try JSONSerialization.data(withJSONObject: note.payload)
     for (conf, tokens) in confs where conf.isProduction {
         for token in tokens {
@@ -57,12 +57,9 @@ func send(to confs: [APNSConfiguration: [String]], note: APNsNotification) throw
     }
 }
 
-func send(to tokens: [String], topic: String, _ note: APNsNotification) throws {
-    // probably parallel this
+func send(to token: String, topic: String, _ note: APNsNotification) throws {
     let json = try JSONSerialization.data(withJSONObject: note.payload)
-    for token in tokens {
-        send(to: token, topic: topic, json: json)
-    }
+    try qq.sync { try _send(to: token, topic: topic, json: json) }
 }
 
 private func send(to token: String, topic: String, json: Data) {
@@ -201,8 +198,8 @@ func alert(message: String, function: StaticString = #function) {
         return
     }
     let apns = APNsNotification.alert(body: message, title: nil, category: nil, threadId: nil, extra: nil)
-    for (conf, tokens) in confs where conf.isProduction {
-        _ = try? send(to: tokens, topic: conf.topic, apns)
+    for foo in confs where foo.key.isProduction {
+        _ = try? send(to: confs, note: apns)
     }
 }
 

@@ -6,7 +6,7 @@
 
 You must install an HTTP2 compliant curl that is new enough from source, then:
 
-    swift build -Xswiftc -I/usr/local/include && sudo LD_LIBRARY_PATH=/usr/local/lib .build/debug/debris
+    swift build -Xswiftc -I/usr/local/include -Xswiftc -L/usr/local/lib && sudo LD_LIBRARY_PATH=/usr/local/lib .build/debug/debris
 
 # Sync
 

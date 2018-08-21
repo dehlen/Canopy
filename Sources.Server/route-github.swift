@@ -233,7 +233,8 @@ private func send_(to tokens: [String], topic: String, _ notificatable: Notifica
     if let url = notificatable.url {
         extra = ["url": url.absoluteString]
     }
-    try send(to: tokens, topic: topic, .alert(
+    let conf = APNSConfiguration(topic: topic, isProduction: true)
+    try send(to: [conf: tokens], note: .alert(
         body: notificatable.body,
         title: notificatable.title,
         category: category,
