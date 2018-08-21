@@ -73,7 +73,7 @@ private func finish(code: String, state: String) throws {
     }
 
     func success(login: String, token: String) throws {
-        try send(to: [token], topic: signInParameters.apnsTopic, .silent([
+        try send(to: signInParameters.deviceToken, topic: signInParameters.apnsTopic, .silent([
             "token": token,
             "login": login
         ]))
@@ -91,7 +91,7 @@ private func finish(code: String, state: String) throws {
         } else {
             apns = .alert(body: error.legibleDescription, title: "Sign‑in error", category: nil, threadId: nil, extra: extra)
         }
-        _ = try? send(to: [signInParameters.deviceToken], topic: signInParameters.apnsTopic, apns)
+        _ = try? send(to: signInParameters.deviceToken, topic: signInParameters.apnsTopic, apns)
     }
 
     firstly {
