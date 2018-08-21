@@ -1740,7 +1740,7 @@
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -1754,7 +1754,6 @@
 				OBJ_36 /* Dependencies */,
 				OBJ_430 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_53 /* PerfectSQLite 3.1.1 */ = {
@@ -2354,6 +2353,36 @@
 			attributes = {
 				LastUpgradeCheck = 9999;
 				TargetAttributes = {
+					"Debris::Roots" = {
+						LastSwiftMigration = 1000;
+					};
+					"Debris::debris" = {
+						LastSwiftMigration = 1000;
+					};
+					"PerfectCRUD::PerfectCRUD" = {
+						LastSwiftMigration = 1000;
+					};
+					"PerfectCrypto::PerfectCrypto" = {
+						LastSwiftMigration = 1000;
+					};
+					"PerfectHTTP::PerfectHTTP" = {
+						LastSwiftMigration = 1000;
+					};
+					"PerfectHTTPServer::PerfectHTTPServer" = {
+						LastSwiftMigration = 1000;
+					};
+					"PerfectLib::PerfectLib" = {
+						LastSwiftMigration = 1000;
+					};
+					"PerfectNet::PerfectNet" = {
+						LastSwiftMigration = 1000;
+					};
+					"PerfectSQLite::PerfectSQLite" = {
+						LastSwiftMigration = 1000;
+					};
+					"PerfectThread::PerfectThread" = {
+						LastSwiftMigration = 1000;
+					};
 					"PromiseKit::PromiseKit" = {
 						LastSwiftMigration = 1000;
 					};
@@ -2366,7 +2395,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_430 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

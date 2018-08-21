@@ -144,6 +144,8 @@ private func _send(to token: String, topic: String, json: Data) throws {
     curlHelperGetInfoLong(curlHandle, CURLINFO_RESPONSE_CODE, &code)
 
     switch code {
+    case 200..<300:
+        print(String(data: writeStorage.data, encoding: .utf8) ?? "OK")
     case 400:
         guard let str = String(data: writeStorage.data, encoding: .utf8) else {
             throw E.other(400, nil)
@@ -162,8 +164,6 @@ private func _send(to token: String, topic: String, json: Data) throws {
         }
     case 410:
         throw E.badToken
-    case 200..<300:
-        print(String(data: writeStorage.data, encoding: .utf8) ?? "OK")
     default:
         throw E.other(code, String(data: writeStorage.data, encoding: .utf8))
     }
