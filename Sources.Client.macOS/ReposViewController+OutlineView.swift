@@ -108,12 +108,11 @@ extension ReposViewController: NSOutlineViewDelegate {
             switch repos.satisfaction(\.permissions.admin) {
             case .all:
                 webhookButtonEnabled = true
-                notifyButtonEnabled = true
             case .some, .none:
                 webhookButtonEnabled = false
                 webhookExplanationText += ". You don’t have clearance to control webhooks on all children."
-                notifyButtonEnabled = hooks100pc
             }
+            notifyButtonEnabled = hooks100pc
         case (false, .repo(let repo)) where repo.isPartOfOrganization:
             notifyButtonEnabled = hooked.contains(.organization(repo.owner.login))
             webhookButtonEnabled = false
