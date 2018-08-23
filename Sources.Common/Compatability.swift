@@ -56,3 +56,10 @@ extension URLRequest {
         return command
     }
 }
+
+public extension String {
+    func chuzzled() -> String? {
+        let str = trimmingCharacters(in: .whitespacesAndNewlines)
+        return str.isEmpty ? nil : str
+    }
+}

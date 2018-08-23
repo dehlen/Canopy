@@ -89,7 +89,7 @@ struct PingEvent: Codable, Notificatable {
     var body: String {
         switch context {
         case .organization(let org, _):
-            return "Webhook added to the \(org.login) organization"
+            return "Webhook added to orgs/\(org.login)"
         case .repository(let repo):
             return "Webhook added to \(repo.full_name)"
         }
@@ -843,7 +843,12 @@ struct ReleaseEvent: Codable, Notificatable {
     let repository: Repository
 
     var body: String {
-        return "\(sender.login) released \(release.name ?? release.tag_name)"
+        if let name = release.name?.chuzzled() ?? release.tag_name.chuzzled() {
+            //                      ^^ GitHub serve "" if empty (LAME)
+            return "\(sender.login) released \(name)"
+        } else {
+            return "\(sender.login) published a release"
+        }
     }
     var url: URL? {
         return release.html_url
