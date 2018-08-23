@@ -23,7 +23,7 @@ let qq = DispatchQueue(label: "cURL HTTP2 serial-Q")
 
 enum APNsNotification {
     case silent([String: Any])
-    case alert(body: String, title: String?, category: String?, threadId: String?, extra: [String: Any]?)
+    case alert(body: String, title: String?, category: String?, threadId: String?, extra: [String: Any]?, id: String?)
 
     fileprivate var payload: [String: Any] {
         switch self {
@@ -31,7 +31,7 @@ enum APNsNotification {
             var payload = extra
             payload["aps"] = ["content-available": 1]
             return payload
-        case .alert(let body, let title, let category, let threadId, let extra):
+        case .alert(let body, let title, let category, let threadId, let extra, _):
             var alert = ["body": body]
             alert["title"] = title
 
@@ -45,6 +45,15 @@ enum APNsNotification {
             return payload
         }
     }
+
+    var id: String? {
+        switch self {
+        case .alert(_, _, _, _, _, let id):
+            return id
+        case .silent:
+            return nil
+        }
+    }
 }
 
 func send(to confs: [APNSConfiguration: [String]], note: APNsNotification) throws {
@@ -52,21 +61,21 @@ func send(to confs: [APNSConfiguration: [String]], note: APNsNotification) throw
     let json = try JSONSerialization.data(withJSONObject: note.payload)
     for (conf, tokens) in confs where conf.isProduction {
         for token in tokens {
-            send(to: token, topic: conf.topic, json: json)
+            send(to: token, topic: conf.topic, json: json, id: note.id)
         }
     }
 }
 
 func send(to token: String, topic: String, _ note: APNsNotification) throws {
     let json = try JSONSerialization.data(withJSONObject: note.payload)
-    try qq.sync { try _send(to: token, topic: topic, json: json) }
+    try qq.sync { try _send(to: token, topic: topic, json: json, id: note.id) }
 }
 
-private func send(to token: String, topic: String, json: Data) {
+private func send(to token: String, topic: String, json: Data, id: String?) {
     qq.async {
         do {
             print("Sending to:", token)
-            try _send(to: token, topic: topic, json: json)
+            try _send(to: token, topic: topic, json: json, id: id)
             print("OK")
         } catch E.badToken {
             print("Deleting bad token:", token)
@@ -77,7 +86,7 @@ private func send(to token: String, topic: String, json: Data) {
     }
 }
 
-private func _send(to token: String, topic: String, json: Data) throws {
+private func _send(to token: String, topic: String, json: Data, id: String?) throws {
 #if os(Linux)
     dispatchPrecondition(condition: .onQueue(qq))
 #endif
@@ -107,6 +116,9 @@ private func _send(to token: String, topic: String, json: Data) throws {
     curlHeaders = curl_slist_append(curlHeaders, "Authorization: bearer \(jwt)")
     curlHeaders = curl_slist_append(curlHeaders, "User-Agent: Canopy, Codebase LLC")
     curlHeaders = curl_slist_append(curlHeaders, "apns-topic: \(topic)")
+    if let id = id {
+        curlHeaders = curl_slist_append(curlHeaders, "apns-id: \(id)")
+    }
     curlHeaders = curl_slist_append(curlHeaders, "Accept: application/json")
     curlHeaders = curl_slist_append(curlHeaders, "Content-Type: application/json; charset=utf-8")
     curlHelperSetOptHeaders(curlHandle, curlHeaders)
@@ -197,7 +209,7 @@ func alert(message: String, function: StaticString = #function) {
     guard let confs = try? DB().mxcl() else {
         return
     }
-    let apns = APNsNotification.alert(body: message, title: nil, category: nil, threadId: nil, extra: nil)
+    let apns = APNsNotification.alert(body: message, title: nil, category: nil, threadId: nil, extra: nil, id: nil)
     for foo in confs where foo.key.isProduction {
         _ = try? send(to: confs, note: apns)
     }

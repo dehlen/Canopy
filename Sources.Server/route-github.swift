@@ -20,6 +20,7 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
 
     do {
         let notificatable = try rq.decodeNotificatable(eventType: eventType)
+        let apnsId = rq.header(.custom(name: "X-GitHub-Delivery"))
 
         guard !notificatable.shouldIgnore else {
             throw E.ignoring
@@ -27,7 +28,7 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
 
         func send(to confs: [APNSConfiguration: [String]]) throws {
             for (conf, tokens) in confs where conf.isProduction {
-                try send_(to: tokens, topic: conf.topic, notificatable, category: eventType)
+                try send_(to: tokens, topic: conf.topic, notificatable, category: eventType, apnsId: apnsId)
             }
         }
 
@@ -228,7 +229,7 @@ private enum SendType {
     }
 }
 
-private func send_(to tokens: [String], topic: String, _ notificatable: Notificatable, category: String) throws {
+private func send_(to tokens: [String], topic: String, _ notificatable: Notificatable, category: String, apnsId: String?) throws {
     var extra: [String: Any]?
     if let url = notificatable.url {
         extra = ["url": url.absoluteString]
@@ -239,5 +240,6 @@ private func send_(to tokens: [String], topic: String, _ notificatable: Notifica
         title: notificatable.title,
         category: category,
         threadId: notificatable.threadingId,
-        extra: extra))
+        extra: extra,
+        id: apnsId))
 }
