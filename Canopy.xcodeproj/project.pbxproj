@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		630DCCA021111D64007D2093 /* Client.etc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6387B81E211105D800D17446 /* Client.etc.swift */; };
 		632633B9211F57E400D112EA /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632633B8211F57E400D112EA /* AccountViewController.swift */; };
+		6331C4F3212C5A220053FE22 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 6331C4D8212C5A220053FE22 /* Credits.rtf */; };
 		6335A0DD211B9AF400E2EDB0 /* SortedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6335A0DC211B9AF400E2EDB0 /* SortedArray.swift */; };
 		634D405320FCE59A0075C1E7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 634D405220FCE59A0075C1E7 /* Main.storyboard */; };
 		63562B4120F90CF40076F52B /* etc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63562B4020F90CF40076F52B /* etc.swift */; };
@@ -117,13 +118,6 @@
 			remoteGlobalIDString = "PerfectNet::PerfectNet::Product";
 			remoteInfo = PerfectNet;
 		};
-		63008C6021001B0C005AF72D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 63008C3021001B0C005AF72D /* Debris.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = "PerfectNotifications::PerfectNotifications::Product";
-			remoteInfo = PerfectNotifications;
-		};
 		63008C6221001B0C005AF72D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 63008C3021001B0C005AF72D /* Debris.xcodeproj */;
@@ -178,6 +172,7 @@
 /* Begin PBXFileReference section */
 		63008C3021001B0C005AF72D /* Debris.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Debris.xcodeproj; sourceTree = SOURCE_ROOT; };
 		632633B8211F57E400D112EA /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		6331C4D8212C5A220053FE22 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		6335A0DC211B9AF400E2EDB0 /* SortedArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortedArray.swift; sourceTree = "<group>"; };
 		634D405220FCE59A0075C1E7 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		63562B4020F90CF40076F52B /* etc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = etc.swift; sourceTree = "<group>"; };
@@ -251,7 +246,6 @@
 				63008C5B21001B0C005AF72D /* PerfectHTTPServer.framework */,
 				63008C5D21001B0C005AF72D /* PerfectLib.framework */,
 				63008C5F21001B0C005AF72D /* PerfectNet.framework */,
-				63008C6121001B0C005AF72D /* PerfectNotifications.framework */,
 				63008C6321001B0C005AF72D /* PerfectSQLite.framework */,
 				63008C6521001B0C005AF72D /* PerfectThread.framework */,
 				63008C6721001B0C005AF72D /* PromiseKit.framework */,
@@ -264,6 +258,7 @@
 		636A40B620F94DAA0051DE0B /* Detritus */ = {
 			isa = PBXGroup;
 			children = (
+				6331C4D8212C5A220053FE22 /* Credits.rtf */,
 				634D405220FCE59A0075C1E7 /* Main.storyboard */,
 				6388D13120F515270082F280 /* Assets.xcassets */,
 				63F75B2E20F52EEF00A3B9AE /* Canopy.entitlements */,
@@ -560,13 +555,6 @@
 			remoteRef = 63008C5E21001B0C005AF72D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		63008C6121001B0C005AF72D /* PerfectNotifications.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = PerfectNotifications.framework;
-			remoteRef = 63008C6021001B0C005AF72D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		63008C6321001B0C005AF72D /* PerfectSQLite.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -610,6 +598,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				634D405320FCE59A0075C1E7 /* Main.storyboard in Resources */,
+				6331C4F3212C5A220053FE22 /* Credits.rtf in Resources */,
 				6388D13220F515270082F280 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -747,7 +736,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -811,7 +800,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
