@@ -13,7 +13,7 @@ func oauthCallback(request rq: HTTPRequest, response: HTTPResponse) {
             throw HTTPResponseError(status: .badRequest, description: "Invalid JSON")
         }
         try finish(code: code, state: state)
-        response.appendBody(string: "<p>Authenticating, please stand-by...</p>")
+        response.appendBody(string: body)
         response.completed()
     } catch {
         response.completed(status: .expectationFailed)
@@ -89,7 +89,7 @@ private func finish(code: String, state: String) throws {
         if signInParameters.apnsTopic.isMac {
             apns = .silent(extra)
         } else {
-            apns = .alert(body: error.legibleDescription, title: "Sign‑in error", category: nil, threadId: nil, extra: extra)
+            apns = .alert(body: error.legibleDescription, title: "Sign‑in error", category: nil, threadId: nil, extra: extra, id: nil)
         }
         _ = try? send(to: signInParameters.deviceToken, topic: signInParameters.apnsTopic, apns)
     }
@@ -115,4 +115,41 @@ private extension String {
     var isMac: Bool {
         return self == "com.codebasesaga.macOS.Canopy"
     }
+}
+
+private var body: String {
+    return """
+    <!DOCTYPE html>
+
+    <head>
+      <title>Authorizing… &hyphen; Canopy</title>
+      <meta charset="utf-8">
+      <style>
+        p {
+          color: rgba(255,255,255,0.5);
+        }
+        html {
+          background: #434E58; color: white;
+          font-family: "soleil", sans-serif;
+          padding: 1rem;
+        }
+        #icon {
+          zoom: 50%;
+          align: center;
+        }
+        a {
+          color: white;
+        }
+        * {
+          text-align: center;
+        }
+      </style>
+      <link rel="stylesheet" href="https://codebasesaga.com/css/fonts.css">
+    </head>
+
+    <h1>Canopy</h1>
+    <p>Authorizing… please stand by.</p>
+    <p>Upon completion the Canopy app will reactivate.</p>
+    <p style="margin-top: 2rem"><a href="mailto:support@codebasesaga.com">Contact Support</a></p>
+    """
 }
