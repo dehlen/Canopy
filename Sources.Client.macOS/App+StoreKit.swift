@@ -8,8 +8,32 @@ extension SKProductsRequest {
     }
 }
 
-private enum CanopyStoreKitError: Error {
+private enum E: TitledError {
     case productNotFound
+    case deferred
+    case stateMachineViolation
+
+    var errorDescription: String? {
+        switch self {
+        case .productNotFound:
+            return "SKProduct not found, please contact support."
+        case .deferred:
+            return "Thank you! You can continue to use Canopy while your purchase is pending an approval from your parent."
+        case .stateMachineViolation:
+            return "Skynet has taken over."
+        }
+    }
+
+    var title: String {
+        switch self {
+        case .productNotFound:
+            return "Unexpected Error"
+        case .deferred:
+            return "Waiting For Approval"
+        case .stateMachineViolation:
+            return "State Machine Error"
+        }
+    }
 }
 
 extension AppDelegate: SKPaymentTransactionObserver {
@@ -18,12 +42,14 @@ extension AppDelegate: SKPaymentTransactionObserver {
     }
 
     func finish(error: Error?) {
-        if let error = error {
-            subscribeViewController?.paymentFailed(sender: self)
-            if let error = error as? SKError, error.code == .paymentCancelled { return }
-            alert(error)
-        } else {
-            subscribeViewController?.dismiss(self)
+        DispatchQueue.main.async { [weak subscribeViewController] in
+            if let error = error {
+                subscribeViewController?.paymentFailed(sender: self)
+                if let error = error as? SKError, error.code == .paymentCancelled { return }
+                alert(error)
+            } else {
+                subscribeViewController?.dismiss(self)
+            }
         }
     }
 
@@ -43,7 +69,7 @@ extension AppDelegate: SKPaymentTransactionObserver {
             request.start(.promise)
         }.done {
             guard let product = $0.products.first else {
-                throw CanopyStoreKitError.productNotFound
+                throw E.productNotFound
             }
             let payment = SKMutablePayment(product: product)
             payment.applicationUsername = login.data(using: .utf8)?.sha256
@@ -68,15 +94,14 @@ extension AppDelegate: SKPaymentTransactionObserver {
                     _postReceipt(token: token, receipt: url)
                 }.done {
                     queue.finishTransaction(transaction)
+                    self.finish(error: .none)
                 }.catch {
                     self.finish(error: $0)
                 }
             case .failed:
-                print(#function, "failed", transaction)
-                finish(error: transaction.error ?? CocoaError.error(.coderInvalidValue))
+                finish(error: transaction.error ?? E.stateMachineViolation)
             case .deferred:
-                //TODO should I finish or what?
-                print(#function, "deferred", transaction)
+                finish(error: E.deferred)
             }
         }
 

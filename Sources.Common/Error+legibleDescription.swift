@@ -56,3 +56,7 @@ private enum ErrorType {
     case swiftError(Mirror.DisplayStyle?)
 }
 #endif
+
+protocol TitledError: LocalizedError {
+    var title: String { get }
+}

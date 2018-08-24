@@ -6,7 +6,17 @@ class ReposViewController: NSViewController {
     var hooked = Set<Node>()
     var fetching = false
     var subscribed = Set<Int>()
-    var hasVerifiedReceipt = false
+    var hasVerifiedReceipt = false {
+        didSet {
+            if hasVerifiedReceipt {
+                privateReposAdviceLabel.stringValue = """
+                    Notifications for private
+                    repos subscription
+                    is active
+                    """
+            }
+        }
+    }
 
     @IBOutlet weak var outlineView: NSOutlineView!
     @IBOutlet weak var notifyButton: NSButton!
