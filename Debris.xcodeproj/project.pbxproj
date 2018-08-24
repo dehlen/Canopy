@@ -668,8 +668,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		"COpenSSL::COpenSSL::Product" /* COpenSSL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = COpenSSL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"Debris::Roots::Product" /* Roots.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Roots.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"COpenSSL::COpenSSL::Product" /* COpenSSL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = COpenSSL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"Debris::Roots::Product" /* Roots.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Roots.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"Debris::debris::Product" /* debris */ = {isa = PBXFileReference; lastKnownFileType = text; path = debris; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_10 /* encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = encryption.swift; sourceTree = "<group>"; };
 		OBJ_100 /* HTTP2FrameWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTP2FrameWriter.swift; sourceTree = "<group>"; };
@@ -1061,17 +1061,17 @@
 		OBJ_97 /* HTTP2Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTP2Client.swift; sourceTree = "<group>"; };
 		OBJ_98 /* HTTP2Frame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTP2Frame.swift; sourceTree = "<group>"; };
 		OBJ_99 /* HTTP2FrameReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTP2FrameReader.swift; sourceTree = "<group>"; };
-		"PerfectCRUD::PerfectCRUD::Product" /* PerfectCRUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PerfectCRUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"PerfectCZlib::PerfectCZlib::Product" /* PerfectCZlib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PerfectCZlib.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"PerfectCrypto::PerfectCrypto::Product" /* PerfectCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PerfectCrypto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"PerfectHTTP::PerfectHTTP::Product" /* PerfectHTTP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PerfectHTTP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"PerfectHTTPServer::PerfectCHTTPParser::Product" /* PerfectCHTTPParser.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PerfectCHTTPParser.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"PerfectHTTPServer::PerfectHTTPServer::Product" /* PerfectHTTPServer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PerfectHTTPServer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"PerfectLib::PerfectLib::Product" /* PerfectLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PerfectLib.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"PerfectNet::PerfectNet::Product" /* PerfectNet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PerfectNet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"PerfectSQLite::PerfectSQLite::Product" /* PerfectSQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PerfectSQLite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"PerfectThread::PerfectThread::Product" /* PerfectThread.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PerfectThread.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"PromiseKit::PromiseKit::Product" /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PromiseKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"PerfectCRUD::PerfectCRUD::Product" /* PerfectCRUD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PerfectCRUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"PerfectCZlib::PerfectCZlib::Product" /* PerfectCZlib.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PerfectCZlib.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"PerfectCrypto::PerfectCrypto::Product" /* PerfectCrypto.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PerfectCrypto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"PerfectHTTP::PerfectHTTP::Product" /* PerfectHTTP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PerfectHTTP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"PerfectHTTPServer::PerfectCHTTPParser::Product" /* PerfectCHTTPParser.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PerfectCHTTPParser.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"PerfectHTTPServer::PerfectHTTPServer::Product" /* PerfectHTTPServer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PerfectHTTPServer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"PerfectLib::PerfectLib::Product" /* PerfectLib.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PerfectLib.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"PerfectNet::PerfectNet::Product" /* PerfectNet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PerfectNet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"PerfectSQLite::PerfectSQLite::Product" /* PerfectSQLite.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PerfectSQLite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"PerfectThread::PerfectThread::Product" /* PerfectThread.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PerfectThread.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"PromiseKit::PromiseKit::Product" /* PromiseKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PromiseKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
