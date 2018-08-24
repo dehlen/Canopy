@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		630DCCA021111D64007D2093 /* Client.etc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6387B81E211105D800D17446 /* Client.etc.swift */; };
+		63151CF7212F7BA100F6B8F3 /* SubscribeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63151CF6212F7BA100F6B8F3 /* SubscribeViewController.swift */; };
 		632633B9211F57E400D112EA /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632633B8211F57E400D112EA /* AccountViewController.swift */; };
 		6331C4F3212C5A220053FE22 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 6331C4D8212C5A220053FE22 /* Credits.rtf */; };
 		6335A0DD211B9AF400E2EDB0 /* SortedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6335A0DC211B9AF400E2EDB0 /* SortedArray.swift */; };
@@ -171,6 +172,7 @@
 
 /* Begin PBXFileReference section */
 		63008C3021001B0C005AF72D /* Debris.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Debris.xcodeproj; sourceTree = SOURCE_ROOT; };
+		63151CF6212F7BA100F6B8F3 /* SubscribeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribeViewController.swift; sourceTree = "<group>"; };
 		632633B8211F57E400D112EA /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		6331C4D8212C5A220053FE22 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		6335A0DC211B9AF400E2EDB0 /* SortedArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortedArray.swift; sourceTree = "<group>"; };
@@ -300,6 +302,7 @@
 				636440BF211628CF0098DE10 /* ReposViewController+OutlineView.swift */,
 				636440C121162B960098DE10 /* ReposViewController+Types.swift */,
 				63E4E01D21090EC70081E9AB /* SignInViewController.swift */,
+				63151CF6212F7BA100F6B8F3 /* SubscribeViewController.swift */,
 				63562B4020F90CF40076F52B /* etc.swift */,
 				636A40B620F94DAA0051DE0B /* Detritus */,
 			);
@@ -645,6 +648,7 @@
 				63E4E01E21090EC70081E9AB /* SignInViewController.swift in Sources */,
 				6380FF92210E79D500544476 /* URLSession+Promise.swift in Sources */,
 				6380FF94210E79D500544476 /* Error+legibleDescription.swift in Sources */,
+				63151CF7212F7BA100F6B8F3 /* SubscribeViewController.swift in Sources */,
 				636A40BD20F960520051DE0B /* ReposViewController.swift in Sources */,
 				6335A0DD211B9AF400E2EDB0 /* SortedArray.swift in Sources */,
 				635ACB8D21136E5D0007C4EE /* App+StoreKit.swift in Sources */,

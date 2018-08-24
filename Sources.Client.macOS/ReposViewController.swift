@@ -61,17 +61,7 @@ class ReposViewController: NSViewController {
     }
 
     func paymentPrompt() {
-        guard let window = view.window else { return }
-        let alert = NSAlert()
-        alert.messageText = "Private Repository Subscription"
-        alert.informativeText = "Receiving notifications for private repositories requires a recurring subscription fee."
-        alert.addButton(withTitle: "Subscribe")
-        alert.addButton(withTitle: "Cancel").tag = NSApplication.ModalResponse.cancel.rawValue
-        alert.beginSheetModal(for: window) { rsp in
-            if rsp != .cancel {
-                app.subscribe(sender: self)
-            }
-        }
+        performSegue(withIdentifier: "PaymentPrompt", sender: self)
     }
 
     func state(for item: OutlineViewItem) -> SwitchState {

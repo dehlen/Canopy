@@ -2,21 +2,43 @@ import PromiseKit
 import StoreKit
 import AppKit
 
+extension SKProductsRequest {
+    static var canopy: SKProductsRequest {
+        return .init(productIdentifiers: ["sub1"])
+    }
+}
+
 private enum CanopyStoreKitError: Error {
     case productNotFound
 }
 
 extension AppDelegate: SKPaymentTransactionObserver {
+    @IBAction func restorePurchases(sender: Any) {
+        SKPaymentQueue.default().restoreCompletedTransactions()
+    }
+
+    func finish(error: Error?) {
+        if let error = error {
+            subscribeViewController?.paymentFailed(sender: self)
+            if let error = error as? SKError, error.code == .paymentCancelled { return }
+            alert(error)
+        } else {
+            subscribeViewController?.dismiss(self)
+        }
+    }
+
     @IBAction func subscribe(sender: Any) {
 
         //FIXME what if the user signed—out during this?
         //SOLUTION modal blocker even for menu during this
 
         guard let login = creds?.username else {
-            return Canopy.alert(message: "As a courtesy, we don’t allow you to subscribe before we can provide you with content.", title: "Sign in Required")
+            alert(message: "As a courtesy, we don’t allow you to subscribe before we can provide you with content.", title: "Sign‐in Required")
+            finish(error: nil)
+            return
         }
 
-        let request = SKProductsRequest(productIdentifiers: ["sub1"])
+        let request = SKProductsRequest.canopy
         firstly {
             request.start(.promise)
         }.done {
@@ -27,7 +49,7 @@ extension AppDelegate: SKPaymentTransactionObserver {
             payment.applicationUsername = login.data(using: .utf8)?.sha256
             SKPaymentQueue.default().add(payment)
         }.catch {
-            Canopy.alert($0)
+            self.finish(error: $0)
         }
     }
 
@@ -47,12 +69,11 @@ extension AppDelegate: SKPaymentTransactionObserver {
                 }.done {
                     queue.finishTransaction(transaction)
                 }.catch {
-                    alert($0)
+                    self.finish(error: $0)
                 }
             case .failed:
                 print(#function, "failed", transaction)
-                if let error = transaction.error as? SKError, error.code == .paymentCancelled { return }
-                alert(transaction.error ?? CocoaError.error(.coderInvalidValue))
+                finish(error: transaction.error ?? CocoaError.error(.coderInvalidValue))
             case .deferred:
                 //TODO should I finish or what?
                 print(#function, "deferred", transaction)
@@ -81,15 +102,11 @@ extension AppDelegate: SKPaymentTransactionObserver {
         }
     }
 
-    func postReceiptIfPossible() {
+    func postReceiptIfPossibleNoErrorUI() {
         guard let url = Bundle.main.appStoreReceiptURL, let token = creds?.token, FileManager.default.isReadableFile(atPath: url.path) else {
             return
         }
-        firstly {
-            _postReceipt(token: token, receipt: url)
-        }.catch {
-            alert($0)
-        }
+        _postReceipt(token: token, receipt: url).cauterize()
     }
 }
 

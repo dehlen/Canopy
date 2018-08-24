@@ -120,7 +120,7 @@
                                         <menuItem title="Restore Purchases…" id="99a-Vu-5Ge">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <action selector="subscribeWithSender:" target="Ady-hI-5gd" id="9X8-ga-uYc"/>
+                                                <action selector="restorePurchasesWithSender:" target="Ady-hI-5gd" id="DKD-Wr-eI7"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="UER-t5-FhZ"/>
@@ -423,6 +423,147 @@
             </objects>
             <point key="canvasLocation" x="75" y="250"/>
         </scene>
+        <!--Private Repositories Subscription-->
+        <scene sceneID="DGy-9H-FKg">
+            <objects>
+                <viewController title="Private Repositories Subscription" id="dMa-Dx-8hX" customClass="SubscribeViewController" customModule="Canopy" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="Doq-fq-s9A">
+                        <rect key="frame" x="0.0" y="0.0" width="442" height="317"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="6X9-pF-FJc">
+                                <rect key="frame" x="18" y="84" width="406" height="154"/>
+                                <textFieldCell key="cell" selectable="YES" alignment="justified" id="L4m-4V-sct">
+                                    <font key="font" metaFont="system" size="11"/>
+                                    <mutableString key="title">Unlimited push notifications for private repositories is enabled via an auto‐renewing subscription. Your GitHub account must have at least read access to the private repository. The duration of every period of the subscription is 1 month. The price of the subscription is shown below. Payment will be charged to your App Store account at confirmation of purchase. There is no free trial period. Subscription automatically renews unless auto‐renew is turned off at least 24 hours before the end of the current period. Your account will be charged for renewal within 24 hours prior to the end of the current period, with the same amount as the current period. Subscriptions may be managed by the user and auto‐renewal may be turned off by going to the user’s App Store account settings after purchase.</mutableString>
+                                    <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Ij4-rY-DEL">
+                                <rect key="frame" x="18" y="263" width="406" height="34"/>
+                                <textFieldCell key="cell" selectable="YES" alignment="left" title="Stay on top of development with unlimited push notifications for private repositories." id="LH0-xT-Yg4">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="lfe-HW-YgJ">
+                                <rect key="frame" x="20" y="244" width="402" height="5"/>
+                            </box>
+                            <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="735-8J-hXd">
+                                <rect key="frame" x="20" y="73" width="402" height="5"/>
+                            </box>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QhZ-QT-aWx">
+                                <rect key="frame" x="13" y="39" width="119" height="19"/>
+                                <buttonCell key="cell" type="recessed" title="Restore Purchases" bezelStyle="recessed" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Xv9-D7-eqe">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="systemBold" size="11"/>
+                                    <connections>
+                                        <action selector="restorePurchasesWithSender:" target="aR9-gO-mq4" id="Mld-MC-nP2"/>
+                                    </connections>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mk9-1D-Haf">
+                                <rect key="frame" x="132" y="39" width="93" height="19"/>
+                                <buttonCell key="cell" type="recessed" title="Privacy Policy" bezelStyle="recessed" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Dbd-N9-Os7">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="systemBold" size="11"/>
+                                    <connections>
+                                        <action selector="openPrivacyPolicyWithSender:" target="aR9-gO-mq4" id="0Wn-pY-Abq"/>
+                                    </connections>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0RG-cM-r1n">
+                                <rect key="frame" x="223" y="31" width="82" height="32"/>
+                                <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qx6-bB-z9h">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="dismissController:" target="dMa-Dx-8hX" id="3Wc-4S-pt1"/>
+                                </connections>
+                            </button>
+                            <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CMA-74-aW7" userLabel="MoneyStackView">
+                                <rect key="frame" x="307" y="20" width="115" height="39"/>
+                                <subviews>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DVD-gB-FVc">
+                                        <rect key="frame" x="-6" y="11" width="127" height="32"/>
+                                        <buttonCell key="cell" type="push" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aaL-Tf-3ou">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="subscribeWithSender:" target="dMa-Dx-8hX" id="eik-eB-YN0"/>
+                                        </connections>
+                                    </button>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="55k-YZ-q7n">
+                                        <rect key="frame" x="19" y="0.0" width="77" height="13"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Auto‐renewing" id="ATL-eo-4i9">
+                                            <font key="font" metaFont="system" size="10"/>
+                                            <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="115" id="XQv-DA-zgH"/>
+                                    <constraint firstItem="DVD-gB-FVc" firstAttribute="width" secondItem="CMA-74-aW7" secondAttribute="width" id="Y1j-SY-Q0x"/>
+                                </constraints>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
+                            <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="sYW-s1-7Zd">
+                                <rect key="frame" x="357" y="41" width="16" height="16"/>
+                            </progressIndicator>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="CMA-74-aW7" secondAttribute="bottom" constant="20" id="0KK-TR-7eS"/>
+                            <constraint firstItem="0RG-cM-r1n" firstAttribute="leading" secondItem="mk9-1D-Haf" secondAttribute="trailing" constant="4" id="0id-RP-dlm"/>
+                            <constraint firstItem="lfe-HW-YgJ" firstAttribute="leading" secondItem="Doq-fq-s9A" secondAttribute="leading" constant="20" id="1dH-Qg-Je2"/>
+                            <constraint firstAttribute="trailing" secondItem="lfe-HW-YgJ" secondAttribute="trailing" constant="20" id="BeU-2l-ZFg"/>
+                            <constraint firstItem="735-8J-hXd" firstAttribute="top" secondItem="6X9-pF-FJc" secondAttribute="bottom" constant="8" id="ClT-rq-lmT"/>
+                            <constraint firstItem="Ij4-rY-DEL" firstAttribute="leading" secondItem="Doq-fq-s9A" secondAttribute="leading" constant="20" id="E6y-Ne-Cf2"/>
+                            <constraint firstItem="0RG-cM-r1n" firstAttribute="top" secondItem="735-8J-hXd" secondAttribute="bottom" constant="16" id="FkP-gj-T8L"/>
+                            <constraint firstAttribute="trailing" secondItem="CMA-74-aW7" secondAttribute="trailing" constant="20" id="GsT-N4-62B"/>
+                            <constraint firstItem="Ij4-rY-DEL" firstAttribute="top" secondItem="Doq-fq-s9A" secondAttribute="top" constant="20" id="J0y-L2-4z9"/>
+                            <constraint firstItem="QhZ-QT-aWx" firstAttribute="centerY" secondItem="0RG-cM-r1n" secondAttribute="centerY" id="JRR-jL-Yae"/>
+                            <constraint firstItem="CMA-74-aW7" firstAttribute="leading" secondItem="0RG-cM-r1n" secondAttribute="trailing" constant="8" id="JRu-iW-mI0"/>
+                            <constraint firstItem="lfe-HW-YgJ" firstAttribute="centerX" secondItem="Doq-fq-s9A" secondAttribute="centerX" id="YC9-dw-ZJz"/>
+                            <constraint firstAttribute="trailing" secondItem="6X9-pF-FJc" secondAttribute="trailing" constant="20" id="bzb-Bk-LaH"/>
+                            <constraint firstAttribute="trailing" secondItem="Ij4-rY-DEL" secondAttribute="trailing" constant="20" id="cIH-aA-KPI"/>
+                            <constraint firstItem="sYW-s1-7Zd" firstAttribute="centerY" secondItem="DVD-gB-FVc" secondAttribute="centerY" id="d8A-vs-8DA"/>
+                            <constraint firstItem="0RG-cM-r1n" firstAttribute="centerY" secondItem="DVD-gB-FVc" secondAttribute="centerY" id="jJy-Mb-Pah"/>
+                            <constraint firstItem="735-8J-hXd" firstAttribute="leading" secondItem="Doq-fq-s9A" secondAttribute="leading" constant="20" id="lEm-zJ-LMg"/>
+                            <constraint firstItem="6X9-pF-FJc" firstAttribute="leading" secondItem="Doq-fq-s9A" secondAttribute="leading" constant="20" id="piB-hC-ems"/>
+                            <constraint firstItem="QhZ-QT-aWx" firstAttribute="leading" secondItem="Doq-fq-s9A" secondAttribute="leading" constant="13" id="sTZ-qK-qMm"/>
+                            <constraint firstItem="6X9-pF-FJc" firstAttribute="top" secondItem="lfe-HW-YgJ" secondAttribute="bottom" constant="8" id="t9f-WM-7ho"/>
+                            <constraint firstItem="mk9-1D-Haf" firstAttribute="centerY" secondItem="0RG-cM-r1n" secondAttribute="centerY" id="w4D-fG-eHj"/>
+                            <constraint firstItem="mk9-1D-Haf" firstAttribute="leading" secondItem="QhZ-QT-aWx" secondAttribute="trailing" id="xot-3B-IDL"/>
+                            <constraint firstItem="sYW-s1-7Zd" firstAttribute="centerX" secondItem="DVD-gB-FVc" secondAttribute="centerX" id="xsk-eI-x1N"/>
+                            <constraint firstItem="lfe-HW-YgJ" firstAttribute="top" secondItem="Ij4-rY-DEL" secondAttribute="bottom" constant="16" id="z5X-u3-25w"/>
+                            <constraint firstAttribute="trailing" secondItem="735-8J-hXd" secondAttribute="trailing" constant="20" id="zqC-K8-c1r"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="cancelButton" destination="0RG-cM-r1n" id="Rw1-Gr-F8s"/>
+                        <outlet property="spinner" destination="sYW-s1-7Zd" id="wSf-jU-7VH"/>
+                        <outlet property="subscribeButton" destination="DVD-gB-FVc" id="jdO-9N-A09"/>
+                    </connections>
+                </viewController>
+                <customObject id="aR9-gO-mq4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="704" y="255"/>
+        </scene>
         <!--Repos View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
@@ -432,13 +573,13 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView horizontalCompressionResistancePriority="1000" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NXw-D2-3nV">
-                                <rect key="frame" x="0.0" y="90" width="234" height="464"/>
+                                <rect key="frame" x="0.0" y="86" width="234" height="468"/>
                                 <clipView key="contentView" drawsBackground="NO" id="RTj-pS-YmG">
-                                    <rect key="frame" x="0.0" y="0.0" width="234" height="464"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="234" height="468"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="16" outlineTableColumn="5t4-ur-x1R" id="Tn7-qK-wuj">
-                                            <rect key="frame" x="0.0" y="0.0" width="234" height="464"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="234" height="468"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -476,10 +617,10 @@
                                 </scroller>
                             </scrollView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="Cqe-Sb-Bh5" userLabel="Info" customClass="ViewWithBackgroundColor" customModule="Canopy" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="234" height="90"/>
+                                <rect key="frame" x="0.0" y="0.0" width="234" height="86"/>
                                 <subviews>
                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="TLB-yb-KTX">
-                                        <rect key="frame" x="14" y="12" width="206" height="45"/>
+                                        <rect key="frame" x="14" y="12" width="206" height="42"/>
                                         <textFieldCell key="cell" selectable="YES" title="The GitHub API tends to hide forks of private repos, if so, add them manually via the File menu." id="k7V-8J-66u">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
@@ -487,7 +628,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="h5C-3c-04s">
-                                        <rect key="frame" x="14" y="61" width="206" height="15"/>
+                                        <rect key="frame" x="14" y="58" width="206" height="14"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Missing Repositories?" id="Qpp-Qn-pSl">
                                             <font key="font" metaFont="systemSemibold" size="11"/>
                                             <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
@@ -539,10 +680,10 @@
                                 </textFieldCell>
                             </textField>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hld-xX-SYI">
-                                <rect key="frame" x="254" y="448" width="125" height="64"/>
+                                <rect key="frame" x="254" y="452" width="125" height="60"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="69d-su-MaN">
-                                        <rect key="frame" x="-2" y="49" width="110" height="15"/>
+                                        <rect key="frame" x="-2" y="46" width="110" height="14"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Install webhook first" id="mlc-4H-uQp">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
@@ -550,7 +691,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3GB-2A-KKb">
-                                        <rect key="frame" x="-2" y="0.0" width="128" height="45"/>
+                                        <rect key="frame" x="-2" y="0.0" width="128" height="42"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" id="xgh-Rp-AW9">
                                             <font key="font" metaFont="smallSystem"/>
                                             <string key="title">Receiving notifications
@@ -600,22 +741,23 @@ requires a subscription.</string>
                         <outlet property="privateReposAdviceLabel" destination="3GB-2A-KKb" id="Sm5-Ai-qbE"/>
                         <outlet property="webhookExplanation" destination="aSB-P9-wN8" id="mYq-QV-Ndv"/>
                         <segue destination="eRY-as-3te" kind="sheet" identifier="SignIn" id="sxB-hL-FML"/>
+                        <segue destination="dMa-Dx-8hX" kind="sheet" identifier="PaymentPrompt" id="YWt-Ll-SlT"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="52.5" y="838"/>
+            <point key="canvasLocation" x="75" y="837"/>
         </scene>
         <!--Sign In View Controller-->
         <scene sceneID="ly1-PT-1NG">
             <objects>
                 <viewController id="eRY-as-3te" customClass="SignInViewController" customModule="Canopy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="sbp-Yh-46W">
-                        <rect key="frame" x="0.0" y="0.0" width="349" height="137"/>
+                        <rect key="frame" x="0.0" y="0.0" width="349" height="134"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4W5-1T-Gkb">
-                                <rect key="frame" x="18" y="99" width="125" height="18"/>
+                                <rect key="frame" x="18" y="97" width="125" height="17"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Sign in with GitHub" id="AsM-Md-uRO">
                                     <font key="font" metaFont="systemSemibold" size="13"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -623,7 +765,7 @@ requires a subscription.</string>
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="b2K-CS-8FG">
-                                <rect key="frame" x="18" y="61" width="313" height="30"/>
+                                <rect key="frame" x="18" y="61" width="313" height="28"/>
                                 <textFieldCell key="cell" selectable="YES" title="Canopy asks for the fewest permissions it can to function. Authentication proceeds via your web‑browser." id="MLp-E1-iw9">
                                     <font key="font" metaFont="smallSystem"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -678,11 +820,11 @@ requires a subscription.</string>
             <objects>
                 <viewController id="icT-F2-iwI" customClass="WaitingAuthViewController" customModule="Canopy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="NIx-8T-0sv">
-                        <rect key="frame" x="0.0" y="0.0" width="276" height="122"/>
+                        <rect key="frame" x="0.0" y="0.0" width="276" height="120"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NzZ-wT-sX3">
-                                <rect key="frame" x="18" y="84" width="168" height="18"/>
+                                <rect key="frame" x="18" y="83" width="168" height="17"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Waiting for authentication" id="xfe-s2-Clr">
                                     <font key="font" metaFont="systemSemibold" size="13"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -690,7 +832,7 @@ requires a subscription.</string>
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="R5c-JZ-hm8">
-                                <rect key="frame" x="18" y="61" width="240" height="15"/>
+                                <rect key="frame" x="18" y="61" width="240" height="14"/>
                                 <textFieldCell key="cell" selectable="YES" title="Please continue in your web‑browser." id="xP9-Sw-TMF">
                                     <font key="font" metaFont="smallSystem"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -732,11 +874,11 @@ Gw
             <objects>
                 <viewController id="AQD-cW-jnh" customClass="WaitingTokenViewController" customModule="Canopy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="oES-ay-Mxk">
-                        <rect key="frame" x="0.0" y="0.0" width="276" height="122"/>
+                        <rect key="frame" x="0.0" y="0.0" width="276" height="120"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oD8-rG-SKm">
-                                <rect key="frame" x="18" y="84" width="157" height="18"/>
+                                <rect key="frame" x="18" y="83" width="157" height="17"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Waiting for device token" id="WJs-RO-G1c">
                                     <font key="font" metaFont="systemSemibold" size="13"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -744,7 +886,7 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="bga-is-gWt">
-                                <rect key="frame" x="18" y="61" width="240" height="15"/>
+                                <rect key="frame" x="18" y="61" width="240" height="14"/>
                                 <textFieldCell key="cell" selectable="YES" title="Please check your Internet connection." id="bhV-Te-Iu0">
                                     <font key="font" metaFont="smallSystem"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>

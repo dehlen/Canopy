@@ -35,7 +35,7 @@ extension AppDelegate: NSApplicationDelegate {
     #endif
 
         SKPaymentQueue.default().add(self)
-        postReceiptIfPossible()
+        postReceiptIfPossibleNoErrorUI()
     }
 
     func application(_ application: NSApplication, didRegisterForRemoteNotificationsWithDeviceToken rawDeviceToken: Data) {

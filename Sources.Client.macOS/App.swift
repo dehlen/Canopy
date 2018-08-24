@@ -4,6 +4,7 @@ import AppKit
 @NSApplicationMain
 class AppDelegate: NSObject {
     weak var window: NSWindow!
+    weak var subscribeViewController: SubscribeViewController?
 
     @objc dynamic var deviceToken: String?
 
@@ -25,6 +26,11 @@ class AppDelegate: NSObject {
         }.catch {
             alert($0)
         }
+    }
+
+    @IBAction func openPrivacyPolicy(sender: Any) {
+        let url = URL(string: "https://codebasesaga.com/canopy/#privacy-policy")!
+        NSWorkspace.shared.open(url)
     }
 }
 
