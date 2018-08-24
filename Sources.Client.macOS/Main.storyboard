@@ -381,6 +381,12 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
                                     <items>
+                                        <menuItem title="Privacy Policy" id="Aj4-6g-cFa">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="openPrivacyPolicyWithSender:" target="Ady-hI-5gd" id="TST-mq-e37"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Canopy Help" keyEquivalent="?" id="FKE-Sm-Kum">
                                             <connections>
                                                 <action selector="showHelp:" target="Ady-hI-5gd" id="y7X-2Q-9no"/>
