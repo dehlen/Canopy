@@ -24,6 +24,18 @@
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
                                         <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW"/>
+                                        <menuItem title="Subscribe / Restore…" id="7yv-kj-b7n">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="showSubscriptionSheetWithSender:" target="Voe-Tx-rLC" id="PvB-BZ-uf6"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Manage Subscription…" hidden="YES" id="E6E-Gy-6uW">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="openITunesSubscriptionManagerWithSender:" target="Ady-hI-5gd" id="gOf-wP-ibN"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>
                                         <menuItem title="Services" id="NMo-om-nkz">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -114,13 +126,6 @@
                                         <menuItem title="Print…" hidden="YES" keyEquivalent="p" id="aTl-1u-JFS">
                                             <connections>
                                                 <action selector="print:" target="Ady-hI-5gd" id="qaZ-4w-aoO"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="Eqw-Ph-TkA"/>
-                                        <menuItem title="Restore Purchases…" id="99a-Vu-5Ge">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="restorePurchasesWithSender:" target="Ady-hI-5gd" id="DKD-Wr-eI7"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="UER-t5-FhZ"/>
@@ -401,7 +406,12 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Canopy" customModuleProvider="target"/>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Canopy" customModuleProvider="target">
+                    <connections>
+                        <outlet property="createSubscriptionMenuItem" destination="7yv-kj-b7n" id="PdU-NG-8NO"/>
+                        <outlet property="manageSubscriptionMenuItem" destination="E6E-Gy-6uW" id="OF9-CY-BUp"/>
+                    </connections>
+                </customObject>
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -465,10 +475,10 @@
                                 <buttonCell key="cell" type="recessed" title="Restore Purchases" bezelStyle="recessed" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Xv9-D7-eqe">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="systemBold" size="11"/>
-                                    <connections>
-                                        <action selector="restorePurchasesWithSender:" target="aR9-gO-mq4" id="Mld-MC-nP2"/>
-                                    </connections>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="refreshReceiptWithSender:" target="dMa-Dx-8hX" id="wi6-YC-oaJ"/>
+                                </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mk9-1D-Haf">
                                 <rect key="frame" x="132" y="39" width="93" height="19"/>
@@ -562,6 +572,7 @@ Gw
                     </view>
                     <connections>
                         <outlet property="cancelButton" destination="0RG-cM-r1n" id="Rw1-Gr-F8s"/>
+                        <outlet property="restoreButton" destination="QhZ-QT-aWx" id="fNq-RL-mVC"/>
                         <outlet property="spinner" destination="sYW-s1-7Zd" id="wSf-jU-7VH"/>
                         <outlet property="subscribeButton" destination="DVD-gB-FVc" id="jdO-9N-A09"/>
                     </connections>

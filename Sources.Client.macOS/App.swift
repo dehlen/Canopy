@@ -28,10 +28,22 @@ class AppDelegate: NSObject {
         }
     }
 
+    @IBAction func showSubscriptionSheet(sender: Any) {
+        window.contentViewController?.performSegue(withIdentifier: "PaymentPrompt", sender: sender)
+    }
+
     @IBAction func openPrivacyPolicy(sender: Any) {
         let url = URL(string: "https://codebasesaga.com/canopy/#privacy-policy")!
         NSWorkspace.shared.open(url)
     }
+
+    @IBAction func openITunesSubscriptionManager(sender: Any) {
+        let url = URL(string: "https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/manageSubscriptions")!
+        NSWorkspace.shared.open(url)
+    }
+
+    @IBOutlet var createSubscriptionMenuItem: NSMenuItem!
+    @IBOutlet var manageSubscriptionMenuItem: NSMenuItem!
 }
 
 var app: AppDelegate {

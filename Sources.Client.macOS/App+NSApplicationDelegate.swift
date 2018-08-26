@@ -34,6 +34,8 @@ extension AppDelegate: NSApplicationDelegate {
         }
     #endif
 
+        NotificationCenter.default.addObserver(self, selector: #selector(receiptVerified), name: .receiptVerified, object: nil)
+
         SKPaymentQueue.default().add(self)
         postReceiptIfPossibleNoErrorUI()
     }
