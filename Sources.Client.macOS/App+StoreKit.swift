@@ -12,6 +12,9 @@ private enum E: TitledError {
     case productNotFound
     case deferred
     case stateMachineViolation
+    case notSignedIn
+    case subscriptionExpired
+    case noReceipt
 
     var errorDescription: String? {
         switch self {
@@ -21,6 +24,12 @@ private enum E: TitledError {
             return "Thank you! You can continue to use Canopy while your purchase is pending an approval from your parent."
         case .stateMachineViolation:
             return "Skynet has taken over."
+        case .notSignedIn:
+            return "As a courtesy, we won’t subscribe before we can provide you with content. Please sign in first."
+        case .subscriptionExpired:
+            return "Your subscription has expired."
+        case .noReceipt:
+            return "No receipt founnd."
         }
     }
 
@@ -30,15 +39,20 @@ private enum E: TitledError {
             return "Unexpected Error"
         case .deferred:
             return "Waiting For Approval"
-        case .stateMachineViolation:
+        case .stateMachineViolation, .noReceipt:
             return "State Machine Error"
+        case .notSignedIn:
+            return "Sign‐in Required"
+        case .subscriptionExpired:
+            return "Restore Purchase Error"
         }
     }
 }
 
 extension AppDelegate: SKPaymentTransactionObserver {
-    @IBAction func restorePurchases(sender: Any) {
-        SKPaymentQueue.default().restoreCompletedTransactions()
+    @objc func receiptVerified(note: Notification) {
+        createSubscriptionMenuItem.isHidden = true
+        manageSubscriptionMenuItem.isHidden = false
     }
 
     func finish(error: Error?) {
@@ -59,14 +73,11 @@ extension AppDelegate: SKPaymentTransactionObserver {
         //SOLUTION modal blocker even for menu during this
 
         guard let login = creds?.username else {
-            alert(message: "As a courtesy, we don’t allow you to subscribe before we can provide you with content.", title: "Sign‐in Required")
-            finish(error: nil)
-            return
+            return finish(error: E.notSignedIn)
         }
 
-        let request = SKProductsRequest.canopy
         firstly {
-            request.start(.promise)
+            SKProductsRequest.canopy.start(.promise)
         }.done {
             guard let product = $0.products.first else {
                 throw E.productNotFound
@@ -80,23 +91,26 @@ extension AppDelegate: SKPaymentTransactionObserver {
     }
 
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-
         func handle(transaction: SKPaymentTransaction) {
             switch transaction.transactionState {
             case .purchasing:
-                print(#function, "purchasing", transaction)
+                break
             case .purchased, .restored:
-                print(#function, "purchased OR restored", transaction)
-                guard let url = Bundle.main.appStoreReceiptURL, let token = creds?.token else {
-                    return print("No receipt or auth!")
-                }
                 firstly {
+                    try start()
+                }.then { token, url in
                     _postReceipt(token: token, receipt: url)
-                }.done {
+                }.ensure {
+                    // if rejected user must use the “Restore” button
                     queue.finishTransaction(transaction)
+                }.done {
                     self.finish(error: .none)
                 }.catch {
-                    self.finish(error: $0)
+                    if case PMKHTTPError.badStatusCode(403, _, _) = $0 {
+                        self.finish(error: E.subscriptionExpired)
+                    } else {
+                        self.finish(error: $0)
+                    }
                 }
             case .failed:
                 finish(error: transaction.error ?? E.stateMachineViolation)
@@ -107,23 +121,6 @@ extension AppDelegate: SKPaymentTransactionObserver {
 
         for transaction in transactions {
             handle(transaction: transaction)
-        }
-    }
-
-    private func _postReceipt(token: String, receipt: URL) -> Promise<Void> {
-        return DispatchQueue.global().async(.promise) {
-            let receiptData = try Data(contentsOf: receipt).base64EncodedString()
-            let receipt = Receipt(isProduction: isProductionAPNsEnvironment, base64: receiptData)
-            var rq = URLRequest(.receipt)
-            rq.httpMethod = "POST"
-            rq.httpBody = try JSONEncoder().encode(receipt)
-            rq.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            rq.setValue(token, forHTTPHeaderField: "Authorization")
-            return rq
-        }.then { rq in
-            URLSession.shared.dataTask(.promise, with: rq).validate()
-        }.done { _ in
-            NotificationCenter.default.post(name: .receiptVerified, object: nil)
         }
     }
 
@@ -151,4 +148,33 @@ extension Notification.Name {
     static var receiptVerified: Notification.Name {
         return .init("com.codebasesaga.receiptVerified")
     }
+}
+
+func _postReceipt(token: String, receipt: URL) -> Promise<Void> {
+    return DispatchQueue.global().async(.promise) {
+        let receiptData = try Data(contentsOf: receipt).base64EncodedString()
+        let receipt = Receipt(isProduction: isProductionAPNsEnvironment, base64: receiptData)
+        var rq = URLRequest(.receipt)
+        rq.httpMethod = "POST"
+        rq.httpBody = try JSONEncoder().encode(receipt)
+        rq.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        rq.setValue(token, forHTTPHeaderField: "Authorization")
+        return rq
+    }.then { rq in
+        URLSession.shared.dataTask(.promise, with: rq).validate()
+    }.get { _, rsp in
+        print(rsp)
+    }.done { _ in
+        NotificationCenter.default.post(name: .receiptVerified, object: nil)
+    }
+}
+
+private func start() throws -> Promise<(String, URL)> {
+    guard let token = creds?.token else {
+        throw E.notSignedIn
+    }
+    guard let url = Bundle.main.appStoreReceiptURL else {
+        throw E.noReceipt
+    }
+    return .value((token, url))
 }
