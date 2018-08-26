@@ -12,7 +12,7 @@ class ReposViewController: NSViewController {
                 privateReposAdviceLabel.stringValue = """
                     Notifications for private
                     repos subscription
-                    is active
+                    is active.
                     """
             }
         }
