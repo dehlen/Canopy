@@ -62,8 +62,11 @@ func receiptHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         }.map { userId, response in
             (userId, try handle(response: response, forUserId: userId))
         }.done { userId, expiry in
-            try DB().add(receiptForUserId: userId, expires: expiry)
-            response.completed()
+            if try DB().add(receiptForUserId: userId, expires: expiry) {
+                response.completed()
+            } else {
+                response.completed(status: .forbidden)
+            }
         }.catch { error in
             response.appendBody(string: error.legibleDescription)
             response.completed(status: .badRequest)

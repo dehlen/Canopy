@@ -300,7 +300,7 @@ class DB {
         return results
     }
 
-    func add(receiptForUserId userId: Int, expires: Date) throws {
+    func add(receiptForUserId userId: Int, expires: Date) throws -> Bool {
         let sql = """
             REPLACE INTO receipts (user_id, expires)
             VALUES (:1, :2)
@@ -309,12 +309,13 @@ class DB {
             try $0.bind(position: 1, userId)
             try $0.bind(position: 2, Formatter.iso8601.string(from: expires))
         }
+        return Date() < expires
     }
 
     func isReceiptValid(forUserId userId: Int) throws -> Bool {
         switch userId {
-        case 58962, 7132384, 24509830, 33223853, 33210277, 33409294, 7957896:
-            //mxcl, aleshia, laurie,   akash,    akiva     ernesto,  nathan
+        case 58962, 7132384, 24509830, 33223853, 33210277, 33409294:
+            //mxcl, aleshia, laurie,   akash,    akiva     ernesto
             return true
         default:
             break
@@ -329,6 +330,7 @@ class DB {
         try db.forEachRow(statement: sql) { statement, row in
             dateString = statement.columnText(position: 0)
         }
+
         if let dateString = dateString, let expiryDate = Formatter.iso8601.date(from: dateString), Date() < expiryDate {
             return true
         } else {
