@@ -392,6 +392,12 @@
                                                 <action selector="openPrivacyPolicyWithSender:" target="Ady-hI-5gd" id="TST-mq-e37"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Terms of Use" id="5lX-Ce-Y4f">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="openTermsOfUseWithSender:" target="Ady-hI-5gd" id="YIZ-0T-Sbi"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Canopy Help" keyEquivalent="?" id="FKE-Sm-Kum">
                                             <connections>
                                                 <action selector="showHelp:" target="Ady-hI-5gd" id="y7X-2Q-9no"/>
@@ -809,10 +815,21 @@ requires a subscription.</string>
                                     <action selector="terminate:" target="LaE-Yg-Sjn" id="Vho-RP-t2H"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="o3n-KJ-HF1">
+                                <rect key="frame" x="87" y="21" width="93" height="19"/>
+                                <buttonCell key="cell" type="recessed" title="Terms of Use" bezelStyle="recessed" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="oe8-SC-T82">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="systemBold" size="12"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="openTermsOfUseWithSender:" target="LaE-Yg-Sjn" id="enw-3U-fmT"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="2QB-pA-0SS" firstAttribute="leading" secondItem="dPy-Vh-PCM" secondAttribute="trailing" constant="12" id="0fW-b9-ZGq"/>
                             <constraint firstAttribute="trailing" secondItem="2QB-pA-0SS" secondAttribute="trailing" constant="20" id="8vb-6n-0YK"/>
+                            <constraint firstItem="o3n-KJ-HF1" firstAttribute="firstBaseline" secondItem="dPy-Vh-PCM" secondAttribute="firstBaseline" id="Rh8-4d-ibg"/>
                             <constraint firstItem="2QB-pA-0SS" firstAttribute="top" secondItem="b2K-CS-8FG" secondAttribute="bottom" constant="20" id="SIK-h4-JOo"/>
                             <constraint firstItem="4W5-1T-Gkb" firstAttribute="leading" secondItem="sbp-Yh-46W" secondAttribute="leading" constant="20" id="c7Z-XI-oOz"/>
                             <constraint firstItem="dPy-Vh-PCM" firstAttribute="centerY" secondItem="2QB-pA-0SS" secondAttribute="centerY" id="cZL-0P-Rah"/>
@@ -821,6 +838,7 @@ requires a subscription.</string>
                             <constraint firstAttribute="bottom" secondItem="2QB-pA-0SS" secondAttribute="bottom" constant="20" id="ju5-kM-qxh"/>
                             <constraint firstItem="b2K-CS-8FG" firstAttribute="leading" secondItem="sbp-Yh-46W" secondAttribute="leading" constant="20" id="nUO-SL-tZn"/>
                             <constraint firstItem="4W5-1T-Gkb" firstAttribute="top" secondItem="sbp-Yh-46W" secondAttribute="top" constant="20" id="t6X-YT-zzD"/>
+                            <constraint firstItem="dPy-Vh-PCM" firstAttribute="leading" secondItem="o3n-KJ-HF1" secondAttribute="trailing" constant="13" id="u3f-ub-rbh"/>
                         </constraints>
                     </view>
                     <connections>

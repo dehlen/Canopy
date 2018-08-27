@@ -42,6 +42,11 @@ class AppDelegate: NSObject {
         NSWorkspace.shared.open(url)
     }
 
+    @IBAction func openTermsOfUse(sender: Any) {
+        let url = URL(string: "https://codebasesaga.com/canopy/#terms-of-use")!
+        NSWorkspace.shared.open(url)
+    }
+
     @IBOutlet var createSubscriptionMenuItem: NSMenuItem!
     @IBOutlet var manageSubscriptionMenuItem: NSMenuItem!
 }
