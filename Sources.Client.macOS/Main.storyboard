@@ -743,6 +743,7 @@ requires a subscription.</string>
                             <constraint firstItem="NXw-D2-3nV" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="KWK-eP-I2c"/>
                             <constraint firstItem="aSB-P9-wN8" firstAttribute="leading" secondItem="NXw-D2-3nV" secondAttribute="trailing" constant="20" id="McG-ab-kNG"/>
                             <constraint firstItem="j5Z-8i-YX8" firstAttribute="leading" secondItem="NXw-D2-3nV" secondAttribute="trailing" constant="20" id="OE8-wF-5rr"/>
+                            <constraint firstItem="j5Z-8i-YX8" firstAttribute="top" secondItem="Hld-xX-SYI" secondAttribute="bottom" constant="32" id="PeB-Dp-PVb"/>
                             <constraint firstAttribute="trailing" secondItem="Hld-xX-SYI" secondAttribute="trailing" constant="20" id="XSr-yY-Kmp"/>
                             <constraint firstAttribute="trailing" secondItem="j5Z-8i-YX8" secondAttribute="trailing" constant="20" id="a4V-fa-c0K"/>
                             <constraint firstItem="aSB-P9-wN8" firstAttribute="top" secondItem="j5Z-8i-YX8" secondAttribute="bottom" constant="8" id="asS-5k-Aw8"/>
@@ -750,7 +751,6 @@ requires a subscription.</string>
                             <constraint firstAttribute="trailing" secondItem="aSB-P9-wN8" secondAttribute="trailing" constant="20" id="gTe-wi-hnl"/>
                             <constraint firstItem="NXw-D2-3nV" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="h2a-ox-g0l"/>
                             <constraint firstAttribute="trailing" secondItem="Lcr-HS-PQC" secondAttribute="trailing" constant="20" id="kfR-7s-xYf"/>
-                            <constraint firstAttribute="bottom" secondItem="aSB-P9-wN8" secondAttribute="bottom" constant="20" id="mB9-fg-X8V"/>
                             <constraint firstItem="Hld-xX-SYI" firstAttribute="top" secondItem="Lcr-HS-PQC" secondAttribute="bottom" constant="8" id="pLV-SR-x82"/>
                             <constraint firstItem="Lcr-HS-PQC" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="rJz-k9-zrc"/>
                             <constraint firstAttribute="bottom" secondItem="Cqe-Sb-Bh5" secondAttribute="bottom" id="xPV-R3-pyb"/>
