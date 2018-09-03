@@ -6,14 +6,19 @@ import StoreKit
 import AppKit
 
 extension AppDelegate: NSApplicationDelegate {
-    func applicationWillFinishLaunching(_ note: Notification) {
+    override func awakeFromNib() {
         PromiseKit.conf.Q.map = .global()
+        NotificationCenter.default.addObserver(self, selector: #selector(receiptVerified), name: .receiptVerified, object: nil)
+    }
+
+    func applicationWillFinishLaunching(_ note: Notification) {
         NSUserNotificationCenter.default.delegate = self
     #if swift(>=4.2)
         if #available(macOS 10.14, *) {
             UNUserNotificationCenter.current().delegate = self
         }
     #endif
+        NotificationCenter.default.addObserver(self, selector: #selector(receiptVerified), name: .receiptVerified, object: nil)
     }
 
     func applicationDidFinishLaunching(_ note: Notification) {
@@ -33,8 +38,6 @@ extension AppDelegate: NSApplicationDelegate {
             processRemoteNotificationUserInfo(rsp.notification.request.content.userInfo)
         }
     #endif
-
-        NotificationCenter.default.addObserver(self, selector: #selector(receiptVerified), name: .receiptVerified, object: nil)
 
         SKPaymentQueue.default().add(self)
         postReceiptIfPossibleNoErrorUI()
