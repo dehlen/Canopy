@@ -55,12 +55,12 @@ extension AppDelegate: SKPaymentTransactionObserver {
         manageSubscriptionMenuItem.isHidden = false
     }
 
-    func finish(error: Error?) {
+    func finish(error: Error?, line: UInt = #line) {
         DispatchQueue.main.async { [weak subscribeViewController] in
             if let error = error {
                 subscribeViewController?.paymentFailed(sender: self)
                 if let error = error as? SKError, error.code == .paymentCancelled { return }
-                alert(error)
+                alert(error, line: line)
             } else {
                 subscribeViewController?.dismiss(self)
             }
@@ -156,7 +156,6 @@ func _postReceipt(token: String, receipt: URL) -> Promise<Void> {
         var rq = URLRequest(.receipt)
         rq.httpMethod = "POST"
         rq.httpBody = receipt
-        rq.setValue("application/json", forHTTPHeaderField: "Content-Type")
         rq.setValue(token, forHTTPHeaderField: "Authorization")
         return rq
     }.then { rq in

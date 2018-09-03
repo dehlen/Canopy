@@ -3,7 +3,20 @@ import AppKit
 func alert(_ error: Error, title: String? = nil, file: StaticString = #file, line: UInt = #line) {
     print("\(file):\(line)", error)
 
-    let title = title ?? (error as? TitledError)?.title ?? "Unexpected Error"
+    var computeTitle: String {
+        switch (error as NSError).domain {
+        case "SKErrorDomain":
+            return "App Store Error"
+        case "kCLErrorDomain":
+            return "Core Location Error"
+        case NSCocoaErrorDomain:
+            return "Error"
+        default:
+            return "Unexpected Error"
+        }
+    }
+
+    let title = title ?? (error as? TitledError)?.title ?? computeTitle
 
     if let error = error as? PMKHTTPError {
         let (message, title) = error.gitHubDescription(defaultTitle: title)
