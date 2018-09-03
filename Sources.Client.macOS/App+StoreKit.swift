@@ -29,7 +29,7 @@ private enum E: TitledError {
         case .subscriptionExpired:
             return "Your subscription has expired."
         case .noReceipt:
-            return "No receipt founnd."
+            return "No receipt found."
         }
     }
 
@@ -152,11 +152,10 @@ extension Notification.Name {
 
 func _postReceipt(token: String, receipt: URL) -> Promise<Void> {
     return DispatchQueue.global().async(.promise) {
-        let receiptData = try Data(contentsOf: receipt).base64EncodedString()
-        let receipt = Receipt(isProduction: isProductionAPNsEnvironment, base64: receiptData)
+        let receipt = try Data(contentsOf: receipt).base64EncodedData()
         var rq = URLRequest(.receipt)
         rq.httpMethod = "POST"
-        rq.httpBody = try JSONEncoder().encode(receipt)
+        rq.httpBody = receipt
         rq.setValue("application/json", forHTTPHeaderField: "Content-Type")
         rq.setValue(token, forHTTPHeaderField: "Authorization")
         return rq

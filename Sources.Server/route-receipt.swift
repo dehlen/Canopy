@@ -3,7 +3,6 @@ import Foundation
 import PromiseKit
 import Roots
 
-//TODO supplement subscribe response to include if private is ok
 //TODO make app allow notify button after this 200 too
 //TODO barf if we get the same receipt id for multiple users:
 //  suggests that different github accounts have signed in to the same iCloud account
@@ -14,81 +13,117 @@ private enum E: Error {
     case couldNotEncodeReceipt
     case noExpiryDate
     case expired
+    case trySandboxVerifyReceipt
 }
 
 //TODO local validation would be more robust
 // but why do Apple recommend this then?
 
 func receiptHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
-    do {
-        guard let token = rq.header(.authorization) else {
-            return response.completed(status: .forbidden)
+
+    print()
+    print("/receipt")
+
+    guard let token = rq.header(.authorization) else {
+        return response.completed(status: .forbidden)
+    }
+    guard let receipt = rq.postBodyString else {
+        return response.completed(status: .badRequest)
+    }
+
+    func persist() -> Promise<Int> {
+        return firstly {
+            GitHubAPI(oauthToken: token).me()
+        }.map { me -> Int in
+            let url = URL(fileURLWithPath: "../receipts").appendingPathComponent(String(me.id))
+            try receipt.write(to: url, atomically: true, encoding: .utf8)
+            return me.id
+        }
+    }
+
+    func verify() -> Promise<Response2> {
+
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .custom { decoder in
+            let container = try decoder.singleValueContainer()
+            let dateString = try container.decode(String.self)
+            guard let ms = TimeInterval(dateString) else {
+                throw DecodingError.dataCorruptedError(in: container, debugDescription: "Expected String containing Int")
+            }
+            return Date(timeIntervalSince1970: ms / 1000)
         }
 
-        let receipt = try rq.decode(Receipt.self)
+        func validate(_ data: Data) throws -> Response2 {
+            let status = try decoder.decode(Response1.self, from: data).status
+            switch status {
+            case 0:
+                return try decoder.decode(Response2.self, from: data)
+            case 21007:
+                throw E.trySandboxVerifyReceipt
+            case 21000, 21002, 21003, 21004, 21008:
+                throw HTTPResponseError(status: .internalServerError, description: "\(status)")
+            case 21005, 21100..<21200:
+                throw HTTPResponseError(status: .badGateway, description: "Apple’s receipt validator is unavailable")
+            case 21006, 21010:
+                throw E.expired
+            default:
+                throw E.invalidAppleValidatorStatus(status)
+            }
+        }
 
-        func persist() -> Promise<Int> {
+        func go(prod: Bool) throws -> Promise<Data> {
+            let rq = try URLRequest(receipt: receipt, isProduction: prod)
             return firstly {
-                GitHubAPI(oauthToken: token).me()
-            }.map { me -> Int in
-                guard let data = Data(base64Encoded: receipt.base64) else {
-                    throw E.couldNotEncodeReceipt
-                }
-                let url = URL(fileURLWithPath: "../receipts").appendingPathComponent(String(me.id))
-                try data.write(to: url)
-                return me.id
+                URLSession.shared.dataTask(.promise, with: rq)
+            }.validate().map(on: nil) {
+                $0.data
             }
         }
 
-        func validate() -> Promise<Response> {
-            let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .custom { decoder in
-                let container = try decoder.singleValueContainer()
-                let dateString = try container.decode(String.self)
-                guard let ms = TimeInterval(dateString) else {
-                    throw DecodingError.dataCorruptedError(in: container, debugDescription: "Expected String containing Int")
-                }
-                return Date(timeIntervalSince1970: ms / 1000)
+        return firstly {
+            try go(prod: true)
+        }.map {
+            try validate($0)
+        }.recover { error -> Promise<Response2> in
+            if case E.trySandboxVerifyReceipt = error {
+                return try go(prod: false).map(validate)
             }
-            return firstly {
-                URLSession.shared.dataTask(.promise, with: try URLRequest(receipt)).validate()
-            }.map {
-                try decoder.decode(Response.self, from: $0.data)
-            }
+            throw error
         }
+    }
 
-        firstly {
-            when(fulfilled: persist(), validate())
-        }.map { userId, response in
-            (userId, try handle(response: response, forUserId: userId))
-        }.done { userId, expiry in
-            if try DB().add(receiptForUserId: userId, expires: expiry) {
-                response.completed()
-            } else {
-                response.completed(status: .forbidden)
-            }
-        }.catch { error in
-            response.appendBody(string: error.legibleDescription)
-            response.completed(status: .badRequest)
+    let userId = persist()
+
+    firstly {
+        when(fulfilled: userId, verify())
+    }.map { userId, response in
+        (userId, try response.expiryDate())
+    }.done { userId, expiry in
+        if try DB().add(receiptForUserId: userId, expires: expiry) {
+            response.completed()
+        } else {
+            response.completed(status: .forbidden)
         }
+    }.catch { error in
 
-    } catch {
+        print(error)
+
+        if case E.expired = error, let userId = userId.value {
+            _ = try? DB().remove(receiptForUserId: userId)
+        }
         response.appendBody(string: error.legibleDescription)
         response.completed(status: .badRequest)
     }
 }
 
 private extension URLRequest {
-    init(_ receipt: Receipt) throws {
-        let urlString: String
-        if receipt.isProduction {
-            urlString = "https://buy.itunes.apple.com/verifyReceipt"
-        } else {
-            urlString = "https://sandbox.itunes.apple.com/verifyReceipt"
-        }
+    init(receipt: String, isProduction: Bool) throws {
+        let urlString = isProduction
+            ? "https://buy.itunes.apple.com/verifyReceipt"
+            : "https://sandbox.itunes.apple.com/verifyReceipt"
 
         let json = [
-            "receipt-data": receipt.base64,
+            "receipt-data": receipt,
             "password": "2367a7d022cb4e05a047a624891fa13f"
         ]
 
@@ -99,7 +134,11 @@ private extension URLRequest {
     }
 }
 
-private struct Response: Decodable {
+private struct Response1: Decodable {
+    let status: Int
+}
+
+private struct Response2: Decodable {
     let status: Int
     let environment: String
     let receipt: Receipt
@@ -157,22 +196,11 @@ private struct Response: Decodable {
     }
 }
 
-/// - Returns: expiration date
-private func handle(response: Response, forUserId userId: Int) throws -> Date {
-    switch response.status {
-    case 0:
-        guard let expires = response.latest_receipt_info.map(\.expires_date_ms).max() else {
+private extension Response2 {
+    func expiryDate() throws -> Date {
+        guard let expires = latest_receipt_info.map(\.expires_date_ms).max() else {
             throw E.noExpiryDate
         }
         return expires
-    case 21000, 21002, 21003, 21004, 21008, 21007:
-        throw HTTPResponseError(status: .internalServerError, description: "\(response.status)")
-    case 21005, 21100..<21200:
-        throw HTTPResponseError(status: .badGateway, description: "Apple’s receipt validator is unavailable")
-    case 21006, 21010:
-        try DB().remove(receiptForUserId: userId)
-        throw E.expired
-    default:
-        throw E.invalidAppleValidatorStatus(response.status)
     }
 }

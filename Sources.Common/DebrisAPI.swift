@@ -20,11 +20,6 @@ public struct SignIn: Codable {
     public let production: Bool
 }
 
-public struct Receipt: Codable {
-    public let isProduction: Bool
-    public let base64: String
-}
-
 public enum ServerError: Int {
     case authentication
 }
