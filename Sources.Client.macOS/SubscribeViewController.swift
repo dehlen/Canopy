@@ -42,7 +42,7 @@ class SubscribeViewController: NSViewController {
         firstly {
             SKReceiptRefreshRequest(receiptProperties: nil).start(.promise)
         }.then {
-            _postReceipt(token: token, receipt: $0)
+            app.postReceipt(token: token, receipt: $0)
         }.done { [weak self] in
             self?.dismiss(self)
         }.ensure { [weak self] in

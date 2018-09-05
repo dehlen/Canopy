@@ -50,11 +50,6 @@ private enum E: TitledError {
 }
 
 extension AppDelegate: SKPaymentTransactionObserver {
-    @objc func receiptVerified(note: Notification) {
-        createSubscriptionMenuItem.isHidden = true
-        manageSubscriptionMenuItem.isHidden = false
-    }
-
     func finish(error: Error?, line: UInt = #line) {
         DispatchQueue.main.async { [weak subscribeViewController] in
             if let error = error {
@@ -99,7 +94,7 @@ extension AppDelegate: SKPaymentTransactionObserver {
                 firstly {
                     try start()
                 }.then { token, url in
-                    _postReceipt(token: token, receipt: url)
+                    self.postReceipt(token: token, receipt: url)
                 }.ensure {
                     // if rejected user must use the “Restore” button
                     queue.finishTransaction(transaction)
@@ -128,7 +123,22 @@ extension AppDelegate: SKPaymentTransactionObserver {
         guard let url = Bundle.main.appStoreReceiptURL, let token = creds?.token, FileManager.default.isReadableFile(atPath: url.path) else {
             return
         }
-        _postReceipt(token: token, receipt: url).cauterize()
+        postReceipt(token: token, receipt: url).cauterize()
+    }
+
+    func postReceipt(token: String, receipt: URL) -> Promise<Void> {
+        return DispatchQueue.global().async(.promise) {
+            let receipt = try Data(contentsOf: receipt).base64EncodedData()
+            var rq = URLRequest(.receipt)
+            rq.httpMethod = "POST"
+            rq.httpBody = receipt
+            rq.setValue(token, forHTTPHeaderField: "Authorization")
+            return rq
+        }.then { rq in
+            URLSession.shared.dataTask(.promise, with: rq).validate()
+        }.done { _ in
+            self.hasVerifiedReceipt = true
+        }
     }
 }
 
@@ -141,29 +151,6 @@ private extension Data {
             CC_SHA256(bytes, CC_LONG(count), &hash)
         }
         return Data(bytes: hash, count: hash.count).base64EncodedString()
-    }
-}
-
-extension Notification.Name {
-    static var receiptVerified: Notification.Name {
-        return .init("com.codebasesaga.receiptVerified")
-    }
-}
-
-func _postReceipt(token: String, receipt: URL) -> Promise<Void> {
-    return DispatchQueue.global().async(.promise) {
-        let receipt = try Data(contentsOf: receipt).base64EncodedData()
-        var rq = URLRequest(.receipt)
-        rq.httpMethod = "POST"
-        rq.httpBody = receipt
-        rq.setValue(token, forHTTPHeaderField: "Authorization")
-        return rq
-    }.then { rq in
-        URLSession.shared.dataTask(.promise, with: rq).validate()
-    }.get { _, rsp in
-        print(rsp)
-    }.done { _ in
-        NotificationCenter.default.post(name: .receiptVerified, object: nil)
     }
 }
 

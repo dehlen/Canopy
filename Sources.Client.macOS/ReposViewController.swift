@@ -6,17 +6,6 @@ class ReposViewController: NSViewController {
     var hooked = Set<Node>()
     var fetching = false
     var subscribed = Set<Int>()
-    var hasVerifiedReceipt = false {
-        didSet {
-            if hasVerifiedReceipt {
-                privateReposAdviceLabel.stringValue = """
-                    Notifications for private
-                    repos subscription
-                    is active.
-                    """
-            }
-        }
-    }
 
     @IBOutlet weak var outlineView: NSOutlineView!
     @IBOutlet weak var notifyButton: NSButton!
@@ -24,6 +13,9 @@ class ReposViewController: NSViewController {
     @IBOutlet weak var installWebhookButton: NSButton!
     @IBOutlet weak var privateReposAdviceLabel: NSTextField!
     @IBOutlet weak var installWebhookFirstLabel: NSTextField!
+    var hasVerifiedReceipt: Bool {
+        return app.hasVerifiedReceipt
+    }
 
     var rootedRepos: [String: [Repo]] {
         return Dictionary(grouping: repos, by: { $0.owner.login })
@@ -142,11 +134,7 @@ class ReposViewController: NSViewController {
         installWebhookFirstLabel.isHidden = true
 
         NotificationCenter.default.addObserver(self, selector: #selector(fetch), name: .credsUpdated, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(subscriptionPurchased), name: .receiptVerified, object: nil)
-    }
 
-    @objc func subscriptionPurchased() {
-        hasVerifiedReceipt = true
     }
 
     override func viewDidAppear() {

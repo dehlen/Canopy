@@ -8,7 +8,11 @@ import AppKit
 extension AppDelegate: NSApplicationDelegate {
     override func awakeFromNib() {
         PromiseKit.conf.Q.map = .global()
-        NotificationCenter.default.addObserver(self, selector: #selector(receiptVerified), name: .receiptVerified, object: nil)
+
+        ref = observe(\.hasVerifiedReceipt) { app, _ in
+            app.createSubscriptionMenuItem.isHidden = app.hasVerifiedReceipt
+            app.manageSubscriptionMenuItem.isHidden = !app.hasVerifiedReceipt
+        }
     }
 
     func applicationWillFinishLaunching(_ note: Notification) {
@@ -18,7 +22,6 @@ extension AppDelegate: NSApplicationDelegate {
             UNUserNotificationCenter.current().delegate = self
         }
     #endif
-        NotificationCenter.default.addObserver(self, selector: #selector(receiptVerified), name: .receiptVerified, object: nil)
     }
 
     func applicationDidFinishLaunching(_ note: Notification) {

@@ -3,10 +3,13 @@ import AppKit
 
 @NSApplicationMain
 class AppDelegate: NSObject {
+    @objc dynamic var hasVerifiedReceipt = false
+    @objc dynamic var deviceToken: String?
+
+    var ref: NSKeyValueObservation?
+
     weak var window: NSWindow!
     weak var subscribeViewController: SubscribeViewController?
-
-    @objc dynamic var deviceToken: String?
 
     func processRemoteNotificationUserInfo(_ userInfo: [AnyHashable: Any]) {
         if let urlString = userInfo["url"] as? String, let url = URL(string: urlString) {
