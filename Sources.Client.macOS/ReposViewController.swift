@@ -8,11 +8,12 @@ class ReposViewController: NSViewController {
     var subscribed = Set<Int>()
 
     @IBOutlet weak var outlineView: NSOutlineView!
+    @IBOutlet weak var mainColumn: NSTableColumn!
+    @IBOutlet weak var statusColumn: NSTableColumn!
+    @IBOutlet weak var statusLabel: NSTextField!
     @IBOutlet weak var notifyButton: NSButton!
-    @IBOutlet weak var webhookExplanation: NSTextField!
-    @IBOutlet weak var installWebhookButton: NSButton!
-    @IBOutlet weak var privateReposAdviceLabel: NSTextField!
-    @IBOutlet weak var installWebhookFirstLabel: NSTextField!
+    @IBOutlet weak var versionLabel: NSTextField!
+
     var hasVerifiedReceipt: Bool {
         return app.hasVerifiedReceipt
     }
@@ -75,66 +76,9 @@ class ReposViewController: NSViewController {
         }
     }
 
-    @IBAction private func toggleNotify(sender: NSButton) {
-        guard let selectedItem = selectedItem else {
-            return
-        }
-        let subscribe = sender.state == .on
-        let restoreState = state(for: selectedItem).nsControlStateValue
-
-        guard let token = creds?.token else {
-            sender.state = restoreState
-            return alert(message: "No GitHub auth token", title: "Unexpected Error")
-        }
-        if subscribe, !hasVerifiedReceipt, requiresReceipt(item: selectedItem) {
-            sender.state = restoreState
-            return paymentPrompt()
-        }
-
-        var ids: [Int] {
-            switch selectedItem {
-            case .organization(let login), .user(let login):
-                return rootedRepos[login]!.map(\.id)
-            case .repo(let repo):
-                return [repo.id]
-            }
-        }
-
-        sender.isEnabled = false
-
-        var rq = URLRequest(.subscribe)
-        rq.httpMethod = subscribe ? "POST" : "DELETE"
-        rq.httpBody = try! JSONEncoder().encode(ids)
-        rq.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        rq.setValue(token, forHTTPHeaderField: "Authorization")
-
-        firstly {
-            URLSession.shared.dataTask(.promise, with: rq).validate()
-        }.done { _ in
-            for id in ids {
-                if subscribe {
-                    self.subscribed.insert(id)
-                } else {
-                    self.subscribed.remove(id)
-                }
-            }
-            self.outlineView.reloadData()
-        }.catch {
-            sender.state = restoreState
-            alert($0)
-        }.finally {
-            sender.isEnabled = true
-        }
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        privateReposAdviceLabel.isHidden = true
-        installWebhookFirstLabel.isHidden = true
-
         NotificationCenter.default.addObserver(self, selector: #selector(fetch), name: .credsUpdated, object: nil)
-
     }
 
     override func viewDidAppear() {
@@ -166,7 +110,7 @@ class ReposViewController: NSViewController {
     }
 
     @IBAction func showHelp(_ sender: Any) {
-        if let url = URL(string: "https://codebasesaga.com/canopy/") {
+        if let url = URL(string: "https://codebasesaga.com/canopy/#faq") {
             NSWorkspace.shared.open(url)
         }
     }

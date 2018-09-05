@@ -23,113 +23,145 @@ extension ReposViewController: NSOutlineViewDataSource {
     }
 
     func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: Any?) -> Any? {
-        if item is String {
-            return item
-        } else {
-            return (item as! Repo).full_name
+        switch tableColumn {
+        case mainColumn:
+            if item is String {
+                return item
+            } else {
+                return (item as! Repo).full_name
+            }
+        case statusColumn:
+            if let repo = item as? Repo, subscribed.contains(repo.id) {
+                return "✓"
+            } else {
+                return nil
+            }
+        default:
+            return nil
         }
     }
 }
 
 extension ReposViewController: NSOutlineViewDelegate {
     func outlineViewSelectionDidChange(_ notification: Notification) {
-        let defaultWebhookExplanation = "Canopy functions via GitHub webhooks"
-        notifyButton.isEnabled = false
-        installWebhookButton.isEnabled = false
-        installWebhookFirstLabel.isHidden = true
-        privateReposAdviceLabel.isHidden = true
-        webhookExplanation.stringValue = defaultWebhookExplanation
 
-        guard let selectedItem = self.selectedItem else {
-            return
-        }
+        enum State {
+            case fetching
+            case noSelection
+            case selected(Kind)
 
-        notifyButton.allowsMixedState = true
-        notifyButton.state = state(for: selectedItem).nsControlStateValue
-        if notifyButton.state != .mixed {
-            notifyButton.allowsMixedState = false
-            // ^^ otherwise clicking transitions to the “mixed” state
-        }
+            enum Kind {
+                case organization(Satisfaction)
+                case user(Satisfaction)
+                case repo(enrolled: Bool, admin: Admin)
 
-        switch selectedItem {
-        case .organization(let login):
-            privateReposAdviceLabel.isHidden = rootedRepos[login]!.allSatisfy{ !$0.private }
-            installWebhookButton.isEnabled = true
-        case .user(let login):
-            privateReposAdviceLabel.isHidden = rootedRepos[login]!.allSatisfy{ !$0.private }
-            installWebhookButton.isEnabled = false
-        case .repo(let repo):
-            privateReposAdviceLabel.isHidden = !repo.private
-            notifyButton.allowsMixedState = false
-        }
-
-        let notifyButtonEnabled: Bool
-        let webhookButtonEnabled: Bool
-        var webhookExplanationText: String
-
-        switch (fetching, selectedItem) {
-        case (true, _):
-            webhookButtonEnabled = false
-            webhookExplanationText = "Fetching hook installation information…"
-            notifyButtonEnabled = false
-        case (false, .organization(let login)):
-            if hooked.contains(.organization(login)) {
-                webhookButtonEnabled = false
-                webhookExplanationText = "Organization webhook installed"
-                notifyButtonEnabled = true
-            } else {
-                switch rootedRepos[login]!.satisfaction(\.permissions.admin) {
-                case .none:
-                    webhookButtonEnabled = false
-                    webhookExplanationText = "Contact the repo admin to install the webhook"
-                case .some:
-                    webhookButtonEnabled = false
-                    webhookExplanationText = "You do not have admin clearance for all repositories"
-                case .all:
-                    webhookButtonEnabled = true
-                    webhookExplanationText = defaultWebhookExplanation
+                enum Admin {
+                    case `true`
+                    case contact(String)
                 }
-                notifyButtonEnabled = false
             }
-        case (false, .user(let login)):
-            let repos = rootedRepos[login]!
-            let hooks100pc: Bool
-            switch repos.satisfaction({ hooked.contains(.init($0)) }) {
-            case .all:
-                webhookExplanationText = "All children have webhooks installed"
-                hooks100pc = true
-            case .some:
-                webhookExplanationText = "Some children have webhooks installed"
-                hooks100pc = false
-            case .none:
-                webhookExplanationText = "No children have webhooks installed"
-                hooks100pc = false
-            }
-            switch repos.satisfaction(\.permissions.admin) {
-            case .all:
-                webhookButtonEnabled = true
-            case .some, .none:
-                webhookButtonEnabled = false
-                webhookExplanationText += ". You don’t have clearance to control webhooks on all children."
-            }
-            notifyButtonEnabled = hooks100pc
-        case (false, .repo(let repo)) where repo.isPartOfOrganization:
-            notifyButtonEnabled = hooked.contains(.organization(repo.owner.login))
-            webhookButtonEnabled = false
-            webhookExplanationText = "Webhook is controlled at organization level"
-        case (false, .repo(let repo)):
-            notifyButtonEnabled = hooked.contains(.init(repo))
-            webhookButtonEnabled = repo.permissions.admin
-            webhookExplanationText = notifyButtonEnabled
-                ? "Webhook installed" : webhookButtonEnabled
-                ? defaultWebhookExplanation : "Contact the repo admin to install the webhook"
         }
 
-        self.notifyButton.isEnabled = notifyButtonEnabled
-        self.webhookExplanation.stringValue = webhookExplanationText
-        self.installWebhookFirstLabel.isHidden = notifyButtonEnabled
-        self.installWebhookButton.isEnabled = webhookButtonEnabled && !notifyButtonEnabled
-                                                                   // ^^ because we don't support uninstalling hooks yet!
+        var state: State {
+            guard !fetching else {
+                return .fetching
+            }
+            guard let selectedItem = self.selectedItem else {
+                return .noSelection
+            }
+            switch selectedItem {
+            case .repo(let repo):
+                let enrolled = subscribed.contains(repo.id)
+                var admin: State.Kind.Admin {
+                    if repo.permissions.admin {
+                        return .true
+                    } else if repo.isPartOfOrganization {
+                        return .contact("an admin of the \(repo.owner.login) organization")
+                    } else {
+                        return .contact("@\(repo.owner.login)")
+                    }
+                }
+                return .selected(.repo(enrolled: enrolled, admin: admin))
+            case .organization(let login):
+                let enrollment = rootedRepos[login]!.satisfaction{ subscribed.contains($0.id) }
+                return .selected(.organization(enrollment))
+            case .user(let login):
+                let enrollment = rootedRepos[login]!.satisfaction{ subscribed.contains($0.id) }
+                return .selected(.user(enrollment))
+            }
+        }
+
+        let status: String
+        let enable: Bool
+        let switcH: SwitchState
+
+        //TODO if they are subscribed but the subscription has lapsed
+        // we should flag that with an alert symbol and text below
+
+        switch state {
+        case .fetching:
+            status = "Loading enrollment data…"
+            enable = false
+            switcH = .off
+        case .noSelection:
+            status = ""
+            enable = false
+            switcH = .off
+        case .selected(.organization(.all)):
+            status = "All repositories are enrolled for push notifications."
+            enable = true
+            switcH = .on
+        case .selected(.organization(.none)):
+            status = "No repositories are enrolled for push notifications."
+            enable = true
+            switcH = .off
+        case .selected(.organization(.some)):
+            status = "Some repositories are enrolled for push notifications."
+            enable = true
+            switcH = .mixed
+        case .selected(.user(.all)):
+            status = "All this user’s repositories are enrolled for push notifications."
+            enable = true
+            switcH = .on
+        case .selected(.user(.none)):
+            status = "You are not enrolled for push notifications for any of this user’s repositories."
+            enable = true
+            switcH = .off
+        case .selected(.user(.some)):
+            status = "Some of this user’s repositories are enrolled for push notifications."
+            enable = true
+            switcH = .mixed
+        case .selected(.repo(true, _)):
+            status = ""
+            enable = true
+            switcH = .on
+        case .selected(.repo(false, .true)):
+            status = ""
+            enable = true
+            switcH = .off
+        case .selected(.repo(false, .contact(let owner))):
+            status = """
+                You do not have permission to install webhooks on this repository.
+
+                Contact \(owner) and ask them to install the Canopy webhook (it’s free!).
+
+                They can use the app, or do it manually (there are instructions at the Canopy website).
+                """
+            enable = false
+            switcH = .off
+        }
+
+        switch switcH {
+        case .mixed:
+            notifyButton.allowsMixedState = true
+            notifyButton.state = .mixed
+        case .on, .off:
+            notifyButton.allowsMixedState = false
+            notifyButton.state = switcH.nsControlStateValue
+        }
+
+        notifyButton.isEnabled = enable
+        statusLabel.stringValue = status
     }
 
     func outlineView(_ outlineView: NSOutlineView, dataCellFor tableColumn: NSTableColumn?, item: Any) -> NSCell? {

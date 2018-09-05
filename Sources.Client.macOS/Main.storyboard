@@ -604,29 +604,42 @@ Gw
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ReposViewController" customModule="Canopy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="399" height="554"/>
+                        <rect key="frame" x="0.0" y="0.0" width="502" height="633"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView horizontalCompressionResistancePriority="1000" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NXw-D2-3nV">
-                                <rect key="frame" x="0.0" y="86" width="234" height="468"/>
+                                <rect key="frame" x="0.0" y="0.0" width="285" height="633"/>
                                 <clipView key="contentView" drawsBackground="NO" id="RTj-pS-YmG">
-                                    <rect key="frame" x="0.0" y="0.0" width="234" height="468"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="285" height="633"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <outlineView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="16" outlineTableColumn="5t4-ur-x1R" id="Tn7-qK-wuj">
-                                            <rect key="frame" x="0.0" y="0.0" width="234" height="468"/>
+                                        <outlineView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" multipleSelection="NO" autosaveColumns="NO" indentationPerLevel="16" outlineTableColumn="5t4-ur-x1R" id="Tn7-qK-wuj">
+                                            <rect key="frame" x="0.0" y="0.0" width="285" height="633"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn editable="NO" width="231" minWidth="16" maxWidth="1000" id="5t4-ur-x1R">
+                                                <tableColumn editable="NO" width="245" minWidth="16" maxWidth="1000" id="5t4-ur-x1R">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
                                                     <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="43l-KW-xxr">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                    <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                </tableColumn>
+                                                <tableColumn width="34" minWidth="10" maxWidth="3.4028234663852886e+38" id="CGk-Hi-zP5">
+                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
+                                                        <font key="font" metaFont="smallSystem"/>
+                                                        <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </tableHeaderCell>
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="4X4-XB-qY5">
                                                         <font key="font" metaFont="system"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -643,7 +656,7 @@ Gw
                                     <nil key="backgroundColor"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="KNQ-mI-SYh">
-                                    <rect key="frame" x="0.0" y="378" width="191" height="16"/>
+                                    <rect key="frame" x="0.0" y="547" width="199" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="xoq-Kv-1P3">
@@ -651,137 +664,74 @@ Gw
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="Cqe-Sb-Bh5" userLabel="Info" customClass="ViewWithBackgroundColor" customModule="Canopy" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="234" height="86"/>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="1ap-G9-Kf0">
+                                <rect key="frame" x="285" y="0.0" width="217" height="633"/>
                                 <subviews>
-                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="TLB-yb-KTX">
-                                        <rect key="frame" x="14" y="12" width="206" height="42"/>
-                                        <textFieldCell key="cell" selectable="YES" title="The GitHub API tends to hide forks of private repos, if so, add them manually via the File menu." id="k7V-8J-66u">
-                                            <font key="font" metaFont="smallSystem"/>
+                                    <button horizontalHuggingPriority="1000" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="frP-Tl-UsX">
+                                        <rect key="frame" x="18" y="597" width="181" height="18"/>
+                                        <buttonCell key="cell" type="check" title="Receive push notifications" bezelStyle="regularSquare" imagePosition="left" enabled="NO" inset="2" id="5VQ-lS-rA5">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="iho-P4-YOy">
+                                        <rect key="frame" x="18" y="341" width="181" height="238"/>
+                                        <textFieldCell key="cell" selectable="YES" id="15p-hU-sQY">
+                                            <font key="font" metaFont="system"/>
+                                            <string key="title">Stay on top of development with Canopy.
+
+To get started select a repository for which you want to receive push notifications and tap the above checkbox.
+
+You can subscribe to all repositories under a user or organizaation at once if you tap the checkbox for that root node.</string>
                                             <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="h5C-3c-04s">
-                                        <rect key="frame" x="14" y="58" width="206" height="14"/>
-                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Missing Repositories?" id="Qpp-Qn-pSl">
-                                            <font key="font" metaFont="systemSemibold" size="11"/>
-                                            <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yVm-e7-LWg">
+                                        <rect key="frame" x="29" y="8" width="159" height="11"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" title="https://codebasesaga.com/canopy/" id="fNE-fa-iZf">
+                                            <font key="font" metaFont="miniSystem"/>
+                                            <color key="textColor" name="tertiaryLabelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="h5C-3c-04s" firstAttribute="top" secondItem="Cqe-Sb-Bh5" secondAttribute="top" constant="14" id="3Zi-GY-Jww"/>
-                                    <constraint firstAttribute="trailing" secondItem="TLB-yb-KTX" secondAttribute="trailing" constant="16" id="C5s-sH-iy8"/>
-                                    <constraint firstItem="TLB-yb-KTX" firstAttribute="leading" secondItem="Cqe-Sb-Bh5" secondAttribute="leading" constant="16" id="EQh-8E-dGZ"/>
-                                    <constraint firstItem="h5C-3c-04s" firstAttribute="leading" secondItem="Cqe-Sb-Bh5" secondAttribute="leading" constant="16" id="Jk8-B7-LSW"/>
-                                    <constraint firstAttribute="trailing" secondItem="h5C-3c-04s" secondAttribute="trailing" constant="16" id="YUC-de-9vd"/>
-                                    <constraint firstAttribute="bottom" secondItem="TLB-yb-KTX" secondAttribute="bottom" constant="12" id="agb-dj-RLi"/>
-                                    <constraint firstItem="TLB-yb-KTX" firstAttribute="top" secondItem="h5C-3c-04s" secondAttribute="bottom" constant="4" id="c3s-L0-KpW"/>
+                                    <constraint firstAttribute="trailing" secondItem="frP-Tl-UsX" secondAttribute="trailing" constant="20" id="0af-cd-Lj9"/>
+                                    <constraint firstItem="frP-Tl-UsX" firstAttribute="top" secondItem="1ap-G9-Kf0" secondAttribute="top" constant="20" id="5rU-fA-UIw"/>
+                                    <constraint firstItem="iho-P4-YOy" firstAttribute="top" secondItem="frP-Tl-UsX" secondAttribute="bottom" constant="20" id="TFf-x3-8cw"/>
+                                    <constraint firstItem="iho-P4-YOy" firstAttribute="leading" secondItem="1ap-G9-Kf0" secondAttribute="leading" constant="20" id="ffo-cn-8iZ"/>
+                                    <constraint firstItem="frP-Tl-UsX" firstAttribute="leading" secondItem="1ap-G9-Kf0" secondAttribute="leading" constant="20" id="kEd-2n-KEF"/>
+                                    <constraint firstItem="yVm-e7-LWg" firstAttribute="centerX" secondItem="1ap-G9-Kf0" secondAttribute="centerX" id="w7K-Or-bwU"/>
+                                    <constraint firstAttribute="bottom" secondItem="yVm-e7-LWg" secondAttribute="bottom" constant="8" id="xjz-ZV-jpJ"/>
+                                    <constraint firstAttribute="trailing" secondItem="iho-P4-YOy" secondAttribute="trailing" constant="20" id="xu5-ug-HQN"/>
                                 </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                        <color key="value" name="underPageBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                             </customView>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Lcr-HS-PQC">
-                                <rect key="frame" x="252" y="518" width="129" height="18"/>
-                                <buttonCell key="cell" type="check" title="Notify" bezelStyle="regularSquare" imagePosition="left" enabled="NO" inset="2" id="hZE-ed-mwP">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="toggleNotifyWithSender:" target="XfG-lQ-9wD" id="caQ-7r-Ny6"/>
-                                </connections>
-                            </button>
-                            <button horizontalHuggingPriority="1000" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j5Z-8i-YX8">
-                                <rect key="frame" x="248" y="392" width="137" height="32"/>
-                                <buttonCell key="cell" type="push" title="Install Webhook" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HAr-QH-A9t">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="installWebhookWithSender:" target="XfG-lQ-9wD" id="CeF-d2-av6"/>
-                                </connections>
-                            </button>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="aSB-P9-wN8">
-                                <rect key="frame" x="252" y="369" width="129" height="22"/>
-                                <textFieldCell key="cell" selectable="YES" alignment="center" title="Canopy functions via GitHub webhooks" id="rto-8y-yFw">
-                                    <font key="font" metaFont="miniSystem"/>
-                                    <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hld-xX-SYI">
-                                <rect key="frame" x="254" y="452" width="125" height="60"/>
-                                <subviews>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="69d-su-MaN">
-                                        <rect key="frame" x="-2" y="46" width="110" height="14"/>
-                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Install webhook first" id="mlc-4H-uQp">
-                                            <font key="font" metaFont="smallSystem"/>
-                                            <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3GB-2A-KKb">
-                                        <rect key="frame" x="-2" y="0.0" width="128" height="42"/>
-                                        <textFieldCell key="cell" lineBreakMode="clipping" id="xgh-Rp-AW9">
-                                            <font key="font" metaFont="smallSystem"/>
-                                            <string key="title">Receiving notifications
-for private repositories
-requires a subscription.</string>
-                                            <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
-                                </subviews>
-                                <visibilityPriorities>
-                                    <integer value="1000"/>
-                                    <integer value="1000"/>
-                                </visibilityPriorities>
-                                <customSpacing>
-                                    <real value="3.4028234663852886e+38"/>
-                                    <real value="3.4028234663852886e+38"/>
-                                </customSpacing>
-                            </stackView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="Lcr-HS-PQC" firstAttribute="leading" secondItem="NXw-D2-3nV" secondAttribute="trailing" constant="20" id="9ya-Lg-jEg"/>
-                            <constraint firstItem="NXw-D2-3nV" firstAttribute="trailing" secondItem="Cqe-Sb-Bh5" secondAttribute="trailing" id="C4u-rb-TzN"/>
-                            <constraint firstItem="Cqe-Sb-Bh5" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="Cwc-MR-3L3"/>
-                            <constraint firstItem="Cqe-Sb-Bh5" firstAttribute="top" secondItem="NXw-D2-3nV" secondAttribute="bottom" id="G8c-3K-SmW"/>
-                            <constraint firstItem="NXw-D2-3nV" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="KWK-eP-I2c"/>
-                            <constraint firstItem="aSB-P9-wN8" firstAttribute="leading" secondItem="NXw-D2-3nV" secondAttribute="trailing" constant="20" id="McG-ab-kNG"/>
-                            <constraint firstItem="j5Z-8i-YX8" firstAttribute="leading" secondItem="NXw-D2-3nV" secondAttribute="trailing" constant="20" id="OE8-wF-5rr"/>
-                            <constraint firstItem="j5Z-8i-YX8" firstAttribute="top" secondItem="Hld-xX-SYI" secondAttribute="bottom" constant="32" id="PeB-Dp-PVb"/>
-                            <constraint firstAttribute="trailing" secondItem="Hld-xX-SYI" secondAttribute="trailing" constant="20" id="XSr-yY-Kmp"/>
-                            <constraint firstAttribute="trailing" secondItem="j5Z-8i-YX8" secondAttribute="trailing" constant="20" id="a4V-fa-c0K"/>
-                            <constraint firstItem="aSB-P9-wN8" firstAttribute="top" secondItem="j5Z-8i-YX8" secondAttribute="bottom" constant="8" id="asS-5k-Aw8"/>
-                            <constraint firstItem="Hld-xX-SYI" firstAttribute="leading" secondItem="Lcr-HS-PQC" secondAttribute="leading" id="bip-GX-pCw"/>
-                            <constraint firstAttribute="trailing" secondItem="aSB-P9-wN8" secondAttribute="trailing" constant="20" id="gTe-wi-hnl"/>
-                            <constraint firstItem="NXw-D2-3nV" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="h2a-ox-g0l"/>
-                            <constraint firstAttribute="trailing" secondItem="Lcr-HS-PQC" secondAttribute="trailing" constant="20" id="kfR-7s-xYf"/>
-                            <constraint firstItem="Hld-xX-SYI" firstAttribute="top" secondItem="Lcr-HS-PQC" secondAttribute="bottom" constant="8" id="pLV-SR-x82"/>
-                            <constraint firstItem="Lcr-HS-PQC" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="rJz-k9-zrc"/>
-                            <constraint firstAttribute="bottom" secondItem="Cqe-Sb-Bh5" secondAttribute="bottom" id="xPV-R3-pyb"/>
+                            <constraint firstAttribute="bottom" secondItem="NXw-D2-3nV" secondAttribute="bottom" id="2hm-AP-FVo"/>
+                            <constraint firstItem="NXw-D2-3nV" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="UNa-1A-21Q"/>
+                            <constraint firstAttribute="trailing" secondItem="1ap-G9-Kf0" secondAttribute="trailing" id="c3g-bf-djm"/>
+                            <constraint firstItem="1ap-G9-Kf0" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="dAD-yP-lgG"/>
+                            <constraint firstItem="1ap-G9-Kf0" firstAttribute="leading" secondItem="NXw-D2-3nV" secondAttribute="trailing" id="gMZ-9d-kba"/>
+                            <constraint firstAttribute="bottom" secondItem="1ap-G9-Kf0" secondAttribute="bottom" id="nOr-Za-a2y"/>
+                            <constraint firstItem="NXw-D2-3nV" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="xh2-G7-Lfg"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="installWebhookButton" destination="j5Z-8i-YX8" id="fr8-gi-ZG7"/>
-                        <outlet property="installWebhookFirstLabel" destination="69d-su-MaN" id="HZJ-2f-yKY"/>
-                        <outlet property="notifyButton" destination="Lcr-HS-PQC" id="A6e-mh-OLe"/>
+                        <outlet property="mainColumn" destination="5t4-ur-x1R" id="VXA-wf-R25"/>
+                        <outlet property="notifyButton" destination="frP-Tl-UsX" id="eZI-vM-hOX"/>
                         <outlet property="outlineView" destination="Tn7-qK-wuj" id="NDN-fO-H6j"/>
-                        <outlet property="privateReposAdviceLabel" destination="3GB-2A-KKb" id="Sm5-Ai-qbE"/>
-                        <outlet property="webhookExplanation" destination="aSB-P9-wN8" id="mYq-QV-Ndv"/>
+                        <outlet property="statusColumn" destination="CGk-Hi-zP5" id="NsM-Kh-Bzh"/>
+                        <outlet property="statusLabel" destination="iho-P4-YOy" id="jQz-WW-nIb"/>
+                        <outlet property="versionLabel" destination="yVm-e7-LWg" id="OKy-AS-WIw"/>
                         <segue destination="eRY-as-3te" kind="sheet" identifier="SignIn" id="sxB-hL-FML"/>
                         <segue destination="dMa-Dx-8hX" kind="sheet" identifier="PaymentPrompt" id="YWt-Ll-SlT"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="837"/>
+            <point key="canvasLocation" x="63" y="876.5"/>
         </scene>
         <!--Sign In View Controller-->
         <scene sceneID="ly1-PT-1NG">

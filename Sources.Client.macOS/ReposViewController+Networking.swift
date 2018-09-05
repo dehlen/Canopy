@@ -2,7 +2,6 @@ import PromiseKit
 import AppKit
 
 extension ReposViewController {
-
     @objc func fetch() {
         dispatchPrecondition(condition: .onQueue(.main))
 
@@ -76,10 +75,7 @@ extension ReposViewController {
         firstly {
             when(fulfilled: fetchRepos, fetchSubs(token: token))
         }.done {
-            //TODO may have subs that github doesn't list due to token bug, need to show them!
-            let (subs, hasReceipt) = $1
-            self.subscribed = subs
-            self.hasVerifiedReceipt = hasReceipt
+            self.subscribed = $1
             self.outlineView.reloadData()
             self.outlineView.expandItem(nil, expandChildren: true)
         }.then {
@@ -97,66 +93,6 @@ extension ReposViewController {
             alert($0)
         }.finally {
             self.fetching = false
-        }
-    }
-
-    @IBAction private func installWebhook(sender: NSButton) {
-        guard let token = creds?.token else {
-            return alert(message: "No GitHub auth token", title: "Unexpected Error")
-        }
-        guard let selectedItem = selectedItem else {
-            return
-        }
-
-        //TODO don't allow toggling during activity (NOTE need to store
-        //  that we are installing-hooks for this node in case of switch-back-forth)
-        //TODO UI feedback for activity
-
-        func createHook(for node: Node) -> Promise<Node> {
-            do {
-                var rq = URLRequest(.hook)
-                rq.httpMethod = "POST"
-                rq.setValue("application/json", forHTTPHeaderField: "Content-Type")
-                rq.setValue(token, forHTTPHeaderField: "Authorization")
-                rq.httpBody = try JSONEncoder().encode(node)
-                return URLSession.shared.dataTask(.promise, with: rq).validate().map{ _ in node }
-            } catch {
-                return Promise(error: error)
-            }
-        }
-
-        notifyButton.isEnabled = false
-        installWebhookButton.isEnabled = false
-
-        let types: [Node]
-        switch selectedItem {
-        case .organization(let login):
-            types = [.organization(login)]
-        case .repo(let repo):
-            types = [Node(repo)]
-        case .user(let login):
-            types = rootedRepos[login]!.map(Node.init).filter{ hooked.contains($0) }
-        }
-
-        firstly {
-            when(resolved: types.map(createHook))
-        }.done { results in
-            var allGood = true
-            for result in results {
-                switch result {
-                case .fulfilled(let node):
-                    self.hooked.insert(node)
-                case .rejected(let error):
-                    allGood = false
-                    alert(error)
-                    if selectedItem == self.selectedItem {
-                        self.installWebhookButton.isEnabled = true
-                    }
-                }
-            }
-            if allGood, selectedItem == self.selectedItem {
-                self.notifyButton.isEnabled = true
-            }
         }
     }
 
@@ -206,17 +142,114 @@ extension ReposViewController {
             alert($0)
         }
     }
+
+    @IBAction private func toggle(sender: NSButton) {
+
+        //TODO don't allow toggling during activity (NOTE need to store
+        //  that we are installing-hooks for this node in case of switch-back-forth)
+        //TODO UI feedback for activity
+
+        //TODO make new endpoint that installs webhook SECOND so user is pinged after subbing
+        // change ping text to subscription verified or GitHub sent confirmation payload or something
+
+        // probably therefore make Node decodable
+        // error therefore will be complicated ?
+
+        guard let selectedItem = selectedItem else {
+            return
+        }
+        let subscribe = sender.state == .on
+        let restoreState = state(for: selectedItem).nsControlStateValue
+
+        if subscribe, !hasVerifiedReceipt, requiresReceipt(item: selectedItem) {
+            sender.state = restoreState
+            paymentPrompt()
+        } else if let token = creds?.token {
+            let ids: [Int]
+            switch selectedItem {
+            case .organization(let login), .user(let login):
+                ids = rootedRepos[login]!.map(\.id)
+            case .repo(let repo):
+                ids = [repo.id]
+            }
+
+            var work: Promise<Void> {
+                var rq = URLRequest(.enroll)
+                rq.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                rq.setValue(token, forHTTPHeaderField: "Authorization")
+
+                if subscribe {
+                    rq.httpMethod = "POST"
+
+                    let nodes: [Node]
+                    switch selectedItem {
+                    case .organization(let login):
+                        nodes = [.organization(login)]
+                    case .repo(let repo):
+                        nodes = [Node(repo)]
+                    case .user(let login):
+                        nodes = rootedRepos[login]!.map(Node.init).filter{ hooked.contains($0) }
+                    }
+
+                    return DispatchQueue.global().async(.promise) {
+                        rq.httpBody = try JSONEncoder().encode(API.Enroll(createHooks: nodes, enrollRepoIds: ids))
+                    }.then {
+                        URLSession.shared.dataTask(.promise, with: rq).validate()
+                    }.done { _ in
+                        self.subscribed.formUnion(ids)
+                        self.hooked.formUnion(nodes)
+                    }.recover { error in
+                        switch error {
+                        case API.Enroll.Error.noClearance(let failedRepoIds):
+                            self.subscribed.formUnion(Set(ids).subtracting(failedRepoIds))
+                        case API.Enroll.Error.hookCreationFailed(let failedNodes):
+                            self.hooked.formUnion(Set(nodes).subtracting(failedNodes))
+                        default:
+                            break
+                        }
+                        throw error
+                    }
+                } else {
+                    rq.httpMethod = "DELETE"
+
+                    return DispatchQueue.global().async(.promise) {
+                        rq.httpBody = try JSONEncoder().encode(API.Unenroll(repoIds: ids))
+                    }.then {
+                        URLSession.shared.dataTask(.promise, with: rq).validate()
+                    }.done { _ in
+                        self.subscribed.subtract(ids)
+                    }
+                }
+            }
+
+            sender.isEnabled = false
+
+            work.catch {
+                if selectedItem == self.selectedItem {
+                    sender.state = restoreState
+                }
+                alert($0)
+            }.finally {
+                if selectedItem == self.selectedItem {
+                    sender.isEnabled = true
+                }
+                self.outlineView.reloadData()
+            }
+
+        } else {
+            sender.state = restoreState
+            alert(message: "No GitHub auth token", title: "Unexpected Error")
+        }
+    }
 }
 
-private func fetchSubs(token: String) -> Promise<(Set<Int>, Bool)> {
+private func fetchSubs(token: String) -> Promise<Set<Int>> {
     var rq = URLRequest(.subscribe)
     rq.addValue(token, forHTTPHeaderField: "Authorization")
     return firstly {
         URLSession.shared.dataTask(.promise, with: rq).validate()
-    }.map { data, rsp -> (Set<Int>, Bool) in
-        let subs = Set(try JSONDecoder().decode([Int].self, from: data))
-        let verifiedReceipt = (rsp as? HTTPURLResponse)?.allHeaderFields["Upgrade"] as? String == "true"
-        return (subs, verifiedReceipt)
+    }.map {
+        Set(try JSONDecoder().decode([Int].self, from: $0.data))
     }
 }
 
