@@ -234,7 +234,9 @@ extension ReposViewController {
                     sender.isEnabled = true
                     sender.allowsMixedState = false  // will be either on or off at this point
                 }
+                // some items maybe succeeded and some failed, so always do these, even if error
                 self.outlineView.reloadData()
+                self.outlineViewSelectionDidChange(Notification(name: .NSAppleEventManagerWillProcessFirstEvent))
             }
 
         } else {
