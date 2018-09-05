@@ -43,7 +43,7 @@ extension ReposViewController: NSOutlineViewDataSource {
 }
 
 extension ReposViewController: NSOutlineViewDelegate {
-    func outlineViewSelectionDidChange(_ notification: Notification) {
+    func outlineViewSelectionDidChange(_: Notification) {
 
         enum State {
             case fetching
@@ -176,7 +176,7 @@ extension ReposViewController: NSOutlineViewDelegate {
         } else {
             return nil
         }
-        cell.textColor = integrated ? .labelColor : .secondaryLabelColor
+        cell.isEnabled = integrated// ? .labelColor : .secondaryLabelColor
         return cell
     }
 }
