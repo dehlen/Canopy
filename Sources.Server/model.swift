@@ -239,7 +239,7 @@ class DB {
             "(:\(x * 2 + 1), :\(x * 2 + 2))"
         }.joined(separator: ",")
         let sql = """
-            INSERT INTO subscriptions (repo_id, user_id)
+            REPLACE INTO subscriptions (repo_id, user_id)
             VALUES \(values);
             """
         try db.execute(statement: sql) { stmt in

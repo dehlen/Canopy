@@ -232,6 +232,7 @@ extension ReposViewController {
             }.finally {
                 if selectedItem == self.selectedItem {
                     sender.isEnabled = true
+                    sender.allowsMixedState = false  // will be either on or off at this point
                 }
                 self.outlineView.reloadData()
             }

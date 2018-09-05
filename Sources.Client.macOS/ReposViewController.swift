@@ -57,7 +57,7 @@ class ReposViewController: NSViewController {
     func requiresReceipt(item: OutlineViewItem) -> Bool {
         switch item {
         case .organization(let login), .user(let login):
-            return rootedRepos[login]!.satisfaction{ $0.private } == .none
+            return rootedRepos[login]!.satisfaction{ $0.private } != .none
         case .repo(let repo):
             return repo.private
         }
