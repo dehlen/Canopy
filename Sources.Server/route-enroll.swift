@@ -61,7 +61,16 @@ func enrollHandler(request rq: HTTPRequest) throws -> Promise<Void> {
 
 private extension GitHubAPI {
     func createHooks(for nodes: [Node]) -> Guarantee<[Result<Node>]> {
-        let promises = nodes.map{ node in createHook(for: node).map{ node } }
-        return when(resolved: promises)
+        func mapper(node: Node) -> Promise<Node> {
+            return createHook(for: node).recover { error in
+                guard case PMKHTTPError.badStatusCode(422, _, _) = error else {
+                    // ^^ hook already exists
+                    throw error
+                }
+            }.map { _ in
+                node
+            }
+        }
+        return when(resolved: nodes.map(mapper))
     }
 }
