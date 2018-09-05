@@ -21,10 +21,29 @@ PromiseKit.conf.Q.return = pmkQ
 import PerfectHTTPServer
 import PerfectHTTP
 import Foundation
+import Roots
 
 private extension Routes {
     mutating func add(method: HTTPMethod, uri: URL.Canopy, handler: @escaping RequestHandler) {
         add(method: method, uri: uri.path, handler: handler)
+    }
+
+    mutating func add(method: HTTPMethod, uri: URL.Canopy, handler: @escaping  (HTTPRequest) throws -> Promise<Void>) {
+        add(method: method, uri: uri.path, handler: { rq, rsp in
+            firstly {
+                try handler(rq)
+            }.done {
+                rsp.completed()
+            }.catch { error in
+                if let error = error as? API.Enroll.Error, let data = try? JSONEncoder().encode(error) {
+                    rsp.appendBody(bytes: [UInt8](data))
+                } else {
+                    rsp.appendBody(string: error.legibleDescription)
+                }
+                let status = (error as? HTTPStatusCodable).map{ HTTPResponseStatus.statusFrom(code: $0.httpStatusCode) } ?? .internalServerError
+                rsp.completed(status: status)
+            }
+        })
     }
 }
 

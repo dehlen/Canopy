@@ -57,6 +57,10 @@ private func finish(code: String, state: String) throws {
         var errorDescription: String? {
             return error_description
         }
+
+        var httpStatusCode: Int {
+            return 417  // expectation failed
+        }
     }
 
     func decode(_ data: Data) throws -> Response {

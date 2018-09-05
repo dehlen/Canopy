@@ -240,12 +240,16 @@ struct DeploymentStatusEvent: Codable, Notificatable {
 
     struct DeploymentStatus: Codable {
         let url: URL
-        let status: String
+        let status: String?
         let description: String?
     }
 
     var body: String {
-        return "\(sender.login) deployed to \(deployment.environment) with status: \(deployment_status.status)"
+        var rv = "\(sender.login) deployed to \(deployment.environment)"
+        if let status = deployment_status.status {
+            rv += " with status: \(status)"
+        }
+        return rv
     }
     var url: URL? {
         return deployment_status.url

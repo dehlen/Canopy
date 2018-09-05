@@ -3,9 +3,9 @@ import Foundation
 import PromiseKit
 import Roots
 
-public func enrollHandler(request rq: HTTPRequest, _ response: HTTPResponse) throws {
+func enrollHandler(request rq: HTTPRequest) throws -> Promise<Void> {
     guard let token = rq.header(.authorization) else {
-        return response.completed(status: .badRequest)
+        throw HTTPResponseError(status: .unauthorized, description: "")
     }
     let rq = try rq.decode(API.Enroll.self)
     let api = GitHubAPI(oauthToken: token)
@@ -38,7 +38,7 @@ public func enrollHandler(request rq: HTTPRequest, _ response: HTTPResponse) thr
         }
     }
 
-    firstly {
+    return firstly {
         api.me()
     }.then { me in
         when(resolved: try rq.repos.map(verify)).done {
@@ -56,14 +56,6 @@ public func enrollHandler(request rq: HTTPRequest, _ response: HTTPResponse) thr
         guard rejects.isEmpty else {
             throw API.Enroll.Error.hookCreationFailed(rejects)
         }
-        response.completed()
-    }.catch { error in
-        if let error = error as? API.Enroll.Error, let data = try? JSONEncoder().encode(error) {
-            response.appendBody(bytes: [UInt8](data))
-        } else {
-            response.appendBody(string: error.legibleDescription)
-        }
-        response.completed(status: .expectationFailed)
     }
 }
 

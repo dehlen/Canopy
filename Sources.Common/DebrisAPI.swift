@@ -24,8 +24,21 @@ public enum ServerError: Int {
     case authentication
 }
 
-public protocol XPError: LocalizedError {
+public protocol XPError: LocalizedError, HTTPStatusCodable {
     var serverError: ServerError { get }
+}
+
+public protocol HTTPStatusCodable {
+    var httpStatusCode: Int { get }
+}
+
+extension PMKHTTPError: HTTPStatusCodable {
+    public var httpStatusCode: Int {
+        switch self {
+        case .badStatusCode(let code, _, _):
+            return code
+        }
+    }
 }
 
 public enum Node: Codable {
@@ -108,7 +121,7 @@ public enum API {
 }
 
 public extension API.Enroll {
-    enum Error: Swift.Error, Codable {
+    enum Error: Swift.Error, Codable, HTTPStatusCodable {
         case noClearance([Node])
         case hookCreationFailed([Node])
 
@@ -141,6 +154,10 @@ public extension API.Enroll {
                 try container.encode(ids, forKey: .ids)
                 try container.encode(1, forKey: .kind)
             }
+        }
+
+        public var httpStatusCode: Int {
+            return 502
         }
     }
 }
