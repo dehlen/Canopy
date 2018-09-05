@@ -20,7 +20,7 @@ class DB {
     }
 
     enum E: Error {
-        case tokenNotFound(user: Int)
+        case oauthTokenNotFound(user: Int)
     }
 
     func backup() throws {
@@ -169,7 +169,7 @@ class DB {
         }
 
         guard let oauthToken = _oauthToken else {
-            throw E.tokenNotFound(user: uid)
+            throw E.oauthTokenNotFound(user: uid)
         }
 
         return oauthToken

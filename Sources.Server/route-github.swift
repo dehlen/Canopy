@@ -79,6 +79,9 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
     } catch E.ignoring {
         print("Ignoring event")
         response.completed()
+    } catch DB.E.oauthTokenNotFound {
+        // user signed out presumably
+        response.completed(status: .unauthorized)
     } catch {
         alert(message: error.legibleDescription)
         response.appendBody(string: error.legibleDescription)
