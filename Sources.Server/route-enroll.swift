@@ -23,32 +23,32 @@ func enrollHandler(request rq: HTTPRequest) throws -> Promise<Void> {
 
     func saveEnrollments(_ results: [Result<Int>], userId: Int) throws {
         var fulfills: [Int] = []
-        var rejects: [Node] = []
-        for (result, node) in zip(results, rq.nodes) {
+        var rejects: [Int] = []
+        for (result, repoId) in zip(results, rq.enrollRepoIds) {
             switch result {
             case .fulfilled(let repoId):
                 fulfills.append(repoId)
             case .rejected:
-                rejects.append(node)
+                rejects.append(repoId)
             }
         }
         try DB().add(subscriptions: fulfills, userId: userId)
         guard rejects.isEmpty else {
-            throw API.Enroll.Error.noClearance(rejects)
+            throw API.Enroll.Error.noClearance(repoIds: rejects)
         }
     }
 
     return firstly {
         api.me()
     }.then { me in
-        when(resolved: try rq.repos.map(verify)).done {
+        when(resolved: try rq.enrollRepoIds.map(verify)).done {
             try saveEnrollments($0, userId: me.id)
         }
     }.then {
-        api.createHooks(for: rq.nodes)  //NOTE also saves to db!
+        api.createHooks(for: rq.createHooks)  //NOTE also saves to db!
     }.done { results in
         var rejects: [Node] = []
-        for (result, node) in zip(results, rq.nodes) {
+        for (result, node) in zip(results, rq.createHooks) {
             if case .rejected = result {
                 rejects.append(node)
             }
@@ -56,6 +56,23 @@ func enrollHandler(request rq: HTTPRequest) throws -> Promise<Void> {
         guard rejects.isEmpty else {
             throw API.Enroll.Error.hookCreationFailed(rejects)
         }
+    }
+}
+
+func unenrollHandler(request rq: HTTPRequest) throws -> Promise<Void> {
+
+    guard let token = rq.header(.authorization) else {
+        throw HTTPResponseError(status: .unauthorized, description: "")
+    }
+
+    // we don’t remove the webhooks
+    // NOTE we should probably tell the user that? Or offer the chance to do that too.
+
+    return firstly {
+        GitHubAPI(oauthToken: token).me()
+    }.done {
+        let repos = try rq.decode(API.Unenroll.self).repoIds
+        try DB().delete(subscriptions: repos, userId: $0.id)
     }
 }
 

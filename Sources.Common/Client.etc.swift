@@ -203,3 +203,18 @@ var isProductionAPNsEnvironment: Bool {
         """)
 #endif
 }
+
+extension API.Enroll.Error: TitledError {
+    var title: String {
+        return "Enrollment Error"
+    }
+
+    public var errorDescription: String? {
+        switch self {
+        case API.Enroll.Error.noClearance:
+            return "You do not have clearance to all the requested repositories"
+        case API.Enroll.Error.hookCreationFailed(let nodes):
+            return "Hook creation failed for the following nodes: \(nodes.map(\.ref))"
+        }
+    }
+}

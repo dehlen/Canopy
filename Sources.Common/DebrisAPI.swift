@@ -115,30 +115,35 @@ enum RemoteNotificationUserInfo {
 
 public enum API {
     public struct Enroll: Codable {
-        public var nodes: [Node]
-        public var repos: [Int]    // because we sub to an org’s children, but create the hook on the org itself
+        public let createHooks: [Node]
+        public let enrollRepoIds: [Int]    // because we sub to an org’s children, but create the hook on the org itself
+    }
+    public struct Unenroll: Codable {
+        public let repoIds: [Int]
     }
 }
 
 public extension API.Enroll {
     enum Error: Swift.Error, Codable, HTTPStatusCodable {
-        case noClearance([Node])
+        case noClearance(repoIds: [Int])
         case hookCreationFailed([Node])
 
         enum CodingKeys: String, CodingKey {
             case kind
             case ids
+            case nodes
         }
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            let ids = try container.decode([Node].self, forKey: .ids)
             let kind = try container.decode(Int.self, forKey: .kind)
             switch kind {
             case 0:
-                self = .noClearance(ids)
+                let ids = try container.decode([Int].self, forKey: .ids)
+                self = .noClearance(repoIds: ids)
             case 1:
-                self = .hookCreationFailed(ids)
+                let nodes = try container.decode([Node].self, forKey: .nodes)
+                self = .hookCreationFailed(nodes)
             default:
                 throw DecodingError.dataCorruptedError(forKey: .kind, in: container, debugDescription: "Invalid kind value")
             }

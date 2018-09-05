@@ -59,6 +59,7 @@ routes.add(method: .post, uri: .receipt, handler: receiptHandler)
 routes.add(method: .post, uri: .hook, handler: createHookHandler)
 routes.add(method: .get, uri: .hook, handler: hookQueryHandler)
 routes.add(method: .post, uri: .enroll, handler: enrollHandler)
+routes.add(method: .delete, uri: .enroll, handler: unenrollHandler)
 
 let server = HTTPServer()
 server.addRoutes(routes)
