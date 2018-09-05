@@ -186,7 +186,13 @@ extension ReposViewController {
                     case .organization(let login):
                         nodes = [.organization(login)]
                     case .repo(let repo):
-                        nodes = [Node(repo)]
+                        //NOTE really should handle this serverside, but whatever, we control
+                        // everything and abuse is super unlikely
+                        if repo.isPartOfOrganization {
+                            nodes = [.organization(repo.owner.login)]
+                        } else {
+                            nodes = [.init(repo)]
+                        }
                     case .user(let login):
                         nodes = rootedRepos[login]!.map(Node.init).filter{ hooked.contains($0) }
                     }
