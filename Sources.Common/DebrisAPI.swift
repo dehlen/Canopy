@@ -99,3 +99,48 @@ enum RemoteNotificationUserInfo {
         }
     }
 }
+
+public enum API {
+    public struct Enroll: Codable {
+        public var nodes: [Node]
+        public var repos: [Int]    // because we sub to an org’s children, but create the hook on the org itself
+    }
+}
+
+public extension API.Enroll {
+    enum Error: Swift.Error, Codable {
+        case noClearance([Node])
+        case hookCreationFailed([Node])
+
+        enum CodingKeys: String, CodingKey {
+            case kind
+            case ids
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            let ids = try container.decode([Node].self, forKey: .ids)
+            let kind = try container.decode(Int.self, forKey: .kind)
+            switch kind {
+            case 0:
+                self = .noClearance(ids)
+            case 1:
+                self = .hookCreationFailed(ids)
+            default:
+                throw DecodingError.dataCorruptedError(forKey: .kind, in: container, debugDescription: "Invalid kind value")
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .noClearance(let ids):
+                try container.encode(ids, forKey: .ids)
+                try container.encode(0, forKey: .kind)
+            case .hookCreationFailed(let ids):
+                try container.encode(ids, forKey: .ids)
+                try container.encode(1, forKey: .kind)
+            }
+        }
+    }
+}
