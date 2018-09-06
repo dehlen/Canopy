@@ -55,7 +55,7 @@ extension AppDelegate: SKPaymentTransactionObserver {
             if let error = error {
                 subscribeViewController?.paymentFailed(sender: self)
                 if let error = error as? SKError, error.code == .paymentCancelled { return }
-                alert(error, line: line)
+                alert(error, title: "App Store Error", line: line)
             } else {
                 subscribeViewController?.dismiss(self)
             }
