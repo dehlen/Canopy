@@ -81,7 +81,7 @@ private extension GitHubAPI {
         func mapper(node: Node) -> Promise<Node> {
             return createHook(for: node).recover { error in
                 guard case PMKHTTPError.badStatusCode(422, _, _) = error else {
-                    // ^^ hook already exists
+                    // ^^ hook already exists ∴ ignore error
                     throw error
                 }
             }.map { _ in

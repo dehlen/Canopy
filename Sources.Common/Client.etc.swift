@@ -9,6 +9,7 @@ extension String {
 
 enum CanopyError: Error {
     case badURL
+    case notHTTPResponse
 }
 
 extension PMKHTTPError {
@@ -214,7 +215,39 @@ extension API.Enroll.Error: TitledError {
         case API.Enroll.Error.noClearance:
             return "You do not have clearance to all the requested repositories"
         case API.Enroll.Error.hookCreationFailed(let nodes):
-            return "Hook creation failed for the following nodes: \(nodes.map(\.ref))"
+            return """
+            Hook creation failed for \(nodes.map(\.ref).english); probably you don’t have clearance to create webhooks, contact the admin.
+            """
+        }
+    }
+}
+
+extension Promise where T == (data: Data, response: URLResponse) {
+    func httpValidate() -> Promise {
+        return validate().recover { error -> Promise in
+            guard case PMKHTTPError.badStatusCode(_, let data, _) = error else {
+                throw error
+            }
+            if let error = try? JSONDecoder().decode(API.Enroll.Error.self, from: data) {
+                throw error
+            } else {
+                throw error
+            }
+        }
+    }
+}
+
+extension Array where Element == String {
+    var english: String {
+        switch count {
+        case ...0:
+            return ""
+        case 1:
+            return first!
+        default:
+            var me = self
+            let last = me.popLast()!
+            return me.joined(separator: ", ") + " and " + last
         }
     }
 }

@@ -155,8 +155,8 @@ public extension API.Enroll {
             case .noClearance(let ids):
                 try container.encode(ids, forKey: .ids)
                 try container.encode(0, forKey: .kind)
-            case .hookCreationFailed(let ids):
-                try container.encode(ids, forKey: .ids)
+            case .hookCreationFailed(let nodes):
+                try container.encode(nodes, forKey: .nodes)
                 try container.encode(1, forKey: .kind)
             }
         }

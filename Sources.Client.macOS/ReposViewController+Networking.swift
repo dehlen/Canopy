@@ -194,13 +194,13 @@ extension ReposViewController {
                             nodes = [.init(repo)]
                         }
                     case .user(let login):
-                        nodes = rootedRepos[login]!.map(Node.init).filter{ hooked.contains($0) }
+                        nodes = rootedRepos[login]!.map(Node.init)
                     }
 
                     return DispatchQueue.global().async(.promise) {
                         rq.httpBody = try JSONEncoder().encode(API.Enroll(createHooks: nodes, enrollRepoIds: ids))
                     }.then {
-                        URLSession.shared.dataTask(.promise, with: rq).validate()
+                        URLSession.shared.dataTask(.promise, with: rq).httpValidate()
                     }.done { _ in
                         self.subscribed.formUnion(ids)
                         self.hooked.formUnion(nodes)
@@ -209,6 +209,7 @@ extension ReposViewController {
                         case API.Enroll.Error.noClearance(let failedRepoIds):
                             self.subscribed.formUnion(Set(ids).subtracting(failedRepoIds))
                         case API.Enroll.Error.hookCreationFailed(let failedNodes):
+                            self.subscribed.formUnion(ids)
                             self.hooked.formUnion(Set(nodes).subtracting(failedNodes))
                         default:
                             break
