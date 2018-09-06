@@ -987,7 +987,7 @@ struct PullRequest: Codable {
     let html_url: URL
     let state: String
     let title: String
-    let body: String
+    let body: String?
     let merged: Bool?
     let number: Int
 }
