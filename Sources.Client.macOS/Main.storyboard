@@ -620,7 +620,7 @@ Gw
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn editable="NO" width="245" minWidth="16" maxWidth="1000" id="5t4-ur-x1R">
+                                                <tableColumn editable="NO" width="259" minWidth="16" maxWidth="1000" id="5t4-ur-x1R">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -633,7 +633,7 @@ Gw
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                 </tableColumn>
-                                                <tableColumn width="34" minWidth="10" maxWidth="3.4028234663852886e+38" id="CGk-Hi-zP5">
+                                                <tableColumn width="20" minWidth="10" maxWidth="3.4028234663852886e+38" id="CGk-Hi-zP5">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -656,7 +656,7 @@ Gw
                                     <nil key="backgroundColor"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="KNQ-mI-SYh">
-                                    <rect key="frame" x="0.0" y="547" width="199" height="16"/>
+                                    <rect key="frame" x="0.0" y="617" width="285" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="xoq-Kv-1P3">
