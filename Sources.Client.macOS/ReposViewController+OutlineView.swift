@@ -32,7 +32,11 @@ extension ReposViewController: NSOutlineViewDataSource {
             }
         case statusColumn:
             if let repo = item as? Repo, subscribed.contains(repo.id) {
-                return "✓"
+                if repo.isPartOfOrganization || hooked.contains(.init(repo)) {
+                    return "✓"
+                } else {
+                    return "⚠"
+                }
             } else {
                 return nil
             }
