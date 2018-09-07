@@ -34,8 +34,10 @@ extension ReposViewController: NSOutlineViewDataSource {
             if let repo = item as? Repo, subscribed.contains(repo.id) {
                 if repo.isPartOfOrganization || hooked.contains(.init(repo)) {
                     return "✓"
-                } else {
+                } else if !fetching {
                     return "⚠"
+                } else {
+                    return nil
                 }
             } else {
                 return nil

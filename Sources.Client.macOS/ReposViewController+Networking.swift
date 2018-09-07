@@ -89,6 +89,7 @@ extension ReposViewController {
             Set($0.compactMap(unconvert))
         }.done {
             self.hooked = $0
+            self.outlineView.reloadData()
         }.catch {
             alert($0)
         }.finally {
