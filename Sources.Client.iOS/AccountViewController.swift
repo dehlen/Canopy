@@ -112,7 +112,7 @@ private enum Row: CaseIterable {
             if AppDelegate.shared.hasReceipt {
                 return "Manage Subscription"
             } else {
-                return "Restore Purchases"
+                return "Restore"
             }
         case .icons8:
             return "https://icons8.com"

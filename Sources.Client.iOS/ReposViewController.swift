@@ -1,7 +1,7 @@
 import UIKit
 
 class ReposViewController: UITableViewController {
-    let mgr = SubscriptionsManager()
+    let mgr = EnrollmentsManager()
 
     var hasReceipt: Bool {
         set { (UIApplication.shared.delegate as! AppDelegate).hasReceipt = newValue }
@@ -104,7 +104,8 @@ extension ReposViewController/*: UITableViewDelegate*/ {
         let repo = rootedRepos[key]![indexPath.row]
         //let hasHook = installations.contains(repo.isPartOfOrganization ? repo.owner.id : repo.id)
 
-        let vc = RepoViewController(repo: repo)
+        let vc = RepoViewController(repo: repo, enrolled:
+            subscriptions.contains(repo.id) ? .active : repo.permissions.admin ? .feasible : .impossible)
         vc.completion = {
             // otherwise (despite UITableViewController) doesn't happen for some reason
             self.tableView.deselectRow(at: indexPath, animated: true)
@@ -113,31 +114,31 @@ extension ReposViewController/*: UITableViewDelegate*/ {
     }
 }
 
-extension ReposViewController: SubscriptionsManagerDelegate {
-    func subscriptionsManagerDidReset() {
+extension ReposViewController: EnrollmentsManagerDelegate {
+    func enrollmentsManagerDidReset() {
         repos.removeAll()
     }
 
-    func subscriptionsManager(_: SubscriptionsManager, isUpdating: Bool) {
+    func enrollmentsManager(_: EnrollmentsManager, isUpdating: Bool) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = isUpdating
     }
 
-    func subscriptionsManager(_: SubscriptionsManager, append newRepos: [Repo]) {
+    func enrollmentsManager(_: EnrollmentsManager, append newRepos: [Repo]) {
         repos.insert(contentsOf: newRepos)
     }
 
-    func subscriptionsManager(_: SubscriptionsManager, subscriptions: Set<Int>, hasReceipt: Bool) {
+    func enrollmentsManager(_: EnrollmentsManager, subscriptions: Set<Int>, hasReceipt: Bool) {
         self.subscriptions = subscriptions
         self.hasReceipt = hasReceipt
     }
 
-    func subscriptionsManager(_: SubscriptionsManager, append installations: Set<Int>) {
+    func enrollmentsManager(_: EnrollmentsManager, append installations: Set<Int>) {
         for x in installations {
             self.installations.insert(x)
         }
     }
 
-    func subscriptionsManager(_: SubscriptionsManager, error: Error) {
+    func enrollmentsManager(_: EnrollmentsManager, error: Error) {
         alert(error: error)
     }
 }

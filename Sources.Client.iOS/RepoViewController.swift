@@ -2,12 +2,24 @@ import PromiseKit
 import UIKit
 
 class RepoViewController: UIViewController {
-    let base = UIStackView()
+    let container = UIStackView()
+    let blur = UIVisualEffectView()
     let repo: Repo
+    let top = UIView()
     var completion: (() -> Void)?
+    let knob = UISwitch()
+    let status = UILabel()
+    let enrolled: Feasability
 
-    init(repo: Repo) {
+    enum Feasability {
+        case active
+        case feasible
+        case impossible
+    }
+
+    init(repo: Repo, enrolled: Feasability) {
         self.repo = repo
+        self.enrolled = enrolled
         super.init(nibName: nil, bundle: nil)
         transitioningDelegate = self
         modalPresentationStyle = .custom
@@ -20,16 +32,90 @@ class RepoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor(white: 0, alpha: 0.375)
-        base.backgroundColor = .white
+        top.translatesAutoresizingMaskIntoConstraints = false
+        top.backgroundColor = UIColor(white: 0, alpha: 0.375)
 
-        view.addSubview(base)
-        base.translatesAutoresizingMaskIntoConstraints = false
-        base.layoutMargins = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        let effect = UIBlurEffect(style: .dark)
+        blur.effect = effect
+        let vibrancy = UIVisualEffectView(effect: UIVibrancyEffect(blurEffect: effect))
+
+        view.addSubview(blur)
+        blur.contentView.addSubview(vibrancy)
+        vibrancy.contentView.addSubview(container)
+        container.translatesAutoresizingMaskIntoConstraints = false
+        container.layoutMargins = UIEdgeInsets(top: 32, left: 32, bottom: 32, right: 32)
+        container.isLayoutMarginsRelativeArrangement = true
+        container.alignment = .center
+        container.axis = .vertical
         NSLayoutConstraint.activate([
-            base.leftAnchor.constraint(equalTo: view.leftAnchor),
-            base.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            base.rightAnchor.constraint(equalTo: view.rightAnchor),
+            container.leftAnchor.constraint(equalTo: view.leftAnchor),
+            container.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            container.rightAnchor.constraint(equalTo: view.rightAnchor),
+        ])
+
+        top.layer.shadowRadius = 10
+        top.layer.shadowOpacity = 0.617
+        top.layer.shadowOffset.height = 0
+        top.layer.shadowPath = UIBezierPath(rect: CGRect(x: -15, y: view.bounds.height, width: view.bounds.width + 30, height: 50)).cgPath
+        top.clipsToBounds = true
+
+        status.numberOfLines = 0
+        container.spacing = 32
+        status.font = .preferredFont(forTextStyle: .subheadline)
+
+        let knobDescription = UILabel()
+        let knobStackView = UIStackView(arrangedSubviews: [knob, knobDescription])
+        knobStackView.spacing = 10
+        knobStackView.alignment = .center
+
+        knobDescription.font = .preferredFont(forTextStyle: .body)
+        knobDescription.text = "Receive push notifications"
+        knobDescription.adjustsFontForContentSizeCategory = true
+
+        switch enrolled {
+        case .active:
+            knob.isOn = true
+            status.isHidden = true
+        case .feasible:
+            status.isHidden = true
+        case .impossible:
+            knob.isEnabled = false
+            knobDescription.alpha = 0.5
+            status.isHidden = false
+            status.text = """
+                You do not have clearance to subscribe to this repository.
+
+                Contact the owner and ask them to install the Canopy webhook.
+
+                They do not need to use the app to do this, (see the Canopy FAQ) but using the app is easiest.
+                """
+        }
+
+        container.addArrangedSubview(status)
+        container.addArrangedSubview(knobStackView)
+
+        blur.translatesAutoresizingMaskIntoConstraints = false
+        vibrancy.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            blur.leftAnchor.constraint(equalTo: container.leftAnchor),
+            blur.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+            blur.rightAnchor.constraint(equalTo: container.rightAnchor),
+            blur.topAnchor.constraint(equalTo: container.topAnchor),
+        ])
+        NSLayoutConstraint.activate([
+            blur.leftAnchor.constraint(equalTo: vibrancy.leftAnchor),
+            blur.bottomAnchor.constraint(equalTo: vibrancy.bottomAnchor),
+            blur.rightAnchor.constraint(equalTo: vibrancy.rightAnchor),
+            blur.topAnchor.constraint(equalTo: vibrancy.topAnchor),
+        ])
+
+        view.addSubview(top)
+        NSLayoutConstraint.activate([
+            top.leftAnchor.constraint(equalTo: view.leftAnchor),
+            top.bottomAnchor.constraint(equalTo: blur.topAnchor),
+            top.rightAnchor.constraint(equalTo: view.rightAnchor),
+            top.heightAnchor.constraint(equalTo: view.heightAnchor),
         ])
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(_dismiss))
@@ -44,7 +130,7 @@ class RepoViewController: UIViewController {
 
 extension RepoViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        return touch.view == view
+        return touch.view == top
     }
 }
 
@@ -66,15 +152,21 @@ extension RepoViewController: UIViewControllerAnimatedTransitioning {
     // This method can only  be a nop if the transition is interactive and not a percentDriven interactive transition.
     public func animateTransition(using ctx: UIViewControllerContextTransitioning) {
         enum Direction {
-            case present(UIColor?)
+            case present
             case dismiss
         }
 
-        let direction = ctx.viewController(forKey: .to) is RepoViewController ? Direction.present(view.backgroundColor) : .dismiss
+        let direction = ctx.viewController(forKey: .to) is RepoViewController
+            ? Direction.present
+            : .dismiss
+
+        let tableView = AppDelegate.shared.reposViewController?.tableView
 
         func blank() {
-            view.backgroundColor = .clear
-            base.transform.ty = base.bounds.height
+            top.alpha = 0
+            let ty = blur.bounds.height
+            top.transform.ty = ty
+            blur.transform.ty = ty
         }
 
         if case .present = direction {
@@ -88,11 +180,29 @@ extension RepoViewController: UIViewControllerAnimatedTransitioning {
 
         UIView.animate(.easeInOutQuint, duration: duration) {
             switch direction {
-            case .present(let color):
-                self.view.backgroundColor = color
-                self.base.transform.ty = 0
+            case .present:
+                top.alpha = 1
+                self.blur.transform.ty = 0
+                self.top.transform.ty = 0
+
+                if let tv = tableView, let ip = tv.indexPathForSelectedRow {
+                    let rect = tv.rectForRow(at: ip)
+                    let convertedRect = tv.convert(rect, to: self.view)
+                    if convertedRect.maxY > self.blur.frame.minY {
+                        tv.contentOffset.y += convertedRect.maxY - self.blur.frame.minY + 16
+                    }
+                }
+
             case .dismiss:
                 blank()
+                if let tv = tableView {
+                    // if we scrolled beyond the bounce region to show the header how
+                    // then scroll back to the bounce line
+                    let H = tv.contentSize.height - view.bounds.height + tv.adjustedContentInset.top
+                    if tv.contentOffset.y > H {
+                        tv.contentOffset.y = H
+                    }
+                }
                 self.completion?()
             }
         }.done {

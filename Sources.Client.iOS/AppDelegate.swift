@@ -17,6 +17,10 @@ class AppDelegate: UIResponder {
     var tabBarController: UITabBarController {
         return window!.rootViewController as! UITabBarController
     }
+
+    var reposViewController: ReposViewController? {
+        return (tabBarController.viewControllers?.first as? UINavigationController)?.viewControllers.first as? ReposViewController
+    }
 }
 
 extension AppDelegate: UIApplicationDelegate {
@@ -31,6 +35,7 @@ extension AppDelegate: UIApplicationDelegate {
         window!.rootViewController = UITabBarController()
         setupTabBar()
         window!.makeKeyAndVisible()
+        window!.tintColor = UIColor(red: 0.15, green: 0.75, blue: 0.15, alpha: 1)
 
     #if !targetEnvironment(simulator)
         UNUserNotificationCenter.current().delegate = self

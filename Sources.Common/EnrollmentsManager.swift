@@ -2,20 +2,20 @@ import Foundation
 import PromiseKit
 import Dispatch
 
-protocol SubscriptionsManagerDelegate: class {
-    func subscriptionsManagerDidReset()
-    func subscriptionsManager(_: SubscriptionsManager, isUpdating: Bool)
-    func subscriptionsManager(_: SubscriptionsManager, append: [Repo])
-    func subscriptionsManager(_: SubscriptionsManager, subscriptions: Set<Int>, hasReceipt: Bool)
-    func subscriptionsManager(_: SubscriptionsManager, append: Set<Int>)
-    func subscriptionsManager(_: SubscriptionsManager, error: Error)
+protocol EnrollmentsManagerDelegate: class {
+    func enrollmentsManagerDidReset()
+    func enrollmentsManager(_: EnrollmentsManager, isUpdating: Bool)
+    func enrollmentsManager(_: EnrollmentsManager, append: [Repo])
+    func enrollmentsManager(_: EnrollmentsManager, subscriptions: Set<Int>, hasReceipt: Bool)
+    func enrollmentsManager(_: EnrollmentsManager, append: Set<Int>)
+    func enrollmentsManager(_: EnrollmentsManager, error: Error)
 }
 
-class SubscriptionsManager {
-    weak var delegate: SubscriptionsManagerDelegate? {
+class EnrollmentsManager {
+    weak var delegate: EnrollmentsManagerDelegate? {
         didSet {
             if let delegate = delegate, token != nil {
-                delegate.subscriptionsManagerDidReset()
+                delegate.enrollmentsManagerDidReset()
                 update()
             }
         }
@@ -25,7 +25,7 @@ class SubscriptionsManager {
     var token: String? {
         didSet {
             guard token != oldValue, let delegate = delegate else { return }
-            delegate.subscriptionsManagerDidReset()
+            delegate.enrollmentsManagerDidReset()
             update()
         }
     }
@@ -41,7 +41,7 @@ class SubscriptionsManager {
     }
 
     private func updateFetching() {
-        delegate?.subscriptionsManager(self, isUpdating: fetching || !installing.isEmpty)
+        delegate?.enrollmentsManager(self, isUpdating: fetching || !installing.isEmpty)
     }
 
     enum E: Error {
@@ -54,7 +54,7 @@ class SubscriptionsManager {
         guard !fetching else { return }
 
         guard let token = token else {
-            delegate?.subscriptionsManager(self, error: E.noToken)
+            delegate?.enrollmentsManager(self, error: E.noToken)
             return
         }
 
@@ -68,7 +68,7 @@ class SubscriptionsManager {
                     try JSONDecoder().decode([Repo].self, from: data)
                 }.done { [weak self] in
                     guard let `self` = self else { return }
-                    self.delegate?.subscriptionsManager(self, append: $0)
+                    self.delegate?.enrollmentsManager(self, append: $0)
                     cum.append(contentsOf: $0)
                 }
             }
@@ -89,11 +89,11 @@ class SubscriptionsManager {
             return firstly {
                 when(fulfilled: fetchRepos, fetchSubs(token: token)).map{ $1 }
             }.get {
-                self.delegate?.subscriptionsManager(self, subscriptions: $0, hasReceipt: $1)
+                self.delegate?.enrollmentsManager(self, subscriptions: $0, hasReceipt: $1)
             }.then {
                 stragglers(repos: cum, subs: $0.0)
             }.done {
-                self.delegate?.subscriptionsManager(self, append: $0)
+                self.delegate?.enrollmentsManager(self, append: $0)
                 cum.append(contentsOf: $0)
             }.map { _ in
                 cum
@@ -107,9 +107,9 @@ class SubscriptionsManager {
         }.then {
             fetchInstallations(for: $0)
         }.done {
-            self.delegate?.subscriptionsManager(self, append: $0)
+            self.delegate?.enrollmentsManager(self, append: $0)
         }.catch {
-            self.delegate?.subscriptionsManager(self, error: $0)
+            self.delegate?.enrollmentsManager(self, error: $0)
         }.finally {
             self.fetching = false
         }
@@ -134,7 +134,7 @@ class SubscriptionsManager {
             return
         }
         guard let token = token else {
-            delegate?.subscriptionsManager(self, error: E.noToken)
+            delegate?.enrollmentsManager(self, error: E.noToken)
             return
         }
 
@@ -152,9 +152,9 @@ class SubscriptionsManager {
         firstly {
             try createHook(for: node)
         }.done { _ in
-            self.delegate?.subscriptionsManager(self, append: [id])
+            self.delegate?.enrollmentsManager(self, append: [id])
         }.catch {
-            self.delegate?.subscriptionsManager(self, error: $0)
+            self.delegate?.enrollmentsManager(self, error: $0)
         }.finally {
             self.installing.remove(id)
         }
