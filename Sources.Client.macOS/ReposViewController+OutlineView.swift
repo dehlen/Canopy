@@ -32,14 +32,14 @@ extension ReposViewController: NSOutlineViewDataSource {
             }
         case statusColumn:
             if let repo = item as? Repo, subscribed.contains(repo.id) {
-                if repo.isPartOfOrganization || hooked.contains(.init(repo)) {
+                if repo.isPartOfOrganization && hooked.contains(.organization(repo.owner.login)) || hooked.contains(.init(repo)) {
                     return "✓"
                 } else if !fetching {
                     return "⚠"
                 } else {
                     return nil
                 }
-            } else if let repo = item as? Repo, !repo.permissions.admin {
+            } else if let repo = item as? Repo, !repo.permissions.admin, !hooked.contains(.init(repo)) {
                 return "𐄂"
             } else {
                 return nil
@@ -59,11 +59,11 @@ extension ReposViewController: NSOutlineViewDelegate {
             case selected(Kind)
 
             enum Kind {
-                case organization(Satisfaction)
-                case user(Satisfaction)
-                case repo(enrolled: Bool, admin: Admin)
+                case organization(Satisfaction, enable: Bool)
+                case user(Satisfaction, enable: Bool)
+                case repo(enrolled: Bool, hookable: Hookable)
 
-                enum Admin {
+                enum Hookable {
                     case `true`
                     case contact(String)
                 }
@@ -80,8 +80,12 @@ extension ReposViewController: NSOutlineViewDelegate {
             switch selectedItem {
             case .repo(let repo):
                 let enrolled = subscribed.contains(repo.id)
-                var admin: State.Kind.Admin {
-                    if repo.permissions.admin {
+                var hookable: State.Kind.Hookable {
+                    if hooked.contains(.init(repo)) {
+                        return .true
+                    } else if repo.isPartOfOrganization, hooked.contains(.organization(repo.owner.login)) {
+                        return .true
+                    } else if repo.permissions.admin {
                         return .true
                     } else if repo.isPartOfOrganization {
                         return .contact("an admin of the \(repo.owner.login) organization")
@@ -89,17 +93,21 @@ extension ReposViewController: NSOutlineViewDelegate {
                         return .contact("@\(repo.owner.login)")
                     }
                 }
-                return .selected(.repo(enrolled: enrolled, admin: admin))
+                return .selected(.repo(enrolled: enrolled, hookable: hookable))
             case .organization(let login):
-                let enrollment = rootedRepos[login]!.satisfaction{ subscribed.contains($0.id) }
-                return .selected(.organization(enrollment))
+                let repos = rootedRepos[login]!
+                let enrollment = repos.satisfaction{ subscribed.contains($0.id) }
+                let enable = hasVerifiedReceipt || repos.satisfaction(\.`private`) == .none || repos.satisfaction(\.permissions.admin) == .all || hooked.contains(.organization(login))
+                return .selected(.organization(enrollment, enable: enable))
             case .user(let login):
+                let repos = rootedRepos[login]!
                 let enrollment = rootedRepos[login]!.satisfaction{ subscribed.contains($0.id) }
-                return .selected(.user(enrollment))
+                let enable = hasVerifiedReceipt || repos.satisfaction(\.`private`) == .none || repos.satisfaction(\.permissions.admin) == .all || repos.satisfaction{ hooked.contains(.init($0)) } == .all
+                return .selected(.user(enrollment, enable: enable))
             }
         }
 
-        let status: String
+        var status: String
         let enable: Bool
         let switcH: SwitchState
 
@@ -115,39 +123,48 @@ extension ReposViewController: NSOutlineViewDelegate {
             status = ""
             enable = false
             switcH = .off
-        case .selected(.organization(.all)):
+        case .selected(.organization(.all, _)):
             status = "All repositories are enrolled for push notifications."
             enable = true
             switcH = .on
-        case .selected(.organization(.none)):
+        case .selected(.organization(.none, let enablE)):
             status = "No repositories are enrolled for push notifications."
-            enable = true
+            enable = enablE
             switcH = .off
-        case .selected(.organization(.some)):
+            if !enablE { status = "You cannot install the organization webhook, contact an administrator.\n\n" + status }
+        case .selected(.organization(.some, let enablE)):
             status = "Some repositories are enrolled for push notifications."
-            enable = true
+            enable = enablE
             switcH = .mixed
-        case .selected(.user(.all)):
+            if !enablE { status = "You cannot install the organization webhook, contact an administrator.\n\n" + status }
+        case .selected(.user(.all, _)):
             status = "All this user’s repositories are enrolled for push notifications."
             enable = true
             switcH = .on
-        case .selected(.user(.none)):
+        case .selected(.user(.none, let enablE)):
             status = "You are not enrolled for push notifications for any of this user’s repositories."
-            enable = true
+            enable = enablE
             switcH = .off
-        case .selected(.user(.some)):
+            if !enablE { status = "You cannot install webhooks, contact the user.\n\n" + status }
+        case .selected(.user(.some, let enablE)):
             status = "Some of this user’s repositories are enrolled for push notifications."
-            enable = true
+            enable = enablE
             switcH = .mixed
+            if !enablE { status = "You cannot install webhooks, contact the user.\n\n" + status }
         case .selected(.repo(true, _)):
-            status = ""
+            //TODO
+//            if !hooked.contains(repo.isPartOfOrganization ? .organization(repo.owner.login) : .init(repo)) {
+//                status = "No webhook is installed, notifications will not be sent."
+//            } else {
+                status = ""
+//            }
             enable = true
             switcH = .on
-        case .selected(.repo(false, .true)):
+        case .selected(.repo(false, hookable: .true)):
             status = ""
             enable = true
             switcH = .off
-        case .selected(.repo(false, .contact(let owner))):
+        case .selected(.repo(false, hookable: .contact(let owner))):
             status = """
                 You do not have permission to install webhooks on this repository.
 
