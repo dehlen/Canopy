@@ -31,8 +31,12 @@ class AccountViewController: UITableViewController {
         switch section {
         case 0:
             return "GitHub"
-        case _:
+        case 1:
             return "App Store Subscription"
+        case 2:
+            return "Legal"
+        default:
+            fatalError()
         }
     }
 
@@ -46,6 +50,13 @@ class AccountViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+
+        switch Row(indexPath) {
+        case .icons8?:
+            UIApplication.shared.open(URL(string: "https://icons8.com")!)
+        default:
+            break
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -78,6 +89,7 @@ private enum Row: CaseIterable {
     case signOut
     case subscriptionActive
     case restorePurchases
+    case icons8
 
     var title: String {
         switch self {
@@ -91,6 +103,8 @@ private enum Row: CaseIterable {
             }
         case .restorePurchases:
             return "Restore Purchases"
+        case .icons8:
+            return "Icons8"
         }
     }
 
@@ -112,12 +126,14 @@ private enum Row: CaseIterable {
             return IndexPath(row: 0, section: 1)
         case .restorePurchases:
             return IndexPath(row: 1, section: 1)
+        case .icons8:
+            return IndexPath(row: 0, section: 2)
         }
     }
 
     var canSelect: Bool {
         switch self {
-        case .signOut, .restorePurchases:
+        case .signOut, .restorePurchases, .icons8:
             return true
         case .subscriptionActive:
             return false

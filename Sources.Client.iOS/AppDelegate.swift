@@ -37,6 +37,8 @@ extension AppDelegate: UIApplicationDelegate {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { _, error in
             DispatchQueue.main.async(execute: application.registerForRemoteNotifications)
         }
+    #else
+        alert(message: "Nothing works in simulator! Run on device!")
     #endif
 
         return true
@@ -45,8 +47,10 @@ extension AppDelegate: UIApplicationDelegate {
     func setupTabBar() {
         let repos = ReposViewController(style: .grouped)
         repos.title = "Canopy"
+        repos.tabBarItem.image = UIImage(named: "UITabBarOctocat")
         let settings = AccountViewController(style: .grouped)
         settings.title = "Account"
+        settings.tabBarItem.image = UIImage(named: "UITabBarAccount")
         let ncs = [repos, settings].map(UINavigationController.init)
         tabBarController.setViewControllers(ncs, animated: false)
         ncs[0].tabBarItem.title = "Repositories"

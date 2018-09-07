@@ -36,6 +36,10 @@ class SubscriptionsManager {
         }
     }
 
+    var isFetching: Bool {
+        return fetching
+    }
+
     private func updateFetching() {
         delegate?.subscriptionsManager(self, isUpdating: fetching || !installing.isEmpty)
     }

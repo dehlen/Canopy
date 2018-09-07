@@ -147,6 +147,13 @@
 			remoteGlobalIDString = "Debris::debris::Product";
 			remoteInfo = debris;
 		};
+		6367E0B52142DD4800A21C56 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63008C3021001B0C005AF72D /* Debris.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "PerfectCURL::PerfectCURL::Product";
+			remoteInfo = PerfectCURL;
+		};
 		6380FF88210E79A500544476 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 63008C3021001B0C005AF72D /* Debris.xcodeproj */;
@@ -242,6 +249,7 @@
 				63008C4F21001B0C005AF72D /* COpenSSL.framework */,
 				63008C5121001B0C005AF72D /* PerfectCHTTPParser.framework */,
 				63008C5321001B0C005AF72D /* PerfectCRUD.framework */,
+				6367E0B62142DD4800A21C56 /* PerfectCURL.framework */,
 				63008C5521001B0C005AF72D /* PerfectCZlib.framework */,
 				63008C5721001B0C005AF72D /* PerfectCrypto.framework */,
 				63008C5921001B0C005AF72D /* PerfectHTTP.framework */,
@@ -586,6 +594,13 @@
 			remoteRef = 63008C6821001B0C005AF72D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		6367E0B62142DD4800A21C56 /* PerfectCURL.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PerfectCURL.framework;
+			remoteRef = 6367E0B52142DD4800A21C56 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		6380FF89210E79A500544476 /* Roots.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -669,13 +684,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				630DCCA021111D64007D2093 /* Client.etc.swift in Sources */,
 				638C339120FD7FD10048C52E /* etc.swift in Sources */,
+				6380FF8E210E79C300544476 /* DebrisAPI.swift in Sources */,
+				630DCCA021111D64007D2093 /* Client.etc.swift in Sources */,
 				638C336D20FD79730048C52E /* ReposViewController.swift in Sources */,
 				63CCA3D02118AC0B000EEB88 /* SKProductsRequest+Promise.swift in Sources */,
 				637355C42121F850007E7D82 /* SortedArray.swift in Sources */,
 				6380FF8D210E79C300544476 /* Compatability.swift in Sources */,
-				6380FF8E210E79C300544476 /* DebrisAPI.swift in Sources */,
 				637355A72121E7EC007E7D82 /* SubscriptionsManager.swift in Sources */,
 				6358FF9121235427004C9E7C /* RepoViewController.swift in Sources */,
 				63CCA3CF2118ABF2000EEB88 /* Keychain.swift in Sources */,

@@ -39,6 +39,8 @@ extension ReposViewController: NSOutlineViewDataSource {
                 } else {
                     return nil
                 }
+            } else if let repo = item as? Repo, !repo.permissions.admin {
+                return "𐄂"
             } else {
                 return nil
             }
@@ -106,7 +108,7 @@ extension ReposViewController: NSOutlineViewDelegate {
 
         switch state {
         case .fetching:
-            status = "Loading enrollment data…"
+            status = "One moment…"
             enable = false
             switcH = .off
         case .noSelection:

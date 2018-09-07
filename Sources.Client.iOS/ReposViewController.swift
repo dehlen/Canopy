@@ -89,7 +89,7 @@ extension ReposViewController/*: UITableViewDelegate*/ {
         case (false, false), (false, true):
             cell.accessoryType = .none
         case (true, false):
-            cell.accessoryType = .disclosureIndicator
+            cell.accessoryType = !mgr.isFetching ? .disclosureIndicator : .none
         }
 
         return cell
