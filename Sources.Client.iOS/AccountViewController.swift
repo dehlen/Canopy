@@ -41,8 +41,8 @@ class AccountViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        if section == 1, AppDelegate.shared.hasReceipt {
-            return "You can manage your subscription in the iPhone Settings app."
+        if section == 2 {
+            return "Free icons provided by Icons8."
         } else {
             return nil
         }
@@ -52,6 +52,13 @@ class AccountViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
 
         switch Row(indexPath) {
+        case .restoreOrManage?:
+            if AppDelegate.shared.hasReceipt {
+                let url = URL(string: "itmss://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/manageSubscriptions")!
+                UIApplication.shared.open(url)
+            } else {
+                #warning("TODO")
+            }
         case .icons8?:
             UIApplication.shared.open(URL(string: "https://icons8.com")!)
         default:
@@ -88,7 +95,7 @@ private class InformationCell: UITableViewCell {
 private enum Row: CaseIterable {
     case signOut
     case subscriptionActive
-    case restorePurchases
+    case restoreOrManage
     case icons8
 
     var title: String {
@@ -101,10 +108,14 @@ private enum Row: CaseIterable {
             } else {
                 return "Not subscribed"
             }
-        case .restorePurchases:
-            return "Restore Purchases"
+        case .restoreOrManage:
+            if AppDelegate.shared.hasReceipt {
+                return "Manage Subscription"
+            } else {
+                return "Restore Purchases"
+            }
         case .icons8:
-            return "Icons8"
+            return "https://icons8.com"
         }
     }
 
@@ -124,7 +135,7 @@ private enum Row: CaseIterable {
             return IndexPath(row: 0, section: 0)
         case .subscriptionActive:
             return IndexPath(row: 0, section: 1)
-        case .restorePurchases:
+        case .restoreOrManage:
             return IndexPath(row: 1, section: 1)
         case .icons8:
             return IndexPath(row: 0, section: 2)
@@ -133,7 +144,7 @@ private enum Row: CaseIterable {
 
     var canSelect: Bool {
         switch self {
-        case .signOut, .restorePurchases, .icons8:
+        case .signOut, .restoreOrManage, .icons8:
             return true
         case .subscriptionActive:
             return false
