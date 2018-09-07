@@ -1,3 +1,4 @@
+import PerfectCURL
 import PerfectHTTP
 import Foundation
 import PromiseKit
@@ -72,12 +73,16 @@ func receiptHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         }
 
         func go(prod: Bool) throws -> Promise<Data> {
-            let rq = try URLRequest(receipt: receipt, isProduction: prod)
-            return firstly {
-                URLSession.shared.dataTask(.promise, with: rq)
-            }.validate().map(on: nil) {
-                $0.data
-            }
+            let url = prod
+                ? "https://buy.itunes.apple.com/verifyReceipt"
+                : "https://sandbox.itunes.apple.com/verifyReceipt"
+            let json_ = [
+                "receipt-data": receipt,
+                "password": "2367a7d022cb4e05a047a624891fa13f"
+            ]
+            let json = try JSONSerialization.data(withJSONObject: json_)
+            let rsp = try CURLRequest(url, .failOnError, .addHeader(.contentType, "application/json"), .postData([UInt8](json))).perform()
+            return .value(Data(rsp.bodyBytes))
         }
 
         return firstly {

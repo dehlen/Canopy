@@ -12,11 +12,11 @@
       },
       {
         "package": "COpenSSL",
-        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-COpenSSL-Linux.git",
+        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-COpenSSL.git",
         "state": {
           "branch": null,
-          "revision": "4133914decf2cdba452ffa7507b3f1c41a379913",
-          "version": "3.0.2"
+          "revision": "b8bd953a390940b486ce8119a61c8d5ad9d5c31c",
+          "version": "3.1.5"
         }
       },
       {
@@ -35,6 +35,15 @@
           "branch": null,
           "revision": "54e0f7c2a9d7355fca3c23e0f88096ac3765e08b",
           "version": "3.1.2"
+        }
+      },
+      {
+        "package": "PerfectCURL",
+        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-CURL.git",
+        "state": {
+          "branch": null,
+          "revision": "08ba26c7b768e9e2096d1fe475e0cef733b98a75",
+          "version": "3.0.7"
         }
       },
       {
@@ -65,12 +74,12 @@
         }
       },
       {
-        "package": "LinuxBridge",
-        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-LinuxBridge.git",
+        "package": "cURL",
+        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-libcurl.git",
         "state": {
           "branch": null,
-          "revision": "ba9d1fb5be8eb238521206b39bec90a760bb0192",
-          "version": "3.0.0"
+          "revision": "672f6695d9ae04fce16ad01decef0649e0b872b0",
+          "version": "2.0.6"
         }
       },
       {
