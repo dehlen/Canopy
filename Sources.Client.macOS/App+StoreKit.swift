@@ -91,6 +91,9 @@ extension AppDelegate: SKPaymentTransactionObserver {
             case .purchasing:
                 break
             case .purchased, .restored:
+                //FIXME for start+postReceipt we don't nee to do multiple iterations of that
+                // and at least in the sandbox we seem to get multiple new transactions on startup
+                // but this is probably just Apple doing strange test-y things
                 firstly {
                     try start()
                 }.then { token, url in
