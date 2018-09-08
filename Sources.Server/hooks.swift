@@ -7,13 +7,14 @@ enum Context {
 }
 
 protocol Notificatable {
-    var title: String? { get }
-    var body: String { get }
     var url: URL? { get }
+    var body: String { get }
+    var title: String? { get }
     var context: Context { get }
+    var subtitle: String? { get }
+    var collapseId: String? { get }
     var threadingId: String { get }
     var shouldIgnore: Bool { get }
-    var collapseId: String? { get }
 }
 
 extension Notificatable {
@@ -42,6 +43,10 @@ extension Notificatable {
     }
 
     var collapseId: String? {
+        return nil
+    }
+
+    var subtitle: String? {
         return nil
     }
 }
@@ -151,13 +156,15 @@ struct CommitComment: Codable, Notificatable {
     let comment: Comment
     let repository: Repository
 
-    var body: String {
+    var subtitle: String? {
         return "\(comment.user.login) commented on a commit"
+    }
+    var body: String {
+        return comment.body
     }
     var url: URL? {
         return comment.html_url
     }
-
     var context: Context {
         return .repository(repository)
     }
@@ -314,8 +321,11 @@ struct IssueCommentEvent: Codable, Notificatable {
     let repository: Repository
     let sender: User
 
-    var body: String {
+    var subtitle: String? {
         return "\(sender.login) \(action) a comment on #\(issue.number)"
+    }
+    var body: String {
+        return comment.body
     }
     var url: URL? {
         return issue.html_url
@@ -705,8 +715,11 @@ struct PullRequestReviewCommentEvent: Codable, Notificatable {
     let repository: Repository
     let sender: User
 
-    var body: String {
+    var subtitle: String? {
         return "\(sender.login) commented on PR review #\(pull_request.number)"
+    }
+    var body: String {
+        return comment.body
     }
     var url: URL? {
         return pull_request.html_url

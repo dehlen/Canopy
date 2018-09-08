@@ -93,7 +93,7 @@ private func finish(code: String, state: String) throws {
         if signInParameters.apnsTopic.isMac {
             note = .silent(extra)
         } else {
-            note = .alert(body: error.legibleDescription, title: "Sign‑in error", category: nil, threadId: nil, extra: extra, id: nil, collapseId: nil)
+            note = .init(body: error.legibleDescription, title: "Sign‑in error")
         }
         do {
             try note.send(to: signInParameters.apns)

@@ -26,21 +26,15 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         }
 
         func send(to confs: [APNSConfiguration: [String]]) throws {
-
-            var extra: [String: String]? = nil
-            if let url = notificatable.url {
-                extra = ["url": url.absoluteString]
-            }
-
             let note = APNsNotification.alert(
                 body: notificatable.body,
                 title: notificatable.title,
+                subtitle: notificatable.subtitle,
                 category: eventType,
                 threadId: notificatable.threadingId,
-                extra: extra,
+                extra: notificatable.url.map{ ["url": $0.absoluteString] },
                 id: rq.header(.custom(name: "X-GitHub-Delivery")),
                 collapseId: notificatable.collapseId)
-
             try note.send(to: confs)
         }
 

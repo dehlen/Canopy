@@ -62,7 +62,11 @@ extension APNsNotification {
 
 enum APNsNotification {
     case silent([String: Any])
-    case alert(body: String, title: String?, category: String?, threadId: String?, extra: [String: Any]?, id: String?, collapseId: String?)
+    case alert(body: String, title: String?, subtitle: String?, category: String?, threadId: String?, extra: [String: Any]?, id: String?, collapseId: String?)
+
+    init(body: String, title: String? = nil, subtitle: String? = nil, category: String? = nil, threadId: String? = nil, extra: [String: Any]? = nil, id: String? = nil, collapseId: String? = nil) {
+        self = .alert(body: body, title: title, subtitle: subtitle, category: category, threadId: threadId, extra: extra, id: id, collapseId: collapseId)
+    }
 
     fileprivate var payload: [String: Any] {
         switch self {
@@ -70,9 +74,10 @@ enum APNsNotification {
             var payload = extra
             payload["aps"] = ["content-available": 1]
             return payload
-        case .alert(let body, let title, let category, let threadId, let extra, _, _):
+        case .alert(let body, let title, let subtitle, let category, let threadId, let extra, _, _):
             var alert = ["body": body]
             alert["title"] = title
+            alert["subtitle"] = subtitle
 
             var aps: [String: Any] = ["alert": alert]
             aps["thread-id"] = threadId
@@ -87,7 +92,7 @@ enum APNsNotification {
 
     var id: String? {
         switch self {
-        case .alert(_, _, _, _, _, let id, _):
+        case .alert(_, _, _, _, _, _, let id, _):
             return id
         case .silent:
             return nil
@@ -96,7 +101,7 @@ enum APNsNotification {
 
     var collapseId: String? {
         switch self {
-        case .alert(_, _, _, _, _, _, let id):
+        case .alert(_, _, _, _, _, _, _, let id):
             return id
         case .silent:
             return nil
@@ -228,11 +233,9 @@ private var jwt: String {
 }
 
 func alert(message: String, function: StaticString = #function) {
-    print(function, message)
-
     do {
-        let note = APNsNotification.alert(body: message, title: nil, category: nil, threadId: nil, extra: nil, id: nil, collapseId: nil)
-        try note.send(to: DB().mxcl())
+        print(function, message)
+        try APNsNotification(body: message).send(to: DB().mxcl())
     } catch {
         print("alert: error:", error)
     }
