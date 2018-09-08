@@ -378,11 +378,6 @@ class DB {
     }
 }
 
-struct APNSConfiguration: Hashable {
-    let topic: String
-    let isProduction: Bool
-}
-
 private extension Formatter {
     static var iso8601: DateFormatter {
         let formatter = DateFormatter()

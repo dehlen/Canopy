@@ -1875,7 +1875,7 @@
 			path = ".build/checkouts/PromiseKit.git--701840516104265913/Sources";
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -1889,7 +1889,6 @@
 				OBJ_37 /* Dependencies */,
 				OBJ_438 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_61 /* PerfectSQLite 3.1.1 */ = {
@@ -2495,6 +2494,44 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 9999;
+				TargetAttributes = {
+					"Debris::Roots" = {
+						LastSwiftMigration = 1000;
+					};
+					"Debris::debris" = {
+						LastSwiftMigration = 1000;
+					};
+					"PerfectCRUD::PerfectCRUD" = {
+						LastSwiftMigration = 1000;
+					};
+					"PerfectCURL::PerfectCURL" = {
+						LastSwiftMigration = 1000;
+					};
+					"PerfectCrypto::PerfectCrypto" = {
+						LastSwiftMigration = 1000;
+					};
+					"PerfectHTTP::PerfectHTTP" = {
+						LastSwiftMigration = 1000;
+					};
+					"PerfectHTTPServer::PerfectHTTPServer" = {
+						LastSwiftMigration = 1000;
+					};
+					"PerfectLib::PerfectLib" = {
+						LastSwiftMigration = 1000;
+					};
+					"PerfectNet::PerfectNet" = {
+						LastSwiftMigration = 1000;
+					};
+					"PerfectSQLite::PerfectSQLite" = {
+						LastSwiftMigration = 1000;
+					};
+					"PerfectThread::PerfectThread" = {
+						LastSwiftMigration = 1000;
+					};
+					"PromiseKit::PromiseKit" = {
+						LastSwiftMigration = 1000;
+					};
+				};
 			};
 			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "Debris" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -2503,7 +2540,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_438 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

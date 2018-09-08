@@ -1,4 +1,3 @@
-import class PerfectHTTPServer.HTTP2Client
 import PerfectCrypto
 import Foundation
 import PromiseKit
@@ -11,6 +10,11 @@ private enum E: Error {
 }
 
 private let qq = DispatchQueue(label: "cURL HTTP2 serial-Q")
+
+struct APNSConfiguration: Hashable {
+    let topic: String
+    let isProduction: Bool
+}
 
 private class APNs {
     let curlHandle: UnsafeMutableRawPointer
