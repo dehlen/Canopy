@@ -1,0 +1,4 @@
+rsync --archive --human-readable --compress --verbose --delete \
+          --exclude .build --exclude Carthage \
+          . canopy:src
+ssh ubuntu@canopy.codebasesaga.com -i $HOME/.ssh/znc.pem "cd src && ../swift-4.2-CONVERGENCE-ubuntu16.04/usr/bin/swift build -c release && sudo systemctl restart debris"
