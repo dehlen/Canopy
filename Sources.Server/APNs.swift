@@ -152,7 +152,7 @@ private func _send(topic: String, json: Data, id: String?, collapseId: String?, 
     class WriteStorage {
         var data = Data()
         var string: String? {
-            return data.withUnsafeBytes(String.init(utf8String:))
+            return String(data: data.dropLast(), encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines)
         }
     }
 
@@ -183,7 +183,7 @@ private func _send(topic: String, json: Data, id: String?, collapseId: String?, 
     case 200..<300:
         print(writeStorage.string ?? "NORSP \(writeStorage.data.count)")
     case 400:
-        guard let str = String(data: writeStorage.data, encoding: .utf8) else {
+        guard let str = writeStorage.string else {
             throw E.other(400, nil)
         }
         let parts = str.components(separatedBy: "\r\n\r\n")
@@ -196,7 +196,7 @@ private func _send(topic: String, json: Data, id: String?, collapseId: String?, 
         if (try? JSONDecoder().decode(Response.self, from: data))?.reason == "BadDeviceToken" {
             throw E.badToken
         } else {
-            throw E.other(400, String(data: writeStorage.data, encoding: .utf8))
+            throw E.other(400, writeStorage.string)
         }
     case 410:
         throw E.badToken
