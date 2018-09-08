@@ -20,7 +20,6 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
 
     do {
         let notificatable = try rq.decodeNotificatable(eventType: eventType)
-        let apnsId = rq.header(.custom(name: "X-GitHub-Delivery"))
 
         guard !notificatable.shouldIgnore else {
             throw E.ignoring
@@ -39,7 +38,8 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
                 category: eventType,
                 threadId: notificatable.threadingId,
                 extra: extra,
-                id: apnsId)
+                id: rq.header(.custom(name: "X-GitHub-Delivery")),
+                collapseId: notificatable.collapseId)
 
             try note.send(to: confs)
         }

@@ -4,8 +4,6 @@ import Foundation
 import PromiseKit
 import CCurl
 
-//TODO apns-collapse-id
-
 private enum E: Error {
     case badToken
     case other(Int, String?)
@@ -29,10 +27,10 @@ private class APNs {
         curlHelperSetOptInt(curlHandle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2_0)
     }
 
-    func send(to token: String, topic: String, json: Data, id: String?) {
+    func send(to token: String, topic: String, json: Data, id: String?, collapseId: String?) {
         qq.async {
             do {
-                try _send(topic: topic, json: json, id: id, curlHandle: self.curlHandle, url: self.url + token)
+                try _send(topic: topic, json: json, id: id, collapseId: collapseId, curlHandle: self.curlHandle, url: self.url + token)
             } catch E.badToken {
                 do {
                     print("APNs: deleting bad-token:", token)
@@ -56,7 +54,7 @@ extension APNsNotification {
         for (conf, tokens) in to {
             let apns = conf.isProduction ? release : debug
             for token in tokens {
-                apns.send(to: token, topic: conf.topic, json: json, id: id)
+                apns.send(to: token, topic: conf.topic, json: json, id: id, collapseId: collapseId)
             }
         }
     }
@@ -64,7 +62,7 @@ extension APNsNotification {
 
 enum APNsNotification {
     case silent([String: Any])
-    case alert(body: String, title: String?, category: String?, threadId: String?, extra: [String: Any]?, id: String?)
+    case alert(body: String, title: String?, category: String?, threadId: String?, extra: [String: Any]?, id: String?, collapseId: String?)
 
     fileprivate var payload: [String: Any] {
         switch self {
@@ -72,7 +70,7 @@ enum APNsNotification {
             var payload = extra
             payload["aps"] = ["content-available": 1]
             return payload
-        case .alert(let body, let title, let category, let threadId, let extra, _):
+        case .alert(let body, let title, let category, let threadId, let extra, _, _):
             var alert = ["body": body]
             alert["title"] = title
 
@@ -89,7 +87,16 @@ enum APNsNotification {
 
     var id: String? {
         switch self {
-        case .alert(_, _, _, _, _, let id):
+        case .alert(_, _, _, _, _, let id, _):
+            return id
+        case .silent:
+            return nil
+        }
+    }
+
+    var collapseId: String? {
+        switch self {
+        case .alert(_, _, _, _, _, _, let id):
             return id
         case .silent:
             return nil
@@ -97,7 +104,7 @@ enum APNsNotification {
     }
 }
 
-private func _send(topic: String, json: Data, id: String?, curlHandle: UnsafeMutableRawPointer, url: String) throws {
+private func _send(topic: String, json: Data, id: String?, collapseId: String?, curlHandle: UnsafeMutableRawPointer, url: String) throws {
 #if os(Linux)
     dispatchPrecondition(condition: .onQueue(qq))
 #endif
@@ -129,6 +136,9 @@ private func _send(topic: String, json: Data, id: String?, curlHandle: UnsafeMut
     curlHeaders = curl_slist_append(curlHeaders, "apns-topic: \(topic)")
     if let id = id {
         curlHeaders = curl_slist_append(curlHeaders, "apns-id: \(id)")
+    }
+    if let collapseId = collapseId {
+        curlHeaders = curl_slist_append(curlHeaders, "apns-collapse-id: \(collapseId)")
     }
     curlHeaders = curl_slist_append(curlHeaders, "Accept: application/json")
     curlHeaders = curl_slist_append(curlHeaders, "Content-Type: application/json; charset=utf-8")
@@ -221,7 +231,7 @@ func alert(message: String, function: StaticString = #function) {
     print(function, message)
 
     do {
-        let note = APNsNotification.alert(body: message, title: nil, category: nil, threadId: nil, extra: nil, id: nil)
+        let note = APNsNotification.alert(body: message, title: nil, category: nil, threadId: nil, extra: nil, id: nil, collapseId: nil)
         try note.send(to: DB().mxcl())
     } catch {
         print("alert: error:", error)

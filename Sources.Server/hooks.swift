@@ -13,6 +13,7 @@ protocol Notificatable {
     var context: Context { get }
     var threadingId: String { get }
     var shouldIgnore: Bool { get }
+    var collapseId: String? { get }
 }
 
 extension Notificatable {
@@ -38,6 +39,10 @@ extension Notificatable {
 
     var shouldIgnore: Bool {
         return false
+    }
+
+    var collapseId: String? {
+        return nil
     }
 }
 
@@ -934,6 +939,10 @@ struct WatchEvent: Codable, Notificatable {
 
     var context: Context {
         return .repository(repository)
+    }
+
+    var collapseId: String? {
+        return repository.full_name + "/stars"
     }
 }
 
