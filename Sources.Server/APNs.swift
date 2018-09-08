@@ -12,14 +12,55 @@ private enum E: Error {
     case fundamental
 }
 
-private var curlHandle: UnsafeMutableRawPointer = {
-    let curlHandle = curl_easy_init()
-    //curlHelperSetOptBool(curlHandle, CURLOPT_VERBOSE, CURL_TRUE)
-    curlHelperSetOptInt(curlHandle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2_0)
-    return curlHandle!
-}()
+private let qq = DispatchQueue(label: "cURL HTTP2 serial-Q")
 
-let qq = DispatchQueue(label: "cURL HTTP2 serial-Q")
+private class APNs {
+    let curlHandle: UnsafeMutableRawPointer
+    let url: String
+
+    init(production: Bool) {
+        if production {
+            url = "https://api.push.apple.com/3/device/"
+        } else {
+            url = "https://api.sandbox.push.apple.com/3/device/"
+        }
+        curlHandle = curl_easy_init()
+        //curlHelperSetOptBool(curlHandle, CURLOPT_VERBOSE, CURL_TRUE)
+        curlHelperSetOptInt(curlHandle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2_0)
+    }
+
+    func send(to token: String, topic: String, json: Data, id: String?) {
+        qq.async {
+            do {
+                try _send(topic: topic, json: json, id: id, curlHandle: self.curlHandle, url: self.url + token)
+            } catch E.badToken {
+                do {
+                    print("APNs: deleting bad-token:", token)
+                    try DB().delete(apnsDeviceToken: token)
+                } catch {
+                    print("DB: error:", error)
+                }
+            } catch {
+                print("APNs: error:", error)
+            }
+        }
+    }
+}
+
+private let release = APNs(production: true)
+private let debug = APNs(production: false)
+
+extension APNsNotification {
+    func send(to: [APNSConfiguration: [String]]) throws {
+        let json = try JSONSerialization.data(withJSONObject: payload)
+        for (conf, tokens) in to {
+            let apns = conf.isProduction ? release : debug
+            for token in tokens {
+                apns.send(to: token, topic: conf.topic, json: json, id: id)
+            }
+        }
+    }
+}
 
 enum APNsNotification {
     case silent([String: Any])
@@ -56,43 +97,13 @@ enum APNsNotification {
     }
 }
 
-func send(to confs: [APNSConfiguration: [String]], note: APNsNotification) throws {
-    //TODO parallel
-    let json = try JSONSerialization.data(withJSONObject: note.payload)
-    for (conf, tokens) in confs where conf.isProduction {
-        for token in tokens {
-            send(to: token, topic: conf.topic, json: json, id: note.id)
-        }
-    }
-}
-
-func send(to token: String, topic: String, _ note: APNsNotification) throws {
-    let json = try JSONSerialization.data(withJSONObject: note.payload)
-    try qq.sync { try _send(to: token, topic: topic, json: json, id: note.id) }
-}
-
-private func send(to token: String, topic: String, json: Data, id: String?) {
-    qq.async {
-        do {
-            print("Sending to:", token)
-            try _send(to: token, topic: topic, json: json, id: id)
-            print("OK")
-        } catch E.badToken {
-            print("Deleting bad token:", token)
-            _ = try? DB().delete(apnsDeviceToken: token)
-        } catch {
-            print(error)
-        }
-    }
-}
-
-private func _send(to token: String, topic: String, json: Data, id: String?) throws {
+private func _send(topic: String, json: Data, id: String?, curlHandle: UnsafeMutableRawPointer, url: String) throws {
 #if os(Linux)
     dispatchPrecondition(condition: .onQueue(qq))
 #endif
 
     // Set URL
-    var url = "https://api.push.apple.com/3/device/\(token)"
+    var url = url
     url.withCString {
         var str = UnsafeMutablePointer(mutating: $0)
         curlHelperSetOptString(curlHandle, CURLOPT_URL, str)
@@ -130,6 +141,9 @@ private func _send(to token: String, topic: String, json: Data, id: String?) thr
 
     class WriteStorage {
         var data = Data()
+        var string: String? {
+            return data.withUnsafeBytes(String.init(utf8String:))
+        }
     }
 
     // Get response
@@ -157,7 +171,7 @@ private func _send(to token: String, topic: String, json: Data, id: String?) thr
 
     switch code {
     case 200..<300:
-        print(String(data: writeStorage.data, encoding: .utf8) ?? "OK")
+        print(writeStorage.string ?? "NORSP \(writeStorage.data.count)")
     case 400:
         guard let str = String(data: writeStorage.data, encoding: .utf8) else {
             throw E.other(400, nil)
@@ -193,7 +207,7 @@ private var jwt: String {
         return q.sync(flags: .barrier) {
             let payload: [String: Any] = ["iss": teamId, "iat": Int(now.timeIntervalSince1970)]
             let jwt = JWTCreator(payload: payload)!
-            let pem = try! PEMKey(pemPath: "AuthKey_5354D789X6.p8")
+            let pem = try! PEMKey(pemPath: "../AuthKey_5354D789X6.p8")
             lastJwt = try! jwt.sign(alg: JWT.Alg.es256, key: pem, headers: ["kid": "5354D789X6"])
             sigtime = now
             return lastJwt
@@ -206,84 +220,10 @@ private var jwt: String {
 func alert(message: String, function: StaticString = #function) {
     print(function, message)
 
-    guard let confs = try? DB().mxcl() else {
-        return
-    }
-    let apns = APNsNotification.alert(body: message, title: nil, category: nil, threadId: nil, extra: nil, id: nil)
-    for foo in confs where foo.key.isProduction {
-        _ = try? send(to: confs, note: apns)
-    }
-}
-
-
-//
-//  CurlVersionHelper.swift
-//  VaporAPNS
-//
-//  Created by Matthijs Logemann on 01/01/2017.
-//
-//
-
-class CurlVersionHelper {
-    public enum Result {
-        case ok
-        case old(got: String, wanted: String)
-        case noHTTP2
-        case unknown
-    }
-
-    public func checkVersion() {
-        switch checkVersionNum() {
-        case .old(let got, let wanted):
-            print("Your current version of curl (\(got)) is out of date!")
-            print("APNS needs at least \(wanted).")
-        case .noHTTP2:
-            print("Your current version of curl lacks HTTP2!")
-            print("APNS will not work with this version of curl.")
-        default:
-            break
-        }
-    }
-
-    private func checkVersionNum() -> Result {
-        let version = curl_version_info(CURLVERSION_FOURTH)
-        let verBytes = version?.pointee.version
-        let versionString = String.init(cString: verBytes!)
-        //        return .old
-
-        guard checkVersionNumber(versionString, "7.51.0") >= 0 else {
-            return .old(got: versionString, wanted: "7.51.0")
-        }
-
-        let features = version?.pointee.features
-
-        if ((features! & CURL_VERSION_HTTP2) == CURL_VERSION_HTTP2) {
-            return .ok
-        }else {
-            return .noHTTP2
-        }
-    }
-
-    private func checkVersionNumber(_ strVersionA: String, _ strVersionB: String) -> Int{
-        var arrVersionA = strVersionA.split(separator: ".").map({ Int($0) })
-        guard arrVersionA.count == 3 else {
-            fatalError("Wrong curl version scheme! \(strVersionA)")
-        }
-
-        var arrVersionB = strVersionB.split(separator: ".").map({ Int($0) })
-        guard arrVersionB.count == 3 else {
-            fatalError("Wrong curl version scheme! \(strVersionB)")
-        }
-
-        let intVersionA = (100000000 * arrVersionA[0]!) + (1000000 * arrVersionA[1]!) + (10000 * arrVersionA[2]!)
-        let intVersionB = (100000000 * arrVersionB[0]!) + (1000000 * arrVersionB[1]!) + (10000 * arrVersionB[2]!)
-
-        if intVersionA > intVersionB {
-            return 1
-        } else if intVersionA < intVersionB {
-            return -1
-        } else {
-            return 0
-        }
+    do {
+        let note = APNsNotification.alert(body: message, title: nil, category: nil, threadId: nil, extra: nil, id: nil)
+        try note.send(to: DB().mxcl())
+    } catch {
+        print("alert: error:", error)
     }
 }

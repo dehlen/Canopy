@@ -77,10 +77,10 @@ private func finish(code: String, state: String) throws {
     }
 
     func success(login: String, token: String) throws {
-        try send(to: signInParameters.deviceToken, topic: signInParameters.apnsTopic, .silent([
+        try APNsNotification.silent([
             "token": token,
             "login": login
-        ]))
+        ]).send(to: signInParameters.apns)
     }
 
     func failure(error rawError: Error) {
@@ -89,13 +89,17 @@ private func finish(code: String, state: String) throws {
         }
         let extra = ["error-code": error.serverError.rawValue]
 
-        let apns: APNsNotification
+        let note: APNsNotification
         if signInParameters.apnsTopic.isMac {
-            apns = .silent(extra)
+            note = .silent(extra)
         } else {
-            apns = .alert(body: error.legibleDescription, title: "Sign‑in error", category: nil, threadId: nil, extra: extra, id: nil)
+            note = .alert(body: error.legibleDescription, title: "Sign‑in error", category: nil, threadId: nil, extra: extra, id: nil)
         }
-        _ = try? send(to: signInParameters.deviceToken, topic: signInParameters.apnsTopic, apns)
+        do {
+            try note.send(to: signInParameters.apns)
+        } catch {
+            print("OAuth: error: unrecoverable:", error)
+        }
     }
 
     firstly {
@@ -112,6 +116,14 @@ private func finish(code: String, state: String) throws {
 private extension SignIn {
     func upgrade(with oauthToken: String) -> TokenUpdate {
         return TokenUpdate(oauthToken: oauthToken, deviceToken: deviceToken, apnsTopic: apnsTopic, production: production)
+    }
+
+    var apnsConfiguration: APNSConfiguration {
+        return .init(topic: apnsTopic, isProduction: production)
+    }
+
+    var apns: [APNSConfiguration: [String]] {
+        return [apnsConfiguration: [deviceToken]]
     }
 }
 

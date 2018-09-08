@@ -4,6 +4,12 @@ import class Dispatch.DispatchQueue
 import func Foundation.exit
 import PromiseKit
 
+#if os(Linux)
+import Glibc
+// otherwise buffering makes systemd launched logging useless
+setbuf(stdout, nil)
+#endif
+
 CurlVersionHelper().checkVersion()
 
 var isDir: ObjCBool = false

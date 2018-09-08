@@ -27,9 +27,21 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         }
 
         func send(to confs: [APNSConfiguration: [String]]) throws {
-            for (conf, tokens) in confs where conf.isProduction {
-                try send_(to: tokens, topic: conf.topic, notificatable, category: eventType, apnsId: apnsId)
+
+            var extra: [String: String]? = nil
+            if let url = notificatable.url {
+                extra = ["url": url.absoluteString]
             }
+
+            let note = APNsNotification.alert(
+                body: notificatable.body,
+                title: notificatable.title,
+                category: eventType,
+                threadId: notificatable.threadingId,
+                extra: extra,
+                id: apnsId)
+
+            try note.send(to: confs)
         }
 
         switch SendType(notificatable) {
@@ -230,19 +242,4 @@ private enum SendType {
             }
         }
     }
-}
-
-private func send_(to tokens: [String], topic: String, _ notificatable: Notificatable, category: String, apnsId: String?) throws {
-    var extra: [String: Any]?
-    if let url = notificatable.url {
-        extra = ["url": url.absoluteString]
-    }
-    let conf = APNSConfiguration(topic: topic, isProduction: true)
-    try send(to: [conf: tokens], note: .alert(
-        body: notificatable.body,
-        title: notificatable.title,
-        category: category,
-        threadId: notificatable.threadingId,
-        extra: extra,
-        id: apnsId))
 }
