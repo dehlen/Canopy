@@ -321,8 +321,11 @@ struct IssueCommentEvent: Codable, Notificatable {
     let repository: Repository
     let sender: User
 
+    var title: String {
+        return "\(repository.full_name)#\(issue.number)"
+    }
     var subtitle: String? {
-        return "\(sender.login) \(action) a comment on #\(issue.number)"
+        return "\(sender.login) \(action) a comment"
     }
     var body: String {
         return comment.body
@@ -330,20 +333,41 @@ struct IssueCommentEvent: Codable, Notificatable {
     var url: URL? {
         return issue.html_url
     }
-
     var context: Context {
         return .repository(repository)
     }
 }
 
 struct IssuesEvent: Codable, Notificatable {
-    let action: String
+    let action: Action
     let issue: Issue
     let repository: Repository
     let sender: User
+    let changes: Changes?
+
+    enum Action: String, Codable {
+        case assigned, unassigned, labeled, unlabeled, opened, edited, milestoned, demilestoned, closed, reopened
+    }
+
+    struct Changes: Codable {
+        let title: Change?
+        //let body: Change?
+
+        struct Change: Codable {
+            let from: String
+        }
+    }
+
+    var title: String? {
+        return "\(repository.full_name)#\(issue.number)"
+    }
 
     var body: String {
-        return "\(sender.login) \(action) #\(issue.number)"
+        if changes?.title == nil {
+            return "\(sender.login) \(action) the issue"
+        } else {
+            return "\(sender.login) renamed the issue to “\(issue.title)”"
+        }
     }
     var url: URL? {
         return issue.html_url
@@ -715,8 +739,11 @@ struct PullRequestReviewCommentEvent: Codable, Notificatable {
     let repository: Repository
     let sender: User
 
+    var title: String? {
+        return "\(repository.full_name)#\(pull_request.number)"
+    }
     var subtitle: String? {
-        return "\(sender.login) commented on PR review #\(pull_request.number)"
+        return "\(sender.login) commented on the review"
     }
     var body: String {
         return comment.body
@@ -791,8 +818,15 @@ struct PullRequestEvent: Codable, Notificatable {
         case assigned, unassigned, review_requested, review_request_removed, labeled, unlabeled, opened, edited, closed, reopened, synchronize
     }
 
+    var ticket: String {
+        return "\(repository.full_name)#\(number)"
+    }
+
+    var title: String? {
+        return ticket
+    }
+
     var body: String {
-        let ticket = "\(repository.full_name)#\(number)"
         let title = "“\(pull_request.title)” (\(ticket))"
         switch action {
         case .closed:
@@ -844,6 +878,10 @@ struct PullRequestReviewEvent: Codable, Notificatable {
         enum State: String, Codable {
             case pending, changes_requested, approved, dismissed, commented
         }
+    }
+
+    var title: String? {
+        return "\(repository.full_name)#\(pull_request.number)"
     }
 
     var body: String {
@@ -943,8 +981,12 @@ struct WatchEvent: Codable, Notificatable {
         }
     }
 
+    var subtitle: String? {
+        return "\(repository.stargazers_count) stars"
+    }
+
     var body: String {
-        return "\(sender.login) \(mangledAction) \(repository.full_name) resulting in \(repository.stargazers_count) stars"
+        return "\(sender.login) \(mangledAction) \(repository.full_name)"
     }
     var url: URL? {
         return repository.html_url
@@ -997,6 +1039,7 @@ struct Installation: Codable {
 struct Issue: Codable {
     let html_url: URL
     let number: Int
+    let title: String
 }
 
 struct Comment: Codable {
