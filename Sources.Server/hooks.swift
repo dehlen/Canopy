@@ -315,23 +315,33 @@ struct GollumEvent: Codable, Notificatable {
 }
 
 struct IssueCommentEvent: Codable, Notificatable {
-    let action: String
+    let action: Action
     let issue: Issue
     let comment: Comment
     let repository: Repository
     let sender: User
 
+    enum Action: String, Codable {
+        case created, edited, deleted
+    }
+
     var title: String {
         return "\(repository.full_name)#\(issue.number)"
     }
     var subtitle: String? {
-        return "\(sender.login) \(action) a comment"
+        switch action {
+        case .created:
+            return "\(sender.login) commented"
+        case .deleted, .edited:
+            return "\(sender.login) \(action) a comment"
+        }
+
     }
     var body: String {
         return comment.body
     }
     var url: URL? {
-        return issue.html_url
+        return comment.html_url
     }
     var context: Context {
         return .repository(repository)
@@ -740,16 +750,16 @@ struct PullRequestReviewCommentEvent: Codable, Notificatable {
     let sender: User
 
     var title: String? {
-        return "\(repository.full_name)#\(pull_request.number)"
+        return "\(repository.full_name)#\(pull_request.number) Review"
     }
     var subtitle: String? {
-        return "\(sender.login) commented on the review"
+        return "\(sender.login) added a comment"
     }
     var body: String {
         return comment.body
     }
     var url: URL? {
-        return pull_request.html_url
+        return comment.html_url
     }
     var context: Context {
         return .repository(repository)
@@ -778,15 +788,23 @@ struct PushEvent: Codable, Notificatable {
         return distinct_size ?? self.commits.count
     }
 
+    var reff: String {
+        if ref.hasPrefix("/refs/heads/") {
+            return String(ref.dropFirst(12))
+        } else {
+            return ref
+        }
+    }
+
     var body: String {
         let force = forced ? "force‑" : ""
         if size <= 0 {
-            return "\(pusher.name) \(force)pushed to \(ref)"
+            return "\(pusher.name) \(force)pushed to \(reff)"
         } else {
             let commits = size == 1
                 ? "1 commit"
                 : "\(size) commits"
-            return "\(pusher.name) \(force)pushed \(commits)"
+            return "\(commits) \(force)pushed to \(reff) by \(pusher.name)"
         }
     }
 
@@ -813,38 +831,42 @@ struct PullRequestEvent: Codable, Notificatable {
     let pull_request: PullRequest
     let repository: Repository
     let sender: User
+    let labels: [String]?
 
     enum Action: String, Codable {
         case assigned, unassigned, review_requested, review_request_removed, labeled, unlabeled, opened, edited, closed, reopened, synchronize
     }
 
-    var ticket: String {
+    var title: String? {
         return "\(repository.full_name)#\(number)"
     }
 
-    var title: String? {
-        return ticket
+    var subtitle: String? {
+        return pull_request.title
     }
 
     var body: String {
-        let title = "“\(pull_request.title)” (\(ticket))"
         switch action {
         case .closed:
             if let merged = pull_request.merged, merged {
-                return "\(sender.login) merged \(title)"
+                return "Merged by \(sender.login)"
             } else {
-                return "\(sender.login) closed \(title)"
+                return "Closed by \(sender.login)"
             }
         case .synchronize:
-            return "\(sender.login) synchronized \(title)"
+            return "Synchronized by \(sender.login)"
         case .review_requested:
-            return "\(sender.login) requested review for \(title)"
+            return "Review requested by \(sender.login)"
         case .review_request_removed:
-            return "\(sender.login) removed the review request for \(title)"
+            return "Review request removed by \(sender.login)"
+        case .labeled:
+            let labels = self.labels ?? []
+            return "\(sender.login) labeled \(labels.joined(separator: ", "))"
         default:
-            return "\(sender.login) \(action) \(title)"
+            return "\(action.rawValue.capitalized) by \(sender.login)"
         }
     }
+
     var url: URL? {
         return pull_request.html_url
     }
@@ -881,12 +903,21 @@ struct PullRequestReviewEvent: Codable, Notificatable {
     }
 
     var title: String? {
-        return "\(repository.full_name)#\(pull_request.number)"
+        return "\(repository.full_name)#\(pull_request.number) Review"
     }
 
     var body: String {
         let review_state = review.state.rawValue.replacingOccurrences(of: "_", with: " ")
-        return "\(review.user.login) \(action) \(review_state) to \(repository.full_name)#\(pull_request.number)"
+        if review_state == "commented" {
+            switch action {
+            case .submitted:
+                return "\(review.user.login) added a comment"
+            case .edited, .dismissed:
+                return "Comment \(action) by \(review.user.login)"
+            }
+        } else {
+            return "\(action.rawValue.capitalized) \(review_state) by \(review.user.login)"
+        }
     }
     var url: URL? {
         return review.html_url
