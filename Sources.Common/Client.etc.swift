@@ -49,6 +49,9 @@ private let keychain = Keychain(service: "com.codebasesaga.Canopy.GitHub", acces
 
 var creds: (username: String, token: String)? {
     get {
+    #if targetEnvironment(simulator)
+        return ("mxcl", "2c9164867991210a54ace9ba5355f4d87f77014f")
+    #else
         guard let username = keychain.allItems().first?["key"] as? String else {
             return nil
         }
@@ -62,8 +65,12 @@ var creds: (username: String, token: String)? {
             print(#function, error)
             return nil
         }
+    #endif
     }
     set {
+        let oldValue = creds
+        if oldValue == nil, newValue == nil { return }  // prevents triggers when we don't want them
+
         do {
             guard let (login, token) = newValue else {
                 throw CocoaError.error(.coderInvalidValue)
@@ -121,7 +128,7 @@ extension Repo: Hashable, Equatable, Comparable {
 #endif
 
     static func < (lhs: Repo, rhs: Repo) -> Bool {
-        return lhs.full_name < rhs.full_name
+        return lhs.full_name.localizedLowercase < rhs.full_name.localizedLowercase
     }
 }
 
@@ -251,3 +258,114 @@ extension Array where Element == String {
         }
     }
 }
+
+private func _alert(error: Error, title: String?, file: StaticString, line: UInt) -> (String, String) {
+    print("\(file):\(line)", error.legibleDescription)
+
+    var computeTitle: String {
+        switch (error as NSError).domain {
+        case "SKErrorDomain":
+            return "App Store Error"
+        case "kCLErrorDomain":
+            return "Core Location Error"
+        case NSCocoaErrorDomain:
+            return "Error"
+        default:
+            return "Unexpected Error"
+        }
+    }
+
+    let title = title ?? (error as? TitledError)?.title ?? computeTitle
+
+    if let error = error as? PMKHTTPError {
+        return error.gitHubDescription(defaultTitle: title)
+    } else {
+        return (error.legibleDescription, title)
+    }
+
+}
+
+#if os(macOS)
+import AppKit
+
+func alert(error: Error, title: String? = nil, file: StaticString = #file, line: UInt = #line) {
+    let (msg, title) = _alert(error: error, title: title, file: file, line: line)
+
+    // we cannot make SKError CancellableError sadly (still)
+    let pair: (String, Int) = { ($0.domain, $0.code) }(error as NSError)
+    guard ("SKErrorDomain", 2) != pair else { return } // user-cancelled
+
+    alert(message: msg, title: title)
+}
+
+func alert(message: String, title: String) {
+    func go() {
+      #if os(macOS)
+        let alert = NSAlert()
+        alert.informativeText = message
+        alert.messageText = title
+        alert.addButton(withTitle: "OK")
+        alert.runModal()
+      #else
+
+      #endif
+    }
+    if Thread.isMainThread {
+        go()
+    } else {
+        DispatchQueue.main.async(execute: go)
+    }
+}
+#else
+import UIKit
+
+@discardableResult
+func alert(error: Error, title: String? = nil, file: StaticString = #file, line: UInt = #line) -> Guarantee<Void> {
+
+    // we cannot make SKError CancellableError sadly (still)
+    let pair: (String, Int) = { ($0.domain, $0.code) }(error as NSError)
+    guard ("SKErrorDomain", 2) != pair else { return Guarantee() }
+
+    let (msg, title) = _alert(error: error, title: title, file: file, line: line)
+    return alert(message: msg, title: title)
+}
+
+@discardableResult
+func alert(message: String, title: String? = nil) -> Guarantee<Void> {
+    let (promise, seal) = Guarantee<UIAlertAction>.pending()
+
+    let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    alert.addAction(.init(title: "OK", style: .default, handler: seal))
+
+    guard let vc = UIApplication.shared.visibleViewController else {
+        print("error: Could not present UIAlertViewController")
+        return Guarantee()
+    }
+
+    if let transitionCoordinator = vc.transitionCoordinator {
+        transitionCoordinator.animate(alongsideTransition: nil, completion: { _ in
+            vc.present(alert, animated: true)
+        })
+    } else {
+        vc.present(alert, animated: true)
+    }
+
+    return promise.asVoid()
+}
+
+extension UIApplication {
+    var visibleViewController: UIViewController? {
+        var vc = UIApplication.shared.keyWindow?.rootViewController
+        while let presentedVc = vc?.presentedViewController {
+            if let navVc = (presentedVc as? UINavigationController)?.viewControllers.last {
+                vc = navVc
+            } else if let tabVc = (presentedVc as? UITabBarController)?.selectedViewController {
+                vc = tabVc
+            } else {
+                vc = presentedVc
+            }
+        }
+        return vc
+    }
+}
+#endif

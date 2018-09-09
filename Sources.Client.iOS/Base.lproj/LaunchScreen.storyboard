@@ -1,25 +1,100 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.13.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="rLW-oG-bPA">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.9"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="EHf-IW-A2E">
+        <!--Repositories-->
+        <scene sceneID="8NV-N7-xkr">
             <objects>
-                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                <navigationController id="mKH-VQ-cWo" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" enabled="NO" title="Repositories" image="UITabBarOctocat" id="Gm9-jn-OG1"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="NrM-4Y-NE1">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="GDf-ek-utu" kind="relationship" relationship="rootViewController" id="7Gt-AD-3Cv"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="J4D-Bj-57G" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-492" y="224"/>
+        </scene>
+        <!--Canopy-->
+        <scene sceneID="jqj-03-OCW">
+            <objects>
+                <viewController id="GDf-ek-utu" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="P8u-MP-P2L">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" alpha="0.33333299999999999" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="GrayIcon" translatesAutoresizingMaskIntoConstraints="NO" id="DuS-rH-3Ne">
+                                <rect key="frame" x="71" y="217" width="233" height="233"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="DuS-rH-3Ne" secondAttribute="height" multiplier="1:1" id="GRm-em-ahp"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="DuS-rH-3Ne" firstAttribute="centerX" secondItem="Jsq-zr-58p" secondAttribute="centerX" id="7sO-in-24n"/>
+                            <constraint firstItem="DuS-rH-3Ne" firstAttribute="width" secondItem="P8u-MP-P2L" secondAttribute="width" multiplier="0.618" constant="1" id="8w6-BV-XBP"/>
+                            <constraint firstItem="DuS-rH-3Ne" firstAttribute="centerY" secondItem="Jsq-zr-58p" secondAttribute="centerY" constant="-7.5" id="SHi-k2-8pI"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Jsq-zr-58p"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Canopy" id="0CV-F9-7DW"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LAe-Ez-oF3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="247" y="224"/>
+        </scene>
+        <!--Account-->
+        <scene sceneID="5Zz-UB-DzJ">
+            <objects>
+                <viewController id="JRi-P6-qOD" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ixH-DJ-P4j">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="2B6-0i-6h8"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" enabled="NO" title="Account" image="UITabBarAccount" id="re4-N7-Dt6"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ooc-fY-oE4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1242" y="947"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="gl1-S2-dzp">
+            <objects>
+                <tabBarController id="rLW-oG-bPA" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="7rB-oW-xml">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="selectedImageTintColor" red="0.14901960780000001" green="0.74901960779999999" blue="0.14901960780000001" alpha="1" colorSpace="calibratedRGB"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="mKH-VQ-cWo" kind="relationship" relationship="viewControllers" id="zwL-2e-7f9"/>
+                        <segue destination="JRi-P6-qOD" kind="relationship" relationship="viewControllers" id="Q7Q-0d-GX1"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="d9K-5D-3aU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1242" y="224"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="GrayIcon" width="1024" height="1024"/>
+        <image name="UITabBarAccount" width="33.333332061767578" height="33.333332061767578"/>
+        <image name="UITabBarOctocat" width="33.333332061767578" height="33.333332061767578"/>
+    </resources>
+    <color key="tintColor" red="0.14901960784313725" green="0.74901960784313726" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
 </document>

@@ -49,10 +49,17 @@
 		638C338420FD7D8C0048C52E /* URLSession+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638C338320FD7D8C0048C52E /* URLSession+Promise.swift */; };
 		638C339120FD7FD10048C52E /* etc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638C339020FD7FD10048C52E /* etc.swift */; };
 		63970545210BA8830063F7E4 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63970529210BA8830063F7E4 /* PromiseKit.framework */; };
+		63B333002146E85600E5CFCC /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63B332FF2146E85600E5CFCC /* StoreKit.framework */; };
+		63B3330221471DC400E5CFCC /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B3330121471DC400E5CFCC /* SignInViewController.swift */; };
+		63B3330421480CED00E5CFCC /* SortedSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B3330321480CED00E5CFCC /* SortedSet.swift */; };
+		63C49DD021459FEC006AF751 /* SubscribeViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63C49DCF21459FEC006AF751 /* SubscribeViewController.storyboard */; };
+		63C49DEF2145A7E6006AF751 /* MFMailComposeViewController+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C49DEE2145A7E6006AF751 /* MFMailComposeViewController+Promise.swift */; };
+		63C49DF12145A9BA006AF751 /* SubscribeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C49DF02145A9BA006AF751 /* SubscribeManager.swift */; };
 		63CCA3CE2118ABF2000EEB88 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCA3CD2118ABF2000EEB88 /* Keychain.swift */; };
 		63CCA3CF2118ABF2000EEB88 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCA3CD2118ABF2000EEB88 /* Keychain.swift */; };
 		63CCA3D02118AC0B000EEB88 /* SKProductsRequest+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635ACBAA21136F000007C4EE /* SKProductsRequest+Promise.swift */; };
 		63E4E01E21090EC70081E9AB /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E4E01D21090EC70081E9AB /* SignInViewController.swift */; };
+		63F8BCB3214598660089707C /* SubscribeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8BCB2214598660089707C /* SubscribeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -217,9 +224,16 @@
 		638C338320FD7D8C0048C52E /* URLSession+Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "URLSession+Promise.swift"; path = "Sources.Common/Vendor/URLSession+Promise.swift"; sourceTree = SOURCE_ROOT; };
 		638C339020FD7FD10048C52E /* etc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = etc.swift; sourceTree = "<group>"; };
 		63970529210BA8830063F7E4 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
+		63B332FF2146E85600E5CFCC /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
+		63B3330121471DC400E5CFCC /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		63B3330321480CED00E5CFCC /* SortedSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortedSet.swift; sourceTree = "<group>"; };
+		63C49DCF21459FEC006AF751 /* SubscribeViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SubscribeViewController.storyboard; sourceTree = "<group>"; };
+		63C49DEE2145A7E6006AF751 /* MFMailComposeViewController+Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MFMailComposeViewController+Promise.swift"; path = "Carthage/Checkouts/PromiseKit/Extensions/MessagesUI/Sources/MFMailComposeViewController+Promise.swift"; sourceTree = SOURCE_ROOT; };
+		63C49DF02145A9BA006AF751 /* SubscribeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribeManager.swift; sourceTree = "<group>"; };
 		63CCA3CD2118ABF2000EEB88 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		63E4E01D21090EC70081E9AB /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		63F75B2E20F52EEF00A3B9AE /* Canopy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Canopy.entitlements; sourceTree = "<group>"; };
+		63F8BCB2214598660089707C /* SubscribeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,6 +251,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				63970545210BA8830063F7E4 /* PromiseKit.framework in Frameworks */,
+				63B333002146E85600E5CFCC /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,7 +339,11 @@
 				638C336C20FD79730048C52E /* ReposViewController.swift */,
 				6358FF9021235427004C9E7C /* RepoViewController.swift */,
 				632633B8211F57E400D112EA /* AccountViewController.swift */,
+				63F8BCB2214598660089707C /* SubscribeViewController.swift */,
+				63C49DCF21459FEC006AF751 /* SubscribeViewController.storyboard */,
+				63B3330121471DC400E5CFCC /* SignInViewController.swift */,
 				638C339020FD7FD10048C52E /* etc.swift */,
+				63C49DED2145A7CF006AF751 /* Vendor */,
 				638C338F20FD7EC00048C52E /* Detritus */,
 			);
 			path = Sources.Client.iOS;
@@ -341,6 +360,7 @@
 				636A40B720F94DDB0051DE0B /* GitHubAPI.swift */,
 				63CCA3CC2118ABF2000EEB88 /* Vendor */,
 				637355A62121E7EC007E7D82 /* EnrollmentsManager.swift */,
+				63C49DF02145A9BA006AF751 /* SubscribeManager.swift */,
 			);
 			path = Sources.Common;
 			sourceTree = "<group>";
@@ -359,11 +379,20 @@
 		638DF00220F590D200768FEF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				63B332FF2146E85600E5CFCC /* StoreKit.framework */,
 				635ACBAC2113750B0007C4EE /* StoreKit.framework */,
 				63970529210BA8830063F7E4 /* PromiseKit.framework */,
 				636A409320F94D2E0051DE0B /* PromiseKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		63C49DED2145A7CF006AF751 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				63C49DEE2145A7E6006AF751 /* MFMailComposeViewController+Promise.swift */,
+			);
+			name = Vendor;
 			sourceTree = "<group>";
 		};
 		63CCA3CC2118ABF2000EEB88 /* Vendor */ = {
@@ -373,6 +402,7 @@
 				635ACBAA21136F000007C4EE /* SKProductsRequest+Promise.swift */,
 				638C338320FD7D8C0048C52E /* URLSession+Promise.swift */,
 				6335A0DC211B9AF400E2EDB0 /* SortedArray.swift */,
+				63B3330321480CED00E5CFCC /* SortedSet.swift */,
 			);
 			path = Vendor;
 			sourceTree = "<group>";
@@ -459,6 +489,9 @@
 								enabled = 0;
 							};
 							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.InAppPurchase = {
 								enabled = 1;
 							};
 							com.apple.Keychain = {
@@ -627,6 +660,7 @@
 			files = (
 				638C337520FD79740048C52E /* LaunchScreen.storyboard in Resources */,
 				638C337220FD79740048C52E /* Assets.xcassets in Resources */,
+				63C49DD021459FEC006AF751 /* SubscribeViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -684,6 +718,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63F8BCB3214598660089707C /* SubscribeViewController.swift in Sources */,
 				638C339120FD7FD10048C52E /* etc.swift in Sources */,
 				6380FF8E210E79C300544476 /* DebrisAPI.swift in Sources */,
 				630DCCA021111D64007D2093 /* Client.etc.swift in Sources */,
@@ -691,15 +726,19 @@
 				63CCA3D02118AC0B000EEB88 /* SKProductsRequest+Promise.swift in Sources */,
 				637355C42121F850007E7D82 /* SortedArray.swift in Sources */,
 				6380FF8D210E79C300544476 /* Compatability.swift in Sources */,
+				63B3330221471DC400E5CFCC /* SignInViewController.swift in Sources */,
 				637355A72121E7EC007E7D82 /* EnrollmentsManager.swift in Sources */,
+				63C49DEF2145A7E6006AF751 /* MFMailComposeViewController+Promise.swift in Sources */,
 				6358FF9121235427004C9E7C /* RepoViewController.swift in Sources */,
 				63CCA3CF2118ABF2000EEB88 /* Keychain.swift in Sources */,
 				638C336B20FD79730048C52E /* AppDelegate.swift in Sources */,
 				638C337D20FD7CA30048C52E /* Error+legibleDescription.swift in Sources */,
 				638C337E20FD7CA30048C52E /* GitHubAPI.swift in Sources */,
+				63B3330421480CED00E5CFCC /* SortedSet.swift in Sources */,
 				632633B9211F57E400D112EA /* AccountViewController.swift in Sources */,
 				638C338420FD7D8C0048C52E /* URLSession+Promise.swift in Sources */,
 				638C337C20FD7CA30048C52E /* Constants.swift in Sources */,
+				63C49DF12145A9BA006AF751 /* SubscribeManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -769,7 +808,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -827,7 +866,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -901,7 +940,6 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Sources.Client.iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -928,7 +966,6 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Sources.Client.iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

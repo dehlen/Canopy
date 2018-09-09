@@ -2,14 +2,15 @@ import PromiseKit
 import UIKit
 
 class RepoViewController: UIViewController {
-    let container = UIStackView()
-    let blur = UIVisualEffectView()
-    let repo: Repo
     let top = UIView()
-    var completion: (() -> Void)?
+    let blur = UIVisualEffectView()
     let knob = UISwitch()
+    let repo: Repo
     let status = UILabel()
+    var toggle: ((Bool) -> Void)?
     let enrolled: Feasability
+    let container = UIStackView()
+    var completion: (() -> Void)?
 
     enum Feasability {
         case active
@@ -53,7 +54,7 @@ class RepoViewController: UIViewController {
             container.rightAnchor.constraint(equalTo: view.rightAnchor),
         ])
 
-        top.layer.shadowRadius = 10
+        top.layer.shadowRadius = 7
         top.layer.shadowOpacity = 0.617
         top.layer.shadowOffset.height = 0
         top.layer.shadowPath = UIBezierPath(rect: CGRect(x: -15, y: view.bounds.height, width: view.bounds.width + 30, height: 50)).cgPath
@@ -83,7 +84,7 @@ class RepoViewController: UIViewController {
             knobDescription.alpha = 0.5
             status.isHidden = false
             status.text = """
-                You do not have clearance to subscribe to this repository.
+                You cannot install the webhook for this repository.
 
                 Contact the owner and ask them to install the Canopy webhook.
 
@@ -121,10 +122,16 @@ class RepoViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(_dismiss))
         view.addGestureRecognizer(tap)
         tap.delegate = self
+
+        knob.addTarget(self, action: #selector(toggleEnrollment), for: .valueChanged)
     }
 
     @objc private func _dismiss() {
         dismiss(animated: true)
+    }
+
+    @objc private func toggleEnrollment() {
+        toggle?(knob.isOn)
     }
 }
 

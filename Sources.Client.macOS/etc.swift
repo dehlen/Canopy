@@ -1,46 +1,5 @@
 import AppKit
 
-func alert(_ error: Error, title: String? = nil, file: StaticString = #file, line: UInt = #line) {
-    print("\(file):\(line)", error)
-
-    var computeTitle: String {
-        switch (error as NSError).domain {
-        case "SKErrorDomain":
-            return "App Store Error"
-        case "kCLErrorDomain":
-            return "Core Location Error"
-        case NSCocoaErrorDomain:
-            return "Error"
-        default:
-            return "Unexpected Error"
-        }
-    }
-
-    let title = title ?? (error as? TitledError)?.title ?? computeTitle
-
-    if let error = error as? PMKHTTPError {
-        let (message, title) = error.gitHubDescription(defaultTitle: title)
-        alert(message: message, title: title)
-    } else {
-        alert(message: error.legibleDescription, title: title)
-    }
-}
-
-func alert(message: String, title: String) {
-    func go() {
-        let alert = NSAlert()
-        alert.informativeText = message
-        alert.messageText = title
-        alert.addButton(withTitle: "OK")
-        alert.runModal()
-    }
-    if Thread.isMainThread {
-        go()
-    } else {
-        DispatchQueue.main.async(execute: go)
-    }
-}
-
 #if !swift(>=4.2)
 extension NSStoryboardSegue.Identifier: ExpressibleByStringLiteral {
     public init(stringLiteral value: String) {

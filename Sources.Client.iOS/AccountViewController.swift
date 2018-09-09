@@ -1,3 +1,5 @@
+import SafariServices
+import MessageUI
 import UIKit
 
 class AccountViewController: UITableViewController {
@@ -5,6 +7,7 @@ class AccountViewController: UITableViewController {
         super.viewDidLoad()
         tableView.register(InformationCell.self, forCellReuseIdentifier: "a")
         tableView.register(ButtonCell.self, forCellReuseIdentifier: "b")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "c")
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -18,9 +21,13 @@ class AccountViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = Row(indexPath)!
         let cell: UITableViewCell
-        if row.canSelect {
+        switch row.state {
+        case .button:
             cell = tableView.dequeueReusableCell(withIdentifier: "b")!
-        } else {
+        case .disclosure:
+            cell = tableView.dequeueReusableCell(withIdentifier: "c")!
+            cell.accessoryType = .disclosureIndicator
+        case .dead:
             cell = tableView.dequeueReusableCell(withIdentifier: "a")!
         }
         cell.textLabel?.text = row.title
@@ -30,10 +37,12 @@ class AccountViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0:
-            return "GitHub"
+            return "Help"
         case 1:
-            return "App Store Subscription"
+            return "GitHub"
         case 2:
+            return "App Store Subscription"
+        case 3:
             return "Legal"
         default:
             fatalError()
@@ -41,7 +50,7 @@ class AccountViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        if section == 2 {
+        if section == 3 {
             return "Free icons provided by Icons8."
         } else {
             return nil
@@ -52,16 +61,36 @@ class AccountViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
 
         switch Row(indexPath) {
+        case nil:
+            break
         case .restoreOrManage?:
-            if AppDelegate.shared.hasReceipt {
+            if AppDelegate.shared.subscriptionManager.hasVerifiedReceipt {
                 let url = URL(string: "itmss://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/manageSubscriptions")!
                 UIApplication.shared.open(url)
             } else {
-                #warning("TODO")
+                let vc = UIStoryboard(name: "SubscribeViewController", bundle: nil).instantiateInitialViewController()!
+                AppDelegate.shared.tabBarController.present(vc, animated: true)
+            }
+        case .faq?:
+            present(SFSafariViewController(url: .faq), animated: true)
+        case .support?:
+            if MFMailComposeViewController.canSendMail() {
+                let vc = MFMailComposeViewController()
+                vc.setToRecipients(["support@codebasesaga.com"])
+                promise(vc).cauterize()
+            } else {
+                UIPasteboard.general.string = "support@codebasesaga.com"
+                alert(message: "We have copied the support email address to your clipboard, paste it into your email client to contact support.")
             }
         case .icons8?:
             UIApplication.shared.open(URL(string: "https://icons8.com")!)
-        default:
+        case .signInOut?:
+            if creds == nil {
+                show(SignInViewController(), sender: self)
+            } else {
+                AppDelegate.shared.signOut()
+            }
+        case .subscriptionActive?:
             break
         }
     }
@@ -71,6 +100,7 @@ class AccountViewController: UITableViewController {
 
         UIView.performWithoutAnimation {
             tableView.reloadSections([Row.subscriptionActive.indexPath.section], with: .none)
+            tableView.reloadSections([Row.signInOut.indexPath.section], with: .none)
         }
     }
 }
@@ -78,9 +108,12 @@ class AccountViewController: UITableViewController {
 private class ButtonCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
-        textLabel?.textAlignment = .center
-        textLabel?.textColor = UIButton(type: .system).tintColor
         textLabel?.frame = bounds
+    }
+
+    override func tintColorDidChange() {
+        textLabel?.textAlignment = .center
+        textLabel?.textColor = tintColor
     }
 }
 
@@ -93,26 +126,32 @@ private class InformationCell: UITableViewCell {
 }
 
 private enum Row: CaseIterable {
-    case signOut
+    case faq
+    case support
+    case signInOut
     case subscriptionActive
     case restoreOrManage
     case icons8
 
     var title: String {
         switch self {
-        case .signOut:
-            return "Sign Out"
+        case .faq:
+            return "FAQ"
+        case .support:
+            return "support@codebasesaga.com"
+        case .signInOut:
+            return creds == nil ? "Sign In…" : "Sign Out"
         case .subscriptionActive:
-            if AppDelegate.shared.hasReceipt {
+            if AppDelegate.shared.subscriptionManager.hasVerifiedReceipt {
                 return "✅ Subscribed"
             } else {
                 return "Not subscribed"
             }
         case .restoreOrManage:
-            if AppDelegate.shared.hasReceipt {
-                return "Manage Subscription"
+            if AppDelegate.shared.subscriptionManager.hasVerifiedReceipt {
+                return "Manage Subscription…"
             } else {
-                return "Restore"
+                return "Subscribe / Restore…"
             }
         case .icons8:
             return "https://icons8.com"
@@ -131,23 +170,35 @@ private enum Row: CaseIterable {
 
     var indexPath: IndexPath {
         switch self {
-        case .signOut:
+        case .faq:
             return IndexPath(row: 0, section: 0)
-        case .subscriptionActive:
+        case .support:
+            return IndexPath(row: 1, section: 0)
+        case .signInOut:
             return IndexPath(row: 0, section: 1)
-        case .restoreOrManage:
-            return IndexPath(row: 1, section: 1)
-        case .icons8:
+        case .subscriptionActive:
             return IndexPath(row: 0, section: 2)
+        case .restoreOrManage:
+            return IndexPath(row: 1, section: 2)
+        case .icons8:
+            return IndexPath(row: 0, section: 3)
         }
     }
 
-    var canSelect: Bool {
+    enum State {
+        case button
+        case disclosure
+        case dead
+    }
+
+    var state: State {
         switch self {
-        case .signOut, .restoreOrManage, .icons8:
-            return true
+        case .signInOut, .restoreOrManage, .support:
+            return .button
+        case .faq, .icons8:
+            return .disclosure
         case .subscriptionActive:
-            return false
+            return .dead
         }
     }
 }
