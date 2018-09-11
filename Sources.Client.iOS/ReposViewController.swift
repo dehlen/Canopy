@@ -117,7 +117,7 @@ extension ReposViewController/*: UITableViewDelegate*/ {
         case (true, true):
             cell.accessoryType = .checkmark
         case (false, false), (false, true):
-            cell.accessoryType = .none
+            cell.accessoryType = repo.private ? .detailDisclosureButton : .none
         case (true, false):
             cell.accessoryType = !mgr.isFetching ? .disclosureIndicator : .none
         }
@@ -133,8 +133,18 @@ extension ReposViewController/*: UITableViewDelegate*/ {
         let key = mgr.rootedReposKeys[indexPath.section]
         let repo = mgr.rootedRepos[key]![indexPath.row]
 
+        var hookable: Bool {
+            if repo.permissions.admin {
+                return true
+            } else if repo.isPartOfOrganization {
+                return mgr.hooks.contains(repo.owner.id)
+            } else {
+                return mgr.hooks.contains(repo.id)
+            }
+        }
+
         let vc = RepoViewController(repo: repo, enrolled:
-            mgr.enrollments.contains(repo.id) ? .active : repo.permissions.admin ? .feasible : .impossible)
+            mgr.enrollments.contains(repo.id) ? .active : hookable ? .feasible : .impossible)
         vc.completion = { [weak tableView] in
             // otherwise (despite UITableViewController) doesn't happen for some reason
             tableView?.deselectRow(at: indexPath, animated: true)
@@ -211,11 +221,18 @@ extension ReposViewController: EnrollmentsManagerDelegate {
 
 private class Cell: UITableViewCell {
     private let label = UILabel()
+    private let padlock = UILabel()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         label.text = "⚠️"
         label.sizeToFit()
+        padlock.attributedText = NSAttributedString(string: "PRIVATE", attributes: [
+            .kern: 1.1,
+            .foregroundColor: UIColor(white: 0.55, alpha: 1),
+        ])
+        padlock.font = UIFont.systemFont(ofSize: 9, weight: .light)
+        padlock.sizeToFit()
     }
 
     required init?(coder: NSCoder) {
@@ -225,6 +242,9 @@ private class Cell: UITableViewCell {
     override var accessoryType: UITableViewCell.AccessoryType {
         set {
             switch newValue {
+            case .detailDisclosureButton:
+                accessoryView = padlock
+                super.accessoryType = .none
             case .disclosureIndicator:
                 accessoryView = label
                 super.accessoryType = .none
