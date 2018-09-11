@@ -86,7 +86,7 @@ class ReposViewController: UITableViewController {
         pc.sourceRect = cell.bounds.inset(by: UIEdgeInsets(top: 5, left: cell.bounds.width - 60, bottom: 5, right: 20))
         pc.permittedArrowDirections = [.up]
         pc.backgroundColor = UIColor.canopyGreen
-        pc.passthroughViews = [tableView]
+        pc.passthroughViews = tableView.visibleCells
         present(popover, animated: true)
     }
 }
