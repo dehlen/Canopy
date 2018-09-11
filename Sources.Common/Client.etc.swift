@@ -50,7 +50,7 @@ private let keychain = Keychain(service: "com.codebasesaga.Canopy.GitHub", acces
 var creds: (username: String, token: String)? {
     get {
     #if targetEnvironment(simulator)
-        return ("mxcl", "2c9164867991210a54ace9ba5355f4d87f77014f")
+        return ("codebasesaga-tester", "66c58c7a33e7afcb4abbb2891089f9a8f33b2b1c")
     #else
         guard let username = keychain.allItems().first?["key"] as? String else {
             return nil

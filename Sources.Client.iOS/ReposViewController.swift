@@ -18,8 +18,22 @@ class ReposViewController: UITableViewController {
         mgr.token = creds?.token
     }
 
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.isTracking {
+            presentedViewController?.dismiss(animated: false)
+            // if animated is true the animation blocks scroll events which is jarring
+        }
+    }
+
     func showZeroPopover() {
-        guard presentedViewController == nil, let cell = tableView.visibleCells.first else {
+        var firstCell: UITableViewCell? {
+            // avoid returning cells that are partly or fully under the top or bottom bars
+            return tableView.visibleCells.first(where: { (cell) -> Bool in
+                return view.bounds.inset(by: view.safeAreaInsets).contains(cell.frame)
+            })
+        }
+
+        guard presentedViewController == nil, let cell = firstCell else {
             return
         }
 
@@ -51,6 +65,12 @@ class ReposViewController: UITableViewController {
                 var fittingSize = UIView.layoutFittingCompressedSize
                 fittingSize.width = 200
                 preferredContentSize = view.systemLayoutSizeFitting(fittingSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .defaultLow)
+
+                view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(close)))
+            }
+
+            @objc func close() {
+                dismiss(animated: true)
             }
 
             func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {

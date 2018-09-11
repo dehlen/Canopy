@@ -145,13 +145,13 @@ class EnrollmentsManager {
             repos()
         }.then {
             fetchInstallations(for: self.repos)
+        }.ensure {
+            self.fetching = false
         }.done {
             self.hooks = $0
             self.delegate?.enrollmentsManagerDidUpdate(self)
         }.catch {
             self.delegate?.enrollmentsManager(self, error: $0)
-        }.finally {
-            self.fetching = false
         }
     }
 
