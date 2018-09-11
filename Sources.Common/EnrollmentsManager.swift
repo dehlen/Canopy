@@ -189,13 +189,16 @@ class EnrollmentsManager {
         }.recover { error -> Promise<Bool> in
             switch error {
             case API.Enroll.Error.noClearance/*(let failedRepoIds)*/:
-                break
+                throw error
             case API.Enroll.Error.hookCreationFailed/*(let failedNodes)*/:
                 self.enrollments.insert(repo.id)
+                return DispatchQueue.main.async(.promise) {
+                    self.delegate?.enrollmentsManagerDidUpdate(self)
+                    throw error
+                }
             default:
-                break
+                throw error
             }
-            throw error
         }.done { enrolled in
             if enrolled {
                 self.hooks.insert(hookId)
