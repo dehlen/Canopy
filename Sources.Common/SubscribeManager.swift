@@ -73,16 +73,17 @@ class SubscriptionManager: NSObject, SKPaymentTransactionObserver {
                 // but this is probably just Apple doing strange test-y things
                 firstly {
                     postReceipt()
-                }.ensure {
-                    // if rejected user must use the “Restore” button
-                    queue.finishTransaction(transaction)
                 }.done {
                     self.delegate?.subscriptionFinished(error: .none, file: #file, line: #line)
                 }.catch(policy: .allErrors) {
                     self.delegate?.subscriptionFinished(error: $0, file: #file, line: #line)
+                }.finally {
+                    // if rejected user must use the “Restore” button
+                    queue.finishTransaction(transaction)
                 }
             case .failed:
                 delegate?.subscriptionFinished(error: transaction.error ?? Error.stateMachineViolation, file: #file, line: #line)
+                queue.finishTransaction(transaction)
             case .deferred:
                 delegate?.subscriptionFinished(error: Error.deferred, file: #file, line: #line)
             }
@@ -152,7 +153,7 @@ class SubscriptionManager: NSObject, SKPaymentTransactionObserver {
             case .productNotFound:
                 return "SKProduct not found, please contact support."
             case .deferred:
-                return "Thank you! You can continue to use Canopy while your purchase is pending an approval from your parent."
+                return "Thank you! You can continue to use Canopy while your purchase is pending an approval from your guardian."
             case .stateMachineViolation:
                 return "Skynet has taken over."
             case .subscriptionExpired:
