@@ -104,11 +104,16 @@ struct Repo: Decodable {
     struct Owner: Decodable, Hashable {
         let id: Int
         let login: String
-        let type: String
+        let type: Type_
+
+        enum Type_: String, Codable {
+            case organization = "Organization"
+            case user = "User"
+        }
     }
 
     var isPartOfOrganization: Bool {
-        return owner.type.lowercased() == "organization"
+        return owner.type == .organization
     }
 }
 
