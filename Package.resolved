@@ -12,11 +12,11 @@
       },
       {
         "package": "COpenSSL",
-        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-COpenSSL-Linux.git",
+        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-COpenSSL.git",
         "state": {
           "branch": null,
-          "revision": "4133914decf2cdba452ffa7507b3f1c41a379913",
-          "version": "3.0.2"
+          "revision": "b8bd953a390940b486ce8119a61c8d5ad9d5c31c",
+          "version": "3.1.5"
         }
       },
       {
@@ -80,15 +80,6 @@
           "branch": null,
           "revision": "672f6695d9ae04fce16ad01decef0649e0b872b0",
           "version": "2.0.6"
-        }
-      },
-      {
-        "package": "LinuxBridge",
-        "repositoryURL": "https://github.com/PerfectlySoft/Perfect-LinuxBridge.git",
-        "state": {
-          "branch": null,
-          "revision": "ba9d1fb5be8eb238521206b39bec90a760bb0192",
-          "version": "3.0.0"
         }
       },
       {
