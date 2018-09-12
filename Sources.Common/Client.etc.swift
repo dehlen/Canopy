@@ -293,7 +293,7 @@ private func _alert(error: Error, title: String?, file: StaticString, line: UInt
 #if os(macOS)
 import AppKit
 
-func alert(error: Error, title: String? = nil, file: StaticString = #file, line: UInt = #line) {
+func alert(_ error: Error, title: String? = nil, file: StaticString = #file, line: UInt = #line) {
     let (msg, title) = _alert(error: error, title: title, file: file, line: line)
 
     // we cannot make SKError CancellableError sadly (still)

@@ -123,3 +123,37 @@ private extension NSButton {
         }
     }
 }
+
+private extension SKReceiptRefreshRequest {
+    /**
+     Requests an updated receipt.
+     - Returns: A promise fulfilled with Bundle.main.appStoreReceiptURL if not `nil`.
+     */
+    func start(_: PMKNamespacer) -> Promise<URL> {
+
+        class SKDelegate: NSObject, SKRequestDelegate {
+            let (promise, seal) = Promise<Void>.pending()
+            var retainCycle: SKDelegate?
+
+            @objc fileprivate func request(_ request: SKRequest, didFailWithError error: Error) {
+                seal.reject(error)
+            }
+
+            @objc func requestDidFinish(_ request: SKRequest) {
+                seal.fulfill(())
+            }
+        }
+
+        let proxy = SKDelegate()
+        delegate = proxy
+        proxy.retainCycle = proxy
+        start()
+        return firstly {
+            proxy.promise
+            }.compactMap(on: .global()) {
+                Bundle.main.appStoreReceiptURL
+            }.ensure {
+                proxy.retainCycle = nil
+        }
+    }
+}
