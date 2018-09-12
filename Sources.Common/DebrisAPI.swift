@@ -91,10 +91,8 @@ public enum Node: Codable {
     }
 }
 
-#if os(macOS) || os(iOS)
 extension Node: Equatable, Hashable
 {}
-#endif
 
 enum RemoteNotificationUserInfo {
     case creds(login: String, token: String)

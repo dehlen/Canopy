@@ -374,9 +374,9 @@ struct IssuesEvent: Codable, Notificatable {
 
     var body: String {
         if changes?.title == nil {
-            return "\(sender.login) \(action) the issue"
+            return "\(action.rawValue.capitalized) by \(sender.login)"
         } else {
-            return "\(sender.login) renamed the issue to “\(issue.title)”"
+            return "Renamed to “\(issue.title)” by \(sender.login)"
         }
     }
     var url: URL? {
@@ -973,6 +973,36 @@ struct RepositoryEvent: Codable, Notificatable {
         return .repository(repository)
     }
 }
+
+// CANNOT FIGURE OUT THE CONTEXT!
+//struct RepositoryVulnerabilityEvent: Codable, Notificatable {
+//    let action: Action
+//    let alert: Alert
+//
+//    struct Alert: Codable {
+//        let affected_package_name: String
+//        let external_reference: URL
+//
+//        let dismiss_reason: String? // if action is dismiss
+//        let dimisser: User?
+//    }
+//
+//    enum Action: String, Codable {
+//        case create, dismiss, resolve
+//    }
+//
+//    var title: String {
+//        "Repository Vulnerability Event"
+//    }
+//
+//    var body: String {
+//        return "\(sender.login) \(action) \(repository.full_name)"
+//    }
+//
+//    var context: Context {
+//        return .repository(repository)
+//    }
+//}
 
 struct StatusEvent: Codable, Notificatable {
     let name: String

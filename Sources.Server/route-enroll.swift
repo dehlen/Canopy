@@ -10,14 +10,46 @@ func enrollHandler(request rq: HTTPRequest) throws -> Promise<Void> {
     let rq = try rq.decode(API.Enroll.self)
     let api = GitHubAPI(oauthToken: token)
 
+    var lookup = [Int: Node]()
+
     /// first verify user *really* has permission to “read” this repo
     func verify(repoId: Int) throws -> Promise<Int> {
-        var rq = api.request(path: "/repositories/\(repoId)")
-        rq.httpMethod = "HEAD"  // less data thanks
+
+        struct Repo: Decodable {
+            let id: Int
+            let name: String
+            let owner: Owner
+            struct Owner: Decodable {
+                let id: Int
+                let login: String
+                let type: Type_
+                enum Type_: String, Decodable {
+                    case organization = "Organization"
+                    case user = "User"
+                }
+            }
+        }
+
+        //TODO Node or the API should take hook-ids too since
+        // this is just stupid. Then we could just HEAD request
+        // again.
+
+        let rq = api.request(path: "/repositories/\(repoId)")
         return firstly {
             URLSession.shared.dataTask(.promise, with: rq).validate()
-        }.map { _ in
-            repoId
+        }.map {
+            try JSONDecoder().decode(Repo.self, from: $0.data)
+        }.get { repo in
+            precondition(repo.id == repoId)
+
+            switch repo.owner.type {
+            case .organization:
+                lookup[repo.owner.id] = .organization(repo.owner.login)
+            case .user:
+                lookup[repo.id] = .repository(repo.owner.login, repo.name)
+            }
+        }.map {
+            $0.id
         }
     }
 
@@ -45,11 +77,19 @@ func enrollHandler(request rq: HTTPRequest) throws -> Promise<Void> {
             try saveEnrollments($0, userId: me.id)
         }
     }.then {
-        api.createHooks(for: rq.createHooks)  //NOTE also saves to db!
+        api.createHooks(for: rq.createHooks)
     }.done { results in
+
+        //TODO if we knew if the user was admin we could only attempt to hook
+        // those, if already hooked that is; the reason we are going to reattempt
+        // hooks we know exist is in-case the hook was deleted and we didn't know
+        // about it, thus the support story is: opt-out then back in to enrollment
+        // which is easy and something the user may well attempt anyway
+        let previouslyHooked = Set(try DB().whichAreHooked(ids: lookup.keys).map{ lookup[$0]! })
+
         var rejects: [Node] = []
         for (result, node) in zip(results, rq.createHooks) {
-            if case .rejected = result {
+            if case .rejected = result, !previouslyHooked.contains(node) {
                 rejects.append(node)
             }
         }

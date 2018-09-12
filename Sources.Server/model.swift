@@ -352,7 +352,7 @@ class DB {
         }
     }
 
-    func whichAreHooked(ids: [Int]) throws -> [Int] {
+    func whichAreHooked<S: Sequence>(ids: S) throws -> [Int] where S.Element == Int {
         let ids = ids.enumerated()
         let values = ids.map { x, _ in
             ":\(x + 1)"
