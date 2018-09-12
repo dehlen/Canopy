@@ -31,12 +31,15 @@ func receiptHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
     guard let receipt = rq.postBodyString else {
         return response.completed(status: .badRequest)
     }
+    let sku = rq.header(.custom(name: "X-Platform"))
 
     func persist() -> Promise<Int> {
         return firstly {
             GitHubAPI(oauthToken: token).me()
         }.map { me -> Int in
-            let url = URL(fileURLWithPath: "../receipts").appendingPathComponent(String(me.id))
+            var fn = String(me.id)
+            if let sku = sku { fn += ".\(sku)" }
+            let url = URL(fileURLWithPath: "../receipts").appendingPathComponent(fn)
             try receipt.write(to: url, atomically: true, encoding: .utf8)
             return me.id
         }
@@ -73,12 +76,15 @@ func receiptHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         }
 
         func go(prod: Bool) throws -> Promise<Data> {
+            let password = sku == "iOS"
+                ? "e863c3bf604e4de7867e95c86249ef25"
+                : "2367a7d022cb4e05a047a624891fa13f"
             let url = prod
                 ? "https://buy.itunes.apple.com/verifyReceipt"
                 : "https://sandbox.itunes.apple.com/verifyReceipt"
             let json_ = [
                 "receipt-data": receipt,
-                "password": "2367a7d022cb4e05a047a624891fa13f"
+                "password": password
             ]
             let json = try JSONSerialization.data(withJSONObject: json_)
             let rsp = try CURLRequest(url, .failOnError, .addHeader(.contentType, "application/json"), .postData([UInt8](json))).perform()
@@ -110,14 +116,16 @@ func receiptHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             response.completed(status: .forbidden)
         }
     }.catch { error in
-
-        print(error)
-
-        if case E.expired = error, let userId = userId.value {
+        if case E.noExpiryDate = error {
+            response.completed(status: .paymentRequired)
+        } else if case E.expired = error, let userId = userId.value {
             _ = try? DB().remove(receiptForUserId: userId)
+            response.completed(status: .forbidden)
+        } else {
+            print(error)
+            response.appendBody(string: error.legibleDescription)
+            response.completed(status: .badRequest)
         }
-        response.appendBody(string: error.legibleDescription)
-        response.completed(status: .badRequest)
     }
 }
 
@@ -146,39 +154,38 @@ private struct Response1: Decodable {
 private struct Response2: Decodable {
     let status: Int
     let environment: String
-    let receipt: Receipt
-    let latest_receipt_info: [LatestReceiptInfo]
-    let latest_receipt: String
-    let pending_renewal_info: [PendingRenewalInfo]
+//    let receipt: Receipt
+    let latest_receipt_info: [LatestReceiptInfo]?
+//    let latest_receipt: String
+//    let pending_renewal_info: [PendingRenewalInfo]
 
-    struct Receipt: Decodable {
-        let receipt_type: String
-        let adam_id: Int
-        let app_item_id: Int
-        let bundle_id: String
-        let application_version: String
-        let download_id: Int
-        let version_external_identifier: Int
-        let receipt_creation_date_ms: Date
-        let request_date_ms: Date
-        let original_purchase_date_ms: Date
-        let original_application_version: String
-        let in_app: [InApp]
-
-        struct InApp: Decodable {
-            let quantity: String
-            let product_id: String
-            let transaction_id: String
-            let original_transaction_id: String
-            let purchase_date_ms: Date
-            let original_purchase_date_ms: Date
-            let expires_date_ms: Date
-            let web_order_line_item_id: String
-            let is_trial_period: String
-            let is_in_intro_offer_period: String
-        }
-
-    }
+//    struct Receipt: Decodable {
+//        let receipt_type: String
+//        let adam_id: Int
+//        let app_item_id: Int
+//        let bundle_id: String
+//        let application_version: String
+//        let download_id: Int
+//        let version_external_identifier: Int
+//        let receipt_creation_date_ms: Date
+//        let request_date_ms: Date
+//        let original_purchase_date_ms: Date
+//        let original_application_version: String
+//        let in_app: [InApp]
+//
+//        struct InApp: Decodable {
+//            let quantity: String
+//            let product_id: String
+//            let transaction_id: String
+//            let original_transaction_id: String
+//            let purchase_date_ms: Date
+//            let original_purchase_date_ms: Date
+//            let expires_date_ms: Date
+//            let web_order_line_item_id: String
+//            let is_trial_period: String
+//            let is_in_intro_offer_period: String
+//        }
+//    }
     struct LatestReceiptInfo: Decodable {
         let quantity: String
         let product_id: String
@@ -191,19 +198,19 @@ private struct Response2: Decodable {
         let is_trial_period: String
         let is_in_intro_offer_period: String
     }
-    struct PendingRenewalInfo: Decodable {
-        let expiration_intent: String?
-        let auto_renew_product_id: String
-        let original_transaction_id: String
-        let is_in_billing_retry_period: String?
-        let product_id: String
-        let auto_renew_status: String
-    }
+//    struct PendingRenewalInfo: Decodable {
+//        let expiration_intent: String?
+//        let auto_renew_product_id: String
+//        let original_transaction_id: String
+//        let is_in_billing_retry_period: String?
+//        let product_id: String
+//        let auto_renew_status: String
+//    }
 }
 
 private extension Response2 {
     func expiryDate() throws -> Date {
-        guard let expires = latest_receipt_info.map(\.expires_date_ms).max() else {
+        guard let receipt = latest_receipt_info, let expires = receipt.map(\.expires_date_ms).max() else {
             throw E.noExpiryDate
         }
         return expires
