@@ -265,7 +265,7 @@ extension Array where Element == String {
 }
 
 private func _alert(error: Error, title: String?, file: StaticString, line: UInt) -> (String, String) {
-    print("\(file):\(line)", error.legibleDescription)
+    print("\(file):\(line)", error.legibleDescription, error)
 
     var computeTitle: String {
         switch (error as NSError).domain {
