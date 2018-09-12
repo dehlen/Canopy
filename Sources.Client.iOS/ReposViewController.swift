@@ -27,10 +27,21 @@ class ReposViewController: UITableViewController {
 
     func showZeroPopover() {
         var firstCell: UITableViewCell? {
-            // avoid returning cells that are partly or fully under the top or bottom bars
-            return tableView.visibleCells.first(where: { (cell) -> Bool in
-                return view.bounds.inset(by: view.safeAreaInsets).contains(cell.frame)
-            })
+            var first: UITableViewCell?
+            for cell in tableView.visibleCells {
+                // avoid returning cells that are partly or fully under the top or bottom bars
+                guard view.bounds.inset(by: view.safeAreaInsets).contains(cell.frame) else { continue }
+                guard let indexPath = tableView.indexPath(for: cell) else { continue }
+                let key = mgr.rootedReposKeys[indexPath.section]
+                if !mgr.rootedRepos[key]![indexPath.row].private {
+                    return cell
+                }
+                if first == nil {
+                    first = cell
+                }
+            }
+
+            return first
         }
 
         guard presentedViewController == nil, let cell = firstCell else {
@@ -63,7 +74,7 @@ class ReposViewController: UITableViewController {
                 ])
 
                 var fittingSize = UIView.layoutFittingCompressedSize
-                fittingSize.width = 200
+                fittingSize.width = 240
                 preferredContentSize = view.systemLayoutSizeFitting(fittingSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .defaultLow)
 
                 view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(close)))
@@ -84,7 +95,7 @@ class ReposViewController: UITableViewController {
         pc.delegate = popover
         pc.sourceView = cell
         pc.sourceRect = cell.bounds.inset(by: UIEdgeInsets(top: 5, left: cell.bounds.width - 60, bottom: 5, right: 20))
-        pc.permittedArrowDirections = [.up]
+        pc.permittedArrowDirections = [.up, .down]
         pc.backgroundColor = UIColor.canopyGreen
         pc.passthroughViews = tableView.visibleCells
         present(popover, animated: true)
