@@ -47,7 +47,13 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
 
             for (oauthToken, foo) in tokens {
                 DispatchQueue.global().async(.promise) {
-                    guard try db.isReceiptValid(forUserId: foo.userId) else { throw PMKError.cancelled }
+                    switch foo.userId {
+                    case 58962, 7132384, 24509830, 33223853, 33409294:
+                        //mxcl, aleshia, laurie,   akash,    ernesto
+                        return
+                    default:
+                        guard try db.isReceiptValid(forUserId: foo.userId) else { throw PMKError.cancelled }
+                    }
                 }.then {
                     GitHubAPI(oauthToken: oauthToken).hasClearance(for: repo)
                 }.done { cleared in

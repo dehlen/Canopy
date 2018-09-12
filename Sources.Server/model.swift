@@ -313,14 +313,6 @@ class DB {
     }
 
     func isReceiptValid(forUserId userId: Int) throws -> Bool {
-        switch userId {
-        case 58962, 7132384, 24509830, 33223853, 33210277, 33409294:
-            //mxcl, aleshia, laurie,   akash,    akiva     ernesto
-            return true
-        default:
-            break
-        }
-
         let sql = """
             SELECT expires
             FROM receipts
