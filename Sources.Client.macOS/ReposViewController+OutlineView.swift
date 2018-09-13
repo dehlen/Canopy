@@ -39,8 +39,16 @@ extension ReposViewController: NSOutlineViewDataSource {
                 } else {
                     return nil
                 }
-            } else if let repo = item as? Repo, !repo.permissions.admin, !hooked.contains(.init(repo)) {
-                return "𐄂"
+            } else if fetching {
+                return nil
+            } else if let repo = item as? Repo, !repo.permissions.admin {
+                if !repo.isPartOfOrganization, !hooked.contains(.init(repo)) {
+                    return "𐄂"
+                } else if !hooked.contains(.organization(repo.owner.login)) {
+                    return "𐄂"
+                } else {
+                    return nil
+                }
             } else {
                 return nil
             }
