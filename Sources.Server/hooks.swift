@@ -419,7 +419,7 @@ struct MemberEvent: Codable, Notificatable {
     let sender: User
 
     enum Action: String, Codable {
-        case deleted, edited, added
+        case edited, added, removed, deleted // github say it is deleted, but it seems to be removed
     }
 
     var body: String {
