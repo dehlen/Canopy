@@ -169,7 +169,11 @@ private extension HTTPRequest {
             return try rq.decode(WatchEvent.self)
         case "pull_request_review_comment":
             return try rq.decode(PullRequestReviewCommentEvent.self)
-        case "marketplace_purchase", "repository_vulnerability_alert", "team", "team_add", _:
+        case "team":
+            return try rq.decode(TeamEvent.self)
+        case "team_add":
+            return try rq.decode(TeamAddEvent.self)
+        case "marketplace_purchase", "repository_vulnerability_alert", _:
             throw E.unimplemented(eventType)
         }
     }

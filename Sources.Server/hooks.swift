@@ -1028,6 +1028,69 @@ struct StatusEvent: Codable, Notificatable {
     }
 }
 
+struct TeamEvent: Codable, Notificatable {
+    let action: Action
+    let organization: Organization
+    let sender: User
+    let team: Team
+
+    struct Team: Codable {
+        let name: String
+    }
+
+    enum Action: String, Codable {
+        case created, deleted, edited, added_to_repository, removed_from_repository
+    }
+
+    var context: Context {
+        return .organization(organization, admin: sender)
+    }
+
+    var title: String? {
+        switch action {
+        case .created:
+            return "/orgs/\(organization.login)"
+        default:
+            return "/orgs/\(organization.login)/\(team.name)"
+        }
+
+    }
+
+    var body: String {
+        switch action {
+        case .created:
+            return "\(sender.login) created a new team: \(team.name)"
+        case .edited, .deleted:
+            return "\(sender.login) \(action) this team"
+        case .added_to_repository, .removed_from_repository:
+            return "\(sender.login) altered the member repositories for this team"
+        }
+    }
+}
+
+struct TeamAddEvent: Codable, Notificatable {
+    let repository: Repository
+    let organization: Organization
+    let sender: User
+    let team: Team
+
+    struct Team: Codable {
+        let name: String
+    }
+
+    var title: String {
+        return repository.full_name
+    }
+
+    var body: String {
+        return "\(sender.login) added this repository to the team: \(team.name)"
+    }
+
+    var context: Context {
+        return .organization(organization, admin: sender)
+    }
+}
+
 // Actually: stars
 struct WatchEvent: Codable, Notificatable {
     let action: String
