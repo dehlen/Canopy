@@ -124,14 +124,21 @@ extension ReposViewController/*: UITableViewDelegate*/ {
             ? mgr.hooks.contains(repo.owner.id)
             : mgr.hooks.contains(repo.id)
 
+        let accessoryType: UITableViewCell.AccessoryType
         switch (mgr.enrollments.contains(repo.id), installed) {
         case (true, true):
-            cell.accessoryType = .checkmark
-        case (false, false), (false, true):
-            cell.accessoryType = repo.private ? .detailDisclosureButton : .none
+            accessoryType = .checkmark
         case (true, false):
-            cell.accessoryType = !mgr.isFetching ? .disclosureIndicator : .none
+            if mgr.isFetching {
+                fallthrough
+            } else { // warning icon
+                accessoryType = .disclosureIndicator
+            }
+        case (false, _):
+            accessoryType = repo.private ? .detailDisclosureButton : .none
         }
+
+        cell.accessoryType = accessoryType
 
         return cell
     }
