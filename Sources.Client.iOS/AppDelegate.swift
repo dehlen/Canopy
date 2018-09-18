@@ -46,13 +46,17 @@ extension AppDelegate: UIApplicationDelegate {
         UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().getNotificationSettings {
             switch $0.authorizationStatus {
+            case .notDetermined:
+                if creds != nil {
+                    fallthrough  // already logged in via mac app or previous installation, let’s ask!
+                }
             case .authorized, .provisional:
                 Promise { seal in
                     UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound], completionHandler: seal.resolve)
-                }.done { _granted in
+                }.done { _ in
                     application.registerForRemoteNotifications()
                 }.cauterize()
-            case .denied, .notDetermined:
+            case .denied:
                 break
             }
         }
