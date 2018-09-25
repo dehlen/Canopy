@@ -41,7 +41,7 @@ class AccountViewController: UITableViewController {
         case 1:
             return "GitHub"
         case 2:
-            return "App Store Subscription"
+            return "Subscription"
         case 3:
             return "Legal"
         default:
@@ -145,7 +145,7 @@ private enum Row: CaseIterable {
             if AppDelegate.shared.subscriptionManager.hasVerifiedReceipt {
                 return "✅ Subscribed"
             } else {
-                return "Not subscribed"
+                return "Get notifications for private repositories"
             }
         case .restoreOrManage:
             if AppDelegate.shared.subscriptionManager.hasVerifiedReceipt {
