@@ -36,8 +36,7 @@ class AppDelegate: NSObject {
     }
 
     @IBAction func openPrivacyPolicy(sender: Any) {
-        let url = URL(string: "https://codebasesaga.com/canopy/#privacy-policy")!
-        NSWorkspace.shared.open(url)
+        NSWorkspace.shared.open(.privacyPolicy)
     }
 
     @IBAction func openITunesSubscriptionManager(sender: Any) {
@@ -46,8 +45,11 @@ class AppDelegate: NSObject {
     }
 
     @IBAction func openTermsOfUse(sender: Any) {
-        let url = URL(string: "https://codebasesaga.com/canopy/#terms-of-use")!
-        NSWorkspace.shared.open(url)
+        NSWorkspace.shared.open(.termsOfUse)
+    }
+
+    @IBAction func openFAQ(sender: Any) {
+        NSWorkspace.shared.open(.faq)
     }
 
     @IBOutlet var createSubscriptionMenuItem: NSMenuItem!

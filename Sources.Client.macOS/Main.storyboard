@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14313.13.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.13.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -741,11 +741,11 @@ You can subscribe to all repositories under a user or organizaation at once if y
             <objects>
                 <viewController id="eRY-as-3te" customClass="SignInViewController" customModule="Canopy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="sbp-Yh-46W">
-                        <rect key="frame" x="0.0" y="0.0" width="349" height="134"/>
+                        <rect key="frame" x="0.0" y="0.0" width="349" height="164"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4W5-1T-Gkb">
-                                <rect key="frame" x="18" y="97" width="125" height="17"/>
+                                <rect key="frame" x="18" y="127" width="125" height="17"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Sign in with GitHub" id="AsM-Md-uRO">
                                     <font key="font" metaFont="systemSemibold" size="13"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -753,8 +753,8 @@ You can subscribe to all repositories under a user or organizaation at once if y
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="b2K-CS-8FG">
-                                <rect key="frame" x="18" y="61" width="313" height="28"/>
-                                <textFieldCell key="cell" selectable="YES" title="Canopy asks for the fewest permissions it can to function. Authentication proceeds via your web‑browser." id="MLp-E1-iw9">
+                                <rect key="frame" x="18" y="105" width="313" height="14"/>
+                                <textFieldCell key="cell" selectable="YES" title="Authentication proceeds via your web‐browser." id="MLp-E1-iw9">
                                     <font key="font" metaFont="smallSystem"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -790,12 +790,33 @@ You can subscribe to all repositories under a user or organizaation at once if y
                                     <action selector="openTermsOfUseWithSender:" target="LaE-Yg-Sjn" id="enw-3U-fmT"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CDZ-f7-IGR">
+                                <rect key="frame" x="40" y="21" width="39" height="19"/>
+                                <buttonCell key="cell" type="recessed" title="FAQ" bezelStyle="recessed" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Omn-hD-NDC">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="systemBold" size="12"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="openTermsOfUseWithSender:" target="LaE-Yg-Sjn" id="cf2-aE-5vS"/>
+                                </connections>
+                            </button>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="lFv-0u-OTn">
+                                <rect key="frame" x="18" y="55" width="313" height="42"/>
+                                <textFieldCell key="cell" selectable="YES" title="Canopy asks for the fewest permissions it can to function.  For justification in our permission requirements, see our FAQ." id="CCr-u6-0v3">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstItem="2QB-pA-0SS" firstAttribute="leading" secondItem="dPy-Vh-PCM" secondAttribute="trailing" constant="12" id="0fW-b9-ZGq"/>
                             <constraint firstAttribute="trailing" secondItem="2QB-pA-0SS" secondAttribute="trailing" constant="20" id="8vb-6n-0YK"/>
+                            <constraint firstItem="CDZ-f7-IGR" firstAttribute="firstBaseline" secondItem="o3n-KJ-HF1" secondAttribute="firstBaseline" id="ARM-Bs-zD8"/>
+                            <constraint firstItem="lFv-0u-OTn" firstAttribute="leading" secondItem="sbp-Yh-46W" secondAttribute="leading" constant="20" id="L4R-cW-cb7"/>
                             <constraint firstItem="o3n-KJ-HF1" firstAttribute="firstBaseline" secondItem="dPy-Vh-PCM" secondAttribute="firstBaseline" id="Rh8-4d-ibg"/>
-                            <constraint firstItem="2QB-pA-0SS" firstAttribute="top" secondItem="b2K-CS-8FG" secondAttribute="bottom" constant="20" id="SIK-h4-JOo"/>
+                            <constraint firstItem="2QB-pA-0SS" firstAttribute="top" secondItem="lFv-0u-OTn" secondAttribute="bottom" constant="14" id="SIK-h4-JOo"/>
+                            <constraint firstItem="o3n-KJ-HF1" firstAttribute="leading" secondItem="CDZ-f7-IGR" secondAttribute="trailing" constant="8" id="Y9V-7A-Uva"/>
                             <constraint firstItem="4W5-1T-Gkb" firstAttribute="leading" secondItem="sbp-Yh-46W" secondAttribute="leading" constant="20" id="c7Z-XI-oOz"/>
                             <constraint firstItem="dPy-Vh-PCM" firstAttribute="centerY" secondItem="2QB-pA-0SS" secondAttribute="centerY" id="cZL-0P-Rah"/>
                             <constraint firstItem="b2K-CS-8FG" firstAttribute="top" secondItem="4W5-1T-Gkb" secondAttribute="bottom" constant="8" id="f3Y-A0-EPq"/>
@@ -803,7 +824,9 @@ You can subscribe to all repositories under a user or organizaation at once if y
                             <constraint firstAttribute="bottom" secondItem="2QB-pA-0SS" secondAttribute="bottom" constant="20" id="ju5-kM-qxh"/>
                             <constraint firstItem="b2K-CS-8FG" firstAttribute="leading" secondItem="sbp-Yh-46W" secondAttribute="leading" constant="20" id="nUO-SL-tZn"/>
                             <constraint firstItem="4W5-1T-Gkb" firstAttribute="top" secondItem="sbp-Yh-46W" secondAttribute="top" constant="20" id="t6X-YT-zzD"/>
+                            <constraint firstItem="lFv-0u-OTn" firstAttribute="top" secondItem="b2K-CS-8FG" secondAttribute="bottom" constant="8" id="tRI-AB-ISt"/>
                             <constraint firstItem="dPy-Vh-PCM" firstAttribute="leading" secondItem="o3n-KJ-HF1" secondAttribute="trailing" constant="13" id="u3f-ub-rbh"/>
+                            <constraint firstAttribute="trailing" secondItem="lFv-0u-OTn" secondAttribute="trailing" constant="20" id="yFd-Wy-epz"/>
                         </constraints>
                     </view>
                     <connections>
@@ -813,7 +836,7 @@ You can subscribe to all repositories under a user or organizaation at once if y
                 </viewController>
                 <customObject id="LaE-Yg-Sjn" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="572.5" y="809.5"/>
+            <point key="canvasLocation" x="572.5" y="832"/>
         </scene>
         <!--Waiting Auth View Controller-->
         <scene sceneID="zF4-mn-pRY">

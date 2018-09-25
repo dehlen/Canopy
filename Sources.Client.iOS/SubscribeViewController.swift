@@ -106,18 +106,6 @@ class SubscribeViewController_iOS: UIViewController {
     }
 }
 
-extension URL {
-    static var termsOfUse: URL {
-        return URL(string: "https://codebasesaga.com/canopy/#terms-of-use")!
-    }
-    static var privacyPolicy: URL {
-        return URL(string: "https://codebasesaga.com/canopy/#privacy-policy")!
-    }
-    static var faq: URL {
-        return URL(string: "https://codebasesaga.com/canopy/#faq")!
-    }
-}
-
 class OutlineButton: UIButton {
     override func tintColorDidChange() {
         super.tintColorDidChange()

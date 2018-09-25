@@ -166,6 +166,16 @@ extension URL {
         ].map(URLQueryItem.init)
         return cc.url
     }
+
+    static var termsOfUse: URL {
+        return URL(string: "https://codebasesaga.com/canopy/#terms-of-use")!
+    }
+    static var privacyPolicy: URL {
+        return URL(string: "https://codebasesaga.com/canopy/#privacy-policy")!
+    }
+    static var faq: URL {
+        return URL(string: "https://codebasesaga.com/canopy/#faq")!
+    }
 }
 
 extension URLRequest {
