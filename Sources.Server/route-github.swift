@@ -232,10 +232,10 @@ private enum SendType {
     case broadcast
 
     init(_ notificatable: Notificatable) {
-        if notificatable is PublicEvent {
-            // TELL EVERYBODY!
-            self = .broadcast
-        } else {
+//        if notificatable is PublicEvent {
+//            // TELL EVERYBODY!
+//            self = .broadcast
+//        } else {
             switch notificatable.context {
             case .repository(let repo) where repo.private:
                 self = .private(repo)
@@ -244,6 +244,6 @@ private enum SendType {
             case .organization(let org, let admin):
                 self = .organization(org, admin: admin)
             }
-        }
+//        }
     }
 }
