@@ -96,8 +96,8 @@
         "repositoryURL": "https://github.com/PerfectlySoft/Perfect-Net.git",
         "state": {
           "branch": null,
-          "revision": "32cf5846ce212bf6aa2cb9d27a9b4f230355c1f9",
-          "version": "3.2.0"
+          "revision": "a04974a9abf20adea2082e802e20ee9cce829eeb",
+          "version": "3.2.1"
         }
       },
       {
@@ -141,8 +141,8 @@
         "repositoryURL": "https://github.com/mxcl/PromiseKit.git",
         "state": {
           "branch": null,
-          "revision": "ad0c4d3c249514a2693e016196ab17d49de4f275",
-          "version": "6.4.1"
+          "revision": "66bcc386163121f14ee543aa20b682973cc98dd7",
+          "version": "6.5.2"
         }
       }
     ]
