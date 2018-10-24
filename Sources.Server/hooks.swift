@@ -15,14 +15,14 @@ protocol Notificatable {
     var collapseId: String? { get }
     var threadingId: String { get }
     var shouldIgnore: Bool { get }
-    var uid: Int { get }
+    var senderUid: Int { get }
 }
 
 protocol HasSender {
     var sender: User { get }
 }
 extension HasSender {
-    var uid: Int {
+    var senderUid: Int {
         return sender.id
     }
 }

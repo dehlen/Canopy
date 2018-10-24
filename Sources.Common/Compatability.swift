@@ -63,3 +63,13 @@ public extension String {
         return str.isEmpty ? nil : str
     }
 }
+
+public func -<T: Equatable>(lhs: Array<T>, rhs: Array<T>) -> Array<T> {
+    var rv = lhs
+    for ee in rhs {
+        if let ii = lhs.index(of: ee) {
+            rv.remove(at: ii)
+        }
+    }
+    return rv
+}

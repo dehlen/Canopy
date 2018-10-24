@@ -23,7 +23,7 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         let notificatable = try rq.decodeNotificatable(eventType: eventType)
 
         // save mxcl’s JSONs
-        if notificatable.uid == 58962 {
+        if notificatable.senderUid == 58962 {
             rq.postBodyBytes.map{ save(json: Data($0), eventName: eventType) }
         }
 
@@ -49,7 +49,7 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             try send(to: DB().allAPNsTokens())
         case .private(let repo):
             let db = try DB()
-            let tokens = try db.tokens(forRepoId: repo.id)
+            let tokens = try db.tokens(for: (repoId: repo.id, ignoreUserId: notificatable.senderUid))
 
             for (oauthToken, foo) in tokens {
                 DispatchQueue.global().async(.promise) {
@@ -74,14 +74,14 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
                 }
             }
         case .public(let repo):
-            try send(to: DB().apnsTokens(forRepoId: repo.id))
+            try send(to: DB().apnsTokens(for: (repoId: repo.id, ignoreUserId: notificatable.senderUid)))
         case .organization(let org, let admin):
             let db = try DB()
             let oauthToken = try db.oauthToken(forUser: admin.id)
             firstly {
                 GitHubAPI(oauthToken: oauthToken).members(for: org)
             }.map {
-                try db.apnsTokens(forUserIds: $0)
+                try db.apnsTokens(forUserIds: $0 - [notificatable.senderUid])
             }.done {
                 try send(to: $0)
             }.catch {

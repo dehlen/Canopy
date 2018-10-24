@@ -8,6 +8,7 @@ private enum CryptoError: Error {
     case couldNotDecrypt(forUserId: Int)
 }
 
+typealias TokenSelect = (repoId: Int, ignoreUserId: Int)
 class DB {
     let db: SQLite
 
@@ -35,9 +36,9 @@ class DB {
         print("Backed up:", dst.path)
     }
 
-    func apnsTokens(forRepoId repoId: Int) throws -> [APNSConfiguration: [String]] {
+    func apnsTokens(for conf: TokenSelect) throws -> [APNSConfiguration: [String]] {
         let sql = """
-            SELECT id, topic, production
+            SELECT id, topic, production, tokens.user_id
             FROM tokens
             INNER JOIN subscriptions ON subscriptions.user_id = tokens.user_id
             WHERE subscriptions.repo_id = :1
@@ -46,8 +47,11 @@ class DB {
         var results: [APNSConfiguration: [String]] = [:]
 
         try db.forEachRow(statement: sql, doBindings: {
-            try $0.bind(position: 1, repoId)
+            try $0.bind(position: 1, conf.repoId)
         }, handleRow: { statement, row in
+            let userId = statement.columnInt(position: 3)
+            guard userId != conf.ignoreUserId else { return }
+
             let token = statement.columnText(position: 0)
             let topic = statement.columnText(position: 1)
             let production = statement.columnInt(position: 2) != 0
@@ -90,7 +94,7 @@ class DB {
         let userId: Int
     }
 
-    func tokens(forRepoId repoId: Int) throws -> [String: Foo] {
+    func tokens(for conf: TokenSelect) throws -> [String: Foo] {
 
         // we intend do a HEAD request for the repo with each oauth-token
         // and we’re assuming that 99% will return 200, thus we may as
@@ -107,14 +111,17 @@ class DB {
         var results: [String: Foo] = [:]
 
         try db.forEachRow(statement: sql, doBindings: {
-            try $0.bind(position: 1, repoId)
+            try $0.bind(position: 1, conf.repoId)
         }, handleRow: { statement, row in
+            let userId = statement.columnInt(position: 5)
+            guard userId != conf.ignoreUserId else { return }
+
             let apnsDeviceToken = statement.columnText(position: 0)
             let topic = statement.columnText(position: 1)
             let production = statement.columnInt(position: 2) != 0
             let encryptedOAuthToken: [UInt8] = statement.columnIntBlob(position: 3)
             let encryptionSalt: [UInt8] = statement.columnIntBlob(position: 4)
-            let userId = statement.columnInt(position: 5)
+
 
             guard let oauthToken = decrypt(encryptedOAuthToken, salt: encryptionSalt) else {
                 return alert(message: "Failed decrypting token for a user. We don’t know which")
