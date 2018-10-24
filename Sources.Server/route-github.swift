@@ -16,11 +16,12 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
     }
 
     print()
-    print("/github:", eventType)
-
+    print("/github:", eventType, terminator: " ")
 
     do {
         let notificatable = try rq.decodeNotificatable(eventType: eventType)
+
+        print(notificatable.title ?? "untitled")
 
         // save mxcl’s JSONs
         if notificatable.senderUid == 58962 {
@@ -92,15 +93,18 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         response.completed()
 
     } catch E.unimplemented(let eventType) {
+        print("unknown event")
         alert(message: "Unknown/unimplemented event type: \(eventType)")
         response.completed(status: .internalServerError)
     } catch E.ignoring {
-        print("Ignoring event")
+        print("ignoring event")
         response.completed()
     } catch DB.E.oauthTokenNotFound {
+        print("no oauth-token not found which was required to do this particular operation")
         // user signed out presumably
         response.completed(status: .unauthorized)
     } catch {
+        print(error.legibleDescription)
         alert(message: error.legibleDescription)
         response.appendBody(string: error.legibleDescription)
         response.completed(status: .expectationFailed)
