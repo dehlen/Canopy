@@ -18,10 +18,14 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
     print()
     print("/github:", eventType)
 
-    rq.postBodyString.map{ save(json: $0, eventName: eventType)
 
     do {
         let notificatable = try rq.decodeNotificatable(eventType: eventType)
+
+        // save mxcl’s JSONs
+        if notificatable.uid == 58962 {
+            rq.postBodyString.map{ save(json: $0, eventName: eventType) }
+        }
 
         guard !notificatable.shouldIgnore else {
             throw E.ignoring
@@ -255,7 +259,7 @@ func save(json: String, eventName: String) {
 
     func go() {
         do {
-            try jsonString.write(toFile: "../payloads/\(eventName).json", atomically: true, encoding: .utf8)
+            try json.write(toFile: "../payloads/\(eventName).json", atomically: true, encoding: .utf8)
         } catch {
             print("save-payloads:", error)
         }
