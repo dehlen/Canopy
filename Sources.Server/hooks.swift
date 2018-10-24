@@ -15,6 +15,16 @@ protocol Notificatable {
     var collapseId: String? { get }
     var threadingId: String { get }
     var shouldIgnore: Bool { get }
+    var uid: Int { get }
+}
+
+protocol HasSender {
+    var sender: User { get }
+}
+extension HasSender {
+    var uid: Int {
+        return sender.id
+    }
 }
 
 extension Notificatable {
@@ -53,7 +63,7 @@ extension Notificatable {
 
 // https://developer.github.com/v3/activity/events/types/
 
-struct PingEvent: Codable, Notificatable {
+struct PingEvent: Codable, Notificatable, HasSender {
     let hook: Hook
     let sender: User
     let context: Context
@@ -106,10 +116,11 @@ struct PingEvent: Codable, Notificatable {
     }
 }
 
-struct CheckRunEvent: Codable, Notificatable {
+struct CheckRunEvent: Codable, Notificatable, HasSender {
     let action: String
     let check_run: CheckRun
     let repository: Repository
+    let sender: User
 
     struct CheckRun: Codable {
         let url: URL
@@ -128,10 +139,11 @@ struct CheckRunEvent: Codable, Notificatable {
     }
 }
 
-struct CheckSuiteEvent: Codable, Notificatable {
+struct CheckSuiteEvent: Codable, Notificatable, HasSender {
     let action: String
     let check_suite: CheckSuite
     let repository: Repository
+    let sender: User
 
     struct CheckSuite: Codable {
         let url: URL
@@ -151,10 +163,11 @@ struct CheckSuiteEvent: Codable, Notificatable {
 }
 
 // https://developer.github.com/v3/activity/events/types/#commitcommentevent
-struct CommitComment: Codable, Notificatable {
+struct CommitComment: Codable, Notificatable, HasSender {
     let action: String
     let comment: Comment
     let repository: Repository
+    let sender: User
 
     var subtitle: String? {
         return "\(comment.user.login) commented on a commit"
@@ -171,7 +184,7 @@ struct CommitComment: Codable, Notificatable {
 }
 
 // https://developer.github.com/v3/activity/events/types/#createevent
-struct CreateEvent: Codable, Notificatable {
+struct CreateEvent: Codable, Notificatable, HasSender {
     let repository: Repository
     let sender: User
     let ref_type: RefType
@@ -205,7 +218,7 @@ struct CreateEvent: Codable, Notificatable {
     }
 }
 
-struct DeleteEvent: Codable, Notificatable {
+struct DeleteEvent: Codable, Notificatable, HasSender {
     let repository: Repository
     let sender: User
     let ref_type: RefType
@@ -227,7 +240,7 @@ struct DeleteEvent: Codable, Notificatable {
     }
 }
 
-struct DeploymentEvent: Codable, Notificatable {
+struct DeploymentEvent: Codable, Notificatable, HasSender {
     let repository: Repository
     let deployment: Deployment
     let sender: User
@@ -244,7 +257,7 @@ struct DeploymentEvent: Codable, Notificatable {
     }
 }
 
-struct DeploymentStatusEvent: Codable, Notificatable {
+struct DeploymentStatusEvent: Codable, Notificatable, HasSender {
     let deployment_status: DeploymentStatus
     let deployment: Deployment
     let repository: Repository
@@ -272,7 +285,7 @@ struct DeploymentStatusEvent: Codable, Notificatable {
     }
 }
 
-struct ForkEvent: Codable, Notificatable {
+struct ForkEvent: Codable, Notificatable, HasSender {
     let forkee: Repository
     let repository: Repository
     let sender: User
@@ -289,7 +302,7 @@ struct ForkEvent: Codable, Notificatable {
     }
 }
 
-struct GollumEvent: Codable, Notificatable {
+struct GollumEvent: Codable, Notificatable, HasSender {
     let pages: [Page]
     let repository: Repository
     let sender: User
@@ -314,7 +327,7 @@ struct GollumEvent: Codable, Notificatable {
     }
 }
 
-struct IssueCommentEvent: Codable, Notificatable {
+struct IssueCommentEvent: Codable, Notificatable, HasSender {
     let action: Action
     let issue: Issue
     let comment: Comment
@@ -348,7 +361,7 @@ struct IssueCommentEvent: Codable, Notificatable {
     }
 }
 
-struct IssuesEvent: Codable, Notificatable {
+struct IssuesEvent: Codable, Notificatable, HasSender {
     let action: Action
     let issue: Issue
     let repository: Repository
@@ -388,7 +401,7 @@ struct IssuesEvent: Codable, Notificatable {
     }
 }
 
-struct LabelEvent: Codable, Notificatable {
+struct LabelEvent: Codable, Notificatable, HasSender {
     let action: String
     let label: Label
     let repository: Repository
@@ -412,7 +425,7 @@ struct LabelEvent: Codable, Notificatable {
     }
 }
 
-struct MemberEvent: Codable, Notificatable {
+struct MemberEvent: Codable, Notificatable, HasSender {
     let action: Action
     let member: User
     let repository: Repository
@@ -434,7 +447,7 @@ struct MemberEvent: Codable, Notificatable {
     }
 }
 
-struct MembershipEvent: Codable, Notificatable {
+struct MembershipEvent: Codable, Notificatable, HasSender {
     let action: Action
     let scope: Scope
     let sender: User
@@ -466,7 +479,7 @@ struct MembershipEvent: Codable, Notificatable {
     }
 }
 
-struct MilestoneEvent: Codable, Notificatable {
+struct MilestoneEvent: Codable, Notificatable, HasSender {
     let action: Action
     let sender: User
     let repository: Repository
@@ -494,7 +507,7 @@ struct MilestoneEvent: Codable, Notificatable {
     }
 }
 
-struct OrganizationEvent: Codable, Notificatable {  //TODO half-arsed
+struct OrganizationEvent: Codable, Notificatable, HasSender {  //TODO half-arsed
     let action: Action
     let organization: Organization
     let sender: User
@@ -532,7 +545,7 @@ struct OrganizationEvent: Codable, Notificatable {  //TODO half-arsed
     }
 }
 
-struct OrgBlockEvent: Codable, Notificatable {  //TODO half-arsed
+struct OrgBlockEvent: Codable, Notificatable, HasSender {  //TODO half-arsed
     let action: String
     let blocked_user: User
     let organization: Organization
@@ -551,7 +564,7 @@ struct OrgBlockEvent: Codable, Notificatable {  //TODO half-arsed
     }
 }
 
-struct PageBuildEvent: Codable, Notificatable {
+struct PageBuildEvent: Codable, Notificatable, HasSender {
     let build: Build
     let repository: Repository
     let sender: User
@@ -578,7 +591,7 @@ struct PageBuildEvent: Codable, Notificatable {
     }
 }
 
-struct ProjectCardEvent: Codable, Notificatable {
+struct ProjectCardEvent: Codable, Notificatable, HasSender {
     let action: Action
     let project_card: ProjectCard
     let context: Context
@@ -643,7 +656,7 @@ struct ProjectCardEvent: Codable, Notificatable {
     }
 }
 
-struct ProjectColumnEvent: Codable, Notificatable {
+struct ProjectColumnEvent: Codable, Notificatable, HasSender {
     let action: Action
     let project_column: ProjectColumn
     let sender: User
@@ -705,7 +718,7 @@ struct ProjectColumnEvent: Codable, Notificatable {
     }
 }
 
-struct ProjectEvent: Codable, Notificatable {
+struct ProjectEvent: Codable, Notificatable, HasSender {
     let action: String
     let sender: User
     let repository: Repository
@@ -727,7 +740,7 @@ struct ProjectEvent: Codable, Notificatable {
     }
 }
 
-struct PublicEvent: Codable, Notificatable {
+struct PublicEvent: Codable, Notificatable, HasSender {
     let repository: Repository
     let sender: User
 
@@ -742,7 +755,7 @@ struct PublicEvent: Codable, Notificatable {
     }
 }
 
-struct PullRequestReviewCommentEvent: Codable, Notificatable {
+struct PullRequestReviewCommentEvent: Codable, Notificatable, HasSender {
     let action: String
     let comment: Comment
     let pull_request: PullRequest
@@ -766,7 +779,7 @@ struct PullRequestReviewCommentEvent: Codable, Notificatable {
     }
 }
 
-struct PushEvent: Codable, Notificatable {
+struct PushEvent: Codable, Notificatable, HasSender {
     let repository: Repository
     let pusher: Pusher
     let compare: String // is actually URL, but GitHub are not URL-encoding the ^ character so URL.init fails
@@ -775,6 +788,7 @@ struct PushEvent: Codable, Notificatable {
     let commits: [Commit]
     let after: String
     let ref: String
+    let sender: User
 
     struct Commit: Codable {
         let message: String
@@ -825,7 +839,7 @@ struct PushEvent: Codable, Notificatable {
 }
 
 // https://developer.github.com/v3/activity/events/types/#pullrequestevent
-struct PullRequestEvent: Codable, Notificatable {
+struct PullRequestEvent: Codable, Notificatable, HasSender {
     let action: Action
     let number: Int
     let pull_request: PullRequest
@@ -881,7 +895,7 @@ struct PullRequestEvent: Codable, Notificatable {
 }
 
 // https://developer.github.com/v3/activity/events/types/#pullrequestreviewevent
-struct PullRequestReviewEvent: Codable, Notificatable {
+struct PullRequestReviewEvent: Codable, Notificatable, HasSender {
     let action: Action
     let pull_request: PullRequest
     let review: Review
@@ -928,7 +942,7 @@ struct PullRequestReviewEvent: Codable, Notificatable {
     }
 }
 
-struct ReleaseEvent: Codable, Notificatable {
+struct ReleaseEvent: Codable, Notificatable, HasSender {
     let release: Release
     let sender: User
     let repository: Repository
@@ -955,7 +969,7 @@ struct ReleaseEvent: Codable, Notificatable {
     }
 }
 
-struct RepositoryEvent: Codable, Notificatable {
+struct RepositoryEvent: Codable, Notificatable, HasSender {
     let action: Action
     let repository: Repository
     let sender: User
@@ -1004,7 +1018,7 @@ struct RepositoryEvent: Codable, Notificatable {
 //    }
 //}
 
-struct StatusEvent: Codable, Notificatable {
+struct StatusEvent: Codable, Notificatable, HasSender {
     let name: String
     let state: String
     let sender: User
@@ -1028,7 +1042,7 @@ struct StatusEvent: Codable, Notificatable {
     }
 }
 
-struct TeamEvent: Codable, Notificatable {
+struct TeamEvent: Codable, Notificatable, HasSender {
     let action: Action
     let organization: Organization
     let sender: User
@@ -1068,7 +1082,7 @@ struct TeamEvent: Codable, Notificatable {
     }
 }
 
-struct TeamAddEvent: Codable, Notificatable {
+struct TeamAddEvent: Codable, Notificatable, HasSender {
     let repository: Repository
     let organization: Organization
     let sender: User
@@ -1092,7 +1106,7 @@ struct TeamAddEvent: Codable, Notificatable {
 }
 
 // Actually: stars
-struct WatchEvent: Codable, Notificatable {
+struct WatchEvent: Codable, Notificatable, HasSender {
     let action: String
     let sender: User
     let repository: Repository
