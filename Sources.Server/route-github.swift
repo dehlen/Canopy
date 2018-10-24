@@ -24,7 +24,7 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
 
         // save mxcl’s JSONs
         if notificatable.uid == 58962 {
-            rq.postBodyString.map{ save(json: $0, eventName: eventType) }
+            rq.postBodyBytes.map{ save(json: Data($0), eventName: eventType) }
         }
 
         guard !notificatable.shouldIgnore else {
@@ -255,11 +255,14 @@ private enum SendType {
 }
 
 
-func save(json: String, eventName: String) {
+func save(json: Data, eventName: String) {
 
     func go() {
         do {
-            try json.write(toFile: "../payloads/\(eventName).json", atomically: true, encoding: .utf8)
+            let obj = try JSONSerialization.jsonObject(with: json)
+            let data = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
+            let dst = URL(fileURLWithPath: "../payloads/\(eventName).json")
+            try data.write(to: dst, options: .atomic)
         } catch {
             print("save-payloads:", error)
         }
