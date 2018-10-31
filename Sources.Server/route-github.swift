@@ -108,6 +108,8 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         alert(message: error.legibleDescription)
         response.appendBody(string: error.legibleDescription)
         response.completed(status: .expectationFailed)
+
+        rq.postBodyBytes.map{ save(json: Data($0), eventName: eventType) }
     }
 }
 
