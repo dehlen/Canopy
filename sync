@@ -1,7 +1,7 @@
 rsync --archive --human-readable --compress --verbose --delete \
           --exclude .build --exclude Carthage \
           . canopy:src
-ssh ubuntu@canopy.codebasesaga.com -i $HOME/.ssh/znc.pem "cd src && ../swift-4.2-RELEASE-ubuntu16.04/usr/bin/swift build -c release && sudo systemctl restart debris"
+ssh ubuntu@canopy.codebasesaga.com -i $HOME/.ssh/znc.pem "cd src && ../swift/usr/bin/swift build -c release && sudo systemctl restart debris"
 
 # because Linux has different resolved deps thanks to Perfect’s COpenSSL
 scp canopy:src/Package.resolved .
