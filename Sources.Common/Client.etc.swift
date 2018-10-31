@@ -297,7 +297,6 @@ private func _alert(error: Error, title: String?, file: StaticString, line: UInt
     } else {
         return (error.legibleDescription, title)
     }
-
 }
 
 #if os(macOS)

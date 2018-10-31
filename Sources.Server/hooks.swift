@@ -719,10 +719,46 @@ struct ProjectColumnEvent: Codable, Notificatable, HasSender {
 }
 
 struct ProjectEvent: Codable, Notificatable, HasSender {
-    let action: String
+    let action: Action
     let sender: User
-    let repository: Repository
+    let context: Context
     let project: Project
+
+    enum CodingKeys: String, CodingKey {
+        case action
+        case sender
+        case repository
+        case organization
+        case project
+    }
+
+    enum Action: String, Decodable {
+        case created, edited, closed, reopened, deleted
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        action = try container.decode(Action.self, forKey: .action)
+        sender = try container.decode(User.self, forKey: .sender)
+        project = try container.decode(Project.self, forKey: .project)
+
+        enum E: Error {
+            case missingContext
+        }
+
+        if container.contains(.repository) {
+            context = .repository(try container.decode(Repository.self, forKey: .repository))
+        } else if container.contains(.organization) {
+            context = .organization(try container.decode(Organization.self, forKey: .organization), admin: sender)
+        } else {
+            throw E.missingContext
+        }
+    }
+
+    func encode(to encoder: Encoder) throws {
+        // required for Perfect (due to poor API design)
+        fatalError()
+    }
 
     struct Project: Codable {
         let html_url: URL
@@ -734,9 +770,6 @@ struct ProjectEvent: Codable, Notificatable, HasSender {
     }
     var url: URL? {
         return project.html_url
-    }
-    var context: Context {
-        return .repository(repository)
     }
 }
 
