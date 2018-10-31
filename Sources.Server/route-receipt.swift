@@ -45,81 +45,14 @@ func receiptHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         }
     }
 
-    func verify() -> Promise<Response2> {
-
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .custom { decoder in
-            let container = try decoder.singleValueContainer()
-            let dateString = try container.decode(String.self)
-            guard let ms = TimeInterval(dateString) else {
-                throw DecodingError.dataCorruptedError(in: container, debugDescription: "Expected String containing Int")
-            }
-            return Date(timeIntervalSince1970: ms / 1000)
-        }
-
-        func validate(_ data: Data) throws -> Response2 {
-            let status = try decoder.decode(Response1.self, from: data).status
-            switch status {
-            case 0:
-                return try decoder.decode(Response2.self, from: data)
-            case 21007:
-                throw E.trySandboxVerifyReceipt
-            case 21000, 21002, 21003, 21004, 21008:
-                throw HTTPResponseError(status: .internalServerError, description: "\(status)")
-            case 21005, 21100..<21200:
-                throw HTTPResponseError(status: .badGateway, description: "Apple’s receipt validator is unavailable")
-            case 21006, 21010:
-                throw E.expired
-            default:
-                throw E.invalidAppleValidatorStatus(status)
-            }
-        }
-
-        func go(prod: Bool) throws -> Promise<Data> {
-            let password = sku == "iOS"
-                ? "e863c3bf604e4de7867e95c86249ef25"
-                : "2367a7d022cb4e05a047a624891fa13f"
-            let url = prod
-                ? "https://buy.itunes.apple.com/verifyReceipt"
-                : "https://sandbox.itunes.apple.com/verifyReceipt"
-            let json_ = [
-                "receipt-data": receipt,
-                "password": password
-            ]
-            let json = try JSONSerialization.data(withJSONObject: json_)
-            let rsp = try CURLRequest(url, .failOnError, .addHeader(.contentType, "application/json"), .postData([UInt8](json))).perform()
-            return .value(Data(rsp.bodyBytes))
-        }
-
-        return firstly {
-            try go(prod: true)
-        }.map {
-            try validate($0)
-        }.recover { error -> Promise<Response2> in
-            if case E.trySandboxVerifyReceipt = error {
-                return try go(prod: false).map(validate)
-            }
-            throw error
-        }
-    }
-
     let userId = persist()
-
-    firstly {
-        when(fulfilled: userId, verify())
-    }.map { userId, response in
-        (userId, try response.expiryDate())
-    }.done { userId, expiry in
-        if try DB().add(receiptForUserId: userId, expires: expiry) {
-            response.completed()
-        } else {
-            response.completed(status: .forbidden)
-        }
-    }.catch { error in
+    validateReceipt(userId: userId, sku: sku, receipt: receipt).catch { error in
         if case E.noExpiryDate = error {
             response.completed(status: .paymentRequired)
-        } else if case E.expired = error, let userId = userId.value {
-            _ = try? DB().remove(receiptForUserId: userId)
+        } else if case E.expired = error {
+            if let userId = userId.value {
+                _ = try? DB().remove(receiptForUserId: userId)
+            }
             response.completed(status: .forbidden)
         } else {
             print(error)
@@ -151,7 +84,7 @@ private struct Response1: Decodable {
     let status: Int
 }
 
-private struct Response2: Decodable {
+struct ReceiptInfo: Decodable {
     let status: Int
     let environment: String
 //    let receipt: Receipt
@@ -208,11 +141,80 @@ private struct Response2: Decodable {
 //    }
 }
 
-private extension Response2 {
+private extension ReceiptInfo {
     func expiryDate() throws -> Date {
         guard let receipt = latest_receipt_info, let expires = receipt.map(\.expires_date_ms).max() else {
             throw E.noExpiryDate
         }
         return expires
+    }
+}
+
+func validateReceipt(userId: Promise<Int>, sku: String?, receipt: String) -> Promise<Void> {
+    return firstly {
+        when(fulfilled: userId, verifyReceipt(sku: sku, receipt: receipt))
+    }.map { userId, response in
+        (userId, try response.expiryDate())
+    }.done { userId, expiry in
+        guard try DB().add(receiptForUserId: userId, expires: expiry) else {
+            throw E.expired
+        }
+    }
+}
+
+private func verifyReceipt(sku: String?, receipt: String) -> Promise<ReceiptInfo> {
+    let decoder = JSONDecoder()
+    decoder.dateDecodingStrategy = .custom { decoder in
+        let container = try decoder.singleValueContainer()
+        let dateString = try container.decode(String.self)
+        guard let ms = TimeInterval(dateString) else {
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "Expected String containing Int")
+        }
+        return Date(timeIntervalSince1970: ms / 1000)
+    }
+
+    func validate(_ data: Data) throws -> ReceiptInfo {
+        let status = try decoder.decode(Response1.self, from: data).status
+        switch status {
+        case 0:
+            return try decoder.decode(ReceiptInfo.self, from: data)
+        case 21007:
+            throw E.trySandboxVerifyReceipt
+        case 21000, 21002, 21003, 21004, 21008:
+            throw HTTPResponseError(status: .internalServerError, description: "\(status)")
+        case 21005, 21100..<21200:
+            throw HTTPResponseError(status: .badGateway, description: "Apple’s receipt validator is unavailable")
+        case 21006, 21010:
+            throw E.expired
+        default:
+            throw E.invalidAppleValidatorStatus(status)
+        }
+    }
+
+    func go(prod: Bool) throws -> Promise<Data> {
+        let password = sku == "iOS"
+            ? "e863c3bf604e4de7867e95c86249ef25"
+            : "2367a7d022cb4e05a047a624891fa13f"
+        let url = prod
+            ? "https://buy.itunes.apple.com/verifyReceipt"
+            : "https://sandbox.itunes.apple.com/verifyReceipt"
+        let json_ = [
+            "receipt-data": receipt,
+            "password": password
+        ]
+        let json = try JSONSerialization.data(withJSONObject: json_)
+        let rsp = try CURLRequest(url, .failOnError, .addHeader(.contentType, "application/json"), .postData([UInt8](json))).perform()
+        return .value(Data(rsp.bodyBytes))
+    }
+
+    return firstly {
+        try go(prod: true)
+    }.map {
+        try validate($0)
+    }.recover { error -> Promise<ReceiptInfo> in
+        if case E.trySandboxVerifyReceipt = error {
+            return try go(prod: false).map(validate)
+        }
+        throw error
     }
 }

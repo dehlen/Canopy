@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		63EEA0F0218A38E30056E113 /* route-receipts-refresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EEA0EF218A38E30056E113 /* route-receipts-refresh.swift */; };
 		OBJ_1000 /* Guarantee.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_54 /* Guarantee.swift */; };
 		OBJ_1001 /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_55 /* Promise.swift */; };
 		OBJ_1002 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_56 /* Resolver.swift */; };
@@ -33,7 +34,6 @@
 		OBJ_1041 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* main.swift */; };
 		OBJ_1042 /* model+migrate().swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* model+migrate().swift */; };
 		OBJ_1043 /* model.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* model.swift */; };
-		OBJ_1044 /* receipt-update.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* receipt-update.swift */; };
 		OBJ_1045 /* route-enroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* route-enroll.swift */; };
 		OBJ_1046 /* route-github.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* route-github.swift */; };
 		OBJ_1047 /* route-hook.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* route-hook.swift */; };
@@ -734,6 +734,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		63EEA0EF218A38E30056E113 /* route-receipts-refresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "route-receipts-refresh.swift"; sourceTree = "<group>"; };
 		"COpenSSL::COpenSSL::Product" /* COpenSSL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = COpenSSL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"Debris::Roots::Product" /* Roots.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Roots.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"Debris::debris::Product" /* debris */ = {isa = PBXFileReference; lastKnownFileType = text; path = debris; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -793,7 +794,6 @@
 		OBJ_157 /* HTTPRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPRequest.swift; sourceTree = "<group>"; };
 		OBJ_158 /* HTTPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPResponse.swift; sourceTree = "<group>"; };
 		OBJ_159 /* MimeReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimeReader.swift; sourceTree = "<group>"; };
-		OBJ_16 /* receipt-update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "receipt-update.swift"; sourceTree = "<group>"; };
 		OBJ_160 /* MimeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MimeType.swift; sourceTree = "<group>"; };
 		OBJ_161 /* Routing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routing.swift; sourceTree = "<group>"; };
 		OBJ_162 /* StaticFileHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticFileHandler.swift; sourceTree = "<group>"; };
@@ -1897,7 +1897,7 @@
 			path = ".build/checkouts/PromiseKit.git-3187941214257684793/Sources";
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -1910,7 +1910,6 @@
 				OBJ_39 /* Dependencies */,
 				OBJ_441 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_63 /* PerfectSQLite 3.1.2 */ = {
@@ -1994,7 +1993,6 @@
 				OBJ_13 /* main.swift */,
 				OBJ_14 /* model+migrate().swift */,
 				OBJ_15 /* model.swift */,
-				OBJ_16 /* receipt-update.swift */,
 				OBJ_17 /* route-enroll.swift */,
 				OBJ_18 /* route-github.swift */,
 				OBJ_19 /* route-hook.swift */,
@@ -2544,7 +2542,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_441 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -2616,11 +2614,11 @@
 				OBJ_1041 /* main.swift in Sources */,
 				OBJ_1042 /* model+migrate().swift in Sources */,
 				OBJ_1043 /* model.swift in Sources */,
-				OBJ_1044 /* receipt-update.swift in Sources */,
 				OBJ_1045 /* route-enroll.swift in Sources */,
 				OBJ_1046 /* route-github.swift in Sources */,
 				OBJ_1047 /* route-hook.swift in Sources */,
 				OBJ_1048 /* route-oauth.swift in Sources */,
+				63EEA0F0218A38E30056E113 /* route-receipts-refresh.swift in Sources */,
 				OBJ_1049 /* route-receipt.swift in Sources */,
 				OBJ_1050 /* route-subscribe.swift in Sources */,
 				OBJ_1051 /* route-token.swift in Sources */,

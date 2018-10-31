@@ -20,6 +20,7 @@ public extension URL {
         case subscribe
         case receipt
         case enroll
+        case refreshReceipts
 
         public var path: String {
             switch self {
@@ -37,6 +38,8 @@ public extension URL {
                 return "/receipt"
             case .enroll:
                 return "/enroll"
+            case .refreshReceipts:
+                return "/receipt/refresh"
             }
         }
     }
