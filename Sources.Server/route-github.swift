@@ -31,7 +31,11 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             throw E.ignoring
         }
 
-        func send(to confs: [APNSConfiguration: [String]]) throws {
+        let db = try DB()
+
+        let id = rq.header(.custom(name: "X-GitHub-Delivery"))
+
+        func send(notificatable: Notificatable, to confs: [APNSConfiguration: [String]]) throws {
             let note = APNsNotification.alert(
                 body: notificatable.body,
                 title: notificatable.title,
@@ -39,16 +43,20 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
                 category: eventType,
                 threadId: notificatable.threadingId,
                 extra: notificatable.url.map{ ["url": $0.absoluteString] },
-                id: rq.header(.custom(name: "X-GitHub-Delivery")),
+                id: id,
                 collapseId: notificatable.collapseId)
             try note.send(to: confs)
         }
 
+        func send(to: [APNSConfiguration: [String]]) throws {
+            try send(notificatable: notificatable, to: to)
+        }
+
         switch SendType(notificatable) {
         case .broadcast:
-            try send(to: DB().allAPNsTokens())
+            try send(to: db.allAPNsTokens())
         case .private(let repo):
-            let db = try DB()
+
             let tokens = try db.tokens(for: (repoId: repo.id, ignoreUserId: notificatable.senderUid))
 
             for (oauthToken, foo) in tokens {
@@ -76,9 +84,8 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
                 }
             }
         case .public(let repo):
-            try send(to: DB().apnsTokens(for: (repoId: repo.id, ignoreUserId: notificatable.senderUid)))
+            try send(to: db.apnsTokens(for: (repoId: repo.id, ignoreUserId: notificatable.senderUid)))
         case .organization(let org, let admin):
-            let db = try DB()
             let oauthToken = try db.oauthToken(forUser: admin.id)
             firstly {
                 GitHubAPI(oauthToken: oauthToken).members(for: org)
@@ -89,6 +96,25 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             }.catch {
                 alert(message: $0.legibleDescription)
             }
+        }
+
+      //// if we’re a new branch prompt the user to create a pr
+        if let note = notificatable as? CreateEvent, note.ref_type == .branch, let branch = note.ref {
+
+            struct CreatePR: Notificatable {
+                let branch: String
+                let repo: Repository
+                var context: Context { return .repository(repo) }
+                let senderUid = 0 //unused here
+                var title: String { return "You pushed “\(branch)”" }
+                let body = "Tap to create pull request"
+                var url: URL? { return URL(string: "https://github.com/\(repo.full_name)/pull/new/\(branch)") }
+                var collapseId: String? { return repo.full_name + "/create-pr" }
+            }
+
+            let pr = CreatePR(branch: branch, repo: note.repository)
+            let confs = try db.apnsTokens(forUserIds: [note.senderUid])
+            try send(notificatable: pr, to: confs)
         }
 
         response.completed()
