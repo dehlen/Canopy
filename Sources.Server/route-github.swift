@@ -107,7 +107,7 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
                 let repo: Repository
                 var context: Context { return .repository(repo) }
                 let senderUid = 0 //unused here
-                var title: String { return "You pushed “\(branch)”" }
+                var subtitle: String? { return "You pushed “\(branch)”" }
                 let body = "Tap to create pull request"
                 var url: URL? { return URL(string: "https://github.com/\(repo.full_name)/pull/new/\(branch)") }
                 var collapseId: String? { return repo.full_name + "/create-pr" }
