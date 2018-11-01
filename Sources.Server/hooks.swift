@@ -1021,35 +1021,50 @@ struct RepositoryEvent: Codable, Notificatable, HasSender {
     }
 }
 
-// CANNOT FIGURE OUT THE CONTEXT!
-//struct RepositoryVulnerabilityEvent: Codable, Notificatable {
-//    let action: Action
-//    let alert: Alert
-//
-//    struct Alert: Codable {
-//        let affected_package_name: String
-//        let external_reference: URL
-//
-//        let dismiss_reason: String? // if action is dismiss
-//        let dimisser: User?
-//    }
-//
-//    enum Action: String, Codable {
-//        case create, dismiss, resolve
-//    }
-//
-//    var title: String {
-//        "Repository Vulnerability Event"
-//    }
-//
-//    var body: String {
-//        return "\(sender.login) \(action) \(repository.full_name)"
-//    }
-//
-//    var context: Context {
-//        return .repository(repository)
-//    }
-//}
+struct RepositoryVulnerabilityEvent: Codable, Notificatable, HasSender {
+    let action: Action
+    let alert: Alert
+    let sender: User
+    let repository: Repository
+
+    struct Alert: Codable {
+        let affected_package_name: String  // typically `merge`
+        let external_reference: URL
+        let external_identifier: String
+
+        let dismiss_reason: String? // if action is dismiss
+        let dismisser: User?
+    }
+
+    enum Action: String, Codable {
+        case create, dismiss, resolve
+    }
+
+    var subtitle: String? {
+        return "Vulnerability alert"
+    }
+
+    var body: String {
+        switch action {
+        case .create:
+            return alert.external_identifier
+        case .dismiss:
+            let user = alert.dismisser?.login ?? "unknown"
+            let reason = alert.dismiss_reason ?? "unknown"
+            return "Dismissed by \(user) because “\(reason)”"
+        case .resolve:
+            return "Resolved by \(sender.login)"
+        }
+    }
+
+    var url: URL {
+        return alert.external_reference
+    }
+
+    var context: Context {
+        return .repository(repository)
+    }
+}
 
 struct StatusEvent: Codable, Notificatable, HasSender {
     let name: String

@@ -59,7 +59,9 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
                         //mxcl, aleshia, laurie,   akash,    ernesto
                         return
                     default:
-                        guard try db.isReceiptValid(forUserId: foo.userId) else { throw PMKError.cancelled }
+                        guard try db.isReceiptValid(forUserId: foo.userId) else {
+                            throw PMKError.cancelled
+                        }
                     }
                 }.then {
                     GitHubAPI(oauthToken: oauthToken).hasClearance(for: repo)
@@ -96,6 +98,8 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         print("unknown event")
         alert(message: "Unknown/unimplemented event type: \(eventType)")
         response.completed(status: .internalServerError)
+
+        rq.postBodyBytes.map{ save(json: Data($0), eventName: "unimplemented-\(eventType)") }
     } catch E.ignoring {
         print("ignoring event")
         response.completed()
@@ -109,7 +113,7 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         response.appendBody(string: error.legibleDescription)
         response.completed(status: .expectationFailed)
 
-        rq.postBodyBytes.map{ save(json: Data($0), eventName: eventType) }
+        rq.postBodyBytes.map{ save(json: Data($0), eventName: "error-\(eventType)") }
     }
 }
 
@@ -185,7 +189,9 @@ private extension HTTPRequest {
             return try rq.decode(TeamEvent.self)
         case "team_add":
             return try rq.decode(TeamAddEvent.self)
-        case "marketplace_purchase", "repository_vulnerability_alert", _:
+        case "repository_vulnerability_alert":
+            return try rq.decode(RepositoryVulnerabilityEvent.self)
+        case "marketplace_purchase", _:
             throw E.unimplemented(eventType)
         }
     }
