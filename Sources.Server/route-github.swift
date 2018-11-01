@@ -18,13 +18,18 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
     print()
     print("/github:", eventType, terminator: " ")
 
+    func save(prefix: String) {
+        guard let bytes = rq.postBodyBytes else { return }
+        Debris.save(json: Data(bytes), eventName: "\(prefix)-\(eventType)")
+    }
+
     do {
         let notificatable = try rq.decodeNotificatable(eventType: eventType)
 
         print(notificatable.title ?? "untitled")
 
-        if let prefix = notificatable.saveNamePrefix, let data = rq.postBodyBytes {
-            save(json: Data(data), eventName: "\(prefix)-\(eventType)")
+        if let prefix = notificatable.saveNamePrefix {
+            save(prefix: prefix)
         }
 
         guard !notificatable.shouldIgnore else {
@@ -124,8 +129,7 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         print("unknown event")
         alert(message: "Unknown/unimplemented event type: \(eventType)")
         response.completed(status: .internalServerError)
-
-        rq.postBodyBytes.map{ save(json: Data($0), eventName: "unimplemented-\(eventType)") }
+        save(prefix: "unimplemented")
     } catch E.ignoring {
         print("ignoring event")
         response.completed()
@@ -138,8 +142,7 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         alert(message: error.legibleDescription)
         response.appendBody(string: error.legibleDescription)
         response.completed(status: .expectationFailed)
-
-        rq.postBodyBytes.map{ save(json: Data($0), eventName: "error-\(eventType)") }
+        save(prefix: "error")
     }
 }
 
