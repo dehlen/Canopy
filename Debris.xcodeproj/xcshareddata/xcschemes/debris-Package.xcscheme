@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Debris::Roots"
-               BuildableName = "Roots.framework"
-               BlueprintName = "Roots"
+               BlueprintIdentifier = "Debris::Debris"
+               BuildableName = "Debris"
+               BlueprintName = "Debris"
                ReferencedContainer = "container:Debris.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,9 +28,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Debris::debris"
-               BuildableName = "debris"
-               BlueprintName = "debris"
+               BlueprintIdentifier = "Debris::Roots"
+               BuildableName = "Roots.framework"
+               BlueprintName = "Roots"
                ReferencedContainer = "container:Debris.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -59,9 +59,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Debris::Roots"
-            BuildableName = "Roots.framework"
-            BlueprintName = "Roots"
+            BlueprintIdentifier = "Debris::Debris"
+            BuildableName = "Debris"
+            BlueprintName = "Debris"
             ReferencedContainer = "container:Debris.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
