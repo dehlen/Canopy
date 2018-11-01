@@ -53,8 +53,11 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         }
 
         switch SendType(notificatable) {
-        case .broadcast:
-            try send(to: db.allAPNsTokens())
+        case .broadcast(let repo):
+            try send(to: db.mxcl())
+            fallthrough
+        case .public(let repo):
+            try send(to: db.apnsTokens(for: (repoId: repo.id, ignoreUserId: notificatable.senderUid)))
         case .private(let repo):
 
             let tokens = try db.tokens(for: (repoId: repo.id, ignoreUserId: notificatable.senderUid))
@@ -83,8 +86,6 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
                     alert(message: $0.legibleDescription)
                 }
             }
-        case .public(let repo):
-            try send(to: db.apnsTokens(for: (repoId: repo.id, ignoreUserId: notificatable.senderUid)))
         case .organization(let org, let admin):
             let oauthToken = try db.oauthToken(forUser: admin.id)
             firstly {
@@ -272,13 +273,12 @@ private enum SendType {
     case `public`(Repository)
     case `private`(Repository)
     case organization(Organization, admin: User)
-    case broadcast
+    case broadcast(Repository)
 
     init(_ notificatable: Notificatable) {
-//        if notificatable is PublicEvent {
-//            // TELL EVERYBODY!
-//            self = .broadcast
-//        } else {
+        if let publicEvent = notificatable as? PublicEvent {
+            self = .broadcast(publicEvent.repository)
+        } else {
             switch notificatable.context {
             case .repository(let repo) where repo.private:
                 self = .private(repo)
@@ -287,7 +287,7 @@ private enum SendType {
             case .organization(let org, let admin):
                 self = .organization(org, admin: admin)
             }
-//        }
+        }
     }
 }
 
