@@ -16,6 +16,7 @@ protocol Notificatable {
     var threadingId: String { get }
     var shouldIgnore: Bool { get }
     var senderUid: Int { get }
+    var saveNamePrefix: String? { get }
 }
 
 protocol HasSender {
@@ -58,6 +59,14 @@ extension Notificatable {
 
     var subtitle: String? {
         return nil
+    }
+
+    var saveNamePrefix: String? {
+        if senderUid == 58962 {
+            return "mxcl-"
+        } else {
+            return nil
+        }
     }
 }
 
@@ -1063,6 +1072,16 @@ struct RepositoryVulnerabilityEvent: Codable, Notificatable, HasSender {
 
     var context: Context {
         return .repository(repository)
+    }
+
+    var saveNamePrefix: String? {
+        if repository.private {
+            return nil
+        } else if alert.affected_package_name != "merge" || action == .resolve {
+            return "unimplemented-\(alert.affected_package_name)-"
+        } else {
+            return nil
+        }
     }
 }
 

@@ -23,9 +23,8 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
 
         print(notificatable.title ?? "untitled")
 
-        // save mxcl’s JSONs
-        if notificatable.senderUid == 58962 {
-            rq.postBodyBytes.map{ save(json: Data($0), eventName: eventType) }
+        if let prefix = notificatable.saveNamePrefix, let data = rq.postBodyBytes {
+            save(json: Data(data), eventName: "\(prefix)-\(eventType)")
         }
 
         guard !notificatable.shouldIgnore else {
