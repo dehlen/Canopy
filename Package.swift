@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "Debris",
     products: [
-        .executable(name: "debris", targets: ["debris"]),
+        .executable(name: "debris", targets: ["Debris"]),
         .library(name: "Roots", targets: ["Roots"])
     ],
     dependencies: [
@@ -16,7 +16,7 @@ let package = Package(
         .package(url: "https://github.com/PerfectlySoft/Perfect-CURL.git", .upToNextMajor(from: "3.0.0")),
     ],
     targets: [
-        .target(name: "debris", dependencies: ["PerfectSQLite", "PerfectHTTPServer", "PerfectCURL", "Roots"], path: "Sources.Server"),
+        .target(name: "Debris", dependencies: ["PerfectSQLite", "PerfectHTTPServer", "PerfectCURL", "Roots"], path: "Sources.Server"),
         .target(name: "Roots", dependencies: ["PromiseKit"], path: "Sources.Common", exclude: ["Client.etc.swift", "Vendor/Keychain.swift", "Vendor/SKProductsRequest+Promise.swift", "EnrollmentsManager.swift", "SubscribeManager.swift"])
     ]
 )
