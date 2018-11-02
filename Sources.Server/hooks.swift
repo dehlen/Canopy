@@ -1035,7 +1035,7 @@ struct RepositoryEvent: Codable, Notificatable, HasSender {
 }
 
 struct RepositoryImportEvent: Codable, Notificatable, HasSender {
-    let status: StatusEvent
+    let status: Status
     let repository: Repository
     let sender: User
     let organization: User
@@ -1045,7 +1045,12 @@ struct RepositoryImportEvent: Codable, Notificatable, HasSender {
     }
 
     var body: String {
-        return "Repository imported"
+        switch status {
+        case .success:
+            return "Repository imported successfully"
+        case .failure:
+            return "Repository import failed"
+        }
     }
 
     var context: Context {
