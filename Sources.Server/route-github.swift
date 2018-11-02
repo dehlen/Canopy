@@ -58,9 +58,6 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         }
 
         switch SendType(notificatable) {
-        case .broadcast(let repo):
-            try send(to: db.mxcl())
-            fallthrough
         case .public(let repo):
             try send(to: db.apnsTokens(for: (repoId: repo.id, ignoreUserId: notificatable.senderUid)))
         case .private(let repo):
@@ -102,6 +99,11 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             }.catch {
                 alert(message: $0.legibleDescription)
             }
+        }
+
+      //// mxcl is interested
+        if notificatable is PublicEvent {
+            try send(to: db.mxcl())
         }
 
       //// if we’re a new branch prompt the user to create a pr
@@ -278,20 +280,15 @@ private enum SendType {
     case `public`(Repository)
     case `private`(Repository)
     case organization(Organization, admin: User)
-    case broadcast(Repository)
 
     init(_ notificatable: Notificatable) {
-        if let publicEvent = notificatable as? PublicEvent {
-            self = .broadcast(publicEvent.repository)
-        } else {
-            switch notificatable.context {
-            case .repository(let repo) where repo.private:
-                self = .private(repo)
-            case .repository(let repo):
-                self = .public(repo)
-            case .organization(let org, let admin):
-                self = .organization(org, admin: admin)
-            }
+        switch notificatable.context {
+        case .repository(let repo) where repo.private:
+            self = .private(repo)
+        case .repository(let repo):
+            self = .public(repo)
+        case .organization(let org, let admin):
+            self = .organization(org, admin: admin)
         }
     }
 }
