@@ -86,7 +86,7 @@ extension GitHubAPI {
         return nodeId().then{ nodeId in
             try create().done {
                 try DB().record(hook: $0.0, secret: $0.1, node: (node, nodeId))
-                alert(message: "Hook created for \(node.apiPath)")
+                alert(message: node.apiPath, title: "Hook created", url: URL(string: "https://github.com/\(node.apiPath)"))
             }
         }
     }

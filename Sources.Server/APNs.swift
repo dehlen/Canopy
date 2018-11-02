@@ -236,10 +236,14 @@ private var jwt: String {
     }
 }
 
-func alert(message: String, function: StaticString = #function) {
+func alert(message: String, title: String? = nil, url: URL? = nil, function: StaticString = #function) {
     do {
         print(function, message)
-        try APNsNotification(body: message).send(to: DB().mxcl())
+        var extra: [String: Any]?
+        if let url = url {
+            extra = ["url": url.absoluteString]
+        }
+        try APNsNotification(body: message, title: title, extra: extra).send(to: DB().mxcl())
     } catch {
         print("alert: error:", error)
     }
