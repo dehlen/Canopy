@@ -63,7 +63,7 @@ extension Notificatable {
 
     var saveNamePrefix: String? {
         if senderUid == 58962 {
-            return "mxcl-"
+            return "mxcl"
         } else {
             return nil
         }
@@ -407,6 +407,14 @@ struct IssuesEvent: Codable, Notificatable, HasSender {
 
     var context: Context {
         return .repository(repository)
+    }
+
+    var saveNamePrefix: String? {
+        if senderUid == 58962 {
+            return "mxcl-\(action.rawValue)"
+        } else {
+            return nil
+        }
     }
 }
 
