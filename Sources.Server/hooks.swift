@@ -1028,6 +1028,33 @@ struct RepositoryEvent: Codable, Notificatable, HasSender {
     var context: Context {
         return .repository(repository)
     }
+
+    var url: URL? {
+        return repository.html_url
+    }
+}
+
+struct RepositoryImportEvent: Codable, Notificatable, HasSender {
+    let status: StatusEvent
+    let repository: Repository
+    let sender: User
+    let organization: User
+
+    enum Status: String, Codable {
+        case success, failure
+    }
+
+    var body: String {
+        return "Repository imported"
+    }
+
+    var context: Context {
+        return .repository(repository)
+    }
+
+    var url: URL? {
+        return repository.html_url
+    }
 }
 
 struct RepositoryVulnerabilityEvent: Codable, Notificatable, HasSender {

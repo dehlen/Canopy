@@ -206,6 +206,8 @@ private extension HTTPRequest {
             return try rq.decode(ReleaseEvent.self)
         case "repository":
             return try rq.decode(RepositoryEvent.self)
+        case "repository_import":
+            return try rq.decode(RepositoryImportEvent.self)
         case "status":
             // HEAVY TRAFFIC DUDE! Probably send as a silent notification
             // happens for eg. EVERY SINGLE travis build job
