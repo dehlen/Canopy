@@ -1063,7 +1063,6 @@ struct RepositoryImportEvent: Codable, Notificatable, HasSender {
     let status: Status
     let repository: Repository
     let sender: User
-    let organization: User
 
     enum Status: String, Codable {
         case success, failure
@@ -1308,6 +1307,7 @@ struct Comment: Codable {
     let html_url: URL
     let body: String
     let user: User
+    let id: Int
 }
 
 struct PullRequest: Codable {
