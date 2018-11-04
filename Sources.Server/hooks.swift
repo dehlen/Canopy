@@ -350,6 +350,7 @@ struct IssueCommentEvent: Codable, Notificatable, HasSender {
     var title: String {
         return "\(repository.full_name)#\(issue.number)"
     }
+
     var subtitle: String? {
         switch action {
         case .created:
@@ -359,14 +360,30 @@ struct IssueCommentEvent: Codable, Notificatable, HasSender {
         }
 
     }
+
     var body: String {
         return comment.body
     }
+
     var url: URL? {
         return comment.html_url
     }
+
     var context: Context {
         return .repository(repository)
+    }
+
+    var saveNamePrefix: String? {
+        if senderUid == 58962 {
+            return "mxcl-\(action.rawValue)"
+        } else {
+            return nil
+        }
+    }
+
+    var collapseId: String? {
+        // collapse all creation/edits/deletes so the latest event is the only one the user sees
+        return "\(repository.full_name)/issues/comment/\(comment.id)"
     }
 }
 
