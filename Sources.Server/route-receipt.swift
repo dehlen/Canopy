@@ -46,7 +46,9 @@ func receiptHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
     }
 
     let userId = persist()
-    validateReceipt(userId: userId, sku: sku, receipt: receipt).catch { error in
+    validateReceipt(userId: userId, sku: sku, receipt: receipt).done {
+        response.completed()
+    }.catch { error in
         if case E.noExpiryDate = error {
             response.completed(status: .paymentRequired)
         } else if case E.expired = error {
