@@ -9,27 +9,43 @@ import Roots
 //  suggests that different github accounts have signed in to the same iCloud account
 //  or maybe this should be fine? Eg. user has two github accounts on two different devices?
 
-private enum E: Error {
+private enum E: Error, HTTPStatusCodable {
     case invalidAppleValidatorStatus(Int)
     case couldNotEncodeReceipt
     case noExpiryDate
     case expired
     case trySandboxVerifyReceipt
+
+    var httpStatusCode: Int {
+        switch self {
+        case .noExpiryDate:
+            return HTTPResponseStatus.paymentRequired.code
+        case .invalidAppleValidatorStatus:
+            return HTTPResponseStatus.badRequest.code
+        case .couldNotEncodeReceipt:
+            return HTTPResponseStatus.internalServerError.code
+        case .expired:
+            return HTTPResponseStatus.forbidden.code
+        case .trySandboxVerifyReceipt:
+            alert(message: "State machine error")
+            return HTTPResponseStatus.internalServerError.code
+        }
+    }
 }
 
 //TODO local validation would be more robust
 // but why do Apple recommend this then?
 
-func receiptHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
+func receiptHandler(request rq: HTTPRequest) throws -> Promise<Void> {
 
     print()
     print("/receipt")
 
     guard let token = rq.header(.authorization) else {
-        return response.completed(status: .forbidden)
+        throw HTTPResponseError(status: .forbidden, description: "")
     }
     guard let receipt = rq.postBodyString else {
-        return response.completed(status: .badRequest)
+        throw HTTPResponseError(status: .badRequest, description: "Empty POST body")
     }
     let sku = rq.header(.custom(name: "X-Platform"))
 
@@ -46,21 +62,13 @@ func receiptHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
     }
 
     let userId = persist()
-    validateReceipt(userId: userId, sku: sku, receipt: receipt).done {
-        response.completed()
-    }.catch { error in
-        if case E.noExpiryDate = error {
-            response.completed(status: .paymentRequired)
-        } else if case E.expired = error {
-            if let userId = userId.value {
-                _ = try? DB().remove(receiptForUserId: userId)
-            }
-            response.completed(status: .forbidden)
-        } else {
-            print(error)
-            response.appendBody(string: error.legibleDescription)
-            response.completed(status: .badRequest)
+    return firstly {
+        validateReceipt(userId: userId, sku: sku, receipt: receipt)
+    }.recover { error in
+        if case E.expired = error, let userId = userId.value {
+            _ = try? DB().remove(receiptForUserId: userId)
         }
+        throw error
     }
 }
 
