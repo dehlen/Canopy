@@ -3,7 +3,7 @@ import Foundation
 extension Error {
 #if os(Linux)
     public var legibleDescription: String {
-        if let err = self as? LocalizedError, let msg = err.errorDescription {
+        if let err = self as? LocalizedError, let msg = err.errorDescription, !msg.hasPrefix("The operation couldn’t be completed.") {
             return msg
         } else {
             return "\(type(of: self)).\(self)"
