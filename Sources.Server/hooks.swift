@@ -1065,7 +1065,7 @@ struct RepositoryImportEvent: Codable, Notificatable, HasSender {
     let sender: User
 
     enum Status: String, Codable {
-        case success, failure
+        case success, failure, cancelled
     }
 
     var body: String {
