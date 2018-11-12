@@ -147,13 +147,6 @@
 			remoteGlobalIDString = "PromiseKit::PromiseKit::Product";
 			remoteInfo = PromiseKit;
 		};
-		63008C6821001B0C005AF72D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 63008C3021001B0C005AF72D /* Debris.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = "Debris::debris::Product";
-			remoteInfo = debris;
-		};
 		6367E0B52142DD4800A21C56 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 63008C3021001B0C005AF72D /* Debris.xcodeproj */;
@@ -167,6 +160,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = "Debris::Roots::Product";
 			remoteInfo = Roots;
+		};
+		63A91FF52193921000F84A73 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63008C3021001B0C005AF72D /* Debris.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "Debris::Debris::Product";
+			remoteInfo = Debris;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -262,6 +262,7 @@
 			isa = PBXGroup;
 			children = (
 				63008C4F21001B0C005AF72D /* COpenSSL.framework */,
+				63A91FF62193921000F84A73 /* Debris */,
 				63008C5121001B0C005AF72D /* PerfectCHTTPParser.framework */,
 				63008C5321001B0C005AF72D /* PerfectCRUD.framework */,
 				6367E0B62142DD4800A21C56 /* PerfectCURL.framework */,
@@ -275,7 +276,6 @@
 				63008C6521001B0C005AF72D /* PerfectThread.framework */,
 				63008C6721001B0C005AF72D /* PromiseKit.framework */,
 				6380FF89210E79A500544476 /* Roots.framework */,
-				63008C6921001B0C005AF72D /* debris */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -620,13 +620,6 @@
 			remoteRef = 63008C6621001B0C005AF72D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		63008C6921001B0C005AF72D /* debris */ = {
-			isa = PBXReferenceProxy;
-			fileType = text;
-			path = debris;
-			remoteRef = 63008C6821001B0C005AF72D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		6367E0B62142DD4800A21C56 /* PerfectCURL.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -639,6 +632,13 @@
 			fileType = wrapper.framework;
 			path = Roots.framework;
 			remoteRef = 6380FF88210E79A500544476 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		63A91FF62193921000F84A73 /* Debris */ = {
+			isa = PBXReferenceProxy;
+			fileType = text;
+			path = Debris;
+			remoteRef = 63A91FF52193921000F84A73 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -790,7 +790,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -814,7 +814,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
-				SEMANTIC_PROJECT_VERSION = 1.0.3;
+				SEMANTIC_PROJECT_VERSION = 1.0.4;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -854,7 +854,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -871,7 +871,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
-				SEMANTIC_PROJECT_VERSION = 1.0.3;
+				SEMANTIC_PROJECT_VERSION = 1.0.4;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
