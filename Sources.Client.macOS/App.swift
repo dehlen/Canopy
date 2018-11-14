@@ -8,12 +8,14 @@ class AppDelegate: NSObject {
 
     var ref: NSKeyValueObservation?
 
-    weak var window: NSWindow!
     weak var subscribeViewController: SubscribeViewController?
 
-    func processRemoteNotificationUserInfo(_ userInfo: [AnyHashable: Any]) {
+    @discardableResult
+    func processRemoteNotificationUserInfo(_ userInfo: [AnyHashable: Any]) -> Bool {
         if let urlString = userInfo["url"] as? String, let url = URL(string: urlString) {
-            NSWorkspace.shared.open(url)
+            return NSWorkspace.shared.open(url)
+        } else {
+            return false
         }
     }
 
@@ -32,7 +34,7 @@ class AppDelegate: NSObject {
     }
 
     @IBAction func showSubscriptionSheet(sender: Any) {
-        window.contentViewController?.performSegue(withIdentifier: "PaymentPrompt", sender: sender)
+        NSApp.mainWindow?.contentViewController?.performSegue(withIdentifier: "PaymentPrompt", sender: sender)
     }
 
     @IBAction func openPrivacyPolicy(sender: Any) {

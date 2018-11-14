@@ -17,33 +17,45 @@ extension AppDelegate: NSApplicationDelegate {
 
     func applicationWillFinishLaunching(_ note: Notification) {
         NSUserNotificationCenter.default.delegate = self
-    #if swift(>=4.2)
         if #available(macOS 10.14, *) {
             UNUserNotificationCenter.current().delegate = self
         }
-    #endif
+
+        // so tapping notifications doesn’t show the app temporarily
+        //TODO verify there is no flash, may need to set this in storyboard
+        NSApp.mainWindow?.setIsVisible(false)
     }
 
     func applicationDidFinishLaunching(_ note: Notification) {
-        window = NSApp.windows.first
-        
         NSApp.registerForRemoteNotifications(matching: [.alert, .sound])
 
-        // with 10.14-beta3 at least the UNUserNotificationCenterDelegate is not called
-        // at startup, I think this is an Apple bug though
-        if let notification = note.userInfo?[NSApplication.launchUserNotificationUserInfoKey] as? NSUserNotification {
-            if let userInfo = notification.userInfo {
-                processRemoteNotificationUserInfo(userInfo)
+        func chunk(with userInfo: [String: Any]) {
+            if processRemoteNotificationUserInfo(userInfo) {
+                NSApp.terminate(self)
             }
         }
-    #if swift(>=4.2)
-        if #available(macOS 10.14, *), let rsp = note.userInfo?[NSApplication.launchUserNotificationUserInfoKey] as? UNNotificationResponse {
-            processRemoteNotificationUserInfo(rsp.notification.request.content.userInfo)
-        }
-    #endif
 
-        SKPaymentQueue.default().add(self)
-        postReceiptIfPossibleNoErrorUI()
+        var userInfo: [AnyHashable: Any]?
+
+        if #available(macOS 10.14, *) {
+            let rsp = note.userInfo?[NSApplication.launchUserNotificationUserInfoKey] as? UNNotificationResponse
+            userInfo = rsp?.notification.request.content.userInfo
+        } else if let notification = note.userInfo?[NSApplication.launchUserNotificationUserInfoKey] as? NSUserNotification {
+            userInfo = notification.userInfo
+        }
+
+        if let userInfo = userInfo, processRemoteNotificationUserInfo(userInfo) {
+            // we were launched by a notification tap and only exist to open that URL in the system browser
+            NSApp.terminate(self)
+        } else {
+            SKPaymentQueue.default().add(self)
+            postReceiptIfPossibleNoErrorUI()
+
+            // show icon and menu now (we are LSUIElement so taps on notifications don't appear to open the app)
+            NSApp.mainWindow?.setIsVisible(true)
+            NSApp.setActivationPolicy(.regular)
+            NSApp.activate(ignoringOtherApps: true) // or menu doesn’t respond to clicks
+        }
     }
 
     func application(_ application: NSApplication, didRegisterForRemoteNotificationsWithDeviceToken rawDeviceToken: Data) {
