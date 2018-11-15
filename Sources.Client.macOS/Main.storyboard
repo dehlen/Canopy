@@ -464,8 +464,9 @@
                             </textField>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Ij4-rY-DEL">
                                 <rect key="frame" x="18" y="235" width="494" height="34"/>
-                                <textFieldCell key="cell" selectable="YES" alignment="left" title="Stay on top of development with unlimited push notifications for private repositories to which you have access." id="LH0-xT-Yg4">
+                                <textFieldCell key="cell" selectable="YES" alignment="left" id="LH0-xT-Yg4">
                                     <font key="font" metaFont="system"/>
+                                    <string key="title">Stay on top of development with unlimited push notifications for private repositories to which you have access. First week free!</string>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
