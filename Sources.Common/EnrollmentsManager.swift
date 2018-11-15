@@ -187,7 +187,11 @@ class EnrollmentsManager {
             hookTargets = [.organization(login)]
             enrollRepoIds = repos.map(\.id)
         case .repository(let repo):
-            hookTargets = [.init(repo)]
+            if repo.isPartOfOrganization {
+                hookTargets = [.organization(repo.owner.login)]
+            } else {
+                hookTargets = [.init(repo)]
+            }
             enrollRepoIds = [repo.id]
         case .user(let login):
             let repos = rootedRepos[login]!
