@@ -121,8 +121,8 @@ extension ReposViewController/*: UITableViewDelegate*/ {
         cell.textLabel?.text = repo.full_name
 
         let installed = repo.isPartOfOrganization
-            ? mgr.hooks.contains(repo.owner.id)
-            : mgr.hooks.contains(repo.id)
+            ? mgr.hooks.contains(.organization(repo.owner.login))
+            : mgr.hooks.contains(.init(repo))
 
         let accessoryType: UITableViewCell.AccessoryType
         switch (mgr.enrollments.contains(repo.id), installed) {
@@ -155,9 +155,9 @@ extension ReposViewController/*: UITableViewDelegate*/ {
             if repo.permissions.admin {
                 return true
             } else if repo.isPartOfOrganization {
-                return mgr.hooks.contains(repo.owner.id)
+                return mgr.hooks.contains(.organization(repo.owner.login))
             } else {
-                return mgr.hooks.contains(repo.id)
+                return mgr.hooks.contains(.init(repo))
             }
         }
 
@@ -175,7 +175,7 @@ extension ReposViewController/*: UITableViewDelegate*/ {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
 
             firstly {
-                try self.mgr.enroll(repo: repo)
+                try self.mgr.enroll(.repository(repo), toggleDirection: vc.knob.isOn)
             }.catch {
                 switch $0 {
                 case EnrollmentsManager.Error.paymentRequired:
@@ -224,7 +224,7 @@ extension ReposViewController: EnrollmentsManagerDelegate {
         UIApplication.shared.isNetworkActivityIndicatorVisible = isUpdating
     }
 
-    func enrollmentsManagerDidUpdate(_ mgr: EnrollmentsManager) {
+func enrollmentsManagerDidUpdate(_: EnrollmentsManager, expandTree: Bool) {
         tableView.reloadData()
 
         if mgr.enrollments.isEmpty, !mgr.isFetching {
