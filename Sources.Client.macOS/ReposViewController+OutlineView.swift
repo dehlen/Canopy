@@ -32,7 +32,7 @@ extension ReposViewController: NSOutlineViewDataSource {
             }
         case statusColumn:
             if let repo = item as? Repo, subscribed.contains(repo.id) {
-                if repo.isPartOfOrganization && hooked.contains(.organization(repo.owner.login)) || hooked.contains(.init(repo)) {
+                if repo.isPartOfOrganization && hooked.contains(repo.owner.id) || hooked.contains(repo.id) {
                     return "✓"
                 } else if !fetching {
                     return "⚠"
@@ -42,10 +42,10 @@ extension ReposViewController: NSOutlineViewDataSource {
             } else if fetching {
                 return nil
             } else if let repo = item as? Repo, !repo.permissions.admin {
-                if !repo.isPartOfOrganization, !hooked.contains(.init(repo)) {
-                    return "𐄂"
-                } else if !hooked.contains(.organization(repo.owner.login)) {
-                    return "𐄂"
+                if !repo.isPartOfOrganization, !hooked.contains(repo.id) {
+                    return "⚠"
+                } else if !hooked.contains(repo.owner.id) {
+                    return "⚠"
                 } else {
                     return nil
                 }
@@ -89,9 +89,9 @@ extension ReposViewController: NSOutlineViewDelegate {
             case .repo(let repo):
                 let enrolled = subscribed.contains(repo.id)
                 var hookable: State.Kind.Hookable {
-                    if hooked.contains(.init(repo)) {
+                    if hooked.contains(repo.id) {
                         return .true
-                    } else if repo.isPartOfOrganization, hooked.contains(.organization(repo.owner.login)) {
+                    } else if repo.isPartOfOrganization, hooked.contains(repo.owner.id) {
                         return .true
                     } else if repo.permissions.admin {
                         return .true
@@ -102,15 +102,15 @@ extension ReposViewController: NSOutlineViewDelegate {
                     }
                 }
                 return .selected(.repo(enrolled: enrolled, hookable: hookable))
-            case .organization(let login):
+            case .organization(let login, let id):
                 let repos = rootedRepos[login]!
                 let enrollment = repos.satisfaction{ subscribed.contains($0.id) }
-                let enable = hasVerifiedReceipt || repos.satisfaction(\.`private`) == .none || repos.satisfaction(\.permissions.admin) == .all || hooked.contains(.organization(login))
+                let enable = hasVerifiedReceipt || repos.satisfaction(\.`private`) == .none || repos.satisfaction(\.permissions.admin) == .all || hooked.contains(id)
                 return .selected(.organization(enrollment, enable: enable))
             case .user(let login):
                 let repos = rootedRepos[login]!
                 let enrollment = rootedRepos[login]!.satisfaction{ subscribed.contains($0.id) }
-                let enable = hasVerifiedReceipt || repos.satisfaction(\.`private`) == .none || repos.satisfaction(\.permissions.admin) == .all || repos.satisfaction{ hooked.contains(.init($0)) } == .all
+                let enable = hasVerifiedReceipt || repos.satisfaction(\.`private`) == .none || repos.satisfaction(\.permissions.admin) == .all || repos.satisfaction{ hooked.contains($0.id) } == .all
                 return .selected(.user(enrollment, enable: enable))
             }
         }

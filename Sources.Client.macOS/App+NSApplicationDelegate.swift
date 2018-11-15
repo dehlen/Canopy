@@ -8,11 +8,6 @@ import AppKit
 extension AppDelegate: NSApplicationDelegate {
     override func awakeFromNib() {
         PromiseKit.conf.Q.map = .global()
-
-        ref = observe(\.hasVerifiedReceipt) { app, _ in
-            app.createSubscriptionMenuItem.isHidden = app.hasVerifiedReceipt
-            app.manageSubscriptionMenuItem.isHidden = !app.hasVerifiedReceipt
-        }
     }
 
     func applicationWillFinishLaunching(_ note: Notification) {
@@ -48,13 +43,19 @@ extension AppDelegate: NSApplicationDelegate {
             // we were launched by a notification tap and only exist to open that URL in the system browser
             NSApp.terminate(self)
         } else {
-            SKPaymentQueue.default().add(self)
-            postReceiptIfPossibleNoErrorUI()
-
             // show icon and menu now (we are LSUIElement so taps on notifications don't appear to open the app)
             NSApp.mainWindow?.setIsVisible(true)
             NSApp.setActivationPolicy(.regular)
-            NSApp.activate(ignoringOtherApps: true) // or menu doesn’t respond to clicks
+            NSApp.activate(ignoringOtherApps: true) // or doesn’t respond to clicks
+            NSApp.mainWindow?.makeKeyAndOrderFront(self) // or doesn't respond to clicks
+
+            subscriptionManager = SubscriptionManager()
+            subscriptionManager.delegate = self
+
+            ref = subscriptionManager.observe(\.hasVerifiedReceipt) { mgr, _ in
+                app.createSubscriptionMenuItem.isHidden = mgr.hasVerifiedReceipt
+                app.manageSubscriptionMenuItem.isHidden = !mgr.hasVerifiedReceipt
+            }
         }
     }
 
@@ -65,13 +66,13 @@ extension AppDelegate: NSApplicationDelegate {
             firstly {
                 updateTokens(oauth: oauthToken, device: deviceToken)
             }.catch {
-                alert($0)
+                alert(error: $0)
             }
         }
     }
 
     func application(_ application: NSApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        alert(error)
+        alert(error: error)
     }
 
     func application(_ application: NSApplication, didReceiveRemoteNotification userInfo: [String: Any]) {

@@ -65,8 +65,7 @@ class AccountViewController: UITableViewController {
             break
         case .restoreOrManage?:
             if AppDelegate.shared.subscriptionManager.hasVerifiedReceipt {
-                let url = URL(string: "itmss://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/manageSubscriptions")!
-                UIApplication.shared.open(url)
+                UIApplication.shared.open(.manageSubscription)
             } else {
                 let vc = UIStoryboard(name: "SubscribeViewController", bundle: nil).instantiateInitialViewController()!
                 AppDelegate.shared.tabBarController.present(vc, animated: true)

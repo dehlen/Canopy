@@ -7,7 +7,7 @@ import UIKit
 
 protocol EnrollmentsManagerDelegate: class {
     func enrollmentsManager(_: EnrollmentsManager, isUpdating: Bool)
-    func enrollmentsManagerDidUpdate(_: EnrollmentsManager)
+    func enrollmentsManagerDidUpdate(_: EnrollmentsManager, expandTree: Bool)
     func enrollmentsManager(_: EnrollmentsManager, error: Error)
 }
 
@@ -25,6 +25,7 @@ class EnrollmentsManager {
     enum Error: Swift.Error {
         case paymentRequired
         case noToken
+        case invalidRepoName(String)
     }
 
     var rootedRepos: [String: [Repo]] {
@@ -48,7 +49,7 @@ class EnrollmentsManager {
     weak var delegate: EnrollmentsManagerDelegate? {
         didSet {
             if let delegate = delegate, token != nil {
-                delegate.enrollmentsManagerDidUpdate(self)
+                delegate.enrollmentsManagerDidUpdate(self, expandTree: false)
                 update()
             }
         }
@@ -58,7 +59,7 @@ class EnrollmentsManager {
     var token: String? {
         didSet {
             guard token != oldValue, let delegate = delegate, token != nil else { return }
-            delegate.enrollmentsManagerDidUpdate(self)
+            delegate.enrollmentsManagerDidUpdate(self, expandTree: false)
             update()
         }
     }
@@ -108,7 +109,7 @@ class EnrollmentsManager {
                 #else
                     self.repos.formUnion($0)
                 #endif
-                    self.delegate?.enrollmentsManagerDidUpdate(self)
+                    self.delegate?.enrollmentsManagerDidUpdate(self, expandTree: false)
                 }
             }
 
@@ -130,12 +131,12 @@ class EnrollmentsManager {
             }.done {
                 AppDelegate.shared.subscriptionManager.hasVerifiedReceipt = $0.1
                 self.enrollments = $0.0
-                self.delegate?.enrollmentsManagerDidUpdate(self)
+                self.delegate?.enrollmentsManagerDidUpdate(self, expandTree: true)
             }.then {
                 stragglers()
             }.done {
                 self.repos.formUnion($0)
-                self.delegate?.enrollmentsManagerDidUpdate(self)
+                self.delegate?.enrollmentsManagerDidUpdate(self, expandTree: true)
             }
         }
 
@@ -149,7 +150,7 @@ class EnrollmentsManager {
             self.fetching = false
         }.done {
             self.hooks = $0
-            self.delegate?.enrollmentsManagerDidUpdate(self)
+            self.delegate?.enrollmentsManagerDidUpdate(self, expandTree: false)
         }.catch {
             self.delegate?.enrollmentsManager(self, error: $0)
         }
@@ -193,7 +194,7 @@ class EnrollmentsManager {
             case API.Enroll.Error.hookCreationFailed/*(let failedNodes)*/:
                 self.enrollments.insert(repo.id)
                 return DispatchQueue.main.async(.promise) {
-                    self.delegate?.enrollmentsManagerDidUpdate(self)
+                    self.delegate?.enrollmentsManagerDidUpdate(self, expandTree: false)
                     throw error
                 }
             default:
@@ -206,7 +207,39 @@ class EnrollmentsManager {
             } else {
                 self.enrollments.remove(repo.id)
             }
-            self.delegate?.enrollmentsManagerDidUpdate(self)
+            self.delegate?.enrollmentsManagerDidUpdate(self, expandTree: false)
+        }
+    }
+
+    func add(repoFullName full_name: String) -> Promise<Void> {
+        guard full_name.contains("/"), let token = creds?.token else {
+            return Promise(error: Error.invalidRepoName(full_name))
+        }
+
+        //TODO ust refresh hook information, maybe it's been days and the user knows the data is stale!
+        func fetchInstallation(for repo: Repo) -> Promise<Int?> {
+            return firstly {
+                fetchInstallations(for: [repo])
+            }.map {
+                $0.isEmpty ? nil : repo.id
+            }
+        }
+
+        let rq = GitHubAPI(oauthToken: token).request(path: "/repos/\(full_name)")
+
+        return firstly {
+            URLSession.shared.dataTask(.promise, with: rq).validate()
+        }.map {
+            try JSONDecoder().decode(Repo.self, from: $0.data)
+        }.then { repo in
+            fetchInstallation(for: repo).done {
+                if let repoId = $0 {
+                    self.hooks.insert(repoId)
+                }
+                self.repos.insert(repo)
+            }
+        }.done {
+            self.delegate?.enrollmentsManagerDidUpdate(self, expandTree: true)
         }
     }
 }
@@ -223,7 +256,7 @@ private func fetchEnrollments(token: String) -> Promise<(Set<Int>, Bool)> {
     }
 }
 
-private func fetchInstallations(for repos: SortedSet<Repo>) -> Promise<Set<Int>> {
+private func fetchInstallations<T: Sequence>(for repos: T) -> Promise<Set<Int>> where T.Element == Repo {
     let ids = repos.map {
         $0.isPartOfOrganization
             ? $0.owner.id

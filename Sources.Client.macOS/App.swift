@@ -3,12 +3,16 @@ import AppKit
 
 @NSApplicationMain
 class AppDelegate: NSObject {
-    @objc dynamic var hasVerifiedReceipt = false
     @objc dynamic var deviceToken: String?
 
     var ref: NSKeyValueObservation?
+    var subscriptionManager: SubscriptionManager!
 
     weak var subscribeViewController: SubscribeViewController?
+
+    static var shared: AppDelegate {
+        return NSApp.delegate as! AppDelegate
+    }
 
     @discardableResult
     func processRemoteNotificationUserInfo(_ userInfo: [AnyHashable: Any]) -> Bool {
@@ -29,7 +33,7 @@ class AppDelegate: NSObject {
         }.done { _ in
             creds = nil
         }.catch {
-            alert($0)
+            alert(error: $0)
         }
     }
 
@@ -42,8 +46,7 @@ class AppDelegate: NSObject {
     }
 
     @IBAction func openITunesSubscriptionManager(sender: Any) {
-        let url = URL(string: "https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/manageSubscriptions")!
-        NSWorkspace.shared.open(url)
+        NSWorkspace.shared.open(.manageSubscription)
     }
 
     @IBAction func openTermsOfUse(sender: Any) {
@@ -60,4 +63,14 @@ class AppDelegate: NSObject {
 
 var app: AppDelegate {
     return NSApp.delegate as! AppDelegate
+}
+
+extension AppDelegate: SubscriptionManagerDelegate {
+    func subscriptionFinished(error: Error?, file: StaticString, line: UInt) {
+        if let subscribeViewController = subscribeViewController {
+            subscribeViewController.errorHandler(error: error, line: line)
+        } else if let error = error {
+            alert(error: error, file: file, line: line)
+        }
+    }
 }

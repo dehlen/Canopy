@@ -8,6 +8,10 @@ class SubscribeViewController: NSViewController {
     @IBOutlet var cancelButton: NSButton!
     @IBOutlet var spinner: NSProgressIndicator!
 
+    var mgr: SubscriptionManager {
+        return app.subscriptionManager
+    }
+
     var spinCounter: Int = 0 {
         didSet {
             dispatchPrecondition(condition: .onQueue(.main))
@@ -34,15 +38,11 @@ class SubscribeViewController: NSViewController {
     }
 
     @IBAction func refreshReceipt(sender: NSButton) {
-        guard let token = creds?.token else { return }
-
         sender.isEnabled = false
         spinCounter += 1
 
         firstly {
-            SKReceiptRefreshRequest(receiptProperties: nil).start(.promise)
-        }.then {
-            app.postReceipt(token: token, receipt: $0)
+            mgr.refreshReceipt()
         }.done { [weak self] in
             self?.dismiss(self)
         }.ensure { [weak self] in
@@ -57,7 +57,7 @@ class SubscribeViewController: NSViewController {
                 alert(message: "No subscription on record.", title: "Refresh Receipt")
             } else {
                 // ^^ what you get when the user cancels the operation
-                alert($0)
+                alert(error: $0)
             }
         }
     }
@@ -70,15 +70,13 @@ class SubscribeViewController: NSViewController {
         spinCounter += 1
 
         firstly {
-            SKProductsRequest.canopy.start(.promise)
-        }.compactMap {
-            $0.products.first?.localizedPrice
+            mgr.price()
         }.tap(on: .main) {
             self.price = $0
         }.ensure {
             self.spinCounter -= 1
         }.catch {
-            alert($0)
+            alert(error: $0)
         }
     }
 
@@ -93,16 +91,26 @@ class SubscribeViewController: NSViewController {
     @IBAction func subscribe(sender: Any) {
         spinCounter += 1
         cancelButton.isEnabled = false  // Apple will do a bunch of dialogs whatever so we cannot allow cancel
-        app.subscribe(sender: sender)
+        mgr.subscribe().catch {
+            // if it doesn't initally fail it calls us back later
+            // also may fail later, but this won't be called then
+            self.spinCounter -= 1
+            self.cancelButton.isEnabled = true
+            alert(error: $0)
+        }
     }
-}
 
-extension SKProduct {
-    var localizedPrice: String? {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.locale = priceLocale
-        return formatter.string(from: price)
+    func errorHandler(error: Error?, line: UInt = #line) {
+        DispatchQueue.main.async { [weak self] in
+            guard let `self` = self else { return }
+            if let error = error {
+                self.paymentFailed(sender: self)
+                if let error = error as? SKError, error.code == .paymentCancelled { return }
+                alert(error: error, title: "App Store Error", line: line)
+            } else {
+                self.dismiss(self)
+            }
+        }
     }
 }
 

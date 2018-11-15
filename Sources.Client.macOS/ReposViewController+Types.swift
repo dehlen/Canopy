@@ -3,7 +3,7 @@ import AppKit
 extension ReposViewController {
     enum OutlineViewItem: Equatable {
         case repo(Repo)
-        case organization(String)
+        case organization(login: String, id: Int)
         case user(String)
     }
 

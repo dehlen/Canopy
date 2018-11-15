@@ -2,10 +2,15 @@ import PromiseKit
 import AppKit
 
 class ReposViewController: NSViewController {
-    var repos = SortedArray<Repo>()
-    var hooked = Set<Node>()
-    var fetching = false
-    var subscribed = Set<Int>()
+    let mgr = EnrollmentsManager()
+
+    var repos: SortedSet<Repo> { return mgr.repos }
+    var hooked: Set<Int> { return mgr.hooks }
+    var fetching: Bool { return mgr.isFetching }
+    var subscribed: Set<Int> { return mgr.enrollments }
+    var rootedRepos: [String: [Repo]] { return mgr.rootedRepos }
+    var rootedReposKeys: [String] { return mgr.rootedReposKeys }
+    var nodes: Set<Node> { return mgr.nodes }
 
     @IBOutlet weak var outlineView: NSOutlineView!
     @IBOutlet weak var mainColumn: NSTableColumn!
@@ -15,26 +20,9 @@ class ReposViewController: NSViewController {
     @IBOutlet weak var versionLabel: NSTextField!
 
     var hasVerifiedReceipt: Bool {
-        return app.hasVerifiedReceipt
+        return app.subscriptionManager.hasVerifiedReceipt
     }
 
-    var rootedRepos: [String: [Repo]] {
-        return Dictionary(grouping: repos, by: { $0.owner.login })
-    }
-
-    var rootedReposKeys: [String] {
-        return rootedRepos.keys.map{ ($0, $0.lowercased()) }.sorted{ $0.1 < $1.1 }.map{ $0.0 }
-    }
-
-    var nodes: Set<Node> {
-        return Set(repos.map { repo in
-            if repo.isPartOfOrganization {
-                return .organization(repo.owner.login)
-            } else {
-                return .init(repo)
-            }
-        })
-    }
 
     var selectedItem: OutlineViewItem? {
         guard outlineView.selectedRow != -1 else { return nil }
@@ -45,7 +33,7 @@ class ReposViewController: NSViewController {
             let repos = rootedRepos[login]!
             if repos.isOrganization {
                 let owner = repos[0].owner  // safe as we wouldn't show anything if empty
-                return .organization(owner.login)
+                return .organization(login: owner.login, id: owner.id)
             } else {
                 return .user(login)
             }
@@ -56,7 +44,7 @@ class ReposViewController: NSViewController {
 
     func requiresReceipt(item: OutlineViewItem) -> Bool {
         switch item {
-        case .organization(let login), .user(let login):
+        case .organization(let login, _), .user(let login):
             return rootedRepos[login]!.satisfaction{ $0.private } != .none
         case .repo(let repo):
             return repo.private
@@ -69,7 +57,7 @@ class ReposViewController: NSViewController {
 
     func state(for item: OutlineViewItem) -> SwitchState {
         switch item {
-        case .organization(let login), .user(let login):
+        case .organization(let login, _), .user(let login):
             return SwitchState(rootedRepos[login]!, where: { subscribed.contains($0.id) })
         case .repo(let repo):
             return subscribed.contains(repo.id) ? .on : .off
@@ -78,16 +66,18 @@ class ReposViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(fetch), name: .credsUpdated, object: nil)
+        mgr.delegate = self
+        NotificationCenter.default.addObserver(mgr, selector: #selector(EnrollmentsManager.update), name: .credsUpdated, object: nil)
     }
 
     override func viewDidAppear() {
         super.viewDidAppear()
 
-        if creds == nil {
-            performSegue(withIdentifier: "SignIn", sender: self)
+        if let creds = creds {
+            mgr.token = creds.token
+            mgr.update()
         } else {
-            fetch()
+            performSegue(withIdentifier: "SignIn", sender: self)
         }
     }
 
@@ -103,8 +93,15 @@ class ReposViewController: NSViewController {
         alert.addButton(withTitle: "Add").tag = NSApplication.ModalResponse.OK.rawValue
         alert.addButton(withTitle: "Cancel").tag = NSApplication.ModalResponse.cancel.rawValue
         alert.beginSheetModal(for: view.window!) { rsp in
-            if rsp == .OK {
-                self.add(repoFullName: tf.stringValue)
+            guard rsp == .OK else { return }
+
+            self.mgr.add(repoFullName: tf.stringValue).done { repo in
+                self.outlineView.reloadData()
+                let row = self.outlineView.row(forItem: repo)
+                self.outlineView.scrollRowToVisible(row)
+                self.outlineView.selectRowIndexes([row], byExtendingSelection: false)
+            }.catch {
+                Canopy.alert(error: $0)
             }
         }
     }
@@ -121,5 +118,22 @@ private extension Array where Element == Repo {
         } else {
             return false
         }
+    }
+}
+
+extension ReposViewController: EnrollmentsManagerDelegate {
+    func enrollmentsManager(_: EnrollmentsManager, isUpdating: Bool) {
+        //TODO
+    }
+
+    func enrollmentsManagerDidUpdate(_ mgr: EnrollmentsManager, expandTree: Bool) {
+        outlineView.reloadData()
+        if expandTree {
+            outlineView.expandItem(nil, expandChildren: true)
+        }
+    }
+
+    func enrollmentsManager(_: EnrollmentsManager, error: Error) {
+        alert(error: error)
     }
 }

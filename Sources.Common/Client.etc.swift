@@ -176,6 +176,14 @@ extension URL {
     static var faq: URL {
         return URL(string: "https://codebasesaga.com/canopy/#faq")!
     }
+    static var manageSubscription: URL {
+    #if os(iOS)
+        return URL(string: "itmss://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/manageSubscriptions")!
+    #else
+        //TODO possibly the iOS one works and is better?
+        return URL(string: "https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/manageSubscriptions")!
+    #endif
+    }
 }
 
 extension URLRequest {
@@ -302,7 +310,7 @@ private func _alert(error: Error, title: String?, file: StaticString, line: UInt
 #if os(macOS)
 import AppKit
 
-func alert(_ error: Error, title: String? = nil, file: StaticString = #file, line: UInt = #line) {
+func alert(error: Error, title: String? = nil, file: StaticString = #file, line: UInt = #line) {
     let (msg, title) = _alert(error: error, title: title, file: file, line: line)
 
     // we cannot make SKError CancellableError sadly (still)
