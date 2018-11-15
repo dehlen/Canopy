@@ -17,12 +17,11 @@ class ReposViewController: NSViewController {
     @IBOutlet weak var statusColumn: NSTableColumn!
     @IBOutlet weak var statusLabel: NSTextField!
     @IBOutlet weak var notifyButton: NSButton!
-    @IBOutlet weak var versionLabel: NSTextField!
+    @IBOutlet weak var homepageButton: NSButton!
 
     var hasVerifiedReceipt: Bool {
         return app.subscriptionManager.hasVerifiedReceipt
     }
-
 
     var selectedItem: OutlineViewItem? {
         guard outlineView.selectedRow != -1 else { return nil }
@@ -68,6 +67,10 @@ class ReposViewController: NSViewController {
         super.viewDidLoad()
         mgr.delegate = self
         NotificationCenter.default.addObserver(mgr, selector: #selector(EnrollmentsManager.update), name: .credsUpdated, object: nil)
+
+        homepageButton.attributedTitle = NSAttributedString(string: homepageButton.title, attributes: [
+            .foregroundColor: NSColor.tertiaryLabelColor
+        ])
     }
 
     override func viewDidAppear() {

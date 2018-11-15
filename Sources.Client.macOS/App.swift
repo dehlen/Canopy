@@ -57,6 +57,10 @@ class AppDelegate: NSObject {
         NSWorkspace.shared.open(.faq)
     }
 
+    @IBAction func openHomepage(sender: Any) {
+        NSWorkspace.shared.open(.home)
+    }
+
     @IBOutlet var createSubscriptionMenuItem: NSMenuItem!
     @IBOutlet var manageSubscriptionMenuItem: NSMenuItem!
 }

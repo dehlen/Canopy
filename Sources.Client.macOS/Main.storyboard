@@ -691,14 +691,16 @@ You can subscribe to all repositories under a user or organizaation at once if y
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yVm-e7-LWg">
-                                        <rect key="frame" x="29" y="8" width="159" height="11"/>
-                                        <textFieldCell key="cell" lineBreakMode="clipping" title="https://codebasesaga.com/canopy/" id="fNE-fa-iZf">
-                                            <font key="font" metaFont="miniSystem"/>
-                                            <color key="textColor" name="tertiaryLabelColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
+                                    <button horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yVm-e7-LWg" userLabel="Website Button">
+                                        <rect key="frame" x="27" y="7" width="164" height="19"/>
+                                        <buttonCell key="cell" type="recessed" title="http://codebasesaga.com/canopy/" bezelStyle="recessed" alignment="center" lineBreakMode="clipping" borderStyle="border" id="fNE-fa-iZf">
+                                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system" size="9"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="openHomepageWithSender:" target="rPt-NT-nkU" id="cea-Kx-DPD"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="frP-Tl-UsX" secondAttribute="trailing" constant="20" id="0af-cd-Lj9"/>
@@ -723,19 +725,19 @@ You can subscribe to all repositories under a user or organizaation at once if y
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="homepageButton" destination="yVm-e7-LWg" id="MTp-sa-gCX"/>
                         <outlet property="mainColumn" destination="5t4-ur-x1R" id="VXA-wf-R25"/>
                         <outlet property="notifyButton" destination="frP-Tl-UsX" id="eZI-vM-hOX"/>
                         <outlet property="outlineView" destination="Tn7-qK-wuj" id="NDN-fO-H6j"/>
                         <outlet property="statusColumn" destination="CGk-Hi-zP5" id="NsM-Kh-Bzh"/>
                         <outlet property="statusLabel" destination="iho-P4-YOy" id="jQz-WW-nIb"/>
-                        <outlet property="versionLabel" destination="yVm-e7-LWg" id="OKy-AS-WIw"/>
                         <segue destination="eRY-as-3te" kind="sheet" identifier="SignIn" id="sxB-hL-FML"/>
                         <segue destination="dMa-Dx-8hX" kind="sheet" identifier="PaymentPrompt" id="YWt-Ll-SlT"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="63" y="876.5"/>
+            <point key="canvasLocation" x="-6" y="928"/>
         </scene>
         <!--Sign In View Controller-->
         <scene sceneID="ly1-PT-1NG">

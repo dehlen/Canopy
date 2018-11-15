@@ -177,12 +177,10 @@ extension URL {
         return URL(string: "https://codebasesaga.com/canopy/#faq")!
     }
     static var manageSubscription: URL {
-    #if os(iOS)
         return URL(string: "itmss://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/manageSubscriptions")!
-    #else
-        //TODO possibly the iOS one works and is better?
-        return URL(string: "https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/manageSubscriptions")!
-    #endif
+    }
+    static var home: URL {
+        return URL(string: "https://codebasesaga.com/canopy/")!
     }
 }
 
