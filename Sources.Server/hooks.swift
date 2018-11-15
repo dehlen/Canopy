@@ -1074,6 +1074,8 @@ struct RepositoryImportEvent: Codable, Notificatable, HasSender {
             return "Repository imported successfully"
         case .failure:
             return "Repository import failed"
+        case .cancelled:
+            return "Repository import was cancelled"
         }
     }
 

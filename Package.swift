@@ -17,6 +17,6 @@ let package = Package(
     ],
     targets: [
         .target(name: "Debris", dependencies: ["PerfectSQLite", "PerfectHTTPServer", "PerfectCURL", "Roots"], path: "Sources.Server"),
-        .target(name: "Roots", dependencies: ["PromiseKit"], path: "Sources.Common", exclude: ["Client.etc.swift", "Vendor/Keychain.swift", "Vendor/SKProductsRequest+Promise.swift", "EnrollmentsManager.swift", "SubscribeManager.swift"])
+        .target(name: "Roots", dependencies: ["PromiseKit"], path: "Sources.Common", exclude: ["Client.etc.swift", "Vendor/Keychain.swift", "Vendor/SKProductsRequest+Promise.swift", "EnrollmentsManager.swift", "SubscriptionManager.swift"])
     ]
 )
