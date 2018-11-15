@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
@@ -426,7 +426,7 @@
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
+                <windowController storyboardIdentifier="Root" id="B8D-0N-5wS" sceneMemberID="viewController">
                     <window key="window" title="Canopy" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" tabbingMode="disallowed" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowCollectionBehavior key="collectionBehavior" fullScreenAuxiliary="YES"/>
@@ -457,7 +457,7 @@
                                 <rect key="frame" x="18" y="84" width="494" height="126"/>
                                 <textFieldCell key="cell" selectable="YES" alignment="justified" id="L4m-4V-sct">
                                     <font key="font" metaFont="smallSystem"/>
-                                    <string key="title">Unlimited push notifications for private repositories is enabled via an auto‐renewing subscription. Your GitHub account must have at least read access to the private repository. The duration of every period of the subscription is 1 month. The price of the subscription is shown below. Payment will be charged to your App Store account at confirmation of purchase. There is no free trial period. Subscription automatically renews unless auto‐renew is turned off at least 24 hours before the end of the current period. Your account will be charged for renewal within 24 hours prior to the end of the current period, with the same amount as the current period. Subscriptions may be managed by the user and auto‐renewal may be turned off by going to the user’s App Store account settings after purchase.</string>
+                                    <mutableString key="title">Unlimited push notifications for private repositories is enabled via an auto‐renewing subscription. Your GitHub account must have at least read access to the private repository. The duration of every period of the subscription is 1 month. The price of the subscription is shown below. Payment will be charged to your App Store account at confirmation of purchase. There is a 7 day free trial period. Subscription automatically renews unless auto‐renew is turned off at least 24 hours before the end of the current period. Your account will be charged for renewal within 24 hours prior to the end of the current period, with the same amount as the current period. Subscriptions may be managed by the user and auto‐renewal may be turned off by going to the user’s App Store account settings after purchase.</mutableString>
                                     <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>

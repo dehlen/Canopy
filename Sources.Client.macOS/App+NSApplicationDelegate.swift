@@ -11,51 +11,45 @@ extension AppDelegate: NSApplicationDelegate {
     }
 
     func applicationWillFinishLaunching(_ note: Notification) {
-        NSUserNotificationCenter.default.delegate = self
-        if #available(macOS 10.14, *) {
-            UNUserNotificationCenter.current().delegate = self
-        }
-
-        // so tapping notifications doesn’t show the app temporarily
-        //TODO verify there is no flash, may need to set this in storyboard
-        NSApp.mainWindow?.setIsVisible(false)
-    }
-
-    func applicationDidFinishLaunching(_ note: Notification) {
-        NSApp.registerForRemoteNotifications(matching: [.alert, .sound])
-
-        func chunk(with userInfo: [String: Any]) {
-            if processRemoteNotificationUserInfo(userInfo) {
-                NSApp.terminate(self)
-            }
-        }
-
         var userInfo: [AnyHashable: Any]?
 
         if #available(macOS 10.14, *) {
+            UNUserNotificationCenter.current().delegate = self
             let rsp = note.userInfo?[NSApplication.launchUserNotificationUserInfoKey] as? UNNotificationResponse
             userInfo = rsp?.notification.request.content.userInfo
-        } else if let notification = note.userInfo?[NSApplication.launchUserNotificationUserInfoKey] as? NSUserNotification {
-            userInfo = notification.userInfo
+        } else {
+            NSUserNotificationCenter.default.delegate = self
+            if let notification = note.userInfo?[NSApplication.launchUserNotificationUserInfoKey] as? NSUserNotification {
+                userInfo = notification.userInfo
+            }
         }
 
         if let userInfo = userInfo, processRemoteNotificationUserInfo(userInfo) {
             // we were launched by a notification tap and only exist to open that URL in the system browser
-            NSApp.terminate(self)
+            exit(0)
         } else {
-            // show icon and menu now (we are LSUIElement so taps on notifications don't appear to open the app)
-            NSApp.mainWindow?.setIsVisible(true)
+            // k, we’re not launched from notification tap, so show dock icon and menu bar
             NSApp.setActivationPolicy(.regular)
-            NSApp.activate(ignoringOtherApps: true) // or doesn’t respond to clicks
-            NSApp.mainWindow?.makeKeyAndOrderFront(self) // or doesn't respond to clicks
+        }
+    }
 
-            subscriptionManager = SubscriptionManager()
-            subscriptionManager.delegate = self
+    func applicationDidFinishLaunching(_ note: Notification) {
+        guard NSApp.activationPolicy() == .regular else { return }
 
-            ref = subscriptionManager.observe(\.hasVerifiedReceipt) { mgr, _ in
-                app.createSubscriptionMenuItem.isHidden = mgr.hasVerifiedReceipt
-                app.manageSubscriptionMenuItem.isHidden = !mgr.hasVerifiedReceipt
-            }
+        NSApp.registerForRemoteNotifications(matching: [.alert, .sound])
+
+        let windowController = NSStoryboard(name: "Main", bundle: nil).instantiateController(withIdentifier: "Root") as! NSWindowController
+        windowController.showWindow(self)
+        windowController.window!.makeKeyAndOrderFront(self)
+
+        NSApp.activate(ignoringOtherApps: true) // or doesn’t respond to clicks
+
+        subscriptionManager = SubscriptionManager()
+        subscriptionManager.delegate = self
+
+        ref = subscriptionManager.observe(\.hasVerifiedReceipt) { mgr, _ in
+            app.createSubscriptionMenuItem.isHidden = mgr.hasVerifiedReceipt
+            app.manageSubscriptionMenuItem.isHidden = !mgr.hasVerifiedReceipt
         }
     }
 
