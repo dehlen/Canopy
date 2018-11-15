@@ -90,6 +90,7 @@ class ReposViewController: NSViewController {
         alert.messageText = "Add Repository"
         alert.informativeText = "Get updates for any repository that has the Canopy webhook installed."
         alert.accessoryView = tf
+        alert.window.initialFirstResponder = tf
         alert.addButton(withTitle: "Add").tag = NSApplication.ModalResponse.OK.rawValue
         alert.addButton(withTitle: "Cancel").tag = NSApplication.ModalResponse.cancel.rawValue
         alert.beginSheetModal(for: view.window!) { rsp in
