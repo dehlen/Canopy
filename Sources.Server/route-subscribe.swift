@@ -3,6 +3,8 @@ import Foundation
 import PromiseKit
 import Roots
 
+//NOTE unused since 1.0.1
+
 func subscriptionsHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
     print()
     print("/subscribe")

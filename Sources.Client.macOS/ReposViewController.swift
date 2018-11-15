@@ -5,7 +5,7 @@ class ReposViewController: NSViewController {
     let mgr = EnrollmentsManager()
 
     var repos: SortedSet<Repo> { return mgr.repos }
-    var hooked: Set<Int> { return mgr.hooks }
+    var hooked: Set<Node> { return mgr.hooks }
     var fetching: Bool { return mgr.isFetching }
     var subscribed: Set<Int> { return mgr.enrollments }
     var rootedRepos: [String: [Repo]] { return mgr.rootedRepos }
@@ -33,20 +33,20 @@ class ReposViewController: NSViewController {
             let repos = rootedRepos[login]!
             if repos.isOrganization {
                 let owner = repos[0].owner  // safe as we wouldn't show anything if empty
-                return .organization(login: owner.login, id: owner.id)
+                return .organization(owner.login)
             } else {
                 return .user(login)
             }
         } else {
-            return .repo(item as! Repo)
+            return .repository(item as! Repo)
         }
     }
 
     func requiresReceipt(item: OutlineViewItem) -> Bool {
         switch item {
-        case .organization(let login, _), .user(let login):
+        case .organization(let login), .user(let login):
             return rootedRepos[login]!.satisfaction{ $0.private } != .none
-        case .repo(let repo):
+        case .repository(let repo):
             return repo.private
         }
     }
@@ -57,9 +57,9 @@ class ReposViewController: NSViewController {
 
     func state(for item: OutlineViewItem) -> SwitchState {
         switch item {
-        case .organization(let login, _), .user(let login):
+        case .organization(let login), .user(let login):
             return SwitchState(rootedRepos[login]!, where: { subscribed.contains($0.id) })
-        case .repo(let repo):
+        case .repository(let repo):
             return subscribed.contains(repo.id) ? .on : .off
         }
     }
@@ -96,7 +96,6 @@ class ReposViewController: NSViewController {
             guard rsp == .OK else { return }
 
             self.mgr.add(repoFullName: tf.stringValue).done { repo in
-                self.outlineView.reloadData()
                 let row = self.outlineView.row(forItem: repo)
                 self.outlineView.scrollRowToVisible(row)
                 self.outlineView.selectRowIndexes([row], byExtendingSelection: false)
@@ -108,6 +107,47 @@ class ReposViewController: NSViewController {
 
     @IBAction func showHelp(_ sender: Any) {
         NSWorkspace.shared.open(.faq)
+    }
+
+    @IBAction private func toggle(sender: NSButton) {
+        //TODO don't allow toggling during activity (NOTE need to store
+        //  that we are installing-hooks for this node in case of switch-back-forth)
+        //TODO UI feedback for activity
+        //TODO make new endpoint that installs webhook SECOND so user is pinged after subbing
+        // change ping text to subscription verified or GitHub sent confirmation payload or something
+        // probably therefore make Node decodable
+        // error therefore will be complicated ?
+
+        guard let selectedItem = selectedItem else {
+            return
+        }
+
+        let subscribe = sender.state == .on
+        let restoreState = state(for: selectedItem).nsControlStateValue
+
+        if subscribe, !hasVerifiedReceipt, requiresReceipt(item: selectedItem) {
+            sender.state = restoreState
+            paymentPrompt()
+        } else {
+            sender.isEnabled = false
+
+            firstly {
+                try mgr.enroll(selectedItem, toggleDirection: subscribe)
+            }.catch { error in
+                if selectedItem == self.selectedItem {
+                    sender.state = restoreState
+                }
+                alert(error: error)
+            }.finally {
+                if selectedItem == self.selectedItem {
+                    sender.isEnabled = true
+                    sender.allowsMixedState = false  // will be either on or off at this point
+                }
+                // some items maybe succeeded and some failed, so always do this, even if error
+                self.outlineViewSelectionDidChange(Notification(name: .NSAppleEventManagerWillProcessFirstEvent))
+            }
+
+        }
     }
 }
 

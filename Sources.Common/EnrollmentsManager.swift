@@ -12,7 +12,7 @@ protocol EnrollmentsManagerDelegate: class {
 }
 
 class EnrollmentsManager {
-    private(set) var hooks: Set<Int> = []
+    private(set) var hooks: Set<Node> = []
     private(set) var repos = SortedSet<Repo>()
     private(set) var enrollments: Set<Int> = []
 
@@ -103,12 +103,7 @@ class EnrollmentsManager {
                 DispatchQueue.global().async(.promise) {
                     try JSONDecoder().decode([Repo].self, from: data)
                 }.done {
-                #if targetEnvironment(simulator)
-                    let newRepos = $0.filter { $0.full_name != "lucidhq/fulcrum-pulse" }
-                    self.repos.formUnion(newRepos)
-                #else
                     self.repos.formUnion($0)
-                #endif
                     self.delegate?.enrollmentsManagerDidUpdate(self, expandTree: false)
                 }
             }
@@ -173,50 +168,66 @@ class EnrollmentsManager {
         }
     }
 
-    func enroll(repo: Repo) throws -> Promise<Void> {
+    enum Item: Equatable {
+        case organization(String)
+        case repository(Repo)
+        case user(String)
+    }
+
+    func enroll(_ node: Item, toggleDirection willEnroll: Bool) throws -> Promise<Void> {
         guard let token = token else {
             throw Error.noToken
         }
 
-        let willEnroll = !enrollments.contains(repo.id)
-
-        if willEnroll, repo.private, !AppDelegate.shared.subscriptionManager.hasVerifiedReceipt {
-            throw Error.paymentRequired
+        let hookTargets: [Node]
+        let enrollRepoIds: [Int]
+        switch node {
+        case .organization(let login):
+            let repos = rootedRepos[login]!
+            hookTargets = [.organization(login)]
+            enrollRepoIds = repos.map(\.id)
+        case .repository(let repo):
+            hookTargets = [.init(repo)]
+            enrollRepoIds = [repo.id]
+        case .user(let login):
+            let repos = rootedRepos[login]!
+            hookTargets = repos.map(Node.init)
+            enrollRepoIds = repos.map(\.id)
         }
 
-        let hookTarget = !repo.isPartOfOrganization ? Node(repo) : .organization(repo.owner.login)
-        let hookId = !repo.isPartOfOrganization ? repo.id : repo.owner.id
+        let body = willEnroll
+            ? try JSONEncoder().encode(API.Enroll(createHooks: hookTargets, enrollRepoIds: enrollRepoIds))
+            : try JSONEncoder().encode(API.Unenroll(repoIds: enrollRepoIds))
+
+        let httpMethod = willEnroll ? "POST" : "DELETE"
 
         var rq = URLRequest(.enroll)
-        rq.httpMethod = willEnroll ? "POST" : "DELETE"
-        rq.httpBody = willEnroll
-            ? try JSONEncoder().encode(API.Enroll(createHooks: [hookTarget], enrollRepoIds: [repo.id]))
-            : try JSONEncoder().encode(API.Unenroll(repoIds: [repo.id]))
+        rq.httpMethod = httpMethod
+        rq.httpBody = body
         rq.addValue("application/json", forHTTPHeaderField: "Content-Type")
         rq.addValue(token, forHTTPHeaderField: "Authorization")
 
         return firstly {
-            URLSession.shared.dataTask(.promise, with: rq).httpValidate().map{ _ in willEnroll }
-        }.recover { error -> Promise<Bool> in
+            URLSession.shared.dataTask(.promise, with: rq).httpValidate().asVoid()
+        }.recover(on: .main) { error -> Void in
             switch error {
-            case API.Enroll.Error.noClearance/*(let failedRepoIds)*/:
-                throw error
-            case API.Enroll.Error.hookCreationFailed/*(let failedNodes)*/:
-                self.enrollments.insert(repo.id)
-                return DispatchQueue.main.async(.promise) {
-                    self.delegate?.enrollmentsManagerDidUpdate(self, expandTree: false)
-                    throw error
-                }
+            case API.Enroll.Error.noClearance(let failedRepoIds):
+                self.enrollments.formUnion(Set(enrollRepoIds).subtracting(failedRepoIds))
+            case API.Enroll.Error.hookCreationFailed(let failedNodes):
+                self.enrollments.formUnion(enrollRepoIds)
+                self.hooks.formUnion(Set(hookTargets).subtracting(failedNodes))
             default:
-                throw error
+                break
             }
-        }.done { enrolled in
-            if enrolled {
-                self.hooks.insert(hookId)
-                self.enrollments.insert(repo.id)
+            throw error
+        }.done {
+            if willEnroll {
+                self.hooks.formUnion(hookTargets)
+                self.enrollments.formUnion(enrollRepoIds)
             } else {
-                self.enrollments.remove(repo.id)
+                self.enrollments.subtract(enrollRepoIds)
             }
+        }.ensure {
             self.delegate?.enrollmentsManagerDidUpdate(self, expandTree: false)
         }
     }
@@ -227,11 +238,11 @@ class EnrollmentsManager {
         }
 
         //TODO ust refresh hook information, maybe it's been days and the user knows the data is stale!
-        func fetchInstallation(for repo: Repo) -> Promise<Int?> {
+        func fetchInstallation(for repo: Repo) -> Promise<Node?> {
             return firstly {
                 fetchInstallations(for: [repo])
             }.map {
-                $0.isEmpty ? nil : repo.id
+                $0.first
             }
         }
 
@@ -243,8 +254,8 @@ class EnrollmentsManager {
             try JSONDecoder().decode(Repo.self, from: $0.data)
         }.then { repo in
             fetchInstallation(for: repo).done {
-                if let repoId = $0 {
-                    self.hooks.insert(repoId)
+                if let repo = $0 {
+                    self.hooks.insert(repo)
                 }
                 self.repos.insert(repo)
             }
@@ -266,11 +277,23 @@ private func fetchEnrollments(token: String) -> Promise<(Set<Int>, Bool)> {
     }
 }
 
-private func fetchInstallations<T: Sequence>(for repos: T) -> Promise<Set<Int>> where T.Element == Repo {
+private func fetchInstallations<T: Sequence>(for repos: T) -> Promise<Set<Node>> where T.Element == Repo {
     let ids = repos.map {
         $0.isPartOfOrganization
             ? $0.owner.id
             : $0.id
+    }
+
+
+    func unconvert(_ id: Int) -> Node? {
+        for repo in repos {
+            if repo.id == id {
+                return .init(repo)
+            } else if repo.owner.id == id {
+                return .organization(repo.owner.login)
+            }
+        }
+        return nil
     }
 
     //FIXME need to store ids in Node really, ids are stable, names are not
@@ -281,5 +304,5 @@ private func fetchInstallations<T: Sequence>(for repos: T) -> Promise<Set<Int>> 
         URLSession.shared.dataTask(.promise, with: rq).validate()
     }.map {
         try JSONDecoder().decode([Int].self, from: $0.data)
-    }.map(Set.init)
+    }.compactMapValues(unconvert).map(Set.init)
 }

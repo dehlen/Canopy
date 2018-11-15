@@ -1,11 +1,7 @@
 import AppKit
 
 extension ReposViewController {
-    enum OutlineViewItem: Equatable {
-        case repo(Repo)
-        case organization(login: String, id: Int)
-        case user(String)
-    }
+    typealias OutlineViewItem = EnrollmentsManager.Item
 
     enum SwitchState {
         case on

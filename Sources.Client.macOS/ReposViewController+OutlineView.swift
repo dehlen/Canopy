@@ -32,7 +32,7 @@ extension ReposViewController: NSOutlineViewDataSource {
             }
         case statusColumn:
             if let repo = item as? Repo, subscribed.contains(repo.id) {
-                if repo.isPartOfOrganization && hooked.contains(repo.owner.id) || hooked.contains(repo.id) {
+                if repo.isPartOfOrganization && hooked.contains(.organization(repo.owner.login)) || hooked.contains(repo) {
                     return "✓"
                 } else if !fetching {
                     return "⚠"
@@ -42,9 +42,9 @@ extension ReposViewController: NSOutlineViewDataSource {
             } else if fetching {
                 return nil
             } else if let repo = item as? Repo, !repo.permissions.admin {
-                if !repo.isPartOfOrganization, !hooked.contains(repo.id) {
+                if !repo.isPartOfOrganization, !hooked.contains(repo) {
                     return "⚠"
-                } else if !hooked.contains(repo.owner.id) {
+                } else if !hooked.contains(.organization(repo.owner.login)) {
                     return "⚠"
                 } else {
                     return nil
@@ -86,12 +86,12 @@ extension ReposViewController: NSOutlineViewDelegate {
                 return .noSelection
             }
             switch selectedItem {
-            case .repo(let repo):
+            case .repository(let repo):
                 let enrolled = subscribed.contains(repo.id)
                 var hookable: State.Kind.Hookable {
-                    if hooked.contains(repo.id) {
+                    if hooked.contains(repo) {
                         return .true
-                    } else if repo.isPartOfOrganization, hooked.contains(repo.owner.id) {
+                    } else if repo.isPartOfOrganization, hooked.contains(.organization(repo.owner.login)) {
                         return .true
                     } else if repo.permissions.admin {
                         return .true
@@ -102,15 +102,15 @@ extension ReposViewController: NSOutlineViewDelegate {
                     }
                 }
                 return .selected(.repo(enrolled: enrolled, hookable: hookable))
-            case .organization(let login, let id):
+            case .organization(let login):
                 let repos = rootedRepos[login]!
                 let enrollment = repos.satisfaction{ subscribed.contains($0.id) }
-                let enable = hasVerifiedReceipt || repos.satisfaction(\.`private`) == .none || repos.satisfaction(\.permissions.admin) == .all || hooked.contains(id)
+                let enable = hasVerifiedReceipt || repos.satisfaction(\.`private`) == .none || repos.satisfaction(\.permissions.admin) == .all || hooked.contains(.organization(login))
                 return .selected(.organization(enrollment, enable: enable))
             case .user(let login):
                 let repos = rootedRepos[login]!
                 let enrollment = rootedRepos[login]!.satisfaction{ subscribed.contains($0.id) }
-                let enable = hasVerifiedReceipt || repos.satisfaction(\.`private`) == .none || repos.satisfaction(\.permissions.admin) == .all || repos.satisfaction{ hooked.contains($0.id) } == .all
+                let enable = hasVerifiedReceipt || repos.satisfaction(\.`private`) == .none || repos.satisfaction(\.permissions.admin) == .all || repos.satisfaction{ hooked.contains($0) } == .all
                 return .selected(.user(enrollment, enable: enable))
             }
         }
@@ -211,5 +211,12 @@ extension ReposViewController: NSOutlineViewDelegate {
         }
         cell.isEnabled = integrated// ? .labelColor : .secondaryLabelColor
         return cell
+    }
+}
+
+extension Set where Element == Node {
+    @inline(__always)
+    func contains(_ repo: Repo) -> Bool {
+        return contains(.init(repo))
     }
 }
