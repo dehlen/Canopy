@@ -236,7 +236,7 @@ class EnrollmentsManager {
         }
     }
 
-    func add(repoFullName full_name: String) -> Promise<Void> {
+    func add(repoFullName full_name: String) -> Promise<Repo> {
         guard full_name.contains("/"), let token = creds?.token else {
             return Promise(error: Error.invalidRepoName(full_name))
         }
@@ -262,8 +262,10 @@ class EnrollmentsManager {
                     self.hooks.insert(repo)
                 }
                 self.repos.insert(repo)
+            }.map {
+                repo
             }
-        }.done {
+        }.get { _ in
             self.delegate?.enrollmentsManagerDidUpdate(self, expandTree: true)
         }
     }
