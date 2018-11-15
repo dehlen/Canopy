@@ -113,16 +113,26 @@ class EnrollmentsManager {
                 }
             }
 
-            func stragglers() -> Promise<[Repo]> {
+            func stragglers() -> Guarantee<[Repo]> {
+
+                //TODO we ignore errors as it is hard to propogate them.
+                // A typical error here is a 404 due to a repo being deleted
+                // if it is deleted we don’t get it from `fetchRepos()` above
+                // yet we get it from debris because user is enrolled so we
+                // try to fetch it here in `stragglers()` where it 404s
+
                 let repoIds = Set(self.repos.map(\.id))
-                return when(fulfilled: self.enrollments.filter {
+                return when(resolved: self.enrollments.filter {
                     !repoIds.contains($0)
                 }.map {
                     api.request(path: "/repositories/\($0)")
                 }.map {
                     URLSession.shared.dataTask(.promise, with: $0).validate()
-                }).mapValues {
-                    try JSONDecoder().decode(Repo.self, from: $0.data)
+                }).map {
+                    $0.compactMap {
+                        guard case .fulfilled(let rsp) = $0 else { return nil }
+                        return try? JSONDecoder().decode(Repo.self, from: rsp.data)
+                    }
                 }
             }
 
