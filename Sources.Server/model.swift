@@ -1,3 +1,4 @@
+import enum Roots.Event
 import enum Roots.Node
 import PerfectSQLite
 import Foundation
@@ -8,7 +9,6 @@ private enum CryptoError: Error {
     case couldNotDecrypt(forUserId: Int)
 }
 
-typealias TokenSelect = (repoId: Int, ignoreUserId: Int)
 class DB {
     let db: SQLite
 
@@ -34,126 +34,6 @@ class DB {
         try FileManager.default.copyItem(at: src, to: dst)
 
         print("Backed up:", dst.path)
-    }
-
-    func apnsTokens(for conf: TokenSelect) throws -> [APNSConfiguration: [String]] {
-        let sql = """
-            SELECT id, topic, production, tokens.user_id
-            FROM tokens
-            INNER JOIN subscriptions ON subscriptions.user_id = tokens.user_id
-            WHERE subscriptions.repo_id = :1
-            """
-
-        var results: [APNSConfiguration: [String]] = [:]
-
-        try db.forEachRow(statement: sql, doBindings: {
-            try $0.bind(position: 1, conf.repoId)
-        }, handleRow: { statement, row in
-            let userId = statement.columnInt(position: 3)
-            guard userId != conf.ignoreUserId else { return }
-
-            let token = statement.columnText(position: 0)
-            let topic = statement.columnText(position: 1)
-            let production = statement.columnInt(position: 2) != 0
-
-            // PerfectSQLite sucks and returns "" for the error condition
-            if !token.isEmpty, !topic.isEmpty {
-                results[APNSConfiguration(topic: topic, isProduction: production), default: []].append(token)
-            }
-        })
-
-        return results
-    }
-
-    func apnsTokens(forUserIds uids: [Int]) throws -> [APNSConfiguration: [String]] {
-        let uidstrs = uids.map(String.init).joined(separator: ",")
-        let sql = """
-            SELECT id, topic, production
-            FROM tokens
-            WHERE user_id IN (\(uidstrs))
-            """
-
-        var results: [APNSConfiguration: [String]] = [:]
-
-        try db.forEachRow(statement: sql) { statement, row in
-            let token = statement.columnText(position: 0)
-            let topic = statement.columnText(position: 1)
-            let production = statement.columnInt(position: 2) != 0
-
-            // PerfectSQLite sucks and returns "" for the error condition
-            if !token.isEmpty, !topic.isEmpty {
-                results[APNSConfiguration(topic: topic, isProduction: production), default: []].append(token)
-            }
-        }
-
-        return results
-    }
-
-    struct Foo {
-        var confs: [APNSConfiguration: [String]]
-        let userId: Int
-    }
-
-    func tokens(for conf: TokenSelect) throws -> [String: Foo] {
-
-        // we intend do a HEAD request for the repo with each oauth-token
-        // and we’re assuming that 99% will return 200, thus we may as
-        // well fetch the resulting device-tokens in the same query
-
-        let sql = """
-            SELECT tokens.id, tokens.topic, tokens.production, auths.token, auths.salt, tokens.user_id
-            FROM tokens
-            INNER JOIN auths ON auths.user_id = tokens.user_id
-            INNER JOIN subscriptions ON subscriptions.user_id = tokens.user_id
-            WHERE subscriptions.repo_id = :1
-            """
-
-        var results: [String: Foo] = [:]
-
-        try db.forEachRow(statement: sql, doBindings: {
-            try $0.bind(position: 1, conf.repoId)
-        }, handleRow: { statement, row in
-            let userId = statement.columnInt(position: 5)
-            guard userId != conf.ignoreUserId else { return }
-
-            let apnsDeviceToken = statement.columnText(position: 0)
-            let topic = statement.columnText(position: 1)
-            let production = statement.columnInt(position: 2) != 0
-            let encryptedOAuthToken: [UInt8] = statement.columnIntBlob(position: 3)
-            let encryptionSalt: [UInt8] = statement.columnIntBlob(position: 4)
-
-
-            guard let oauthToken = decrypt(encryptedOAuthToken, salt: encryptionSalt) else {
-                return alert(message: "Failed decrypting token for a user. We don’t know which")
-            }
-
-            // PerfectSQLite sucks and returns "" for the error condition
-            if !apnsDeviceToken.isEmpty, !topic.isEmpty, !encryptedOAuthToken.isEmpty, !encryptionSalt.isEmpty {
-                let conf = APNSConfiguration(topic: topic, isProduction: production)
-                results[oauthToken, default: Foo(confs: [:], userId: userId)].confs[conf, default: []].append(apnsDeviceToken)
-            }
-        })
-
-        return results
-    }
-
-    func mxcl() throws -> [APNSConfiguration: [String]] {
-        let sql = """
-            SELECT id, topic, production
-            FROM tokens
-            WHERE user_id = 58962
-            """
-
-        var results: [APNSConfiguration: [String]] = [:]
-
-        try db.forEachRow(statement: sql, handleRow: { statement, row in
-            let token = statement.columnText(position: 0)
-            let topic = statement.columnText(position: 1)
-            let production = statement.columnInt(position: 2) != 0
-            results[APNSConfiguration(topic: topic, isProduction: production), default: []].append(token)
-        })
-
-        return results
     }
 
     func oauthToken(forUser uid: Int) throws -> String {
@@ -182,23 +62,17 @@ class DB {
         return oauthToken
     }
 
-    //FIXME TODO WOAH MEMORY CONSUMPTION, ideally needs to be a lazy sequence
-    func allAPNsTokens() throws -> [APNSConfiguration: [String]] {
+    func set(mask: Int, repoId: Int, userId: Int) throws {
         let sql = """
-            SELECT id, topic, production
-            FROM tokens
+            UPDATE subscriptions
+            SET event_mask = :1
+            WHERE user_id = :2 AND repo_id = :3
             """
-
-        var results: [APNSConfiguration: [String]] = [:]
-
-        try db.forEachRow(statement: sql, handleRow: { statement, row in
-            let token = statement.columnText(position: 0)
-            let topic = statement.columnText(position: 1)
-            let production = statement.columnInt(position: 2) != 0
-            results[APNSConfiguration(topic: topic, isProduction: production), default: []].append(token)
+        try db.execute(statement: sql, doBindings: { stmt in
+            try stmt.bind(position: 1, mask)
+            try stmt.bind(position: 2, userId)
+            try stmt.bind(position: 3, repoId)
         })
-
-        return results
     }
 
     func add(apnsToken: String, topic: String, userId: Int, production: Bool) throws {

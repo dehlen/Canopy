@@ -11,7 +11,7 @@ setbuf(stdout, nil)
 #endif
 
 CurlVersionHelper().checkVersion()
-
+precondition(MemoryLayout<Int>.size == 8)  // required for our event-mask system
 var isDir: ObjCBool = false
 precondition(FileManager.default.fileExists(atPath: "../receipts", isDirectory: &isDir) && isDir.boolValue)
 precondition(FileManager.default.fileExists(atPath: "../db.sqlite"))

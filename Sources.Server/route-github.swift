@@ -3,14 +3,8 @@ import Foundation
 import PromiseKit
 import Roots
 
-private enum E: Error {
-    case unimplemented(String)
-    case ignoring
-}
-
 func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
-    guard let eventType = rq.header(.custom(name: "X-GitHub-Event")) else {
-        alert(message: "No event type provided by GitHub!")
+    guard let eventType = rq.header(.custom(name: "X-GitHub-Event")), let payload = rq.postBodyBytes.map(Data.init(bytes:)) else {
         response.completed(status: .expectationFailed)
         return
     }
@@ -19,12 +13,14 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
     print("/github:", eventType, terminator: " ")
 
     func save(prefix: String) {
-        guard let bytes = rq.postBodyBytes else { return }
-        Debris.save(json: Data(bytes), eventName: "\(prefix)-\(eventType)")
+        Debris.save(json: payload, eventName: "\(prefix)-\(eventType)")
     }
 
     do {
-        let notificatable = try rq.decodeNotificatable(eventType: eventType)
+        guard let event = Event(rawValue: eventType) else {
+            throw Event.E.unimplemented(eventType)
+        }
+        let notificatable = try event.decode(from: payload)
 
         print(notificatable.title ?? "untitled")
 
@@ -33,11 +29,10 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         }
 
         guard !notificatable.shouldIgnore else {
-            throw E.ignoring
+            throw Event.E.ignoring
         }
 
         let db = try DB()
-
         let id = rq.header(.custom(name: "X-GitHub-Delivery"))
 
         func send(notificatable: Notificatable, to confs: [APNSConfiguration: [String]]) throws {
@@ -59,10 +54,10 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
 
         switch SendType(notificatable) {
         case .public(let repo):
-            try send(to: db.apnsTokens(for: (repoId: repo.id, ignoreUserId: notificatable.senderUid)))
+            try send(to: db.apnsTokens(for: (repoId: repo.id, ignoreUserId: notificatable.senderUid, event: event)))
         case .private(let repo):
 
-            let tokens = try db.tokens(for: (repoId: repo.id, ignoreUserId: notificatable.senderUid))
+            let tokens = try db.tokens(for: (repoId: repo.id, ignoreUserId: notificatable.senderUid, event: event))
 
             for (oauthToken, foo) in tokens {
                 DispatchQueue.global().async(.promise) {
@@ -127,12 +122,12 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
 
         response.completed()
 
-    } catch E.unimplemented(let eventType) {
+    } catch Event.E.unimplemented(let eventType) {
         print("unknown event")
         alert(message: "Unknown/unimplemented event type: \(eventType)")
         response.completed(status: .internalServerError)
         save(prefix: "unimplemented")
-    } catch E.ignoring {
+    } catch Event.E.ignoring {
         print("ignoring event")
         response.completed()
     } catch DB.E.oauthTokenNotFound {
@@ -145,88 +140,6 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         response.appendBody(string: error.legibleDescription)
         response.completed(status: .expectationFailed)
         save(prefix: "error")
-    }
-}
-
-private extension HTTPRequest {
-    func decodeNotificatable(eventType: String) throws -> Notificatable {
-        let rq = self
-        switch eventType {
-        case "ping":
-            return try rq.decode(PingEvent.self)
-        case "push":
-            return try rq.decode(PushEvent.self)
-        case "check_run":
-            return try rq.decode(CheckRunEvent.self)
-        case "check_suite":
-            return try rq.decode(CheckSuiteEvent.self)
-        case "commit_comment":
-            return try rq.decode(CommitComment.self)
-        case "create":
-            return try rq.decode(CreateEvent.self)
-        case "delete":
-            return try rq.decode(DeleteEvent.self)
-        case "deployment":
-            return try rq.decode(DeploymentEvent.self)
-        case "deployment_status":
-            return try rq.decode(DeploymentStatusEvent.self)
-        case "fork":
-            return try rq.decode(ForkEvent.self)
-        case "gollum":
-            return try rq.decode(GollumEvent.self)
-        case "issue_comment":
-            return try rq.decode(IssueCommentEvent.self)
-        case "issues":
-            return try rq.decode(IssuesEvent.self)
-        case "label":
-            return try rq.decode(LabelEvent.self)
-        case "member":
-            return try rq.decode(MemberEvent.self)
-        case "membership":
-            return try rq.decode(MembershipEvent.self)
-        case "milestone":
-            return try rq.decode(MilestoneEvent.self)
-        case "organization":
-            return try rq.decode(OrganizationEvent.self)
-        case "org_block":
-            return try rq.decode(OrgBlockEvent.self)
-        case "page_build":
-            return try rq.decode(PageBuildEvent.self)
-        case "project_card":
-            return try rq.decode(ProjectCardEvent.self)
-        case "project_column":
-            return try rq.decode(ProjectColumnEvent.self)
-        case "project":
-            return try rq.decode(ProjectEvent.self)
-        case "public":
-            return try rq.decode(PublicEvent.self)
-        case "pull_request":
-            return try rq.decode(PullRequestEvent.self)
-        case "pull_request_review":
-            return try rq.decode(PullRequestReviewEvent.self)
-        case "release":
-            return try rq.decode(ReleaseEvent.self)
-        case "repository":
-            return try rq.decode(RepositoryEvent.self)
-        case "repository_import":
-            return try rq.decode(RepositoryImportEvent.self)
-        case "status":
-            // HEAVY TRAFFIC DUDE! Probably send as a silent notification
-            // happens for eg. EVERY SINGLE travis build job
-            throw E.ignoring
-        case "watch":
-            return try rq.decode(WatchEvent.self)
-        case "pull_request_review_comment":
-            return try rq.decode(PullRequestReviewCommentEvent.self)
-        case "team":
-            return try rq.decode(TeamEvent.self)
-        case "team_add":
-            return try rq.decode(TeamAddEvent.self)
-        case "repository_vulnerability_alert":
-            return try rq.decode(RepositoryVulnerabilityEvent.self)
-        case "marketplace_purchase", _:
-            throw E.unimplemented(eventType)
-        }
     }
 }
 
@@ -293,10 +206,8 @@ private enum SendType {
     }
 }
 
-
 func save(json: Data, eventName: String) {
-
-    func go() {
+    DispatchQueue.global(qos: .utility).async {
         do {
             let obj = try JSONSerialization.jsonObject(with: json)
             let data = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
@@ -306,6 +217,4 @@ func save(json: Data, eventName: String) {
             print("save-payloads:", error)
         }
     }
-
-    DispatchQueue.global(qos: .utility).async(execute: go)
 }

@@ -1,5 +1,6 @@
-import Foundation
 import PerfectHTTP
+import Foundation
+import Roots
 
 enum Context {
     case organization(Organization, admin: User)
@@ -172,7 +173,7 @@ struct CheckSuiteEvent: Codable, Notificatable, HasSender {
 }
 
 // https://developer.github.com/v3/activity/events/types/#commitcommentevent
-struct CommitComment: Codable, Notificatable, HasSender {
+struct CommitCommentEvent: Codable, Notificatable, HasSender {
     let action: String
     let comment: Comment
     let repository: Repository
@@ -1319,4 +1320,85 @@ struct PullRequest: Codable {
     let body: String?
     let merged: Bool?
     let number: Int
+}
+
+extension Event {
+    func decode(from data: Data) throws -> Notificatable {
+        let decoder = JSONDecoder()
+        switch self {
+        case .ping:
+            return try decoder.decode(PingEvent.self, from: data)
+        case .push:
+            return try decoder.decode(PushEvent.self, from: data)
+        case .check_run:
+            return try decoder.decode(CheckRunEvent.self, from: data)
+        case .check_suite:
+            return try decoder.decode(CheckSuiteEvent.self, from: data)
+        case .commit_comment:
+            return try decoder.decode(CommitCommentEvent.self, from: data)
+        case .create:
+            return try decoder.decode(CreateEvent.self, from: data)
+        case .delete:
+            return try decoder.decode(DeleteEvent.self, from: data)
+        case .deployment:
+            return try decoder.decode(DeploymentEvent.self, from: data)
+        case .deployment_status:
+            return try decoder.decode(DeploymentStatusEvent.self, from: data)
+        case .fork:
+            return try decoder.decode(ForkEvent.self, from: data)
+        case .gollum:
+            return try decoder.decode(GollumEvent.self, from: data)
+        case .issue_comment:
+            return try decoder.decode(IssueCommentEvent.self, from: data)
+        case .issues:
+            return try decoder.decode(IssuesEvent.self, from: data)
+        case .label:
+            return try decoder.decode(LabelEvent.self, from: data)
+        case .member:
+            return try decoder.decode(MemberEvent.self, from: data)
+        case .membership:
+            return try decoder.decode(MembershipEvent.self, from: data)
+        case .milestone:
+            return try decoder.decode(MilestoneEvent.self, from: data)
+        case .organization:
+            return try decoder.decode(OrganizationEvent.self, from: data)
+        case .org_block:
+            return try decoder.decode(OrgBlockEvent.self, from: data)
+        case .page_build:
+            return try decoder.decode(PageBuildEvent.self, from: data)
+        case .project_card:
+            return try decoder.decode(ProjectCardEvent.self, from: data)
+        case .project_column:
+            return try decoder.decode(ProjectColumnEvent.self, from: data)
+        case .project:
+            return try decoder.decode(ProjectEvent.self, from: data)
+        case .public:
+            return try decoder.decode(PublicEvent.self, from: data)
+        case .pull_request:
+            return try decoder.decode(PullRequestEvent.self, from: data)
+        case .pull_request_review:
+            return try decoder.decode(PullRequestReviewEvent.self, from: data)
+        case .release:
+            return try decoder.decode(ReleaseEvent.self, from: data)
+        case .repository:
+            return try decoder.decode(RepositoryEvent.self, from: data)
+        case .repository_import:
+            return try decoder.decode(RepositoryImportEvent.self, from: data)
+        case .status:
+            throw E.ignoring
+            //return try decoder.decode(StatusEvent.self, from: data)
+        case .watch:
+            return try decoder.decode(WatchEvent.self, from: data)
+        case .pull_request_review_comment:
+            return try decoder.decode(PullRequestReviewEvent.self, from: data)
+        case .team:
+            return try decoder.decode(TeamEvent.self, from: data)
+        case .team_add:
+            return try decoder.decode(TeamAddEvent.self, from: data)
+        case .repository_vulnerability_alert:
+            return try decoder.decode(RepositoryVulnerabilityEvent.self, from: data)
+        case .marketplace_purchase:
+            throw E.unimplemented(rawValue)
+        }
+    }
 }

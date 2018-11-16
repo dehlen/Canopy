@@ -230,6 +230,7 @@
 		63C49DEE2145A7E6006AF751 /* MFMailComposeViewController+Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MFMailComposeViewController+Promise.swift"; path = "Carthage/Checkouts/PromiseKit/Extensions/MessagesUI/Sources/MFMailComposeViewController+Promise.swift"; sourceTree = SOURCE_ROOT; };
 		63C49DF02145A9BA006AF751 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
 		63CCA3CD2118ABF2000EEB88 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
+		63E15135219F6667003CE725 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		63E4E01D21090EC70081E9AB /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		63F75B2E20F52EEF00A3B9AE /* Canopy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Canopy.entitlements; sourceTree = "<group>"; };
 		63F8BCB2214598660089707C /* SubscribeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribeViewController.swift; sourceTree = "<group>"; };
@@ -354,6 +355,7 @@
 				636A40B320F94D9E0051DE0B /* Constants.swift */,
 				6380FF8A210E79A500544476 /* DebrisAPI.swift */,
 				636A40AF20F94D710051DE0B /* Error+legibleDescription.swift */,
+				63E15135219F6667003CE725 /* Event.swift */,
 				636A40B720F94DDB0051DE0B /* GitHubAPI.swift */,
 				63CCA3CC2118ABF2000EEB88 /* Vendor */,
 				637355A62121E7EC007E7D82 /* EnrollmentsManager.swift */,
