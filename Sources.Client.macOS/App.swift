@@ -17,7 +17,8 @@ class AppDelegate: NSObject {
     @discardableResult
     func processRemoteNotificationUserInfo(_ userInfo: [AnyHashable: Any]) -> Bool {
         if let urlString = userInfo["url"] as? String, let url = URL(string: urlString) {
-            return NSWorkspace.shared.open(url)
+            NSWorkspace.shared.open(url)
+            return true
         } else {
             return false
         }

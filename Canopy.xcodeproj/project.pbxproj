@@ -882,7 +882,7 @@
 				CODE_SIGN_ENTITLEMENTS = Sources.Client.macOS/Canopy.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = TEQMQBRC7B;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -907,7 +907,7 @@
 				CODE_SIGN_ENTITLEMENTS = Sources.Client.macOS/Canopy.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = TEQMQBRC7B;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

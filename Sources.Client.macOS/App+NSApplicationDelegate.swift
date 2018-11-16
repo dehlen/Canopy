@@ -1,6 +1,4 @@
-#if swift(>=4.2)
 import UserNotifications
-#endif
 import PromiseKit
 import StoreKit
 import AppKit
@@ -11,17 +9,21 @@ extension AppDelegate: NSApplicationDelegate {
     }
 
     func applicationWillFinishLaunching(_ note: Notification) {
+        if #available(macOS 10.14, *) {
+            UNUserNotificationCenter.current().delegate = self
+        } else {
+            NSUserNotificationCenter.default.delegate = self
+        }
+    }
+
+    func applicationDidFinishLaunching(_ note: Notification) {
         var userInfo: [AnyHashable: Any]?
 
         if #available(macOS 10.14, *) {
-            UNUserNotificationCenter.current().delegate = self
             let rsp = note.userInfo?[NSApplication.launchUserNotificationUserInfoKey] as? UNNotificationResponse
             userInfo = rsp?.notification.request.content.userInfo
-        } else {
-            NSUserNotificationCenter.default.delegate = self
-            if let notification = note.userInfo?[NSApplication.launchUserNotificationUserInfoKey] as? NSUserNotification {
-                userInfo = notification.userInfo
-            }
+        } else if let notification = note.userInfo?[NSApplication.launchUserNotificationUserInfoKey] as? NSUserNotification {
+            userInfo = notification.userInfo
         }
 
         if let userInfo = userInfo, processRemoteNotificationUserInfo(userInfo) {
@@ -31,10 +33,6 @@ extension AppDelegate: NSApplicationDelegate {
             // k, we’re not launched from notification tap, so show dock icon and menu bar
             NSApp.setActivationPolicy(.regular)
         }
-    }
-
-    func applicationDidFinishLaunching(_ note: Notification) {
-        guard NSApp.activationPolicy() == .regular else { return }
 
         NSApp.registerForRemoteNotifications(matching: [.alert, .sound])
 
