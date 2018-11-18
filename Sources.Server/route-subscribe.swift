@@ -3,30 +3,24 @@ import Foundation
 import PromiseKit
 import Roots
 
-//NOTE unused since 1.0.1
-
-func subscriptionsHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
-    print()
-    print("/subscribe")
-    
+func subscriptionsHandler(request rq: HTTPRequest) throws -> Promise<Routes.Response<[Int]>> {
     guard let token = rq.header(.custom(name: "Authorization")) else {
-        return response.completed(status: .badRequest)
+        throw HTTPResponseError(status: .badRequest, description: "")
     }
-    firstly {
+    return firstly {
         GitHubAPI(oauthToken: token).me()
-    }.done {
+    }.map { user -> Routes.Response<[Int]> in
         let db = try DB()
-        let foo = try db.subscriptions(forUserId: $0.id)
-        let data = try JSONEncoder().encode(foo)
-        let hasReceipt = try db.isReceiptValid(forUserId: $0.id)
-        response.setHeader(.upgrade, value: hasReceipt ? "true" : "false")
-        response.appendBody(bytes: [UInt8](data))
-        response.completed()
-    }.catch { error in
-        response.appendBody(string: "\(error)")
-        response.completed(status: .internalServerError)
+        let enrollments = try db.subscriptions(forUserId: user.id)
+        let hasReceipt = try db.isReceiptValid(forUserId: user.id)
+        return .init(codable: enrollments, headers: [
+            .upgrade: hasReceipt ? "true" : "false"
+        ])
     }
 }
+
+
+//NOTE the following pair of routes are unused (in app) since 1.0.1
 
 func subscribeHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
 

@@ -3,6 +3,23 @@ import Foundation
 import PromiseKit
 import Roots
 
+func enrollmentsHandler(request rq: HTTPRequest) throws -> Promise<Routes.Response<[Enrollment]>> {
+    guard let token = rq.header(.custom(name: "Authorization")) else {
+        throw HTTPResponseError(status: .badRequest, description: "")
+    }
+    func result(for userId: Int) throws -> Routes.Response<[Enrollment]> {
+        let db = try DB()
+        let enrollments = try db.enrollments(forUserId: userId)
+        let upgrade = try db.isReceiptValid(forUserId: userId)
+        return .init(codable: enrollments, headers: [.upgrade: upgrade.description])
+    }
+    return firstly {
+        GitHubAPI(oauthToken: token).me()
+    }.map {
+        try result(for: $0.id)
+    }
+}
+
 func enrollHandler(request rq: HTTPRequest) throws -> Promise<Void> {
     guard let token = rq.header(.authorization) else {
         throw HTTPResponseError(status: .unauthorized, description: "")

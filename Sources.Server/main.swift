@@ -29,29 +29,75 @@ import PerfectHTTP
 import Foundation
 import Roots
 
-private extension Routes {
-    mutating func add(method: HTTPMethod, uri: URL.Canopy, handler: @escaping RequestHandler) {
+extension Routes {
+
+    struct Response<T: Encodable> {
+        let codable: T
+        let headers: [HTTPResponseHeader.Name: String]
+
+        func encode() throws -> [UInt8] {
+            return [UInt8](try JSONEncoder().encode(codable))
+        }
+    }
+
+    fileprivate mutating func add(method: HTTPMethod, uri: URL.Canopy, handler: @escaping RequestHandler) {
         add(method: method, uri: uri.path, handler: handler)
     }
 
-    mutating func add(method: HTTPMethod, uri: URL.Canopy, handler: @escaping  (HTTPRequest) throws -> Promise<Void>) {
+    private static func errorHandler(error: Error, rsp: HTTPResponse) {
+        if let error = error as? API.Enroll.Error, let data = try? JSONEncoder().encode(error) {
+            rsp.appendBody(bytes: [UInt8](data))
+        } else {
+            rsp.appendBody(string: error.legibleDescription)
+        }
+        let status = (error as? HTTPStatusCodable).map{ HTTPResponseStatus.statusFrom(code: $0.httpStatusCode) } ?? .internalServerError
+        rsp.completed(status: status)
+    }
+
+    fileprivate mutating func add<T: Encodable>(method: HTTPMethod, uri: URL.Canopy, handler: @escaping  (HTTPRequest) throws -> Promise<T>) {
+        add(method: method, uri: uri.path, handler: { rq, rsp in
+            firstly {
+                try handler(rq)
+            }.done {
+                rsp.appendBody(bytes: [UInt8](try JSONEncoder().encode($0)))
+                rsp.completed()
+            }.catch {
+                Routes.errorHandler(error: $0, rsp: rsp)
+            }
+        })
+    }
+
+    fileprivate mutating func add<T: Encodable>(method: HTTPMethod, uri: URL.Canopy, handler: @escaping  (HTTPRequest) throws -> Promise<Response<T>>) {
+        add(method: method, uri: uri.path, handler: { rq, rsp in
+            firstly {
+                try handler(rq)
+            }.done {
+                for (name, value) in $0.headers {
+                    rsp.setHeader(name, value: value)
+                }
+                rsp.appendBody(bytes: try $0.encode())
+                rsp.completed()
+            }.catch {
+                Routes.errorHandler(error: $0, rsp: rsp)
+            }
+        })
+    }
+
+    fileprivate mutating func add(method: HTTPMethod, uri: URL.Canopy, handler: @escaping  (HTTPRequest) throws -> Promise<Void>) {
         add(method: method, uri: uri.path, handler: { rq, rsp in
             firstly {
                 try handler(rq)
             }.done {
                 rsp.completed()
-            }.catch { error in
-                if let error = error as? API.Enroll.Error, let data = try? JSONEncoder().encode(error) {
-                    rsp.appendBody(bytes: [UInt8](data))
-                } else {
-                    rsp.appendBody(string: error.legibleDescription)
-                }
-                let status = (error as? HTTPStatusCodable).map{ HTTPResponseStatus.statusFrom(code: $0.httpStatusCode) } ?? .internalServerError
-                rsp.completed(status: status)
+            }.catch {
+                Routes.errorHandler(error: $0, rsp: rsp)
             }
         })
     }
 }
+
+extension HTTPResponseHeader.Name: Hashable
+{}
 
 var routes = Routes()
 routes.add(method: .post, uri: .grapnel, handler: githubHandler)
@@ -66,6 +112,7 @@ routes.add(method: .post, uri: .hook, handler: createHookHandler)
 routes.add(method: .get, uri: .hook, handler: hookQueryHandler)
 routes.add(method: .post, uri: .enroll, handler: enrollHandler)
 routes.add(method: .delete, uri: .enroll, handler: unenrollHandler)
+routes.add(method: .get, uri: .enroll, handler: enrollmentsHandler)
 routes.add(method: .get, uri: .refreshReceipts, handler: refreshReceiptsHandler)
 
 let server = HTTPServer()

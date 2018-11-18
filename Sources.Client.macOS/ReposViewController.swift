@@ -7,7 +7,7 @@ class ReposViewController: NSViewController {
     var repos: SortedSet<Repo> { return mgr.repos }
     var hooked: Set<Node> { return mgr.hooks }
     var fetching: Bool { return mgr.isFetching }
-    var subscribed: Set<Int> { return mgr.enrollments }
+    var enrollments: Set<Enrollment> { return mgr.enrollments }
     var rootedRepos: [String: [Repo]] { return mgr.rootedRepos }
     var rootedReposKeys: [String] { return mgr.rootedReposKeys }
     var nodes: Set<Node> { return mgr.nodes }
@@ -18,6 +18,7 @@ class ReposViewController: NSViewController {
     @IBOutlet weak var statusLabel: NSTextField!
     @IBOutlet weak var notifyButton: NSButton!
     @IBOutlet weak var homepageButton: NSButton!
+    @IBOutlet weak var configureButton: NSButton!
 
     var hasVerifiedReceipt: Bool {
         return app.subscriptionManager.hasVerifiedReceipt
@@ -57,9 +58,9 @@ class ReposViewController: NSViewController {
     func state(for item: OutlineViewItem) -> SwitchState {
         switch item {
         case .organization(let login), .user(let login):
-            return SwitchState(rootedRepos[login]!, where: { subscribed.contains($0.id) })
+            return SwitchState(rootedRepos[login]!, where: { enrollments.contains($0) })
         case .repository(let repo):
-            return subscribed.contains(repo.id) ? .on : .off
+            return enrollments.contains(repo) ? .on : .off
         }
     }
 
@@ -150,8 +151,42 @@ class ReposViewController: NSViewController {
                 // some items maybe succeeded and some failed, so always do this, even if error
                 self.outlineViewSelectionDidChange(Notification(name: .NSAppleEventManagerWillProcessFirstEvent))
             }
-
         }
+    }
+
+    weak var configureEnrollmentsViewController: ConfigureEnrollmentsViewController?
+
+    @IBAction func configureButtonTapped(sender: NSButton!) {
+        updateConfigureEnrollmentsViewController()
+    }
+
+    func updateConfigureEnrollmentsViewController() {
+        guard case .repository(let repo)? = selectedItem else { return }
+        guard let enrollment = enrollments.first(where: { $0.repoId == repo.id }) else { return }
+
+        if let vc = configureEnrollmentsViewController {
+            vc.enrollment = enrollment
+        } else {
+            let vc = ConfigureEnrollmentsViewController(enrollment: enrollment)
+            configureEnrollmentsViewController = vc
+
+            let window = MyWindow(contentViewController: vc)
+            window.styleMask = [.closable, .titled, .resizable]
+
+            let wc = NSWindowController(window: window)
+            wc.shouldCascadeWindows = false // show along-side instead
+
+            //TODO if no room, put on other side or overlap
+            let x = view.window!.frame.maxX + 10
+            let y = view.window!.frame.minY
+            let f = NSRect(x: x, y: y, width: window.frame.width, height: window.frame.height)
+            window.setFrame(f, display: true)
+
+            wc.showWindow(self)
+        }
+
+        configureEnrollmentsViewController?.title = repo.full_name
+
     }
 }
 

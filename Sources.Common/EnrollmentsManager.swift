@@ -14,7 +14,7 @@ protocol EnrollmentsManagerDelegate: class {
 class EnrollmentsManager {
     private(set) var hooks: Set<Node> = []
     private(set) var repos = SortedSet<Repo>()
-    private(set) var enrollments: Set<Int> = []
+    private(set) var enrollments: Set<Enrollment> = []
 
 #if os(iOS)
     public init() {
@@ -118,7 +118,7 @@ class EnrollmentsManager {
 
                 let repoIds = Set(self.repos.map(\.id))
                 return when(resolved: self.enrollments.filter {
-                    !repoIds.contains($0)
+                    !repoIds.contains($0.repoId)
                 }.map {
                     api.request(path: "/repositories/\($0)")
                 }.map {
@@ -216,9 +216,11 @@ class EnrollmentsManager {
         }.recover(on: .main) { error -> Void in
             switch error {
             case API.Enroll.Error.noClearance(let failedRepoIds):
-                self.enrollments.formUnion(Set(enrollRepoIds).subtracting(failedRepoIds))
+                let newRepoIds = Set(enrollRepoIds).subtracting(failedRepoIds)
+                let newEnrollments = newRepoIds.map(Enrollment.init)
+                self.enrollments.formUnion(newEnrollments)
             case API.Enroll.Error.hookCreationFailed(let failedNodes):
-                self.enrollments.formUnion(enrollRepoIds)
+                self.enrollments.formUnion(enrollRepoIds.map(Enrollment.init))
                 self.hooks.formUnion(Set(hookTargets).subtracting(failedNodes))
             default:
                 break
@@ -227,9 +229,9 @@ class EnrollmentsManager {
         }.done {
             if willEnroll {
                 self.hooks.formUnion(hookTargets)
-                self.enrollments.formUnion(enrollRepoIds)
+                self.enrollments.formUnion(enrollRepoIds.map(Enrollment.init))
             } else {
-                self.enrollments.subtract(enrollRepoIds)
+                self.enrollments.subtract(enrollRepoIds.map(Enrollment.init))
             }
         }.ensure {
             self.delegate?.enrollmentsManagerDidUpdate(self, expandTree: false)
@@ -271,13 +273,13 @@ class EnrollmentsManager {
     }
 }
 
-private func fetchEnrollments(token: String) -> Promise<(Set<Int>, Bool)> {
-    var rq = URLRequest(.subscribe)
+private func fetchEnrollments(token: String) -> Promise<(Set<Enrollment>, Bool)> {
+    var rq = URLRequest(.enroll)
     rq.addValue(token, forHTTPHeaderField: "Authorization")
     return firstly {
         URLSession.shared.dataTask(.promise, with: rq).validate()
-    }.map { data, rsp -> (Set<Int>, Bool) in
-        let subs = Set(try JSONDecoder().decode([Int].self, from: data))
+    }.map { data, rsp -> (Set<Enrollment>, Bool) in
+        let subs = Set(try JSONDecoder().decode([Enrollment].self, from: data))
         let verifiedReceipt = (rsp as? HTTPURLResponse)?.allHeaderFields["Upgrade"] as? String == "true"
         return (subs, verifiedReceipt)
     }
@@ -289,7 +291,6 @@ private func fetchInstallations<T: Sequence>(for repos: T) -> Promise<Set<Node>>
             ? $0.owner.id
             : $0.id
     }
-
 
     func unconvert(_ id: Int) -> Node? {
         for repo in repos {
@@ -311,4 +312,10 @@ private func fetchInstallations<T: Sequence>(for repos: T) -> Promise<Set<Node>>
     }.map {
         try JSONDecoder().decode([Int].self, from: $0.data)
     }.compactMapValues(unconvert).map(Set.init)
+}
+
+private extension Enrollment {
+    init(repoId: Int) {
+        self.init(repoId: repoId, events: [Event].default)
+    }
 }

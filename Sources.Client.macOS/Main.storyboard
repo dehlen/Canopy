@@ -457,7 +457,7 @@
                                 <rect key="frame" x="18" y="84" width="494" height="126"/>
                                 <textFieldCell key="cell" selectable="YES" alignment="justified" id="L4m-4V-sct">
                                     <font key="font" metaFont="smallSystem"/>
-                                    <mutableString key="title">Unlimited push notifications for private repositories is enabled via an auto‐renewing subscription. Your GitHub account must have at least read access to the private repository. The duration of every period of the subscription is 1 month. The price of the subscription is shown below. Payment will be charged to your App Store account at confirmation of purchase. There is a 7 day free trial period. Subscription automatically renews unless auto‐renew is turned off at least 24 hours before the end of the current period. Your account will be charged for renewal within 24 hours prior to the end of the current period, with the same amount as the current period. Subscriptions may be managed by the user and auto‐renewal may be turned off by going to the user’s App Store account settings after purchase.</mutableString>
+                                    <string key="title">Unlimited push notifications for private repositories is enabled via an auto‐renewing subscription. Your GitHub account must have at least read access to the private repository. The duration of every period of the subscription is 1 month. The price of the subscription is shown below. Payment will be charged to your App Store account at confirmation of purchase. There is a 7 day free trial period. Subscription automatically renews unless auto‐renew is turned off at least 24 hours before the end of the current period. Your account will be charged for renewal within 24 hours prior to the end of the current period, with the same amount as the current period. Subscriptions may be managed by the user and auto‐renewal may be turned off by going to the user’s App Store account settings after purchase.</string>
                                     <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
@@ -695,10 +695,20 @@ You can subscribe to all repositories under a user or organizaation at once if y
                                         <rect key="frame" x="27" y="7" width="164" height="19"/>
                                         <buttonCell key="cell" type="recessed" title="http://codebasesaga.com/canopy/" bezelStyle="recessed" alignment="center" lineBreakMode="clipping" borderStyle="border" id="fNE-fa-iZf">
                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system" size="9"/>
+                                            <font key="font" metaFont="miniSystem"/>
                                         </buttonCell>
                                         <connections>
                                             <action selector="openHomepageWithSender:" target="rPt-NT-nkU" id="cea-Kx-DPD"/>
+                                        </connections>
+                                    </button>
+                                    <button hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7Mx-aa-4iX">
+                                        <rect key="frame" x="14" y="299" width="110" height="32"/>
+                                        <buttonCell key="cell" type="push" title="Configure…" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="nIb-Ni-foS">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="configureButtonTappedWithSender:" target="XfG-lQ-9wD" id="i4R-Wn-Lxl"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -706,8 +716,10 @@ You can subscribe to all repositories under a user or organizaation at once if y
                                     <constraint firstAttribute="trailing" secondItem="frP-Tl-UsX" secondAttribute="trailing" constant="20" id="0af-cd-Lj9"/>
                                     <constraint firstItem="frP-Tl-UsX" firstAttribute="top" secondItem="1ap-G9-Kf0" secondAttribute="top" constant="20" id="5rU-fA-UIw"/>
                                     <constraint firstItem="iho-P4-YOy" firstAttribute="top" secondItem="frP-Tl-UsX" secondAttribute="bottom" constant="20" id="TFf-x3-8cw"/>
+                                    <constraint firstItem="7Mx-aa-4iX" firstAttribute="leading" secondItem="iho-P4-YOy" secondAttribute="leading" id="d4J-vV-bgw"/>
                                     <constraint firstItem="iho-P4-YOy" firstAttribute="leading" secondItem="1ap-G9-Kf0" secondAttribute="leading" constant="20" id="ffo-cn-8iZ"/>
                                     <constraint firstItem="frP-Tl-UsX" firstAttribute="leading" secondItem="1ap-G9-Kf0" secondAttribute="leading" constant="20" id="kEd-2n-KEF"/>
+                                    <constraint firstItem="7Mx-aa-4iX" firstAttribute="top" secondItem="iho-P4-YOy" secondAttribute="bottom" constant="14" id="t5Y-ve-D2D"/>
                                     <constraint firstItem="yVm-e7-LWg" firstAttribute="centerX" secondItem="1ap-G9-Kf0" secondAttribute="centerX" id="w7K-Or-bwU"/>
                                     <constraint firstAttribute="bottom" secondItem="yVm-e7-LWg" secondAttribute="bottom" constant="8" id="xjz-ZV-jpJ"/>
                                     <constraint firstAttribute="trailing" secondItem="iho-P4-YOy" secondAttribute="trailing" constant="20" id="xu5-ug-HQN"/>
@@ -725,6 +737,7 @@ You can subscribe to all repositories under a user or organizaation at once if y
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="configureButton" destination="7Mx-aa-4iX" id="ZdQ-88-cNU"/>
                         <outlet property="homepageButton" destination="yVm-e7-LWg" id="MTp-sa-gCX"/>
                         <outlet property="mainColumn" destination="5t4-ur-x1R" id="VXA-wf-R25"/>
                         <outlet property="notifyButton" destination="frP-Tl-UsX" id="eZI-vM-hOX"/>

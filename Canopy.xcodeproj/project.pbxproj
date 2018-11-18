@@ -59,6 +59,8 @@
 		63CCA3CE2118ABF2000EEB88 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCA3CD2118ABF2000EEB88 /* Keychain.swift */; };
 		63CCA3CF2118ABF2000EEB88 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCA3CD2118ABF2000EEB88 /* Keychain.swift */; };
 		63CCA3D02118AC0B000EEB88 /* SKProductsRequest+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635ACBAA21136F000007C4EE /* SKProductsRequest+Promise.swift */; };
+		63E15181219F947B003CE725 /* ConfigureEnrollmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E15180219F947B003CE725 /* ConfigureEnrollmentViewController.swift */; };
+		63E15182219F94C4003CE725 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E15135219F6667003CE725 /* Event.swift */; };
 		63E4E01E21090EC70081E9AB /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E4E01D21090EC70081E9AB /* SignInViewController.swift */; };
 		63F8BCB3214598660089707C /* SubscribeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8BCB2214598660089707C /* SubscribeViewController.swift */; };
 /* End PBXBuildFile section */
@@ -231,6 +233,7 @@
 		63C49DF02145A9BA006AF751 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
 		63CCA3CD2118ABF2000EEB88 /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		63E15135219F6667003CE725 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		63E15180219F947B003CE725 /* ConfigureEnrollmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureEnrollmentViewController.swift; sourceTree = "<group>"; };
 		63E4E01D21090EC70081E9AB /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		63F75B2E20F52EEF00A3B9AE /* Canopy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Canopy.entitlements; sourceTree = "<group>"; };
 		63F8BCB2214598660089707C /* SubscribeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribeViewController.swift; sourceTree = "<group>"; };
@@ -324,6 +327,7 @@
 				636440C121162B960098DE10 /* ReposViewController+Types.swift */,
 				63E4E01D21090EC70081E9AB /* SignInViewController.swift */,
 				63151CF6212F7BA100F6B8F3 /* SubscribeViewController.swift */,
+				63E15180219F947B003CE725 /* ConfigureEnrollmentViewController.swift */,
 				63562B4020F90CF40076F52B /* etc.swift */,
 				636A40B620F94DAA0051DE0B /* Detritus */,
 			);
@@ -704,6 +708,8 @@
 				63562B4320F9102B0076F52B /* App+NSApplicationDelegate.swift in Sources */,
 				636440C0211628CF0098DE10 /* ReposViewController+OutlineView.swift in Sources */,
 				633DAC50219CA013005A7C4E /* SubscriptionManager.swift in Sources */,
+				63E15181219F947B003CE725 /* ConfigureEnrollmentViewController.swift in Sources */,
+				63E15182219F94C4003CE725 /* Event.swift in Sources */,
 				6380FF91210E79D500544476 /* DebrisAPI.swift in Sources */,
 				63562B4520F9105C0076F52B /* App+UserNotifications.swift in Sources */,
 				6387B83B211105D800D17446 /* Client.etc.swift in Sources */,

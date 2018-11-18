@@ -1,3 +1,4 @@
+import struct Roots.Enrollment
 import enum Roots.Event
 import enum Roots.Node
 import PerfectSQLite
@@ -176,6 +177,26 @@ class DB {
         }, handleRow: { statement, row in
             let repoId = statement.columnInt(position: 0)
             results.append(repoId)
+        })
+
+        return results
+    }
+
+    func enrollments(forUserId userId: Int) throws -> [Enrollment] {
+        let sql = """
+            SELECT repo_id, event_mask
+            FROM subscriptions
+            WHERE user_id = :1
+            """
+
+        var results: [Enrollment] = []
+
+        try db.forEachRow(statement: sql, doBindings: {
+            try $0.bind(position: 1, userId)
+        }, handleRow: { statement, row in
+            let repo = statement.columnInt(position: 0)
+            let mask = statement.columnInt(position: 1)
+            results.append(Enrollment(repoId: repo, eventMask: mask))
         })
 
         return results

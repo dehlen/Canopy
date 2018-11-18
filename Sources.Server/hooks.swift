@@ -1390,7 +1390,7 @@ extension Event {
         case .watch:
             return try decoder.decode(WatchEvent.self, from: data)
         case .pull_request_review_comment:
-            return try decoder.decode(PullRequestReviewEvent.self, from: data)
+            return try decoder.decode(PullRequestReviewCommentEvent.self, from: data)
         case .team:
             return try decoder.decode(TeamEvent.self, from: data)
         case .team_add:

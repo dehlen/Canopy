@@ -1,4 +1,4 @@
-public enum Event: String, CaseIterable {
+public enum Event: String, CaseIterable, CustomStringConvertible {
     case ping
     case push
     case check_run
@@ -117,10 +117,44 @@ public enum Event: String, CaseIterable {
             return 1 << 35
         }
     }
+
+    public var description: String {
+        switch self {
+        case .org_block:
+            return "Organization Block"
+        default:
+            return rawValue.decamelcased
+        }
+    }
+}
+
+public extension Sequence where Element == Event {
+    var maskValue: Int {
+        return reduce(0) { $0 + $1.optionValue }
+    }
 }
 
 public extension Array where Element == Event {
-    var maskValue: Int {
-        return reduce(0) { $0 + $1.optionValue }
+    static var `default`: Set<Event> {
+        var rv = Set(Event.allCases)
+        rv.remove(.status)
+        return rv
+    }
+}
+
+private extension String {
+    var decamelcased: String {
+        return split(separator: "_").map(\.capitalized).joined(separator: " ")
+    }
+}
+
+public extension Set where Element == Event {
+    init(mask: Int) {
+        self.init()
+        for event in Event.allCases {
+            if mask & event.optionValue == event.optionValue {
+                insert(event)
+            }
+        }
     }
 }

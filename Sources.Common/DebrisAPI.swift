@@ -41,6 +41,49 @@ extension PMKHTTPError: HTTPStatusCodable {
     }
 }
 
+public struct Enrollment {
+    public let repoId: Int
+    public let events: Set<Event>
+
+    enum CodingKeys: String, CodingKey {
+        case repoId, events
+    }
+
+    public init(repoId: Int, eventMask: Int) {
+        self.repoId = repoId
+        self.events = Set(mask: eventMask)
+    }
+
+    public init(repoId: Int, events: Set<Event>) {
+        self.repoId = repoId
+        self.events = events
+    }
+}
+
+extension Enrollment: Hashable, Equatable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(repoId)
+    }
+    public static func == (lhs: Enrollment, rhs: Enrollment) -> Bool {
+        return lhs.repoId == rhs.repoId
+    }
+}
+
+extension Enrollment: Codable {
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(repoId, forKey: .repoId)
+        try container.encode(events.maskValue, forKey: .events)
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        repoId = try container.decode(Int.self, forKey: .repoId)
+        let eventMask = try container.decode(Int.self, forKey: .events)
+        events = .init(mask: eventMask)
+    }
+}
+
 public enum Node: Codable {
     case organization(String)
     case repository(String, String)
