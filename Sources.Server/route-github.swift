@@ -131,7 +131,7 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         print("ignoring event")
         response.completed()
     } catch DB.E.oauthTokenNotFound {
-        print("no oauth-token not found which was required to do this particular operation")
+        print("oauth-token not found but was required to do this particular operation")
         // user signed out presumably
         response.completed(status: .unauthorized)
     } catch {
