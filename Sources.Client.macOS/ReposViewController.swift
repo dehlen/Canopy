@@ -176,17 +176,14 @@ class ReposViewController: NSViewController {
 
             let window = MyWindow(contentViewController: vc)
             window.styleMask = [.closable, .titled, .resizable]
+            window.delegate = self
 
-            let wc = NSWindowController(window: window)
-            wc.shouldCascadeWindows = false // show along-side instead
-
-            //TODO if no room, put on other side or overlap
             let x = view.window!.frame.maxX + 10
             let y = view.window!.frame.minY
             let f = NSRect(x: x, y: y, width: window.frame.width, height: window.frame.height)
             window.setFrame(f, display: true)
 
-            wc.showWindow(self)
+            window.orderFront(self)
         }
 
         configureEnrollmentsViewController?.title = repo.full_name
@@ -222,5 +219,11 @@ extension ReposViewController: EnrollmentsManagerDelegate {
 
     func enrollmentsManager(_: EnrollmentsManager, error: Error) {
         alert(error: error)
+    }
+}
+
+extension ReposViewController: NSWindowDelegate {
+    func windowWillClose(_ notification: Notification) {
+        configureButton.state = .off
     }
 }
