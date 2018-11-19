@@ -120,7 +120,7 @@ class EnrollmentsManager {
                 return when(resolved: self.enrollments.filter {
                     !repoIds.contains($0.repoId)
                 }.map {
-                    api.request(path: "/repositories/\($0)")
+                    api.request(path: "/repositories/\($0.repoId)")
                 }.map {
                     URLSession.shared.dataTask(.promise, with: $0).validate()
                 }).map {
