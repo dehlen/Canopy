@@ -127,19 +127,48 @@ struct PingEvent: Codable, Notificatable, HasSender {
 }
 
 struct CheckRunEvent: Codable, Notificatable, HasSender {
-    let action: String
+    let action: Action
     let check_run: CheckRun
     let repository: Repository
     let sender: User
 
+    enum Action: String, Codable {
+        case created, rerequested, completed, requested_action
+    }
+
     struct CheckRun: Codable {
         let url: URL
-        let status: String
+        let status: Status
+
+        enum Status: String, Codable, CustomStringConvertible {
+            case queued, in_progress, completed
+
+            var description: String {
+                switch self {
+                case .queued, .completed:
+                    return rawValue
+                case .in_progress:
+                    return "in progress"
+                }
+            }
+        }
+    }
+
+    var subtitle: String? {
+        return "Check run \(check_run.status)"
     }
 
     var body: String {
-        return "Check run \(check_run.status)"
+        switch action {
+        case .created, .completed:
+            return "\(sender.login) \(action) the check"
+        case .rerequested:
+            return "\(sender.login) re‑requested the check"
+        case .requested_action:
+            return "\(sender.login) requested action"
+        }
     }
+
     var url: URL? {
         return check_run.url
     }
@@ -150,19 +179,41 @@ struct CheckRunEvent: Codable, Notificatable, HasSender {
 }
 
 struct CheckSuiteEvent: Codable, Notificatable, HasSender {
-    let action: String
+    let action: Action
     let check_suite: CheckSuite
     let repository: Repository
     let sender: User
 
+    enum Action: String, Codable {
+        case completed, requested, rerequested
+    }
+
     struct CheckSuite: Codable {
         let url: URL
-        let status: String
+        let status: Status
+
+        enum Status: String, Codable, CustomStringConvertible {
+            case requested, in_progress, completed
+
+            var description: String {
+                switch self {
+                case .requested, .completed:
+                    return rawValue
+                case .in_progress:
+                    return "in progress"
+                }
+            }
+        }
+    }
+
+    var subtitle: String? {
+        return "Check suite \(check_suite.status)"
     }
 
     var body: String {
-        return "Check suite \(check_suite.status)"
+        return "\(sender) \(action) the check"
     }
+
     var url: URL? {
         return check_suite.url
     }
@@ -452,11 +503,11 @@ struct LabelEvent: Codable, Notificatable, HasSender {
     }
 
     var subtitle: String? {
-        return "Label \(action)"
+        return "Label \(action) by \(sender)"
     }
 
     var body: String {
-        return "\(sender.login) \(action) “\(label.name)”"
+        return label.name
     }
 
     var url: URL? {
@@ -589,7 +640,7 @@ struct OrganizationEvent: Codable, Notificatable, HasSender {  //TODO half-arsed
 }
 
 struct OrgBlockEvent: Codable, Notificatable, HasSender {  //TODO half-arsed
-    let action: String
+    let action: Action
     let blocked_user: User
     let organization: Organization
     let sender: User
@@ -832,17 +883,21 @@ struct PublicEvent: Codable, Notificatable, HasSender {
 }
 
 struct PullRequestReviewCommentEvent: Codable, Notificatable, HasSender {
-    let action: String
+    let action: Action
     let comment: Comment
     let pull_request: PullRequest
     let repository: Repository
     let sender: User
 
+    enum Action: String, Codable {
+        case created, edited, deleted
+    }
+
     var title: String? {
         return "\(repository.full_name)#\(pull_request.number) Review"
     }
     var subtitle: String? {
-        return "\(sender.login) added a comment"
+        return "\(sender.login) \(action) a comment"
     }
     var body: String {
         return comment.body
@@ -1158,7 +1213,7 @@ struct StatusEvent: Codable, Notificatable, HasSender {
     let sender: User
     let description: String?
     let repository: Repository
-    let target_url: URL?
+    let target_url: String?  // not always a valid URL (thanks GitHub)
 
     var subtitle: String? {
         if description == nil {
@@ -1173,7 +1228,7 @@ struct StatusEvent: Codable, Notificatable, HasSender {
     }
 
     var url: URL? {
-        return target_url
+        return target_url.flatMap(URL.init)
     }
 
     var context: Context {
@@ -1245,16 +1300,12 @@ struct TeamAddEvent: Codable, Notificatable, HasSender {
 
 // Actually: stars
 struct WatchEvent: Codable, Notificatable, HasSender {
-    let action: String
+    let action: Action
     let sender: User
     let repository: Repository
 
-    var mangledAction: String {
-        if action == "started" {
-            return "starred"
-        } else {
-            return action
-        }
+    enum Action: String, Codable {
+        case started
     }
 
     var subtitle: String? {
@@ -1262,7 +1313,7 @@ struct WatchEvent: Codable, Notificatable, HasSender {
     }
 
     var body: String {
-        return "\(sender.login) \(mangledAction) \(repository.full_name)"
+        return "\(sender.login) starred \(repository.full_name)"
     }
     var url: URL? {
         return repository.html_url
@@ -1328,10 +1379,14 @@ struct WatchEvent: Codable, Notificatable, HasSender {
 
 // types
 
-struct User: Codable {
+struct User: Codable, CustomStringConvertible {
     let id: Int
     let login: String
     let html_url: URL
+
+    var description: String {
+        return login
+    }
 }
 
 struct Organization: Codable {
