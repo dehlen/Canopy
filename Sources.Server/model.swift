@@ -152,7 +152,6 @@ class DB {
         }
     }
 
-
     func delete(repository repoId: Int) throws {
         let sql = """
             DELETE FROM subscriptions

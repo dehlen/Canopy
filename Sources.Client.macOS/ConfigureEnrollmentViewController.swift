@@ -1,3 +1,4 @@
+import PromiseKit
 import AppKit
 
 class MyWindow: NSWindow {
@@ -7,8 +8,11 @@ class MyWindow: NSWindow {
 }
 
 class ConfigureEnrollmentsViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
-    let scrollView = NSScrollView()
-    let tableView = NSTableView()
+    private let scrollView = NSScrollView()
+    private let tableView = NSTableView()
+    private let mgr: EnrollmentsManager
+
+    private let events = Event.allCases.sorted(by: { $0.description < $1.description })
 
     var enrollment: Enrollment {
         didSet {
@@ -16,8 +20,9 @@ class ConfigureEnrollmentsViewController: NSViewController, NSTableViewDataSourc
         }
     }
 
-    init(enrollment: Enrollment) {
+    init(enrollment: Enrollment, manager: EnrollmentsManager) {
         self.enrollment = enrollment
+        self.mgr = manager
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -57,11 +62,11 @@ class ConfigureEnrollmentsViewController: NSViewController, NSTableViewDataSourc
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return Event.allCases.count
+        return events.count
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let event = Event.allCases[row]
+        let event = events[row]
         if tableColumn?.identifier.rawValue == "NAME_COLUMN" {
             let tf = NSTextField()
             tf.isBordered = false
@@ -73,7 +78,29 @@ class ConfigureEnrollmentsViewController: NSViewController, NSTableViewDataSourc
             bn.title = ""
             bn.setButtonType(.switch)
             bn.state = enrollment.events.contains(event) ? .on : .off
+            bn.target = self
+            bn.action = #selector(onChecked)
+            bn.tag = row
             return bn
+        }
+    }
+
+    @objc func onChecked(sender: NSButton) {
+        let event = self.events[sender.tag]
+        var events = enrollment.events
+
+        if events.contains(event) {
+            events.remove(event)
+        } else {
+            events.insert(event)
+        }
+
+        firstly {
+            try mgr.alter(enrollment: enrollment, events: events)
+        }.done {
+            self.enrollment = $0
+        }.catch {
+            alert(error: $0)
         }
     }
 }

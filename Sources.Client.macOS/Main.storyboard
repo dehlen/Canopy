@@ -704,7 +704,7 @@ You can subscribe to all repositories under a user or organizaation at once if y
                                     <button hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7Mx-aa-4iX">
                                         <rect key="frame" x="14" y="299" width="110" height="32"/>
                                         <buttonCell key="cell" type="push" title="Configure…" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="nIb-Ni-foS">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                         <connections>

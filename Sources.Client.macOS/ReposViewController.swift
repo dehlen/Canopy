@@ -157,7 +157,11 @@ class ReposViewController: NSViewController {
     weak var configureEnrollmentsViewController: ConfigureEnrollmentsViewController?
 
     @IBAction func configureButtonTapped(sender: NSButton!) {
-        updateConfigureEnrollmentsViewController()
+        if sender.state == .on {
+            updateConfigureEnrollmentsViewController()
+        } else {
+            configureEnrollmentsViewController?.view.window?.close()
+        }
     }
 
     func updateConfigureEnrollmentsViewController() {
@@ -167,7 +171,7 @@ class ReposViewController: NSViewController {
         if let vc = configureEnrollmentsViewController {
             vc.enrollment = enrollment
         } else {
-            let vc = ConfigureEnrollmentsViewController(enrollment: enrollment)
+            let vc = ConfigureEnrollmentsViewController(enrollment: enrollment, manager: mgr)
             configureEnrollmentsViewController = vc
 
             let window = MyWindow(contentViewController: vc)
@@ -186,7 +190,11 @@ class ReposViewController: NSViewController {
         }
 
         configureEnrollmentsViewController?.title = repo.full_name
+    }
 
+    override func viewWillDisappear() {
+        super.viewWillDisappear()
+        configureEnrollmentsViewController?.view.window?.close()
     }
 }
 

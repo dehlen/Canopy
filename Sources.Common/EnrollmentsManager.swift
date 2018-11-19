@@ -238,6 +238,37 @@ class EnrollmentsManager {
         }
     }
 
+    private var alter: Promise<Enrollment>?
+
+    func alter(enrollment: Enrollment, events: Set<Event>) throws -> Promise<Enrollment> {
+        dispatchPrecondition(condition: .onQueue(.main))
+
+        guard let token = token else {
+            throw Error.noToken
+        }
+
+        let rv = Enrollment(repoId: enrollment.repoId, events: events)
+
+        var rq = URLRequest(.enroll)
+        rq.addValue(token, forHTTPHeaderField: "Authorization")
+        rq.httpMethod = "PUT"
+        rq.httpBody = try JSONEncoder().encode(rv)
+        rq.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        alter = firstly {
+            alter?.asVoid() ?? Promise()
+        }.then {
+            URLSession.shared.dataTask(.promise, with: rq).httpValidate()
+        }.map { _ in
+            rv
+        }.get {
+            self.enrollments.remove(enrollment)
+            self.enrollments.insert($0)  // insert _does_not_ replace
+        }
+
+        return alter!
+    }
+
     func add(repoFullName full_name: String) -> Promise<Repo> {
         guard full_name.contains("/"), let token = creds?.token else {
             return Promise(error: Error.invalidRepoName(full_name))

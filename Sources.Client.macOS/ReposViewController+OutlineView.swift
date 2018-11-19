@@ -217,6 +217,9 @@ extension ReposViewController: NSOutlineViewDelegate {
         if !config, let window = configureEnrollmentsViewController?.view.window {
             window.close()
         }
+        if config {
+            configureButton.state = configureEnrollmentsViewController == nil ? .off : .on
+        }
     }
 
     func outlineView(_ outlineView: NSOutlineView, dataCellFor tableColumn: NSTableColumn?, item: Any) -> NSCell? {

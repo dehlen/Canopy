@@ -112,6 +112,7 @@ routes.add(method: .post, uri: .hook, handler: createHookHandler)
 routes.add(method: .get, uri: .hook, handler: hookQueryHandler)
 routes.add(method: .post, uri: .enroll, handler: enrollHandler)
 routes.add(method: .delete, uri: .enroll, handler: unenrollHandler)
+routes.add(method: .put, uri: .enroll, handler: eventMaskHandler)
 routes.add(method: .get, uri: .enroll, handler: enrollmentsHandler)
 routes.add(method: .get, uri: .refreshReceipts, handler: refreshReceiptsHandler)
 

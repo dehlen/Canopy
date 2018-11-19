@@ -122,6 +122,12 @@ public enum Event: String, CaseIterable, CustomStringConvertible {
         switch self {
         case .org_block:
             return "Organization Block"
+        case .watch:
+            return "Star"
+        case .gollum:
+            return "Wiki"
+        case .ping:
+            return "Webhook Ping"
         default:
             return rawValue.decamelcased
         }

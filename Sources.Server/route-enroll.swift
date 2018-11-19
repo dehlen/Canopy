@@ -148,3 +148,17 @@ private extension GitHubAPI {
         return when(resolved: nodes.map(mapper))
     }
 }
+
+func eventMaskHandler(request rq: HTTPRequest) throws -> Promise<Void> {
+    guard let token = rq.header(.authorization) else {
+        throw HTTPResponseError(status: .unauthorized, description: "")
+    }
+
+    let enrollment = try rq.decode(Enrollment.self)
+
+    return firstly {
+        GitHubAPI(oauthToken: token).me()
+    }.done { user in
+        try DB().set(mask: enrollment.events.maskValue, repoId: enrollment.repoId, userId: user.id)
+    }
+}
