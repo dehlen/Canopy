@@ -398,7 +398,7 @@
                                                 <action selector="openTermsOfUseWithSender:" target="Ady-hI-5gd" id="YIZ-0T-Sbi"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Canopy Help" keyEquivalent="?" id="FKE-Sm-Kum">
+                                        <menuItem title="FAQ" keyEquivalent="?" id="FKE-Sm-Kum">
                                             <connections>
                                                 <action selector="showHelp:" target="Ady-hI-5gd" id="y7X-2Q-9no"/>
                                             </connections>
