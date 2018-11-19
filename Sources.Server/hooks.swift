@@ -437,7 +437,7 @@ struct IssuesEvent: Codable, Notificatable, HasSender {
 }
 
 struct LabelEvent: Codable, Notificatable, HasSender {
-    let action: String
+    let action: Action
     let label: Label
     let repository: Repository
     let sender: User
@@ -445,12 +445,20 @@ struct LabelEvent: Codable, Notificatable, HasSender {
     struct Label: Codable {
         let name: String
         let url: URL
-        let color: String
+    }
+
+    enum Action: String, Codable {
+        case created, edited, deleted
+    }
+
+    var subtitle: String? {
+        return "Label \(action)"
     }
 
     var body: String {
-        return "\(sender.login) \(action) a label (\(label.name) (\(label.color))"
+        return "\(sender.login) \(action) “\(label.name)”"
     }
+
     var url: URL? {
         return label.url
     }
@@ -1152,19 +1160,24 @@ struct StatusEvent: Codable, Notificatable, HasSender {
     let repository: Repository
     let target_url: URL?
 
-    var body: String {
-        return "The status of \(name) changed to \(state)"
+    var subtitle: String? {
+        if description == nil {
+            return nil
+        } else {
+            return state
+        }
     }
+
+    var body: String {
+        return description ?? state.capitalized
+    }
+
     var url: URL? {
         return target_url
     }
 
     var context: Context {
         return .repository(repository)
-    }
-
-    var shouldIgnore: Bool {
-        return true
     }
 }
 
@@ -1193,7 +1206,6 @@ struct TeamEvent: Codable, Notificatable, HasSender {
         default:
             return "/orgs/\(organization.login)/\(team.name)"
         }
-
     }
 
     var body: String {
@@ -1264,6 +1276,55 @@ struct WatchEvent: Codable, Notificatable, HasSender {
         return repository.full_name + "/stars"
     }
 }
+
+//struct MarketplacePurchaseEvent: Notificatable, HasSender {
+//    let action: Action
+//    let sender: User
+//    let marketplace_purchase: MarketplacePurchase
+//
+//    enum Action: String, Codable {
+//        case purchased, cancelled, pending_change, pending_change_cancelled, changed
+//    }
+//
+//    struct MarketplacePurchase {
+//        let account: Account
+//        let plan: Plan
+//
+//        struct Plan {
+//            let name: String
+//        }
+//        struct Account {
+//            let type: Type_
+//            let login: String
+//
+//            enum Type_: String, Codable {
+//                case organization = "Organization"
+//                case user = "User"
+//            }
+//        }
+//    }
+//
+//    var body: String {
+//        switch action {
+//
+//        }
+//    }
+//
+//    var shouldIgnore: Bool {
+//        // not sure how this can happen since there are no user-webhooks
+//        return marketplace_purchase.account.type == .user
+//    }
+//
+//    var context: Context {
+//        switch marketplace_purchase.account.type {
+//        case .organization:
+//            return .organization(marketplace_purchase.account.login, admin: sender)
+//        case .user:
+//            fatalError()
+//        }
+//    }
+//}
+
 
 // types
 
@@ -1385,8 +1446,7 @@ extension Event {
         case .repository_import:
             return try decoder.decode(RepositoryImportEvent.self, from: data)
         case .status:
-            throw E.ignoring
-            //return try decoder.decode(StatusEvent.self, from: data)
+            return try decoder.decode(StatusEvent.self, from: data)
         case .watch:
             return try decoder.decode(WatchEvent.self, from: data)
         case .pull_request_review_comment:
