@@ -50,11 +50,11 @@ class ConfigureEnrollmentsViewController: NSViewController, NSTableViewDataSourc
         tableView.delegate = self
         tableView.columnAutoresizingStyle = .firstColumnOnlyAutoresizingStyle
         tableView.headerView = nil
-
         tableView.rowSizeStyle = .small
         tableView.allowsColumnResizing = false
         tableView.allowsColumnReordering = false
         tableView.usesAlternatingRowBackgroundColors = true
+        tableView.selectionHighlightStyle = .none
 
         column2.width = 30
         column1.width = tableView.bounds.width - column2.width - 8
@@ -69,8 +69,8 @@ class ConfigureEnrollmentsViewController: NSViewController, NSTableViewDataSourc
         let event = events[row]
         if tableColumn?.identifier.rawValue == "NAME_COLUMN" {
             let tf = NSTextField()
+            tf.cell = VerticallyCenteredTextFieldCell(textCell: "  \(event)")
             tf.isBordered = false
-            tf.stringValue = "  " + event.description
             tf.backgroundColor = nil
             return tf
         } else {
@@ -102,5 +102,18 @@ class ConfigureEnrollmentsViewController: NSViewController, NSTableViewDataSourc
         }.catch {
             alert(error: $0)
         }
+    }
+}
+
+private class VerticallyCenteredTextFieldCell: NSTextFieldCell {
+    override func titleRect(forBounds theRect: NSRect) -> NSRect {
+        var titleFrame = super.titleRect(forBounds: theRect)
+        let titleSize = self.attributedStringValue.size
+        titleFrame.origin.y = theRect.origin.y - 1.0 + (theRect.size.height - titleSize().height) / 2.0
+        return titleFrame
+    }
+
+    override func drawInterior(withFrame cellFrame: NSRect, in controlView: NSView) {
+        attributedStringValue.draw(in: titleRect(forBounds: cellFrame))
     }
 }
