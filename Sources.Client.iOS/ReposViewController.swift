@@ -126,7 +126,7 @@ extension ReposViewController/*: UITableViewDelegate*/ {
             : mgr.hooks.contains(.init(repo))
 
         let accessoryType: UITableViewCell.AccessoryType
-        switch (mgr.enrollments.contains(repo.id), installed) {
+        switch (mgr.enrollments.contains(repo), installed) {
         case (true, true):
             accessoryType = .checkmark
         case (true, false):
@@ -163,7 +163,7 @@ extension ReposViewController/*: UITableViewDelegate*/ {
         }
 
         let vc = RepoViewController(repo: repo, enrolled:
-            mgr.enrollments.contains(repo.id) ? .active : hookable ? .feasible : .impossible)
+            mgr.enrollments.contains(repo) ? .active : hookable ? .feasible : .impossible)
         vc.completion = { [weak tableView] in
             // otherwise (despite UITableViewController) doesn't happen for some reason
             tableView?.deselectRow(at: indexPath, animated: true)

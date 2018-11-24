@@ -245,10 +245,3 @@ extension Set where Element == Node {
         return contains(.init(repo))
     }
 }
-
-extension Set where Element == Enrollment {
-    @inline(__always)
-    func contains(_ repo: Repo) -> Bool {
-        return contains(Enrollment(repoId: repo.id, eventMask: 0))
-    }
-}

@@ -59,6 +59,7 @@
 		63CCA3CE2118ABF2000EEB88 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCA3CD2118ABF2000EEB88 /* Keychain.swift */; };
 		63CCA3CF2118ABF2000EEB88 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CCA3CD2118ABF2000EEB88 /* Keychain.swift */; };
 		63CCA3D02118AC0B000EEB88 /* SKProductsRequest+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635ACBAA21136F000007C4EE /* SKProductsRequest+Promise.swift */; };
+		63E0F29821AA031E001985BA /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E15135219F6667003CE725 /* Event.swift */; };
 		63E15181219F947B003CE725 /* ConfigureEnrollmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E15180219F947B003CE725 /* ConfigureEnrollmentViewController.swift */; };
 		63E15182219F94C4003CE725 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E15135219F6667003CE725 /* Event.swift */; };
 		63E4E01E21090EC70081E9AB /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E4E01D21090EC70081E9AB /* SignInViewController.swift */; };
@@ -736,6 +737,7 @@
 				637355A72121E7EC007E7D82 /* EnrollmentsManager.swift in Sources */,
 				63C49DEF2145A7E6006AF751 /* MFMailComposeViewController+Promise.swift in Sources */,
 				6358FF9121235427004C9E7C /* RepoViewController.swift in Sources */,
+				63E0F29821AA031E001985BA /* Event.swift in Sources */,
 				63CCA3CF2118ABF2000EEB88 /* Keychain.swift in Sources */,
 				638C336B20FD79730048C52E /* AppDelegate.swift in Sources */,
 				638C337D20FD7CA30048C52E /* Error+legibleDescription.swift in Sources */,

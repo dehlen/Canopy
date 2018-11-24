@@ -164,3 +164,10 @@ public extension Set where Element == Event {
         }
     }
 }
+
+extension Set where Element == Enrollment {
+    @inline(__always)
+    func contains(_ repo: Repo) -> Bool {
+        return contains(Enrollment(repoId: repo.id, eventMask: 0))
+    }
+}
