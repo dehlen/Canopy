@@ -11,15 +11,16 @@ class ReposViewController: UITableViewController {
         mgr.delegate = self
         tableView.register(Cell.self, forCellReuseIdentifier: #file)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(fetch), name: .credsUpdated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(attemptTokenUpdateAndFetch), name: .credsUpdated, object: nil)
     }
 
-    @objc func fetch() {
+    @objc func attemptTokenUpdateAndFetch() {
         mgr.token = creds?.token
     }
 
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.isTracking {
+            // dismiss the first-time-popover
             presentedViewController?.dismiss(animated: false)
             // if animated is true the animation blocks scroll events which is jarring
         }

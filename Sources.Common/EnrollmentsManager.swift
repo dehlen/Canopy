@@ -82,11 +82,15 @@ class EnrollmentsManager {
         dispatchPrecondition(condition: .onQueue(.main))
 
     #if os(iOS)
-        if UIApplication.shared.applicationState == .background {
-            // we will wait until we come back to the foregound
-            // if we try we fail (could solve with bgtask, but why bother?)
-            return
-        }
+        var shouldNotifyError = true
+        var task: UIBackgroundTaskIdentifier!
+        task = UIApplication.shared.beginBackgroundTask(expirationHandler: {
+            dispatchPrecondition(condition: .onQueue(.main))
+            shouldNotifyError = false
+            UIApplication.shared.endBackgroundTask(task)
+        })
+    #else
+        let shouldNotifyError = true
     #endif
 
         guard !fetching else { return }
@@ -152,12 +156,18 @@ class EnrollmentsManager {
         }.then {
             fetchInstallations(for: self.repos)
         }.ensure {
-            self.fetching = false
+          #if os(iOS)
+            UIApplication.shared.endBackgroundTask(task)
+          #endif
         }.done {
             self.hooks = $0
             self.delegate?.enrollmentsManagerDidUpdate(self, expandTree: false)
         }.catch {
-            self.delegate?.enrollmentsManager(self, error: $0)
+            if shouldNotifyError {
+                self.delegate?.enrollmentsManager(self, error: $0)
+            }
+        }.finally {
+            self.fetching = false
         }
     }
 
