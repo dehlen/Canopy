@@ -175,8 +175,17 @@ extension ReposViewController/*: UITableViewDelegate*/ {
             vc.knob.isUserInteractionEnabled = false  // not isEnabled as does confusing UI state animation
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
 
+            let willEnroll = vc.knob.isOn
+
+            func go() throws -> Promise<Void> {
+                if willEnroll, !AppDelegate.shared.subscriptionManager.hasVerifiedReceipt, repo.private {
+                    throw EnrollmentsManager.Error.paymentRequired
+                }
+                return try self.mgr.enroll(.repository(repo), toggleDirection: vc.knob.isOn)
+            }
+
             firstly {
-                try self.mgr.enroll(.repository(repo), toggleDirection: vc.knob.isOn)
+                try go()
             }.catch {
                 switch $0 {
                 case EnrollmentsManager.Error.paymentRequired:
