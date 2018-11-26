@@ -119,26 +119,20 @@ extension ReposViewController/*: UITableViewDelegate*/ {
         let key = mgr.rootedReposKeys[indexPath.section]
         let repo = mgr.rootedRepos[key]![indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: #file)!
-        cell.textLabel?.text = repo.full_name
 
-        let installed = repo.isPartOfOrganization
-            ? mgr.hooks.contains(.organization(repo.owner.login))
-            : mgr.hooks.contains(.init(repo))
-
-        let accessoryType: UITableViewCell.AccessoryType
-        switch (mgr.enrollments.contains(repo), installed) {
-        case (true, true):
-            accessoryType = .checkmark
-        case (true, false):
-            if mgr.isFetching {
-                fallthrough
-            } else { // warning icon
-                accessoryType = .disclosureIndicator
+        var accessoryType: UITableViewCell.AccessoryType {
+            let status = mgr.status(for: repo, hasReceipt: AppDelegate.shared.subscriptionManager.hasVerifiedReceipt)
+            switch status {
+            case .active:
+                return .checkmark
+            case .alert:
+                return .disclosureIndicator
+            case .inactive:
+                return repo.private ? .detailDisclosureButton : .none
             }
-        case (false, _):
-            accessoryType = repo.private ? .detailDisclosureButton : .none
         }
 
+        cell.textLabel?.text = repo.full_name
         cell.accessoryType = accessoryType
 
         return cell
@@ -152,18 +146,19 @@ extension ReposViewController/*: UITableViewDelegate*/ {
         let key = mgr.rootedReposKeys[indexPath.section]
         let repo = mgr.rootedRepos[key]![indexPath.row]
 
-        var hookable: Bool {
-            if repo.permissions.admin {
-                return true
-            } else if repo.isPartOfOrganization {
-                return mgr.hooks.contains(.organization(repo.owner.login))
-            } else {
-                return mgr.hooks.contains(.init(repo))
+        var feasability: RepoViewController.Feasability {
+            let status = mgr.status(for: repo, hasReceipt: AppDelegate.shared.subscriptionManager.hasVerifiedReceipt)
+            switch status {
+            case .active:
+                return .active
+            case .inactive:
+                return .feasible
+            case .alert(let alert):
+                return .impossible(alert)
             }
         }
 
-        let vc = RepoViewController(repo: repo, enrolled:
-            mgr.enrollments.contains(repo) ? .active : hookable ? .feasible : .impossible)
+        let vc = RepoViewController(repo: repo, enrolled: feasability)
         vc.completion = { [weak tableView] in
             // otherwise (despite UITableViewController) doesn't happen for some reason
             tableView?.deselectRow(at: indexPath, animated: true)

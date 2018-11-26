@@ -78,6 +78,53 @@ class EnrollmentsManager {
         delegate?.enrollmentsManager(self, isUpdating: fetching || !installing.isEmpty)
     }
 
+    enum Status {
+        case active
+        case alert(Alert)
+        case inactive
+
+        enum Alert {
+            /// repo is enrolled *but* there is no active subscription
+            /// prompt user to subscribe to restore functionality
+            case paymentRequired
+            /// no hook and user has no clearance to create it
+            case cannotCreateHook
+            /** User is enrolled, hook is not installed and user CAN install it.
+              strictly this should be impossible since we don't check if the
+              hook is actually installed server-side, we just remember that we
+              installed it. */
+            case hookNotInstalled
+        }
+    }
+
+    func isHooked(_ repo: Repo) -> Bool {
+        if repo.isPartOfOrganization {
+            return hooks.contains(.organization(repo.owner.login))
+        } else {
+            return hooks.contains(.init(repo))
+        }
+    }
+
+    func status(for repo: Repo, hasReceipt: Bool) -> Status {
+        if fetching, enrollments.isEmpty || hooks.isEmpty {
+            return .inactive // we will notify delegate again when fetching is complete
+        }
+        if !isHooked(repo) {
+            if !repo.permissions.admin {
+                return .alert(.cannotCreateHook)
+            } else if enrollments.contains(repo) {
+                return .alert(.hookNotInstalled)
+            } else {
+                // no problems will occur if user tries to enroll
+                return .inactive
+            }
+        } else if !hasReceipt, repo.private, enrollments.contains(repo) {
+            return .alert(.paymentRequired)
+        } else {
+            return enrollments.contains(repo) ? .active : .inactive
+        }
+    }
+
     @objc func update() {
         dispatchPrecondition(condition: .onQueue(.main))
 

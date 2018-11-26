@@ -15,7 +15,7 @@ class RepoViewController: UIViewController {
     enum Feasability {
         case active
         case feasible
-        case impossible
+        case impossible(EnrollmentsManager.Status.Alert)
     }
 
     init(repo: Repo, enrolled: Feasability) {
@@ -79,17 +79,34 @@ class RepoViewController: UIViewController {
             status.isHidden = true
         case .feasible:
             status.isHidden = true
-        case .impossible:
+        case .impossible(let alert):
             knob.isEnabled = false
             knobDescription.alpha = 0.5
             status.isHidden = false
-            status.text = """
-                You cannot install the webhook for this repository.
+            status.text = {
+                switch alert {
+                case .cannotCreateHook:
+                    return """
+                    You cannot install the webhook for this repository.
 
-                Contact the owner and ask them to install the Canopy webhook.
+                    Contact the owner and ask them to install the Canopy webhook.
 
-                They do not need to use the app to do this, (see the Canopy FAQ) but using the app is easiest.
-                """
+                    They do not need to use the app to do this, (see the Canopy FAQ) but using the app is easiest.
+                    """
+                case .hookNotInstalled:
+                    return """
+                    The webhook for this repository is not installed.
+
+                    Tap the switch below to install it.
+                    """
+                case .paymentRequired:
+                    return """
+                    You are enrolled for this repository but your subscription has lapsed.
+
+                    Tap the switch below to renew your subscription.
+                    """
+                }
+            }()
         }
 
         container.addArrangedSubview(status)
