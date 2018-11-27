@@ -80,33 +80,37 @@ class RepoViewController: UIViewController {
         case .feasible:
             status.isHidden = true
         case .impossible(let alert):
-            knob.isEnabled = false
-            knobDescription.alpha = 0.5
+            let knobOn: Bool
+            let text: String
             status.isHidden = false
-            status.text = {
-                switch alert {
-                case .cannotCreateHook:
-                    return """
-                    You cannot install the webhook for this repository.
+            switch alert {
+            case .cannotCreateHook:
+                knobOn = false
+                text = """
+                You cannot install the webhook for this repository.
 
-                    Contact the owner and ask them to install the Canopy webhook.
+                Contact the owner and ask them to install the Canopy webhook.
 
-                    They do not need to use the app to do this, (see the Canopy FAQ) but using the app is easiest.
-                    """
-                case .hookNotInstalled:
-                    return """
-                    The webhook for this repository is not installed.
+                They do not need to use the app to do this, (see the Canopy FAQ) but using the app is easiest.
+                """
+            case .hookNotInstalled:
+                knobOn = true
+                text = """
+                The webhook for this repository is not installed.
 
-                    Tap the switch below to install it.
-                    """
-                case .paymentRequired:
-                    return """
-                    You are enrolled for this repository but your subscription has lapsed.
+                Tap the switch below to install it.
+                """
+            case .paymentRequired:
+                knobOn = true
+                text = """
+                You are enrolled for this repository but your subscription has lapsed.
 
-                    Tap the switch below to renew your subscription.
-                    """
-                }
-            }()
+                Tap the switch below to renew your subscription.
+                """
+            }
+            status.text = text
+            knob.isEnabled = knobOn
+            knobDescription.alpha = knobOn ? 1.0 : 0.5
         }
 
         container.addArrangedSubview(status)

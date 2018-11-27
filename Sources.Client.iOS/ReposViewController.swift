@@ -4,6 +4,10 @@ import UIKit
 class ReposViewController: UITableViewController {
     let mgr = EnrollmentsManager()
 
+    private var hasVerifiedReceipt: Bool {
+        return AppDelegate.shared.subscriptionManager.hasVerifiedReceipt
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -121,7 +125,7 @@ extension ReposViewController/*: UITableViewDelegate*/ {
         let cell = tableView.dequeueReusableCell(withIdentifier: #file)!
 
         var accessoryType: UITableViewCell.AccessoryType {
-            let status = mgr.status(for: repo, hasReceipt: AppDelegate.shared.subscriptionManager.hasVerifiedReceipt)
+            let status = mgr.status(for: repo, hasReceipt: hasVerifiedReceipt)
             switch status {
             case .active:
                 return .checkmark
@@ -145,9 +149,9 @@ extension ReposViewController/*: UITableViewDelegate*/ {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let key = mgr.rootedReposKeys[indexPath.section]
         let repo = mgr.rootedRepos[key]![indexPath.row]
+        let status = mgr.status(for: repo, hasReceipt: hasVerifiedReceipt)
 
         var feasability: RepoViewController.Feasability {
-            let status = mgr.status(for: repo, hasReceipt: AppDelegate.shared.subscriptionManager.hasVerifiedReceipt)
             switch status {
             case .active:
                 return .active
@@ -173,7 +177,7 @@ extension ReposViewController/*: UITableViewDelegate*/ {
             let willEnroll = vc.knob.isOn
 
             func go() throws -> Promise<Void> {
-                if willEnroll, !AppDelegate.shared.subscriptionManager.hasVerifiedReceipt, repo.private {
+                if willEnroll, !self.hasVerifiedReceipt, repo.private {
                     throw EnrollmentsManager.Error.paymentRequired
                 }
                 return try self.mgr.enroll(.repository(repo), toggleDirection: vc.knob.isOn)
