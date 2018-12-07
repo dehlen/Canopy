@@ -447,7 +447,7 @@ struct IssuesEvent: Codable, Notificatable, HasSender {
     let changes: Changes?
 
     enum Action: String, Codable {
-        case assigned, unassigned, labeled, unlabeled, opened, edited, milestoned, demilestoned, closed, reopened
+        case assigned, unassigned, labeled, unlabeled, opened, edited, milestoned, demilestoned, closed, reopened, transferred
     }
 
     struct Changes: Codable {
