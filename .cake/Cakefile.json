@@ -1,0 +1,52 @@
+{
+  "options" : {
+    "baseModuleName" : "CakeBase"
+  },
+  "dependencies" : [
+    {
+      "url" : "https:\/\/github.com\/kishikawakatsumi\/KeychainAccess.git",
+      "versionSpecification" : {
+        "type" : "from",
+        "version" : "3.1.0"
+      }
+    },
+    {
+      "url" : "https:\/\/github.com\/mxcl\/PromiseKit.git",
+      "versionSpecification" : {
+        "type" : "from",
+        "version" : "6.7.0"
+      }
+    },
+    {
+      "url" : "https:\/\/github.com\/PromiseKit\/Foundation.git",
+      "versionSpecification" : {
+        "type" : "from",
+        "version" : "3.3.0"
+      }
+    },
+    {
+      "url" : "https:\/\/github.com\/PromiseKit\/StoreKit.git",
+      "versionSpecification" : {
+        "type" : "from",
+        "version" : "3.1.0"
+      }
+    },
+    {
+      "url" : "https:\/\/github.com\/ole\/SortedArray.git",
+      "versionSpecification" : {
+        "type" : "from",
+        "version" : "0.7.0"
+      }
+    }
+  ],
+  "platforms" : [
+    {
+      "platform" : "iOS",
+      "version" : "11.4.0"
+    },
+    {
+      "platform" : "macOS",
+      "version" : "10.12.0"
+    }
+  ]
+}

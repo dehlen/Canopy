@@ -1,4 +1,7 @@
-# /Upstream.xcodeproj
-/.build
-/db.sqlite
+xcuserdata
+*.xcscmblueprint
+.DS_Store
+# SwiftPM metadata when resolving dependencies
+/Dependencies/.build
 /Debris.xcodeproj
+/.build

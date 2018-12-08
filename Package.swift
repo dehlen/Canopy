@@ -12,11 +12,12 @@ let package = Package(
         .package(url: "https://github.com/PerfectlySoft/Perfect-HTTPServer.git", .upToNextMajor(from: "3.0.0")),
         .package(url: "https://github.com/PerfectlySoft/Perfect-SQLite.git", .upToNextMajor(from: "3.0.0")),
         .package(url: "https://github.com/mxcl/PromiseKit.git", .upToNextMajor(from: "6.3.4")),
+        .package(url: "https://github.com/PromiseKit/Foundation.git", .upToNextMajor(from: "3.0.0")),
         .package(url: "https://github.com/boostcode/CCurl.git", .upToNextMajor(from: "0.2.0")),
         .package(url: "https://github.com/PerfectlySoft/Perfect-CURL.git", .upToNextMajor(from: "3.0.0")),
     ],
     targets: [
-        .target(name: "Debris", dependencies: ["PerfectSQLite", "PerfectHTTPServer", "PerfectCURL", "Roots"], path: "Sources.Server"),
-        .target(name: "Roots", dependencies: ["PromiseKit"], path: "Sources.Common", exclude: ["Client.etc.swift", "Vendor/Keychain.swift", "Vendor/SKProductsRequest+Promise.swift", "EnrollmentsManager.swift", "SubscriptionManager.swift"])
+        .target(name: "Debris", dependencies: ["PerfectSQLite", "PerfectHTTPServer", "PerfectCURL", "Roots"], path: "Sources/Linux"),
+        .target(name: "Roots", dependencies: ["PromiseKit", "PMKFoundation"], path: "Sources/Model/xp", exclude: ["Client"])
     ]
 )

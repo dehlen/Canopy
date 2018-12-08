@@ -11,12 +11,21 @@
         }
       },
       {
+        "package": "PMKFoundation",
+        "repositoryURL": "https://github.com/PromiseKit/Foundation.git",
+        "state": {
+          "branch": null,
+          "revision": "9e1d760fdc120f1be41ee2bc026b70ce78ea19bb",
+          "version": "3.3.0"
+        }
+      },
+      {
         "package": "COpenSSL",
         "repositoryURL": "https://github.com/PerfectlySoft/Perfect-COpenSSL-Linux.git",
         "state": {
           "branch": null,
-          "revision": "4133914decf2cdba452ffa7507b3f1c41a379913",
-          "version": "3.0.2"
+          "revision": "413c7a3c42233fb96115f1b59745ddf21cb52733",
+          "version": "3.2.0"
         }
       },
       {
@@ -42,8 +51,8 @@
         "repositoryURL": "https://github.com/PerfectlySoft/Perfect-CURL.git",
         "state": {
           "branch": null,
-          "revision": "08ba26c7b768e9e2096d1fe475e0cef733b98a75",
-          "version": "3.0.7"
+          "revision": "a9f8950554585bd12b9ec24ad4bfbe0b1519e03f",
+          "version": "3.1.0"
         }
       },
       {
@@ -60,8 +69,8 @@
         "repositoryURL": "https://github.com/PerfectlySoft/Perfect-HTTP.git",
         "state": {
           "branch": null,
-          "revision": "3332d4f4d4b52c6cf6918baa6ab510e670001e84",
-          "version": "3.1.4"
+          "revision": "d57687c25a6fa676dee0f9f61e1049a34a5fd96f",
+          "version": "3.2.0"
         }
       },
       {
@@ -69,8 +78,8 @@
         "repositoryURL": "https://github.com/PerfectlySoft/Perfect-HTTPServer.git",
         "state": {
           "branch": null,
-          "revision": "9b31c02d5acfbd381dbfd944ec4cef2870854186",
-          "version": "3.0.18"
+          "revision": "49981001cd6ac7c9e19ea06e3a94a58e8b2b3f98",
+          "version": "3.0.19"
         }
       },
       {
@@ -78,8 +87,8 @@
         "repositoryURL": "https://github.com/PerfectlySoft/Perfect-libcurl.git",
         "state": {
           "branch": null,
-          "revision": "672f6695d9ae04fce16ad01decef0649e0b872b0",
-          "version": "2.0.6"
+          "revision": "b3d7e65ef5c27c0a027cdc621f34835975301bf1",
+          "version": "2.1.0"
         }
       },
       {
@@ -87,8 +96,8 @@
         "repositoryURL": "https://github.com/PerfectlySoft/Perfect-LinuxBridge.git",
         "state": {
           "branch": null,
-          "revision": "ba9d1fb5be8eb238521206b39bec90a760bb0192",
-          "version": "3.0.0"
+          "revision": "d6e64c48e6b06b6f1ab7ab9338280447baa8ca5c",
+          "version": "3.1.0"
         }
       },
       {
@@ -114,8 +123,8 @@
         "repositoryURL": "https://github.com/PerfectlySoft/Perfect-sqlite3-support.git",
         "state": {
           "branch": null,
-          "revision": "fb806c0fd0fcbf27ababa9c03a00e32c2c46464c",
-          "version": "3.0.0"
+          "revision": "64c2bd87e1fd3a41cdeeba073bab794db7e97e42",
+          "version": "3.1.1"
         }
       },
       {
@@ -141,8 +150,8 @@
         "repositoryURL": "https://github.com/mxcl/PromiseKit.git",
         "state": {
           "branch": null,
-          "revision": "66bcc386163121f14ee543aa20b682973cc98dd7",
-          "version": "6.5.2"
+          "revision": "80d16f9471abcc55d77a6ac6db803429e88c502c",
+          "version": "6.7.0"
         }
       }
     ]

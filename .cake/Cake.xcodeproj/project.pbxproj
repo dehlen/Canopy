@@ -1,0 +1,1696 @@
+// !$*UTF8*$!
+{
+   archiveVersion = "1";
+   objectVersion = "46";
+   objects = {
+      "Batter/Client::Product" = {
+         isa = "PBXFileReference";
+         path = "Batter/Client.a";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "Batter/Vendor::Product" = {
+         isa = "PBXFileReference";
+         path = "Batter/Vendor.a";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "Batter/xp::Product" = {
+         isa = "PBXFileReference";
+         path = "Batter/xp.a";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "Batter::Product" = {
+         isa = "PBXFileReference";
+         path = "Batter.a";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "Batter::Target" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_74";
+         buildPhases = (
+            "OBJ_77",
+            "OBJ_79"
+         );
+         dependencies = (
+            "OBJ_83",
+            "OBJ_85"
+         );
+         name = "Batter";
+         productName = "TELL_MXCL_IF_YOU_SEE_THIS_Batter";
+         productReference = "Batter::Product";
+         productType = "com.apple.product-type.library.static";
+      };
+      "Cake::Product" = {
+         isa = "PBXFileReference";
+         path = "Cake.a";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "Cake::Target" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_116";
+         buildPhases = (
+            "OBJ_119",
+            "OBJ_122"
+         );
+         dependencies = (
+            "OBJ_124",
+            "OBJ_125"
+         );
+         name = "Cake";
+         productName = "TELL_MXCL_IF_YOU_SEE_THIS_Cake";
+         productReference = "Cake::Product";
+         productType = "com.apple.product-type.library.static";
+      };
+      "Cakefile.Completion::Product" = {
+         isa = "PBXFileReference";
+         path = "Cakefile.Completion.a";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "Cakefile.Completion::Target" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_135";
+         buildPhases = (
+            "OBJ_138"
+         );
+         dependencies = (
+            "OBJ_140"
+         );
+         name = "Cakefile.Completion";
+         productName = "TELL_MXCL_IF_YOU_SEE_THIS_Cakefile.Completion";
+         productReference = "Cakefile.Completion::Product";
+         productType = "com.apple.product-type.library.static";
+      };
+      "Cakefile::Product" = {
+         isa = "PBXFileReference";
+         path = "Cakefile.dylib";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "Cakefile::Target" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_127";
+         buildPhases = (
+            "OBJ_130",
+            "OBJ_133"
+         );
+         dependencies = (
+         );
+         name = "Cakefile";
+         productName = "TELL_MXCL_IF_YOU_SEE_THIS_Cakefile";
+         productReference = "Cakefile::Product";
+         productType = "com.apple.product-type.library.dynamic";
+      };
+      "Client::Target" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_87";
+         buildPhases = (
+            "OBJ_90"
+         );
+         dependencies = (
+            "OBJ_94",
+            "OBJ_96"
+         );
+         name = "Batter/Client";
+         productName = "TELL_MXCL_IF_YOU_SEE_THIS_Client";
+         productReference = "Batter/Client::Product";
+         productType = "com.apple.product-type.library.static";
+      };
+      "Dependencies::Product" = {
+         isa = "PBXFileReference";
+         path = "Dependencies.a";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "Dependencies::Target" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_141";
+         buildPhases = (
+            "OBJ_144",
+            "OBJ_146"
+         );
+         dependencies = (
+            "OBJ_152",
+            "OBJ_154",
+            "OBJ_156",
+            "OBJ_158",
+            "OBJ_160"
+         );
+         name = "Dependencies";
+         productName = "TELL_MXCL_IF_YOU_SEE_THIS_Dependencies";
+         productReference = "Dependencies::Product";
+         productType = "com.apple.product-type.library.static";
+      };
+      "Deps/KeychainAccess::Product" = {
+         isa = "PBXFileReference";
+         path = "Deps/KeychainAccess.a";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "Deps/PMKFoundation::Product" = {
+         isa = "PBXFileReference";
+         path = "Deps/PMKFoundation.a";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "Deps/PMKStoreKit::Product" = {
+         isa = "PBXFileReference";
+         path = "Deps/PMKStoreKit.a";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "Deps/PromiseKit::Product" = {
+         isa = "PBXFileReference";
+         path = "Deps/PromiseKit.a";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "Deps/SortedArray::Product" = {
+         isa = "PBXFileReference";
+         path = "Deps/SortedArray.a";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "KeychainAccess::Target" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_162";
+         buildPhases = (
+            "OBJ_165"
+         );
+         dependencies = (
+            "OBJ_167"
+         );
+         name = "Deps/KeychainAccess";
+         productName = "TELL_MXCL_IF_YOU_SEE_THIS_KeychainAccess";
+         productReference = "Deps/KeychainAccess::Product";
+         productType = "com.apple.product-type.library.static";
+      };
+      "OBJ_1" = {
+         isa = "PBXProject";
+         attributes = {
+            LastSwiftMigration = "9999";
+            LastUpgradeCheck = "9999";
+         };
+         buildConfigurationList = "OBJ_2";
+         compatibilityVersion = "Xcode 3.2";
+         developmentRegion = "English";
+         hasScannedForEncodings = "0";
+         knownRegions = (
+            "en"
+         );
+         mainGroup = "OBJ_5";
+         productRefGroup = "OBJ_59";
+         projectDirPath = "";
+         projectReferences = (
+         );
+         targets = (
+            "Batter::Target",
+            "Client::Target",
+            "Vendor::Target",
+            "xp::Target",
+            "Cake::Target",
+            "Cakefile::Target",
+            "Cakefile.Completion::Target",
+            "Dependencies::Target",
+            "KeychainAccess::Target",
+            "PMKFoundation::Target",
+            "PMKStoreKit::Target",
+            "PromiseKit::Target",
+            "SortedArray::Target"
+         );
+      };
+      "OBJ_10" = {
+         isa = "PBXFileReference";
+         path = "SKPaymentQueue+Promise.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_100" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_101"
+         );
+      };
+      "OBJ_101" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_45";
+      };
+      "OBJ_102" = {
+         isa = "PBXTargetDependency";
+         target = "Dependencies::Target";
+      };
+      "OBJ_104" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_105",
+            "OBJ_106"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_105" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            PRODUCT_BUNDLE_IDENTIFIER = "xp";
+            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Debug";
+      };
+      "OBJ_106" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            PRODUCT_BUNDLE_IDENTIFIER = "xp";
+            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Release";
+      };
+      "OBJ_107" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_108",
+            "OBJ_109",
+            "OBJ_110",
+            "OBJ_111",
+            "OBJ_112",
+            "OBJ_113"
+         );
+      };
+      "OBJ_108" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_47";
+      };
+      "OBJ_109" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_48";
+      };
+      "OBJ_11" = {
+         isa = "PBXFileReference";
+         path = "SKProductsRequest+Promise.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_110" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_49";
+      };
+      "OBJ_111" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_50";
+      };
+      "OBJ_112" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_51";
+      };
+      "OBJ_113" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_52";
+      };
+      "OBJ_114" = {
+         isa = "PBXTargetDependency";
+         target = "Dependencies::Target";
+      };
+      "OBJ_116" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_117",
+            "OBJ_118"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_117" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Debug";
+      };
+      "OBJ_118" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Release";
+      };
+      "OBJ_119" = {
+         isa = "PBXFrameworksBuildPhase";
+         files = (
+            "OBJ_120",
+            "OBJ_121"
+         );
+      };
+      "OBJ_12" = {
+         isa = "PBXFileReference";
+         path = "SKReceiptRefreshRequest+Promise.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_120" = {
+         isa = "PBXBuildFile";
+         fileRef = "Dependencies::Product";
+      };
+      "OBJ_121" = {
+         isa = "PBXBuildFile";
+         fileRef = "Batter::Product";
+      };
+      "OBJ_122" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_123"
+         );
+      };
+      "OBJ_123" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_58";
+      };
+      "OBJ_124" = {
+         isa = "PBXTargetDependency";
+         target = "Dependencies::Target";
+      };
+      "OBJ_125" = {
+         isa = "PBXTargetDependency";
+         target = "Batter::Target";
+      };
+      "OBJ_127" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_128",
+            "OBJ_129"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_128" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            EXECUTABLE_PREFIX = "lib";
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SDKROOT = "macosx";
+            SKIP_INSTALL = "YES";
+            SUPPORTED_PLATFORMS = (
+               "macosx"
+            );
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Debug";
+      };
+      "OBJ_129" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            EXECUTABLE_PREFIX = "lib";
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SDKROOT = "macosx";
+            SKIP_INSTALL = "YES";
+            SUPPORTED_PLATFORMS = (
+               "macosx"
+            );
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Release";
+      };
+      "OBJ_13" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_14"
+         );
+         name = "KeychainAccess";
+         path = ".build/checkouts/KeychainAccess.git-315948438494982085/Sources";
+         sourceTree = "<group>";
+      };
+      "OBJ_130" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_131",
+            "OBJ_132"
+         );
+      };
+      "OBJ_131" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_54";
+      };
+      "OBJ_132" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_55";
+      };
+      "OBJ_133" = {
+         isa = "PBXShellScriptBuildPhase";
+         files = (
+         );
+         inputPaths = (
+            "$(PROJECT_DIR)/../Cakefile.swift",
+            "$(PROJECT_DIR)/../Dependencies/Package.resolved"
+         );
+         name = "Regenerate Cake.xcodeproj";
+         outputPaths = (
+            "$(PROJECT_DIR)/Cakefile.json",
+            "$(PROJECT_DIR)/Dependencies.json"
+         );
+         shellPath = "/usr/bin/swift";
+         shellScript = "import AppKit
+
+guard var bundle = NSRunningApplication.runningApplications(withBundleIdentifier: \"dev.mxcl.Cake\").first?.bundleURL else {
+    print(\"warning: Cake.app not running, Cakefile changes will not take effect\")
+    exit(0)
+}
+guard let L = ProcessInfo.processInfo.environment[\"TARGET_BUILD_DIR\"] else {
+    print(\"error: $TARGET_BUILD_DIR not defined\")
+    exit(1)
+}
+guard let projectDirPath = ProcessInfo.processInfo.environment[\"PROJECT_DIR\"] else {
+    print(\"error: $PROJECT_DIR not defined\")
+    exit(2)
+}
+
+bundle.appendPathComponent(\"Contents/Resources/cake\")
+
+var projectDir = URL(fileURLWithPath: projectDirPath)
+projectDir.deleteLastPathComponent()
+
+let task = Process()
+task.launchPath = bundle.path
+task.arguments = [projectDir.path, L]
+try task.run()
+task.waitUntilExit()
+
+exit(task.terminationStatus)";
+         showEnvVarsInLog = "0";
+      };
+      "OBJ_135" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_136",
+            "OBJ_137"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_136" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            LD = "/usr/bin/true";
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SDKROOT = "macosx";
+            SKIP_INSTALL = "YES";
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Debug";
+      };
+      "OBJ_137" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            LD = "/usr/bin/true";
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SDKROOT = "macosx";
+            SKIP_INSTALL = "YES";
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Release";
+      };
+      "OBJ_138" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_139"
+         );
+      };
+      "OBJ_139" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_6";
+      };
+      "OBJ_14" = {
+         isa = "PBXFileReference";
+         path = "Keychain.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_140" = {
+         isa = "PBXTargetDependency";
+         target = "Cakefile::Target";
+      };
+      "OBJ_141" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_142",
+            "OBJ_143"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_142" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Debug";
+      };
+      "OBJ_143" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Release";
+      };
+      "OBJ_144" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_145"
+         );
+      };
+      "OBJ_145" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_57";
+      };
+      "OBJ_146" = {
+         isa = "PBXFrameworksBuildPhase";
+         files = (
+            "OBJ_147",
+            "OBJ_148",
+            "OBJ_149",
+            "OBJ_150",
+            "OBJ_151"
+         );
+      };
+      "OBJ_147" = {
+         isa = "PBXBuildFile";
+         fileRef = "Deps/PMKStoreKit::Product";
+      };
+      "OBJ_148" = {
+         isa = "PBXBuildFile";
+         fileRef = "Deps/KeychainAccess::Product";
+      };
+      "OBJ_149" = {
+         isa = "PBXBuildFile";
+         fileRef = "Deps/PMKFoundation::Product";
+      };
+      "OBJ_15" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_16",
+            "OBJ_17",
+            "OBJ_18",
+            "OBJ_19",
+            "OBJ_20"
+         );
+         name = "PMKFoundation";
+         path = ".build/checkouts/Foundation.git-2577920747970272276/Sources";
+         sourceTree = "<group>";
+      };
+      "OBJ_150" = {
+         isa = "PBXBuildFile";
+         fileRef = "Deps/PromiseKit::Product";
+      };
+      "OBJ_151" = {
+         isa = "PBXBuildFile";
+         fileRef = "Deps/SortedArray::Product";
+      };
+      "OBJ_152" = {
+         isa = "PBXTargetDependency";
+         target = "SortedArray::Target";
+      };
+      "OBJ_154" = {
+         isa = "PBXTargetDependency";
+         target = "PMKFoundation::Target";
+      };
+      "OBJ_156" = {
+         isa = "PBXTargetDependency";
+         target = "KeychainAccess::Target";
+      };
+      "OBJ_158" = {
+         isa = "PBXTargetDependency";
+         target = "PMKStoreKit::Target";
+      };
+      "OBJ_16" = {
+         isa = "PBXFileReference";
+         path = "NSNotificationCenter+Promise.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_160" = {
+         isa = "PBXTargetDependency";
+         target = "PromiseKit::Target";
+      };
+      "OBJ_162" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_163",
+            "OBJ_164"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_163" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            PRODUCT_BUNDLE_IDENTIFIER = "KeychainAccess";
+            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "$(inherited)",
+               "SWIFT_PACKAGE"
+            );
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Debug";
+      };
+      "OBJ_164" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            PRODUCT_BUNDLE_IDENTIFIER = "KeychainAccess";
+            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "$(inherited)",
+               "SWIFT_PACKAGE"
+            );
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Release";
+      };
+      "OBJ_165" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_166"
+         );
+      };
+      "OBJ_166" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_14";
+      };
+      "OBJ_167" = {
+         isa = "PBXTargetDependency";
+         target = "Cakefile::Target";
+      };
+      "OBJ_168" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_169",
+            "OBJ_170"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_169" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            PRODUCT_BUNDLE_IDENTIFIER = "PMKFoundation";
+            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "$(inherited)",
+               "SWIFT_PACKAGE"
+            );
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Debug";
+      };
+      "OBJ_17" = {
+         isa = "PBXFileReference";
+         path = "NSObject+Promise.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_170" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            PRODUCT_BUNDLE_IDENTIFIER = "PMKFoundation";
+            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "$(inherited)",
+               "SWIFT_PACKAGE"
+            );
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Release";
+      };
+      "OBJ_171" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_172",
+            "OBJ_173",
+            "OBJ_174",
+            "OBJ_175",
+            "OBJ_176"
+         );
+      };
+      "OBJ_172" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_16";
+      };
+      "OBJ_173" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_17";
+      };
+      "OBJ_174" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_18";
+      };
+      "OBJ_175" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_19";
+      };
+      "OBJ_176" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_20";
+      };
+      "OBJ_177" = {
+         isa = "PBXTargetDependency";
+         target = "PromiseKit::Target";
+      };
+      "OBJ_178" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_179",
+            "OBJ_180"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_179" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            PRODUCT_BUNDLE_IDENTIFIER = "PMKStoreKit";
+            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "$(inherited)",
+               "SWIFT_PACKAGE"
+            );
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Debug";
+      };
+      "OBJ_18" = {
+         isa = "PBXFileReference";
+         path = "NSURLSession+Promise.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_180" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            PRODUCT_BUNDLE_IDENTIFIER = "PMKStoreKit";
+            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "$(inherited)",
+               "SWIFT_PACKAGE"
+            );
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Release";
+      };
+      "OBJ_181" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_182",
+            "OBJ_183",
+            "OBJ_184",
+            "OBJ_185"
+         );
+      };
+      "OBJ_182" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_9";
+      };
+      "OBJ_183" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_10";
+      };
+      "OBJ_184" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_11";
+      };
+      "OBJ_185" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_12";
+      };
+      "OBJ_186" = {
+         isa = "PBXTargetDependency";
+         target = "PromiseKit::Target";
+      };
+      "OBJ_187" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_188",
+            "OBJ_189"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_188" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            PRODUCT_BUNDLE_IDENTIFIER = "PromiseKit";
+            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "$(inherited)",
+               "SWIFT_PACKAGE"
+            );
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Debug";
+      };
+      "OBJ_189" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            PRODUCT_BUNDLE_IDENTIFIER = "PromiseKit";
+            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "$(inherited)",
+               "SWIFT_PACKAGE"
+            );
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Release";
+      };
+      "OBJ_19" = {
+         isa = "PBXFileReference";
+         path = "Process+Promise.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_190" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_191",
+            "OBJ_192",
+            "OBJ_193",
+            "OBJ_194",
+            "OBJ_195",
+            "OBJ_196",
+            "OBJ_197",
+            "OBJ_198",
+            "OBJ_199",
+            "OBJ_200",
+            "OBJ_201",
+            "OBJ_202",
+            "OBJ_203",
+            "OBJ_204",
+            "OBJ_205"
+         );
+      };
+      "OBJ_191" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_22";
+      };
+      "OBJ_192" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_23";
+      };
+      "OBJ_193" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_24";
+      };
+      "OBJ_194" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_25";
+      };
+      "OBJ_195" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_26";
+      };
+      "OBJ_196" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_27";
+      };
+      "OBJ_197" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_28";
+      };
+      "OBJ_198" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_29";
+      };
+      "OBJ_199" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_30";
+      };
+      "OBJ_2" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_3",
+            "OBJ_4"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_20" = {
+         isa = "PBXFileReference";
+         path = "afterlife.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_200" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_31";
+      };
+      "OBJ_201" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_32";
+      };
+      "OBJ_202" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_33";
+      };
+      "OBJ_203" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_34";
+      };
+      "OBJ_204" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_35";
+      };
+      "OBJ_205" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_36";
+      };
+      "OBJ_206" = {
+         isa = "PBXTargetDependency";
+         target = "Cakefile::Target";
+      };
+      "OBJ_207" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_208",
+            "OBJ_209"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_208" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            PRODUCT_BUNDLE_IDENTIFIER = "SortedArray";
+            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "$(inherited)",
+               "SWIFT_PACKAGE"
+            );
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Debug";
+      };
+      "OBJ_209" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            PRODUCT_BUNDLE_IDENTIFIER = "SortedArray";
+            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "$(inherited)",
+               "SWIFT_PACKAGE"
+            );
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Release";
+      };
+      "OBJ_21" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_22",
+            "OBJ_23",
+            "OBJ_24",
+            "OBJ_25",
+            "OBJ_26",
+            "OBJ_27",
+            "OBJ_28",
+            "OBJ_29",
+            "OBJ_30",
+            "OBJ_31",
+            "OBJ_32",
+            "OBJ_33",
+            "OBJ_34",
+            "OBJ_35",
+            "OBJ_36"
+         );
+         name = "PromiseKit";
+         path = ".build/checkouts/PromiseKit.git--2549355896387465903/Sources";
+         sourceTree = "<group>";
+      };
+      "OBJ_210" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_211"
+         );
+      };
+      "OBJ_211" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_38";
+      };
+      "OBJ_212" = {
+         isa = "PBXTargetDependency";
+         target = "Cakefile::Target";
+      };
+      "OBJ_22" = {
+         isa = "PBXFileReference";
+         path = "Box.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_23" = {
+         isa = "PBXFileReference";
+         path = "Catchable.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_24" = {
+         isa = "PBXFileReference";
+         path = "Configuration.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_25" = {
+         isa = "PBXFileReference";
+         path = "CustomStringConvertible.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_26" = {
+         isa = "PBXFileReference";
+         path = "Error.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_27" = {
+         isa = "PBXFileReference";
+         path = "Guarantee.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_28" = {
+         isa = "PBXFileReference";
+         path = "LogEvent.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_29" = {
+         isa = "PBXFileReference";
+         path = "Promise.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_3" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            CLANG_ENABLE_OBJC_WEAK = "YES";
+            CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = "YES";
+            CLANG_WARN_BOOL_CONVERSION = "YES";
+            CLANG_WARN_COMMA = "YES";
+            CLANG_WARN_CONSTANT_CONVERSION = "YES";
+            CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = "YES";
+            CLANG_WARN_EMPTY_BODY = "YES";
+            CLANG_WARN_ENUM_CONVERSION = "YES";
+            CLANG_WARN_INFINITE_RECURSION = "YES";
+            CLANG_WARN_INT_CONVERSION = "YES";
+            CLANG_WARN_NON_LITERAL_NULL_CONVERSION = "YES";
+            CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = "YES";
+            CLANG_WARN_OBJC_LITERAL_CONVERSION = "YES";
+            CLANG_WARN_RANGE_LOOP_ANALYSIS = "YES";
+            CLANG_WARN_STRICT_PROTOTYPES = "YES";
+            CLANG_WARN_SUSPICIOUS_MOVE = "YES";
+            CLANG_WARN_UNREACHABLE_CODE = "YES";
+            CLANG_WARN__DUPLICATE_METHOD_MATCH = "YES";
+            COMBINE_HIDPI_IMAGES = "YES";
+            COPY_PHASE_STRIP = "NO";
+            DEBUG_INFORMATION_FORMAT = "dwarf";
+            ENABLE_NS_ASSERTIONS = "YES";
+            ENABLE_STRICT_OBJC_MSGSEND = "YES";
+            ENABLE_TESTABILITY = "YES";
+            GCC_NO_COMMON_BLOCKS = "YES";
+            GCC_OPTIMIZATION_LEVEL = "0";
+            GCC_WARN_64_TO_32_BIT_CONVERSION = "YES";
+            GCC_WARN_ABOUT_RETURN_TYPE = "YES";
+            GCC_WARN_UNDECLARED_SELECTOR = "YES";
+            GCC_WARN_UNINITIALIZED_AUTOS = "YES";
+            GCC_WARN_UNUSED_FUNCTION = "YES";
+            GCC_WARN_UNUSED_VARIABLE = "YES";
+            IPHONEOS_DEPLOYMENT_TARGET = "11.4.0";
+            MACOSX_DEPLOYMENT_TARGET = "10.12.0";
+            ONLY_ACTIVE_ARCH = "YES";
+            PRODUCT_NAME = "$(TARGET_NAME)";
+            SDKROOT = "macosx";
+            SUPPORTED_PLATFORMS = (
+               "macosx",
+               "iphoneos",
+               "iphonesimulator"
+            );
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "$(inherited)",
+               "DEBUG"
+            );
+            SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+            USE_HEADERMAP = "NO";
+         };
+         name = "Debug";
+      };
+      "OBJ_30" = {
+         isa = "PBXFileReference";
+         path = "Resolver.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_31" = {
+         isa = "PBXFileReference";
+         path = "Thenable.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_32" = {
+         isa = "PBXFileReference";
+         path = "after.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_33" = {
+         isa = "PBXFileReference";
+         path = "firstly.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_34" = {
+         isa = "PBXFileReference";
+         path = "hang.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_35" = {
+         isa = "PBXFileReference";
+         path = "race.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_36" = {
+         isa = "PBXFileReference";
+         path = "when.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_37" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_38"
+         );
+         name = "SortedArray";
+         path = ".build/checkouts/SortedArray.git--6238185550219935652/Sources";
+         sourceTree = "<group>";
+      };
+      "OBJ_38" = {
+         isa = "PBXFileReference";
+         path = "SortedArray.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_39" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_40",
+            "OBJ_44",
+            "OBJ_46"
+         );
+         name = "Batter";
+         path = "../Sources/Model";
+         sourceTree = "<group>";
+      };
+      "OBJ_4" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            CLANG_ENABLE_OBJC_WEAK = "YES";
+            CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = "YES";
+            CLANG_WARN_BOOL_CONVERSION = "YES";
+            CLANG_WARN_COMMA = "YES";
+            CLANG_WARN_CONSTANT_CONVERSION = "YES";
+            CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = "YES";
+            CLANG_WARN_EMPTY_BODY = "YES";
+            CLANG_WARN_ENUM_CONVERSION = "YES";
+            CLANG_WARN_INFINITE_RECURSION = "YES";
+            CLANG_WARN_INT_CONVERSION = "YES";
+            CLANG_WARN_NON_LITERAL_NULL_CONVERSION = "YES";
+            CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = "YES";
+            CLANG_WARN_OBJC_LITERAL_CONVERSION = "YES";
+            CLANG_WARN_RANGE_LOOP_ANALYSIS = "YES";
+            CLANG_WARN_STRICT_PROTOTYPES = "YES";
+            CLANG_WARN_SUSPICIOUS_MOVE = "YES";
+            CLANG_WARN_UNREACHABLE_CODE = "YES";
+            CLANG_WARN__DUPLICATE_METHOD_MATCH = "YES";
+            COMBINE_HIDPI_IMAGES = "YES";
+            COPY_PHASE_STRIP = "YES";
+            DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+            ENABLE_STRICT_OBJC_MSGSEND = "YES";
+            GCC_NO_COMMON_BLOCKS = "YES";
+            GCC_OPTIMIZATION_LEVEL = "s";
+            GCC_WARN_64_TO_32_BIT_CONVERSION = "YES";
+            GCC_WARN_ABOUT_RETURN_TYPE = "YES";
+            GCC_WARN_UNDECLARED_SELECTOR = "YES";
+            GCC_WARN_UNINITIALIZED_AUTOS = "YES";
+            GCC_WARN_UNUSED_FUNCTION = "YES";
+            GCC_WARN_UNUSED_VARIABLE = "YES";
+            IPHONEOS_DEPLOYMENT_TARGET = "11.4.0";
+            MACOSX_DEPLOYMENT_TARGET = "10.12.0";
+            PRODUCT_NAME = "$(TARGET_NAME)";
+            SDKROOT = "macosx";
+            SUPPORTED_PLATFORMS = (
+               "macosx",
+               "iphoneos",
+               "iphonesimulator"
+            );
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "Cake"
+            );
+            SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+            USE_HEADERMAP = "NO";
+         };
+         name = "Release";
+      };
+      "OBJ_40" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_41",
+            "OBJ_42",
+            "OBJ_43"
+         );
+         name = "Client";
+         path = "xp/Client";
+         sourceTree = "<group>";
+      };
+      "OBJ_41" = {
+         isa = "PBXFileReference";
+         path = "SubscriptionManager.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_42" = {
+         isa = "PBXFileReference";
+         path = "Client.etc.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_43" = {
+         isa = "PBXFileReference";
+         path = "EnrollmentsManager.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_44" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_45"
+         );
+         path = "Vendor";
+         sourceTree = "<group>";
+      };
+      "OBJ_45" = {
+         isa = "PBXFileReference";
+         path = "SortedSet.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_46" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_47",
+            "OBJ_48",
+            "OBJ_49",
+            "OBJ_50",
+            "OBJ_51",
+            "OBJ_52"
+         );
+         path = "xp";
+         sourceTree = "<group>";
+      };
+      "OBJ_47" = {
+         isa = "PBXFileReference";
+         path = "Constants.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_48" = {
+         isa = "PBXFileReference";
+         path = "Error+legibleDescription.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_49" = {
+         isa = "PBXFileReference";
+         path = "Event.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_5" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_6",
+            "OBJ_7",
+            "OBJ_39",
+            "OBJ_53",
+            "OBJ_59"
+         );
+         path = "";
+         sourceTree = "<group>";
+      };
+      "OBJ_50" = {
+         isa = "PBXFileReference";
+         path = "GitHubAPI.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_51" = {
+         isa = "PBXFileReference";
+         path = "Compatability.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_52" = {
+         isa = "PBXFileReference";
+         path = "DebrisAPI.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_53" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_54",
+            "OBJ_55",
+            "OBJ_56",
+            "OBJ_57",
+            "OBJ_58"
+         );
+         name = "Kitchenware";
+         path = ".";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_54" = {
+         isa = "PBXFileReference";
+         path = "CakefileDescription.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_55" = {
+         isa = "PBXFileReference";
+         path = "Version.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_56" = {
+         isa = "PBXFileReference";
+         path = "Batter.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_57" = {
+         isa = "PBXFileReference";
+         path = "Dependencies.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_58" = {
+         isa = "PBXFileReference";
+         path = "Cake.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_59" = {
+         isa = "PBXGroup";
+         children = (
+            "Cakefile::Product",
+            "Deps/PMKStoreKit::Product",
+            "Deps/KeychainAccess::Product",
+            "Deps/PMKFoundation::Product",
+            "Deps/PromiseKit::Product",
+            "Deps/SortedArray::Product",
+            "Dependencies::Product",
+            "Batter/Client::Product",
+            "Batter/Vendor::Product",
+            "Batter/xp::Product",
+            "Batter::Product",
+            "Cakefile.Completion::Product",
+            "Cake::Product"
+         );
+         name = "Products";
+         sourceTree = "<group>";
+      };
+      "OBJ_6" = {
+         isa = "PBXFileReference";
+         name = "Cakefile.swift";
+         path = "../Cakefile.swift";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_7" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_8",
+            "OBJ_13",
+            "OBJ_15",
+            "OBJ_21",
+            "OBJ_37"
+         );
+         name = "Dependencies";
+         path = "../Dependencies";
+         sourceTree = "<group>";
+      };
+      "OBJ_74" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_75",
+            "OBJ_76"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_75" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Debug";
+      };
+      "OBJ_76" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Release";
+      };
+      "OBJ_77" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_78"
+         );
+      };
+      "OBJ_78" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_56";
+      };
+      "OBJ_79" = {
+         isa = "PBXFrameworksBuildPhase";
+         files = (
+            "OBJ_80",
+            "OBJ_81",
+            "OBJ_82"
+         );
+      };
+      "OBJ_8" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_9",
+            "OBJ_10",
+            "OBJ_11",
+            "OBJ_12"
+         );
+         name = "PMKStoreKit";
+         path = ".build/checkouts/StoreKit.git-8489417869265270530/Sources";
+         sourceTree = "<group>";
+      };
+      "OBJ_80" = {
+         isa = "PBXBuildFile";
+         fileRef = "Batter/xp::Product";
+      };
+      "OBJ_81" = {
+         isa = "PBXBuildFile";
+         fileRef = "Batter/Client::Product";
+      };
+      "OBJ_82" = {
+         isa = "PBXBuildFile";
+         fileRef = "Batter/Vendor::Product";
+      };
+      "OBJ_83" = {
+         isa = "PBXTargetDependency";
+         target = "Client::Target";
+      };
+      "OBJ_85" = {
+         isa = "PBXTargetDependency";
+         target = "Vendor::Target";
+      };
+      "OBJ_87" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_88",
+            "OBJ_89"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_88" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            PRODUCT_BUNDLE_IDENTIFIER = "Client";
+            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Debug";
+      };
+      "OBJ_89" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            PRODUCT_BUNDLE_IDENTIFIER = "Client";
+            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Release";
+      };
+      "OBJ_9" = {
+         isa = "PBXFileReference";
+         path = "SKPayment+Promise.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_90" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_91",
+            "OBJ_92",
+            "OBJ_93"
+         );
+      };
+      "OBJ_91" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_41";
+      };
+      "OBJ_92" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_42";
+      };
+      "OBJ_93" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_43";
+      };
+      "OBJ_94" = {
+         isa = "PBXTargetDependency";
+         target = "xp::Target";
+      };
+      "OBJ_96" = {
+         isa = "PBXTargetDependency";
+         target = "Vendor::Target";
+      };
+      "OBJ_97" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_98",
+            "OBJ_99"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_98" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            PRODUCT_BUNDLE_IDENTIFIER = "Vendor";
+            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Debug";
+      };
+      "OBJ_99" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            PRODUCT_BUNDLE_IDENTIFIER = "Vendor";
+            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_VERSION = "4.2";
+         };
+         name = "Release";
+      };
+      "PMKFoundation::Target" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_168";
+         buildPhases = (
+            "OBJ_171"
+         );
+         dependencies = (
+            "OBJ_177"
+         );
+         name = "Deps/PMKFoundation";
+         productName = "TELL_MXCL_IF_YOU_SEE_THIS_PMKFoundation";
+         productReference = "Deps/PMKFoundation::Product";
+         productType = "com.apple.product-type.library.static";
+      };
+      "PMKStoreKit::Target" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_178";
+         buildPhases = (
+            "OBJ_181"
+         );
+         dependencies = (
+            "OBJ_186"
+         );
+         name = "Deps/PMKStoreKit";
+         productName = "TELL_MXCL_IF_YOU_SEE_THIS_PMKStoreKit";
+         productReference = "Deps/PMKStoreKit::Product";
+         productType = "com.apple.product-type.library.static";
+      };
+      "PromiseKit::Target" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_187";
+         buildPhases = (
+            "OBJ_190"
+         );
+         dependencies = (
+            "OBJ_206"
+         );
+         name = "Deps/PromiseKit";
+         productName = "TELL_MXCL_IF_YOU_SEE_THIS_PromiseKit";
+         productReference = "Deps/PromiseKit::Product";
+         productType = "com.apple.product-type.library.static";
+      };
+      "SortedArray::Target" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_207";
+         buildPhases = (
+            "OBJ_210"
+         );
+         dependencies = (
+            "OBJ_212"
+         );
+         name = "Deps/SortedArray";
+         productName = "TELL_MXCL_IF_YOU_SEE_THIS_SortedArray";
+         productReference = "Deps/SortedArray::Product";
+         productType = "com.apple.product-type.library.static";
+      };
+      "Vendor::Target" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_97";
+         buildPhases = (
+            "OBJ_100"
+         );
+         dependencies = (
+            "OBJ_102"
+         );
+         name = "Batter/Vendor";
+         productName = "TELL_MXCL_IF_YOU_SEE_THIS_Vendor";
+         productReference = "Batter/Vendor::Product";
+         productType = "com.apple.product-type.library.static";
+      };
+      "xp::Target" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_104";
+         buildPhases = (
+            "OBJ_107"
+         );
+         dependencies = (
+            "OBJ_114"
+         );
+         name = "Batter/xp";
+         productName = "TELL_MXCL_IF_YOU_SEE_THIS_xp";
+         productReference = "Batter/xp::Product";
+         productType = "com.apple.product-type.library.static";
+      };
+   };
+   rootObject = "OBJ_1";
+}

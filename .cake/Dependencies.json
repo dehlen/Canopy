@@ -1,0 +1,254 @@
+{
+  "modules" : [
+    {
+      "path" : {
+        "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/SortedArray.git--6238185550219935652\/Sources"
+      },
+      "files" : [
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/SortedArray.git--6238185550219935652\/Sources\/SortedArray.swift"
+        }
+      ],
+      "name" : "SortedArray",
+      "dependencies" : [
+
+      ]
+    },
+    {
+      "path" : {
+        "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/Foundation.git-2577920747970272276\/Sources"
+      },
+      "files" : [
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/Foundation.git-2577920747970272276\/Sources\/NSNotificationCenter+Promise.swift"
+        },
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/Foundation.git-2577920747970272276\/Sources\/NSObject+Promise.swift"
+        },
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/Foundation.git-2577920747970272276\/Sources\/NSURLSession+Promise.swift"
+        },
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/Foundation.git-2577920747970272276\/Sources\/Process+Promise.swift"
+        },
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/Foundation.git-2577920747970272276\/Sources\/afterlife.swift"
+        }
+      ],
+      "name" : "PMKFoundation",
+      "dependencies" : [
+        {
+          "path" : {
+            "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources"
+          },
+          "files" : [
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/Box.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/Catchable.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/Configuration.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/CustomStringConvertible.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/Error.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/Guarantee.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/LogEvent.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/Promise.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/Resolver.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/Thenable.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/after.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/firstly.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/hang.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/race.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/when.swift"
+            }
+          ],
+          "name" : "PromiseKit",
+          "dependencies" : [
+
+          ]
+        }
+      ]
+    },
+    {
+      "path" : {
+        "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/KeychainAccess.git-315948438494982085\/Sources"
+      },
+      "files" : [
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/KeychainAccess.git-315948438494982085\/Sources\/Keychain.swift"
+        }
+      ],
+      "name" : "KeychainAccess",
+      "dependencies" : [
+
+      ]
+    },
+    {
+      "path" : {
+        "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/StoreKit.git-8489417869265270530\/Sources"
+      },
+      "files" : [
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/StoreKit.git-8489417869265270530\/Sources\/SKPayment+Promise.swift"
+        },
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/StoreKit.git-8489417869265270530\/Sources\/SKPaymentQueue+Promise.swift"
+        },
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/StoreKit.git-8489417869265270530\/Sources\/SKProductsRequest+Promise.swift"
+        },
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/StoreKit.git-8489417869265270530\/Sources\/SKReceiptRefreshRequest+Promise.swift"
+        }
+      ],
+      "name" : "PMKStoreKit",
+      "dependencies" : [
+        {
+          "path" : {
+            "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources"
+          },
+          "files" : [
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/Box.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/Catchable.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/Configuration.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/CustomStringConvertible.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/Error.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/Guarantee.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/LogEvent.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/Promise.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/Resolver.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/Thenable.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/after.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/firstly.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/hang.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/race.swift"
+            },
+            {
+              "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/when.swift"
+            }
+          ],
+          "name" : "PromiseKit",
+          "dependencies" : [
+
+          ]
+        }
+      ]
+    },
+    {
+      "path" : {
+        "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources"
+      },
+      "files" : [
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/Box.swift"
+        },
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/Catchable.swift"
+        },
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/Configuration.swift"
+        },
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/CustomStringConvertible.swift"
+        },
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/Error.swift"
+        },
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/Guarantee.swift"
+        },
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/LogEvent.swift"
+        },
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/Promise.swift"
+        },
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/Resolver.swift"
+        },
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/Thenable.swift"
+        },
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/after.swift"
+        },
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/firstly.swift"
+        },
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/hang.swift"
+        },
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/race.swift"
+        },
+        {
+          "string" : "\/Users\/mxcl\/Desktop\/Canopy\/Dependencies\/.build\/checkouts\/PromiseKit.git--2549355896387465903\/Sources\/when.swift"
+        }
+      ],
+      "name" : "PromiseKit",
+      "dependencies" : [
+
+      ]
+    }
+  ],
+  "imports" : [
+    "KeychainAccess",
+    "PromiseKit",
+    "PMKFoundation",
+    "PMKStoreKit",
+    "SortedArray"
+  ]
+}
