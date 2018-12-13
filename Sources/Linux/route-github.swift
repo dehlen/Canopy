@@ -121,6 +121,20 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             try send(notificatable: pr, to: confs)
         }
 
+        if let ping = notificatable as? PingEvent {
+            let node: Node, id: Int
+            switch ping.context {
+            case .organization(let org, _):
+                node = .organization(org.login)
+                id = org.id
+            case .repository(let repo):
+                id = repo.id
+                node = .repository(repo.owner.login, repo.name)
+            }
+
+            try db.recordIfUnknown(hook: ping.hook.id, node: (node, id: id))
+        }
+
         response.completed()
 
     } catch Event.E.unimplemented(let eventType) {

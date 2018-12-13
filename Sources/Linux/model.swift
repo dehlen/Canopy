@@ -238,6 +238,21 @@ class DB {
             """)
     }
 
+    func recordIfUnknown(hook: Int, node: (Node, id: Int)) throws {
+        let sql = """
+            INSERT OR IGNORE INTO hooks (id, secret, target_id, target_type, full_name)
+            VALUES (:1, :2, :3, :4, :5)
+            """
+        // replace because github replaces if we create a hook that already exists
+        try db.execute(statement: sql) {
+            try $0.bind(position: 1, hook)
+            try $0.bind(position: 2, "")  // no secret since we cane from github
+            try $0.bind(position: 3, node.id)
+            try $0.bind(position: 4, node.0.dbType)
+            try $0.bind(position: 5, node.0.ref)
+        }
+    }
+
     func record(hook: Int, secret: String, node: (Node, id: Int)) throws {
         let sql = """
             REPLACE INTO hooks (id, secret, target_id, target_type, full_name)
