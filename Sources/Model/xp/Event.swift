@@ -144,6 +144,7 @@ public extension Array where Element == Event {
     static var `default`: Set<Event> {
         var rv = Set(Event.allCases)
         rv.remove(.status)
+        rv.remove(.check_run)
         return rv
     }
 }

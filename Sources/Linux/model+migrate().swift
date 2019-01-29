@@ -4,12 +4,9 @@ import Roots
 
 extension DB {
     func migrate() throws {
-//        let maskDefault =  Int.max ^ Event.status.optionValue
+//        let maskDefault =  Int.max & ~Event.status.optionValue & ~Event.check_run.optionValue
 //
 //        try db.execute(statement: "ALTER TABLE subscriptions ADD COLUMN event_mask INTEGER NOT NULL DEFAULT \(maskDefault)")
-
-        let events = Event.allCases - [.watch, .fork]
-        try set(mask: events.maskValue, repoId: .promiseKit, userId: .mxcl)
     }
 }
 
