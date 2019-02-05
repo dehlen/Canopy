@@ -25,6 +25,7 @@ PromiseKit.conf.Q.return = pmkQ
 #endif
 
 import PerfectHTTPServer
+import LegibleError
 import PerfectHTTP
 import Foundation
 import Roots

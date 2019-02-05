@@ -1,4 +1,5 @@
 import enum PerfectSQLite.SQLiteError
+import LegibleError
 import PerfectHTTP
 import Foundation
 import PromiseKit

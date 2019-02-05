@@ -1,4 +1,5 @@
 import PMKFoundation
+import LegibleError
 import PerfectHTTP
 import Foundation
 import PromiseKit

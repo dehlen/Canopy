@@ -20,6 +20,15 @@
         }
       },
       {
+        "package": "LegibleError",
+        "repositoryURL": "https://github.com/mxcl/LegibleError.git",
+        "state": {
+          "branch": null,
+          "revision": "baeefc27a9c334ea425c0b9d39851bdf3446b262",
+          "version": "1.0.0"
+        }
+      },
+      {
         "package": "COpenSSL",
         "repositoryURL": "https://github.com/PerfectlySoft/Perfect-COpenSSL-Linux.git",
         "state": {
