@@ -79,7 +79,7 @@ enum APNsNotification {
             payload["aps"] = ["content-available": 1]
             return payload
         case .alert(let body, let title, let subtitle, let category, let threadId, let extra, _, _):
-            var alert = ["body": body]
+            var alert = ["body": String(body.prefix(3600))]  // 4K max size
             alert["title"] = title
             alert["subtitle"] = subtitle
 
