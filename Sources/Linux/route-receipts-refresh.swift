@@ -1,3 +1,4 @@
+import LegibleError
 import PerfectHTTP
 import Foundation
 import PromiseKit
@@ -38,7 +39,9 @@ func refreshReceiptsHandler(request rq: HTTPRequest) throws -> Promise<Void> {
                 throw E.invalidFilename(filename)
             }
             return validateReceipt(userId: .value(userId), sku: sku, receipt: receipt).recover {
-                print("error:", $0)
+                if "\($0)" != "expired", "\($0)" != "noExpiryDate" {
+                    print("error:", $0.legibleDescription)
+                }
             }
         } catch {
             return Promise(error: error)
