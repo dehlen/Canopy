@@ -1,1696 +1,1533 @@
 // !$*UTF8*$!
 {
-   archiveVersion = "1";
-   objectVersion = "46";
-   objects = {
-      "Batter/Client::Product" = {
-         isa = "PBXFileReference";
-         path = "Batter/Client.a";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "Batter/Vendor::Product" = {
-         isa = "PBXFileReference";
-         path = "Batter/Vendor.a";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "Batter/xp::Product" = {
-         isa = "PBXFileReference";
-         path = "Batter/xp.a";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "Batter::Product" = {
-         isa = "PBXFileReference";
-         path = "Batter.a";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "Batter::Target" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_74";
-         buildPhases = (
-            "OBJ_77",
-            "OBJ_79"
-         );
-         dependencies = (
-            "OBJ_83",
-            "OBJ_85"
-         );
-         name = "Batter";
-         productName = "TELL_MXCL_IF_YOU_SEE_THIS_Batter";
-         productReference = "Batter::Product";
-         productType = "com.apple.product-type.library.static";
-      };
-      "Cake::Product" = {
-         isa = "PBXFileReference";
-         path = "Cake.a";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "Cake::Target" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_116";
-         buildPhases = (
-            "OBJ_119",
-            "OBJ_122"
-         );
-         dependencies = (
-            "OBJ_124",
-            "OBJ_125"
-         );
-         name = "Cake";
-         productName = "TELL_MXCL_IF_YOU_SEE_THIS_Cake";
-         productReference = "Cake::Product";
-         productType = "com.apple.product-type.library.static";
-      };
-      "Cakefile.Completion::Product" = {
-         isa = "PBXFileReference";
-         path = "Cakefile.Completion.a";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "Cakefile.Completion::Target" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_135";
-         buildPhases = (
-            "OBJ_138"
-         );
-         dependencies = (
-            "OBJ_140"
-         );
-         name = "Cakefile.Completion";
-         productName = "TELL_MXCL_IF_YOU_SEE_THIS_Cakefile.Completion";
-         productReference = "Cakefile.Completion::Product";
-         productType = "com.apple.product-type.library.static";
-      };
-      "Cakefile::Product" = {
-         isa = "PBXFileReference";
-         path = "Cakefile.dylib";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "Cakefile::Target" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_127";
-         buildPhases = (
-            "OBJ_130",
-            "OBJ_133"
-         );
-         dependencies = (
-         );
-         name = "Cakefile";
-         productName = "TELL_MXCL_IF_YOU_SEE_THIS_Cakefile";
-         productReference = "Cakefile::Product";
-         productType = "com.apple.product-type.library.dynamic";
-      };
-      "Client::Target" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_87";
-         buildPhases = (
-            "OBJ_90"
-         );
-         dependencies = (
-            "OBJ_94",
-            "OBJ_96"
-         );
-         name = "Batter/Client";
-         productName = "TELL_MXCL_IF_YOU_SEE_THIS_Client";
-         productReference = "Batter/Client::Product";
-         productType = "com.apple.product-type.library.static";
-      };
-      "Dependencies::Product" = {
-         isa = "PBXFileReference";
-         path = "Dependencies.a";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "Dependencies::Target" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_141";
-         buildPhases = (
-            "OBJ_144",
-            "OBJ_146"
-         );
-         dependencies = (
-            "OBJ_152",
-            "OBJ_154",
-            "OBJ_156",
-            "OBJ_158",
-            "OBJ_160"
-         );
-         name = "Dependencies";
-         productName = "TELL_MXCL_IF_YOU_SEE_THIS_Dependencies";
-         productReference = "Dependencies::Product";
-         productType = "com.apple.product-type.library.static";
-      };
-      "Deps/KeychainAccess::Product" = {
-         isa = "PBXFileReference";
-         path = "Deps/KeychainAccess.a";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "Deps/PMKFoundation::Product" = {
-         isa = "PBXFileReference";
-         path = "Deps/PMKFoundation.a";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "Deps/PMKStoreKit::Product" = {
-         isa = "PBXFileReference";
-         path = "Deps/PMKStoreKit.a";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "Deps/PromiseKit::Product" = {
-         isa = "PBXFileReference";
-         path = "Deps/PromiseKit.a";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "Deps/SortedArray::Product" = {
-         isa = "PBXFileReference";
-         path = "Deps/SortedArray.a";
-         sourceTree = "BUILT_PRODUCTS_DIR";
-      };
-      "KeychainAccess::Target" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_162";
-         buildPhases = (
-            "OBJ_165"
-         );
-         dependencies = (
-            "OBJ_167"
-         );
-         name = "Deps/KeychainAccess";
-         productName = "TELL_MXCL_IF_YOU_SEE_THIS_KeychainAccess";
-         productReference = "Deps/KeychainAccess::Product";
-         productType = "com.apple.product-type.library.static";
-      };
-      "OBJ_1" = {
-         isa = "PBXProject";
-         attributes = {
-            LastSwiftMigration = "9999";
-            LastUpgradeCheck = "9999";
-         };
-         buildConfigurationList = "OBJ_2";
-         compatibilityVersion = "Xcode 3.2";
-         developmentRegion = "English";
-         hasScannedForEncodings = "0";
-         knownRegions = (
-            "en"
-         );
-         mainGroup = "OBJ_5";
-         productRefGroup = "OBJ_59";
-         projectDirPath = "";
-         projectReferences = (
-         );
-         targets = (
-            "Batter::Target",
-            "Client::Target",
-            "Vendor::Target",
-            "xp::Target",
-            "Cake::Target",
-            "Cakefile::Target",
-            "Cakefile.Completion::Target",
-            "Dependencies::Target",
-            "KeychainAccess::Target",
-            "PMKFoundation::Target",
-            "PMKStoreKit::Target",
-            "PromiseKit::Target",
-            "SortedArray::Target"
-         );
-      };
-      "OBJ_10" = {
-         isa = "PBXFileReference";
-         path = "SKPaymentQueue+Promise.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_100" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_101"
-         );
-      };
-      "OBJ_101" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_45";
-      };
-      "OBJ_102" = {
-         isa = "PBXTargetDependency";
-         target = "Dependencies::Target";
-      };
-      "OBJ_104" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_105",
-            "OBJ_106"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_105" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            PRODUCT_BUNDLE_IDENTIFIER = "xp";
-            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Debug";
-      };
-      "OBJ_106" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            PRODUCT_BUNDLE_IDENTIFIER = "xp";
-            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Release";
-      };
-      "OBJ_107" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_108",
-            "OBJ_109",
-            "OBJ_110",
-            "OBJ_111",
-            "OBJ_112",
-            "OBJ_113"
-         );
-      };
-      "OBJ_108" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_47";
-      };
-      "OBJ_109" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_48";
-      };
-      "OBJ_11" = {
-         isa = "PBXFileReference";
-         path = "SKProductsRequest+Promise.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_110" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_49";
-      };
-      "OBJ_111" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_50";
-      };
-      "OBJ_112" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_51";
-      };
-      "OBJ_113" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_52";
-      };
-      "OBJ_114" = {
-         isa = "PBXTargetDependency";
-         target = "Dependencies::Target";
-      };
-      "OBJ_116" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_117",
-            "OBJ_118"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_117" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Debug";
-      };
-      "OBJ_118" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Release";
-      };
-      "OBJ_119" = {
-         isa = "PBXFrameworksBuildPhase";
-         files = (
-            "OBJ_120",
-            "OBJ_121"
-         );
-      };
-      "OBJ_12" = {
-         isa = "PBXFileReference";
-         path = "SKReceiptRefreshRequest+Promise.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_120" = {
-         isa = "PBXBuildFile";
-         fileRef = "Dependencies::Product";
-      };
-      "OBJ_121" = {
-         isa = "PBXBuildFile";
-         fileRef = "Batter::Product";
-      };
-      "OBJ_122" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_123"
-         );
-      };
-      "OBJ_123" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_58";
-      };
-      "OBJ_124" = {
-         isa = "PBXTargetDependency";
-         target = "Dependencies::Target";
-      };
-      "OBJ_125" = {
-         isa = "PBXTargetDependency";
-         target = "Batter::Target";
-      };
-      "OBJ_127" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_128",
-            "OBJ_129"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_128" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            EXECUTABLE_PREFIX = "lib";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SDKROOT = "macosx";
-            SKIP_INSTALL = "YES";
-            SUPPORTED_PLATFORMS = (
-               "macosx"
-            );
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Debug";
-      };
-      "OBJ_129" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            EXECUTABLE_PREFIX = "lib";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SDKROOT = "macosx";
-            SKIP_INSTALL = "YES";
-            SUPPORTED_PLATFORMS = (
-               "macosx"
-            );
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Release";
-      };
-      "OBJ_13" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_14"
-         );
-         name = "KeychainAccess";
-         path = ".build/checkouts/KeychainAccess.git-315948438494982085/Sources";
-         sourceTree = "<group>";
-      };
-      "OBJ_130" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_131",
-            "OBJ_132"
-         );
-      };
-      "OBJ_131" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_54";
-      };
-      "OBJ_132" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_55";
-      };
-      "OBJ_133" = {
-         isa = "PBXShellScriptBuildPhase";
-         files = (
-         );
-         inputPaths = (
-            "$(PROJECT_DIR)/../Cakefile.swift",
-            "$(PROJECT_DIR)/../Dependencies/Package.resolved"
-         );
-         name = "Regenerate Cake.xcodeproj";
-         outputPaths = (
-            "$(PROJECT_DIR)/Cakefile.json",
-            "$(PROJECT_DIR)/Dependencies.json"
-         );
-         shellPath = "/usr/bin/swift";
-         shellScript = "import AppKit
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
 
-guard var bundle = NSRunningApplication.runningApplications(withBundleIdentifier: \"dev.mxcl.Cake\").first?.bundleURL else {
-    print(\"warning: Cake.app not running, Cakefile changes will not take effect\")
-    exit(0)
-}
-guard let L = ProcessInfo.processInfo.environment[\"TARGET_BUILD_DIR\"] else {
-    print(\"error: $TARGET_BUILD_DIR not defined\")
-    exit(1)
-}
-guard let projectDirPath = ProcessInfo.processInfo.environment[\"PROJECT_DIR\"] else {
-    print(\"error: $PROJECT_DIR not defined\")
-    exit(2)
-}
+/* Begin PBXAggregateTarget section */
+		818A4854C95B333066E8C4A9D0FE3104 /* Cakefile */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = FB1419C517BF03EBE4B57BA190D11DA2 /* Build configuration list for PBXAggregateTarget "Cakefile" */;
+			buildPhases = (
+				6F67EDB0066A07EA8ACEC9D4D60F4E3F /* Regenerate Cake.xcodeproj */,
+			);
+			dependencies = (
+			);
+			name = Cakefile;
+			productName = Cakefile;
+		};
+/* End PBXAggregateTarget section */
 
-bundle.appendPathComponent(\"Contents/Resources/cake\")
+/* Begin PBXBuildFile section */
+		0126D7996A8929E3D9BA9BC71806216C /* NSNotificationCenter+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E32B9B4F0137DD729D7F3D74688CF6D /* NSNotificationCenter+Promise.swift */; };
+		0144937EEB86C307B33A65EB2B058FFC /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD06ECAE4D53F31C5FF63EB1A4FAA0F1 /* Dependencies.swift */; };
+		02A46975791D4B6AF393E02BFC7B4FA7 /* Cake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F867ED701FF56BC9AA1829B4888F2F /* Cake.swift */; };
+		06C3B04F30B74A4815C44654AEBB2C01 /* SKPaymentQueue+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732356EC714B59F2025F0F3B743A6A11 /* SKPaymentQueue+Promise.swift */; };
+		0CDB6FB6B9F699AD68E6AB983231F99A /* GitHubAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502D5422E19C293B328FB1D8E697C3A4 /* GitHubAPI.swift */; };
+		13A12CCBECF26AF3B18468E445CEF598 /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9667E7EC96A4E5AF6C72D9DDD7ACC033 /* Promise.swift */; };
+		15934D6E5683C82DBE917FB0A535918C /* PromiseKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53E3B23BDD8E313D1CCE46BCBA847860 /* PromiseKit.a */; };
+		173AC44E5DDAF718CE86EE5D54DB1A23 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C5D7D1835891126DAC0217D2976BB3 /* Configuration.swift */; };
+		194436C50CBF102CE54CD461191FCD0D /* NSObject+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38AC374D097346CE8B4226D78BA0156F /* NSObject+Promise.swift */; };
+		1AF249C132000F09A7676FADACC54AE2 /* mxcl∕KeychainAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0158639A24FAF4D35822E88D4089AD /* mxcl∕KeychainAccess.swift */; };
+		1D4E36D03223E04D12357D0E3E9E4F06 /* LegibleError.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DBCAEFF3AB28195D7B5E09B52FDBDA9 /* LegibleError.a */; };
+		217FABB189F4D49A3DD1422949D0C8E8 /* Dependencies.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A7E89000FDF44A3427FBD44B878A9C1 /* Dependencies.a */; };
+		2A87E1830160009728CB1741C4552B64 /* SortedSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F2756271EEFCC825E51A3DC938100E /* SortedSet.swift */; };
+		2A91F027DE7A6D754A37E667796508E6 /* SortedArray.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F0096C0463FB39B08824DB00B13133F /* SortedArray.a */; };
+		2B35177067A9C34EDEB33A8164DE4588 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F4FC690CAF8E887E4358E57F7AFBC1 /* Resolver.swift */; };
+		3479C220FB5B38B50C385208CE9120B8 /* ole∕SortedArray-0.7.0.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61B20D639B4E5F5B9F68723A85431BC /* ole∕SortedArray-0.7.0.swift */; };
+		37C01C838BE8DE1C664691AA547031E5 /* after.swift in Sources */ = {isa = PBXBuildFile; fileRef = E682DCE6918902D7DDF557BBEE1F747C /* after.swift */; };
+		4270130596C1A090597D9DF6C68F9A70 /* Compatability.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2716D5FB17B39FF6FC3F91C531CD949 /* Compatability.swift */; };
+		4835C5D8E1C20F66AFE62904BA7CADAE /* Vendor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF13AE3B62C40836A5FEE4744FE1CD73 /* Vendor.a */; };
+		4A742043CE654301EDB235A5673871F7 /* Client.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 785358D6AD2F0D126E57FB5826F9A65F /* Client.a */; };
+		4DAA0F96F543E4A6D90BDB8AC22BC759 /* CustomStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BDDCCB89500DCBDD7BBA0272926DD0 /* CustomStringConvertible.swift */; };
+		51E0930A320F80A27C0E975A51B88A92 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2209E00978D9E95DD614C265E9AEC20 /* Event.swift */; };
+		5361884E3E291BA8DDC508099E06DEF5 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BFEEE4D7FD69E216D24DC97A2D09B6 /* SubscriptionManager.swift */; };
+		5633CA07142F6FC4A6C648E4C90225ED /* Batter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F573D976FA9A0403F17F22F1A4DAA55 /* Batter.a */; };
+		56DFD2E22C495FA82E39886F365DC33A /* Cakefile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD6BC9A2C80C818AD36364182F42223 /* Cakefile.swift */; };
+		5BE5778E0B7DCE1A9F0173D6163C8E1E /* xp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91406D920A09B9991EA45CE114C43130 /* xp.a */; };
+		656A6AF815F06DF3D24C506289398B6D /* mxcl∕LegibleError-1.0.1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4144D0D13AB2A191101B99B2DEDE581C /* mxcl∕LegibleError-1.0.1.swift */; };
+		6A041CF38BC28A5262F4A2C130435DA8 /* Batter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D33FD3DDE7FE2483580EF428D7DE21 /* Batter.swift */; };
+		7338FFD7195E848D0AD86857B597A2AC /* SKPayment+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3E41B59422DA85E1E16E8C65928810 /* SKPayment+Promise.swift */; };
+		8086409EA5DD7B797084592C543D5EB3 /* Process+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0D8DD1958D7B1AF9E5930838B61C63 /* Process+Promise.swift */; };
+		8A7FBCE750BACE16FA0C7D24A8E0FC26 /* Guarantee.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF647C9C376ED858DE3D33BD092CCA7F /* Guarantee.swift */; };
+		90E680E24018A067844D7A6860BDD036 /* LogEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D25EA9B892F8852C3D86F85B8647FAE /* LogEvent.swift */; };
+		9436F39853F413831C64FED1F3C38B58 /* SKProductsRequest+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE2A4317F65EAE26BF3FE64893AF493 /* SKProductsRequest+Promise.swift */; };
+		94CE86D521792B6CBDC5C2859E56D8EB /* KeychainAccess.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 925FFB03FA9F121D0D038FC3C7DEE41D /* KeychainAccess.a */; };
+		9AD25944060C73EBC3D7D4B8ED647F55 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EAFD505287A688648A6F468128EEEC /* Error.swift */; };
+		A2A8C2A61706862AF67AB27B2D159F04 /* Catchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FDA939D602AC0EF1F3928012DDA0DC /* Catchable.swift */; };
+		A3D791A9A2847EB6AABAE6D213D040B2 /* SKReceiptRefreshRequest+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F15E479F6C89BF09277DD149F34CF5D /* SKReceiptRefreshRequest+Promise.swift */; };
+		A86DCEF6EF3931DB5DC63A47AB3E9DD8 /* TitledError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAAB23E41E34B270964A47DA09938DD /* TitledError.swift */; };
+		B363F49F2AF887172600F5CD67F7C4F2 /* hang.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7AEA2479B3032443714E1D228FADF0C /* hang.swift */; };
+		B56602EC4F80DEC5337994B59B3FE640 /* NSURLSession+Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365FC1A53413924C32E4651E9D67AA9 /* NSURLSession+Promise.swift */; };
+		B8500CFBB3B168E3850A2F1506341B60 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C3ADABC260D66769BC57F375974001 /* Constants.swift */; };
+		B965111421F5F7EA96A6384139DB4AD1 /* race.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AA2ABCDA2F333EBC153257903CCFFA /* race.swift */; };
+		BD0BA7D75497180DD3012CA784CC7BCA /* PMKFoundation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 69787F8145CACFA492EC131CC2A0AA1D /* PMKFoundation.a */; };
+		BEC710FA022A69539DE83D3DA26D2D46 /* Thenable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C217681598D56FE79A522A8D0D7CB7C7 /* Thenable.swift */; };
+		C17C20C5FDA1EA8CB85C20E8B901E554 /* PMKStoreKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8312A6DB30137F7AB46141BA7FD9C839 /* PMKStoreKit.a */; };
+		C482DAA8FB8042E3E3C0FB93D937EA32 /* DebrisAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C857EBBD2390FE3D7EC8918933AAA12 /* DebrisAPI.swift */; };
+		CD29B1158D97E7F2767B742E15BB5F1B /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D70A7A1D451A574394BE9D849EF26BD /* Box.swift */; };
+		CE644545E0A13218A426CDEC755DB5EC /* Client.etc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC514DCAD5B1C15DF0B71675D9FFFE8 /* Client.etc.swift */; };
+		DBF24B2F67D4AD415385D407F78EBFE7 /* firstly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C473431F71F14C0C7B094C7AFC1BCB1 /* firstly.swift */; };
+		DD2127A7693447EA31FC5844269A5476 /* when.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FA622D9453DC325EF8DD4097AB2C2B /* when.swift */; };
+		F55101568B5AD579006397C7F9763805 /* EnrollmentsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE7A9E6C63ECD49DB5E602F74ED6CE4 /* EnrollmentsManager.swift */; };
+		F8373135B8E73DC04E741253EF8538AF /* afterlife.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA87092A5BDAB632904A61E928DE49B9 /* afterlife.swift */; };
+/* End PBXBuildFile section */
 
-var projectDir = URL(fileURLWithPath: projectDirPath)
-projectDir.deleteLastPathComponent()
+/* Begin PBXContainerItemProxy section */
+		002F346AA247D13A30C93BDD21ACA859 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAA9F9B983CE55D38B2F125BAD56FC0E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DCF843C187E023E2097ACF9EABA93DD6;
+			remoteInfo = Dependencies;
+		};
+		0D38B7EBBD07730364FC815DB2951828 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAA9F9B983CE55D38B2F125BAD56FC0E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 90AD6F7916998C879BA681905A417179;
+			remoteInfo = "Batter·Vendor";
+		};
+		1EE1EF930A5BF3D0012B58E4A1D22BB8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAA9F9B983CE55D38B2F125BAD56FC0E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B4280F358AD4C3799414724EE00E6812;
+			remoteInfo = "Deps·PMKFoundation";
+		};
+		2271E804C9C352B20C61ABBC68327426 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAA9F9B983CE55D38B2F125BAD56FC0E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8B4D032D3EA2708E1BF1B498E5AAC085;
+			remoteInfo = "Deps·LegibleError";
+		};
+		2D5CFF812411E4B506BA17005870743C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAA9F9B983CE55D38B2F125BAD56FC0E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 90AD6F7916998C879BA681905A417179;
+			remoteInfo = "Batter·Vendor";
+		};
+		2D6EDF33EC661363ED1E5889EA9EF52F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAA9F9B983CE55D38B2F125BAD56FC0E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DCF843C187E023E2097ACF9EABA93DD6;
+			remoteInfo = Dependencies;
+		};
+		33FF0B171D4DB6017786BE11542F2217 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAA9F9B983CE55D38B2F125BAD56FC0E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 818A4854C95B333066E8C4A9D0FE3104;
+			remoteInfo = Cakefile;
+		};
+		3D570B61F4B7B186FBD4FB45CAB2344D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAA9F9B983CE55D38B2F125BAD56FC0E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BD398413C05B07BBE2B6E2D14C9EE8D9;
+			remoteInfo = "Deps·PromiseKit";
+		};
+		45B3ED6575EBBBDB702EB95138A59DF1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAA9F9B983CE55D38B2F125BAD56FC0E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FFB59435FDA46112B05F84E45F7B95F3;
+			remoteInfo = "Deps·PMKStoreKit";
+		};
+		53446DBA2F029AB20CAD8165297EDD35 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAA9F9B983CE55D38B2F125BAD56FC0E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0C6CB203E1256C62E14D3F381130C697;
+			remoteInfo = "Batter·xp";
+		};
+		5EDA6990A1DDBE6E9B607D100EF8A5DA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAA9F9B983CE55D38B2F125BAD56FC0E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BD398413C05B07BBE2B6E2D14C9EE8D9;
+			remoteInfo = "Deps·PromiseKit";
+		};
+		6F9977AD945D6B834842EFD2B03BC238 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAA9F9B983CE55D38B2F125BAD56FC0E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4417A8A9811CAA247AA9E1142C875A9B;
+			remoteInfo = "Deps·KeychainAccess";
+		};
+		71575CE835494E88E6BF9F433CA4073A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAA9F9B983CE55D38B2F125BAD56FC0E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 818A4854C95B333066E8C4A9D0FE3104;
+			remoteInfo = Cakefile;
+		};
+		756891CE29B59469D117CB86600830B4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAA9F9B983CE55D38B2F125BAD56FC0E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F5D94DE7A2DF28D8FD6E0C310044455E;
+			remoteInfo = Batter;
+		};
+		A6534538102624A3BAD54587BBECFEF5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAA9F9B983CE55D38B2F125BAD56FC0E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 818A4854C95B333066E8C4A9D0FE3104;
+			remoteInfo = Cakefile;
+		};
+		A73E5A8F2FB3488E712E3D20D62C463E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAA9F9B983CE55D38B2F125BAD56FC0E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BD398413C05B07BBE2B6E2D14C9EE8D9;
+			remoteInfo = "Deps·PromiseKit";
+		};
+		BA94388154FC5557611ADF3BBE8F200E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAA9F9B983CE55D38B2F125BAD56FC0E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CBAC99246DDEE4D60F3833E1FF3B8514;
+			remoteInfo = "Deps·SortedArray";
+		};
+		C9302B77BC2BA2C40C288B30160EB8D2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAA9F9B983CE55D38B2F125BAD56FC0E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 818A4854C95B333066E8C4A9D0FE3104;
+			remoteInfo = Cakefile;
+		};
+		CAE6E3EF38CECA22DFBD472F761E6363 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAA9F9B983CE55D38B2F125BAD56FC0E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DCF843C187E023E2097ACF9EABA93DD6;
+			remoteInfo = Dependencies;
+		};
+		D016B75E022F6205E3B002CDE83C5533 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAA9F9B983CE55D38B2F125BAD56FC0E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 999D67BA3E0614B8DD445108DB33F766;
+			remoteInfo = "Batter·Client";
+		};
+/* End PBXContainerItemProxy section */
 
-let task = Process()
-task.launchPath = bundle.path
-task.arguments = [projectDir.path, L]
-try task.run()
-task.waitUntilExit()
+/* Begin PBXFileReference section */
+		05D33FD3DDE7FE2483580EF428D7DE21 /* Batter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Batter.swift; sourceTree = "<group>"; };
+		1C473431F71F14C0C7B094C7AFC1BCB1 /* firstly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = firstly.swift; sourceTree = "<group>"; };
+		1DBCAEFF3AB28195D7B5E09B52FDBDA9 /* LegibleError.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = LegibleError.a; path = libLegibleError.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F0D8DD1958D7B1AF9E5930838B61C63 /* Process+Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Process+Promise.swift"; sourceTree = "<group>"; };
+		1FAAB23E41E34B270964A47DA09938DD /* TitledError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitledError.swift; sourceTree = "<group>"; };
+		23BFEEE4D7FD69E216D24DC97A2D09B6 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
+		26F2756271EEFCC825E51A3DC938100E /* SortedSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortedSet.swift; sourceTree = "<group>"; };
+		2BC514DCAD5B1C15DF0B71675D9FFFE8 /* Client.etc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.etc.swift; sourceTree = "<group>"; };
+		2CE7A9E6C63ECD49DB5E602F74ED6CE4 /* EnrollmentsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollmentsManager.swift; sourceTree = "<group>"; };
+		2F15E479F6C89BF09277DD149F34CF5D /* SKReceiptRefreshRequest+Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKReceiptRefreshRequest+Promise.swift"; sourceTree = "<group>"; };
+		30BDDCCB89500DCBDD7BBA0272926DD0 /* CustomStringConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStringConvertible.swift; sourceTree = "<group>"; };
+		36F4FC690CAF8E887E4358E57F7AFBC1 /* Resolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
+		38AC374D097346CE8B4226D78BA0156F /* NSObject+Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+Promise.swift"; sourceTree = "<group>"; };
+		3D70A7A1D451A574394BE9D849EF26BD /* Box.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
+		3F573D976FA9A0403F17F22F1A4DAA55 /* Batter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = Batter.a; path = libBatter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		4144D0D13AB2A191101B99B2DEDE581C /* mxcl∕LegibleError-1.0.1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "mxcl∕LegibleError-1.0.1.swift"; sourceTree = "<group>"; };
+		41AA2ABCDA2F333EBC153257903CCFFA /* race.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = race.swift; sourceTree = "<group>"; };
+		43F867ED701FF56BC9AA1829B4888F2F /* Cake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cake.swift; sourceTree = "<group>"; };
+		4A7E89000FDF44A3427FBD44B878A9C1 /* Dependencies.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = Dependencies.a; path = libDependencies.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		502D5422E19C293B328FB1D8E697C3A4 /* GitHubAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubAPI.swift; sourceTree = "<group>"; };
+		53C3ADABC260D66769BC57F375974001 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		53C5D7D1835891126DAC0217D2976BB3 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		53E3B23BDD8E313D1CCE46BCBA847860 /* PromiseKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = PromiseKit.a; path = libPromiseKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F0096C0463FB39B08824DB00B13133F /* SortedArray.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = SortedArray.a; path = libSortedArray.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		69787F8145CACFA492EC131CC2A0AA1D /* PMKFoundation.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = PMKFoundation.a; path = libPMKFoundation.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		732356EC714B59F2025F0F3B743A6A11 /* SKPaymentQueue+Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKPaymentQueue+Promise.swift"; sourceTree = "<group>"; };
+		785358D6AD2F0D126E57FB5826F9A65F /* Client.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = Client.a; path = libClient.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E32B9B4F0137DD729D7F3D74688CF6D /* NSNotificationCenter+Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSNotificationCenter+Promise.swift"; sourceTree = "<group>"; };
+		8312A6DB30137F7AB46141BA7FD9C839 /* PMKStoreKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = PMKStoreKit.a; path = libPMKStoreKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		91406D920A09B9991EA45CE114C43130 /* xp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = xp.a; path = libxp.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		925FFB03FA9F121D0D038FC3C7DEE41D /* KeychainAccess.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = KeychainAccess.a; path = libKeychainAccess.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		9667E7EC96A4E5AF6C72D9DDD7ACC033 /* Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
+		97EAFD505287A688648A6F468128EEEC /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		9C857EBBD2390FE3D7EC8918933AAA12 /* DebrisAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebrisAPI.swift; sourceTree = "<group>"; };
+		9D0158639A24FAF4D35822E88D4089AD /* mxcl∕KeychainAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "mxcl∕KeychainAccess.swift"; sourceTree = "<group>"; };
+		9D25EA9B892F8852C3D86F85B8647FAE /* LogEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogEvent.swift; sourceTree = "<group>"; };
+		9DD6BC9A2C80C818AD36364182F42223 /* Cakefile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Cakefile.swift; path = ../Cakefile.swift; sourceTree = "<group>"; };
+		A2209E00978D9E95DD614C265E9AEC20 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		A2716D5FB17B39FF6FC3F91C531CD949 /* Compatability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Compatability.swift; sourceTree = "<group>"; };
+		A365FC1A53413924C32E4651E9D67AA9 /* NSURLSession+Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSURLSession+Promise.swift"; sourceTree = "<group>"; };
+		A4B1E5C1B830E94800A96F72DE371A05 /* Cake.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = Cake.a; path = libCake.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA87092A5BDAB632904A61E928DE49B9 /* afterlife.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = afterlife.swift; sourceTree = "<group>"; };
+		AFE2A4317F65EAE26BF3FE64893AF493 /* SKProductsRequest+Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKProductsRequest+Promise.swift"; sourceTree = "<group>"; };
+		B3CDEF324226D91C75D2BCBA3E3D7952 /* Cakefile·Completion */ = {isa = PBXFileReference; lastKnownFileType = text; name = "Cakefile·Completion"; path = CakefileScript; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7AEA2479B3032443714E1D228FADF0C /* hang.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hang.swift; sourceTree = "<group>"; };
+		C217681598D56FE79A522A8D0D7CB7C7 /* Thenable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Thenable.swift; sourceTree = "<group>"; };
+		CB3E41B59422DA85E1E16E8C65928810 /* SKPayment+Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKPayment+Promise.swift"; sourceTree = "<group>"; };
+		CD06ECAE4D53F31C5FF63EB1A4FAA0F1 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
+		CF13AE3B62C40836A5FEE4744FE1CD73 /* Vendor.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = Vendor.a; path = libVendor.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF647C9C376ED858DE3D33BD092CCA7F /* Guarantee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Guarantee.swift; sourceTree = "<group>"; };
+		D0FDA939D602AC0EF1F3928012DDA0DC /* Catchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Catchable.swift; sourceTree = "<group>"; };
+		E682DCE6918902D7DDF557BBEE1F747C /* after.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = after.swift; sourceTree = "<group>"; };
+		F2FA622D9453DC325EF8DD4097AB2C2B /* when.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = when.swift; sourceTree = "<group>"; };
+		F61B20D639B4E5F5B9F68723A85431BC /* ole∕SortedArray-0.7.0.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ole∕SortedArray-0.7.0.swift"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
 
-exit(task.terminationStatus)";
-         showEnvVarsInLog = "0";
-      };
-      "OBJ_135" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_136",
-            "OBJ_137"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_136" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            LD = "/usr/bin/true";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SDKROOT = "macosx";
-            SKIP_INSTALL = "YES";
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Debug";
-      };
-      "OBJ_137" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            LD = "/usr/bin/true";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SDKROOT = "macosx";
-            SKIP_INSTALL = "YES";
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Release";
-      };
-      "OBJ_138" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_139"
-         );
-      };
-      "OBJ_139" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_6";
-      };
-      "OBJ_14" = {
-         isa = "PBXFileReference";
-         path = "Keychain.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_140" = {
-         isa = "PBXTargetDependency";
-         target = "Cakefile::Target";
-      };
-      "OBJ_141" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_142",
-            "OBJ_143"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_142" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Debug";
-      };
-      "OBJ_143" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Release";
-      };
-      "OBJ_144" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_145"
-         );
-      };
-      "OBJ_145" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_57";
-      };
-      "OBJ_146" = {
-         isa = "PBXFrameworksBuildPhase";
-         files = (
-            "OBJ_147",
-            "OBJ_148",
-            "OBJ_149",
-            "OBJ_150",
-            "OBJ_151"
-         );
-      };
-      "OBJ_147" = {
-         isa = "PBXBuildFile";
-         fileRef = "Deps/PMKStoreKit::Product";
-      };
-      "OBJ_148" = {
-         isa = "PBXBuildFile";
-         fileRef = "Deps/KeychainAccess::Product";
-      };
-      "OBJ_149" = {
-         isa = "PBXBuildFile";
-         fileRef = "Deps/PMKFoundation::Product";
-      };
-      "OBJ_15" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_16",
-            "OBJ_17",
-            "OBJ_18",
-            "OBJ_19",
-            "OBJ_20"
-         );
-         name = "PMKFoundation";
-         path = ".build/checkouts/Foundation.git-2577920747970272276/Sources";
-         sourceTree = "<group>";
-      };
-      "OBJ_150" = {
-         isa = "PBXBuildFile";
-         fileRef = "Deps/PromiseKit::Product";
-      };
-      "OBJ_151" = {
-         isa = "PBXBuildFile";
-         fileRef = "Deps/SortedArray::Product";
-      };
-      "OBJ_152" = {
-         isa = "PBXTargetDependency";
-         target = "SortedArray::Target";
-      };
-      "OBJ_154" = {
-         isa = "PBXTargetDependency";
-         target = "PMKFoundation::Target";
-      };
-      "OBJ_156" = {
-         isa = "PBXTargetDependency";
-         target = "KeychainAccess::Target";
-      };
-      "OBJ_158" = {
-         isa = "PBXTargetDependency";
-         target = "PMKStoreKit::Target";
-      };
-      "OBJ_16" = {
-         isa = "PBXFileReference";
-         path = "NSNotificationCenter+Promise.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_160" = {
-         isa = "PBXTargetDependency";
-         target = "PromiseKit::Target";
-      };
-      "OBJ_162" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_163",
-            "OBJ_164"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_163" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            PRODUCT_BUNDLE_IDENTIFIER = "KeychainAccess";
-            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)",
-               "SWIFT_PACKAGE"
-            );
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Debug";
-      };
-      "OBJ_164" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            PRODUCT_BUNDLE_IDENTIFIER = "KeychainAccess";
-            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)",
-               "SWIFT_PACKAGE"
-            );
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Release";
-      };
-      "OBJ_165" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_166"
-         );
-      };
-      "OBJ_166" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_14";
-      };
-      "OBJ_167" = {
-         isa = "PBXTargetDependency";
-         target = "Cakefile::Target";
-      };
-      "OBJ_168" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_169",
-            "OBJ_170"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_169" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            PRODUCT_BUNDLE_IDENTIFIER = "PMKFoundation";
-            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)",
-               "SWIFT_PACKAGE"
-            );
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Debug";
-      };
-      "OBJ_17" = {
-         isa = "PBXFileReference";
-         path = "NSObject+Promise.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_170" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            PRODUCT_BUNDLE_IDENTIFIER = "PMKFoundation";
-            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)",
-               "SWIFT_PACKAGE"
-            );
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Release";
-      };
-      "OBJ_171" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_172",
-            "OBJ_173",
-            "OBJ_174",
-            "OBJ_175",
-            "OBJ_176"
-         );
-      };
-      "OBJ_172" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_16";
-      };
-      "OBJ_173" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_17";
-      };
-      "OBJ_174" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_18";
-      };
-      "OBJ_175" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_19";
-      };
-      "OBJ_176" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_20";
-      };
-      "OBJ_177" = {
-         isa = "PBXTargetDependency";
-         target = "PromiseKit::Target";
-      };
-      "OBJ_178" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_179",
-            "OBJ_180"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_179" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            PRODUCT_BUNDLE_IDENTIFIER = "PMKStoreKit";
-            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)",
-               "SWIFT_PACKAGE"
-            );
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Debug";
-      };
-      "OBJ_18" = {
-         isa = "PBXFileReference";
-         path = "NSURLSession+Promise.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_180" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            PRODUCT_BUNDLE_IDENTIFIER = "PMKStoreKit";
-            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)",
-               "SWIFT_PACKAGE"
-            );
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Release";
-      };
-      "OBJ_181" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_182",
-            "OBJ_183",
-            "OBJ_184",
-            "OBJ_185"
-         );
-      };
-      "OBJ_182" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_9";
-      };
-      "OBJ_183" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_10";
-      };
-      "OBJ_184" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_11";
-      };
-      "OBJ_185" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_12";
-      };
-      "OBJ_186" = {
-         isa = "PBXTargetDependency";
-         target = "PromiseKit::Target";
-      };
-      "OBJ_187" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_188",
-            "OBJ_189"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_188" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            PRODUCT_BUNDLE_IDENTIFIER = "PromiseKit";
-            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)",
-               "SWIFT_PACKAGE"
-            );
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Debug";
-      };
-      "OBJ_189" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            PRODUCT_BUNDLE_IDENTIFIER = "PromiseKit";
-            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)",
-               "SWIFT_PACKAGE"
-            );
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Release";
-      };
-      "OBJ_19" = {
-         isa = "PBXFileReference";
-         path = "Process+Promise.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_190" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_191",
-            "OBJ_192",
-            "OBJ_193",
-            "OBJ_194",
-            "OBJ_195",
-            "OBJ_196",
-            "OBJ_197",
-            "OBJ_198",
-            "OBJ_199",
-            "OBJ_200",
-            "OBJ_201",
-            "OBJ_202",
-            "OBJ_203",
-            "OBJ_204",
-            "OBJ_205"
-         );
-      };
-      "OBJ_191" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_22";
-      };
-      "OBJ_192" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_23";
-      };
-      "OBJ_193" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_24";
-      };
-      "OBJ_194" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_25";
-      };
-      "OBJ_195" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_26";
-      };
-      "OBJ_196" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_27";
-      };
-      "OBJ_197" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_28";
-      };
-      "OBJ_198" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_29";
-      };
-      "OBJ_199" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_30";
-      };
-      "OBJ_2" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_3",
-            "OBJ_4"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_20" = {
-         isa = "PBXFileReference";
-         path = "afterlife.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_200" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_31";
-      };
-      "OBJ_201" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_32";
-      };
-      "OBJ_202" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_33";
-      };
-      "OBJ_203" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_34";
-      };
-      "OBJ_204" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_35";
-      };
-      "OBJ_205" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_36";
-      };
-      "OBJ_206" = {
-         isa = "PBXTargetDependency";
-         target = "Cakefile::Target";
-      };
-      "OBJ_207" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_208",
-            "OBJ_209"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_208" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            PRODUCT_BUNDLE_IDENTIFIER = "SortedArray";
-            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)",
-               "SWIFT_PACKAGE"
-            );
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Debug";
-      };
-      "OBJ_209" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            PRODUCT_BUNDLE_IDENTIFIER = "SortedArray";
-            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)",
-               "SWIFT_PACKAGE"
-            );
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Release";
-      };
-      "OBJ_21" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_22",
-            "OBJ_23",
-            "OBJ_24",
-            "OBJ_25",
-            "OBJ_26",
-            "OBJ_27",
-            "OBJ_28",
-            "OBJ_29",
-            "OBJ_30",
-            "OBJ_31",
-            "OBJ_32",
-            "OBJ_33",
-            "OBJ_34",
-            "OBJ_35",
-            "OBJ_36"
-         );
-         name = "PromiseKit";
-         path = ".build/checkouts/PromiseKit.git--2549355896387465903/Sources";
-         sourceTree = "<group>";
-      };
-      "OBJ_210" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_211"
-         );
-      };
-      "OBJ_211" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_38";
-      };
-      "OBJ_212" = {
-         isa = "PBXTargetDependency";
-         target = "Cakefile::Target";
-      };
-      "OBJ_22" = {
-         isa = "PBXFileReference";
-         path = "Box.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_23" = {
-         isa = "PBXFileReference";
-         path = "Catchable.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_24" = {
-         isa = "PBXFileReference";
-         path = "Configuration.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_25" = {
-         isa = "PBXFileReference";
-         path = "CustomStringConvertible.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_26" = {
-         isa = "PBXFileReference";
-         path = "Error.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_27" = {
-         isa = "PBXFileReference";
-         path = "Guarantee.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_28" = {
-         isa = "PBXFileReference";
-         path = "LogEvent.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_29" = {
-         isa = "PBXFileReference";
-         path = "Promise.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_3" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            CLANG_ENABLE_OBJC_WEAK = "YES";
-            CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = "YES";
-            CLANG_WARN_BOOL_CONVERSION = "YES";
-            CLANG_WARN_COMMA = "YES";
-            CLANG_WARN_CONSTANT_CONVERSION = "YES";
-            CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = "YES";
-            CLANG_WARN_EMPTY_BODY = "YES";
-            CLANG_WARN_ENUM_CONVERSION = "YES";
-            CLANG_WARN_INFINITE_RECURSION = "YES";
-            CLANG_WARN_INT_CONVERSION = "YES";
-            CLANG_WARN_NON_LITERAL_NULL_CONVERSION = "YES";
-            CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = "YES";
-            CLANG_WARN_OBJC_LITERAL_CONVERSION = "YES";
-            CLANG_WARN_RANGE_LOOP_ANALYSIS = "YES";
-            CLANG_WARN_STRICT_PROTOTYPES = "YES";
-            CLANG_WARN_SUSPICIOUS_MOVE = "YES";
-            CLANG_WARN_UNREACHABLE_CODE = "YES";
-            CLANG_WARN__DUPLICATE_METHOD_MATCH = "YES";
-            COMBINE_HIDPI_IMAGES = "YES";
-            COPY_PHASE_STRIP = "NO";
-            DEBUG_INFORMATION_FORMAT = "dwarf";
-            ENABLE_NS_ASSERTIONS = "YES";
-            ENABLE_STRICT_OBJC_MSGSEND = "YES";
-            ENABLE_TESTABILITY = "YES";
-            GCC_NO_COMMON_BLOCKS = "YES";
-            GCC_OPTIMIZATION_LEVEL = "0";
-            GCC_WARN_64_TO_32_BIT_CONVERSION = "YES";
-            GCC_WARN_ABOUT_RETURN_TYPE = "YES";
-            GCC_WARN_UNDECLARED_SELECTOR = "YES";
-            GCC_WARN_UNINITIALIZED_AUTOS = "YES";
-            GCC_WARN_UNUSED_FUNCTION = "YES";
-            GCC_WARN_UNUSED_VARIABLE = "YES";
-            IPHONEOS_DEPLOYMENT_TARGET = "11.4.0";
-            MACOSX_DEPLOYMENT_TARGET = "10.12.0";
-            ONLY_ACTIVE_ARCH = "YES";
-            PRODUCT_NAME = "$(TARGET_NAME)";
-            SDKROOT = "macosx";
-            SUPPORTED_PLATFORMS = (
-               "macosx",
-               "iphoneos",
-               "iphonesimulator"
-            );
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)",
-               "DEBUG"
-            );
-            SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-            USE_HEADERMAP = "NO";
-         };
-         name = "Debug";
-      };
-      "OBJ_30" = {
-         isa = "PBXFileReference";
-         path = "Resolver.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_31" = {
-         isa = "PBXFileReference";
-         path = "Thenable.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_32" = {
-         isa = "PBXFileReference";
-         path = "after.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_33" = {
-         isa = "PBXFileReference";
-         path = "firstly.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_34" = {
-         isa = "PBXFileReference";
-         path = "hang.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_35" = {
-         isa = "PBXFileReference";
-         path = "race.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_36" = {
-         isa = "PBXFileReference";
-         path = "when.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_37" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_38"
-         );
-         name = "SortedArray";
-         path = ".build/checkouts/SortedArray.git--6238185550219935652/Sources";
-         sourceTree = "<group>";
-      };
-      "OBJ_38" = {
-         isa = "PBXFileReference";
-         path = "SortedArray.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_39" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_40",
-            "OBJ_44",
-            "OBJ_46"
-         );
-         name = "Batter";
-         path = "../Sources/Model";
-         sourceTree = "<group>";
-      };
-      "OBJ_4" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            CLANG_ENABLE_OBJC_WEAK = "YES";
-            CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = "YES";
-            CLANG_WARN_BOOL_CONVERSION = "YES";
-            CLANG_WARN_COMMA = "YES";
-            CLANG_WARN_CONSTANT_CONVERSION = "YES";
-            CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = "YES";
-            CLANG_WARN_EMPTY_BODY = "YES";
-            CLANG_WARN_ENUM_CONVERSION = "YES";
-            CLANG_WARN_INFINITE_RECURSION = "YES";
-            CLANG_WARN_INT_CONVERSION = "YES";
-            CLANG_WARN_NON_LITERAL_NULL_CONVERSION = "YES";
-            CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = "YES";
-            CLANG_WARN_OBJC_LITERAL_CONVERSION = "YES";
-            CLANG_WARN_RANGE_LOOP_ANALYSIS = "YES";
-            CLANG_WARN_STRICT_PROTOTYPES = "YES";
-            CLANG_WARN_SUSPICIOUS_MOVE = "YES";
-            CLANG_WARN_UNREACHABLE_CODE = "YES";
-            CLANG_WARN__DUPLICATE_METHOD_MATCH = "YES";
-            COMBINE_HIDPI_IMAGES = "YES";
-            COPY_PHASE_STRIP = "YES";
-            DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-            ENABLE_STRICT_OBJC_MSGSEND = "YES";
-            GCC_NO_COMMON_BLOCKS = "YES";
-            GCC_OPTIMIZATION_LEVEL = "s";
-            GCC_WARN_64_TO_32_BIT_CONVERSION = "YES";
-            GCC_WARN_ABOUT_RETURN_TYPE = "YES";
-            GCC_WARN_UNDECLARED_SELECTOR = "YES";
-            GCC_WARN_UNINITIALIZED_AUTOS = "YES";
-            GCC_WARN_UNUSED_FUNCTION = "YES";
-            GCC_WARN_UNUSED_VARIABLE = "YES";
-            IPHONEOS_DEPLOYMENT_TARGET = "11.4.0";
-            MACOSX_DEPLOYMENT_TARGET = "10.12.0";
-            PRODUCT_NAME = "$(TARGET_NAME)";
-            SDKROOT = "macosx";
-            SUPPORTED_PLATFORMS = (
-               "macosx",
-               "iphoneos",
-               "iphonesimulator"
-            );
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "Cake"
-            );
-            SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-            USE_HEADERMAP = "NO";
-         };
-         name = "Release";
-      };
-      "OBJ_40" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_41",
-            "OBJ_42",
-            "OBJ_43"
-         );
-         name = "Client";
-         path = "xp/Client";
-         sourceTree = "<group>";
-      };
-      "OBJ_41" = {
-         isa = "PBXFileReference";
-         path = "SubscriptionManager.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_42" = {
-         isa = "PBXFileReference";
-         path = "Client.etc.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_43" = {
-         isa = "PBXFileReference";
-         path = "EnrollmentsManager.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_44" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_45"
-         );
-         path = "Vendor";
-         sourceTree = "<group>";
-      };
-      "OBJ_45" = {
-         isa = "PBXFileReference";
-         path = "SortedSet.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_46" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_47",
-            "OBJ_48",
-            "OBJ_49",
-            "OBJ_50",
-            "OBJ_51",
-            "OBJ_52"
-         );
-         path = "xp";
-         sourceTree = "<group>";
-      };
-      "OBJ_47" = {
-         isa = "PBXFileReference";
-         path = "Constants.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_48" = {
-         isa = "PBXFileReference";
-         path = "Error+legibleDescription.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_49" = {
-         isa = "PBXFileReference";
-         path = "Event.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_5" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_6",
-            "OBJ_7",
-            "OBJ_39",
-            "OBJ_53",
-            "OBJ_59"
-         );
-         path = "";
-         sourceTree = "<group>";
-      };
-      "OBJ_50" = {
-         isa = "PBXFileReference";
-         path = "GitHubAPI.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_51" = {
-         isa = "PBXFileReference";
-         path = "Compatability.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_52" = {
-         isa = "PBXFileReference";
-         path = "DebrisAPI.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_53" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_54",
-            "OBJ_55",
-            "OBJ_56",
-            "OBJ_57",
-            "OBJ_58"
-         );
-         name = "Kitchenware";
-         path = ".";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_54" = {
-         isa = "PBXFileReference";
-         path = "CakefileDescription.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_55" = {
-         isa = "PBXFileReference";
-         path = "Version.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_56" = {
-         isa = "PBXFileReference";
-         path = "Batter.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_57" = {
-         isa = "PBXFileReference";
-         path = "Dependencies.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_58" = {
-         isa = "PBXFileReference";
-         path = "Cake.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_59" = {
-         isa = "PBXGroup";
-         children = (
-            "Cakefile::Product",
-            "Deps/PMKStoreKit::Product",
-            "Deps/KeychainAccess::Product",
-            "Deps/PMKFoundation::Product",
-            "Deps/PromiseKit::Product",
-            "Deps/SortedArray::Product",
-            "Dependencies::Product",
-            "Batter/Client::Product",
-            "Batter/Vendor::Product",
-            "Batter/xp::Product",
-            "Batter::Product",
-            "Cakefile.Completion::Product",
-            "Cake::Product"
-         );
-         name = "Products";
-         sourceTree = "<group>";
-      };
-      "OBJ_6" = {
-         isa = "PBXFileReference";
-         name = "Cakefile.swift";
-         path = "../Cakefile.swift";
-         sourceTree = "SOURCE_ROOT";
-      };
-      "OBJ_7" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_8",
-            "OBJ_13",
-            "OBJ_15",
-            "OBJ_21",
-            "OBJ_37"
-         );
-         name = "Dependencies";
-         path = "../Dependencies";
-         sourceTree = "<group>";
-      };
-      "OBJ_74" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_75",
-            "OBJ_76"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_75" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Debug";
-      };
-      "OBJ_76" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Release";
-      };
-      "OBJ_77" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_78"
-         );
-      };
-      "OBJ_78" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_56";
-      };
-      "OBJ_79" = {
-         isa = "PBXFrameworksBuildPhase";
-         files = (
-            "OBJ_80",
-            "OBJ_81",
-            "OBJ_82"
-         );
-      };
-      "OBJ_8" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_9",
-            "OBJ_10",
-            "OBJ_11",
-            "OBJ_12"
-         );
-         name = "PMKStoreKit";
-         path = ".build/checkouts/StoreKit.git-8489417869265270530/Sources";
-         sourceTree = "<group>";
-      };
-      "OBJ_80" = {
-         isa = "PBXBuildFile";
-         fileRef = "Batter/xp::Product";
-      };
-      "OBJ_81" = {
-         isa = "PBXBuildFile";
-         fileRef = "Batter/Client::Product";
-      };
-      "OBJ_82" = {
-         isa = "PBXBuildFile";
-         fileRef = "Batter/Vendor::Product";
-      };
-      "OBJ_83" = {
-         isa = "PBXTargetDependency";
-         target = "Client::Target";
-      };
-      "OBJ_85" = {
-         isa = "PBXTargetDependency";
-         target = "Vendor::Target";
-      };
-      "OBJ_87" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_88",
-            "OBJ_89"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_88" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            PRODUCT_BUNDLE_IDENTIFIER = "Client";
-            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Debug";
-      };
-      "OBJ_89" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            PRODUCT_BUNDLE_IDENTIFIER = "Client";
-            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Release";
-      };
-      "OBJ_9" = {
-         isa = "PBXFileReference";
-         path = "SKPayment+Promise.swift";
-         sourceTree = "<group>";
-      };
-      "OBJ_90" = {
-         isa = "PBXSourcesBuildPhase";
-         files = (
-            "OBJ_91",
-            "OBJ_92",
-            "OBJ_93"
-         );
-      };
-      "OBJ_91" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_41";
-      };
-      "OBJ_92" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_42";
-      };
-      "OBJ_93" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_43";
-      };
-      "OBJ_94" = {
-         isa = "PBXTargetDependency";
-         target = "xp::Target";
-      };
-      "OBJ_96" = {
-         isa = "PBXTargetDependency";
-         target = "Vendor::Target";
-      };
-      "OBJ_97" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_98",
-            "OBJ_99"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
-      };
-      "OBJ_98" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            PRODUCT_BUNDLE_IDENTIFIER = "Vendor";
-            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Debug";
-      };
-      "OBJ_99" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            PRODUCT_BUNDLE_IDENTIFIER = "Vendor";
-            PRODUCT_MODULE_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            PRODUCT_NAME = "$(PRODUCT_BUNDLE_IDENTIFIER:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_VERSION = "4.2";
-         };
-         name = "Release";
-      };
-      "PMKFoundation::Target" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_168";
-         buildPhases = (
-            "OBJ_171"
-         );
-         dependencies = (
-            "OBJ_177"
-         );
-         name = "Deps/PMKFoundation";
-         productName = "TELL_MXCL_IF_YOU_SEE_THIS_PMKFoundation";
-         productReference = "Deps/PMKFoundation::Product";
-         productType = "com.apple.product-type.library.static";
-      };
-      "PMKStoreKit::Target" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_178";
-         buildPhases = (
-            "OBJ_181"
-         );
-         dependencies = (
-            "OBJ_186"
-         );
-         name = "Deps/PMKStoreKit";
-         productName = "TELL_MXCL_IF_YOU_SEE_THIS_PMKStoreKit";
-         productReference = "Deps/PMKStoreKit::Product";
-         productType = "com.apple.product-type.library.static";
-      };
-      "PromiseKit::Target" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_187";
-         buildPhases = (
-            "OBJ_190"
-         );
-         dependencies = (
-            "OBJ_206"
-         );
-         name = "Deps/PromiseKit";
-         productName = "TELL_MXCL_IF_YOU_SEE_THIS_PromiseKit";
-         productReference = "Deps/PromiseKit::Product";
-         productType = "com.apple.product-type.library.static";
-      };
-      "SortedArray::Target" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_207";
-         buildPhases = (
-            "OBJ_210"
-         );
-         dependencies = (
-            "OBJ_212"
-         );
-         name = "Deps/SortedArray";
-         productName = "TELL_MXCL_IF_YOU_SEE_THIS_SortedArray";
-         productReference = "Deps/SortedArray::Product";
-         productType = "com.apple.product-type.library.static";
-      };
-      "Vendor::Target" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_97";
-         buildPhases = (
-            "OBJ_100"
-         );
-         dependencies = (
-            "OBJ_102"
-         );
-         name = "Batter/Vendor";
-         productName = "TELL_MXCL_IF_YOU_SEE_THIS_Vendor";
-         productReference = "Batter/Vendor::Product";
-         productType = "com.apple.product-type.library.static";
-      };
-      "xp::Target" = {
-         isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_104";
-         buildPhases = (
-            "OBJ_107"
-         );
-         dependencies = (
-            "OBJ_114"
-         );
-         name = "Batter/xp";
-         productName = "TELL_MXCL_IF_YOU_SEE_THIS_xp";
-         productReference = "Batter/xp::Product";
-         productType = "com.apple.product-type.library.static";
-      };
-   };
-   rootObject = "OBJ_1";
+/* Begin PBXFrameworksBuildPhase section */
+		0B026A614C2516F4FCE621E12A0C2BBD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5633CA07142F6FC4A6C648E4C90225ED /* Batter.a in Frameworks */,
+				217FABB189F4D49A3DD1422949D0C8E8 /* Dependencies.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		110D4C6492AD4DAAB8F0701D634714CF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A91F027DE7A6D754A37E667796508E6 /* SortedArray.a in Frameworks */,
+				C17C20C5FDA1EA8CB85C20E8B901E554 /* PMKStoreKit.a in Frameworks */,
+				BD0BA7D75497180DD3012CA784CC7BCA /* PMKFoundation.a in Frameworks */,
+				15934D6E5683C82DBE917FB0A535918C /* PromiseKit.a in Frameworks */,
+				1D4E36D03223E04D12357D0E3E9E4F06 /* LegibleError.a in Frameworks */,
+				94CE86D521792B6CBDC5C2859E56D8EB /* KeychainAccess.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B48E25CDFE3DC639D59FCE85ECC280D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4A742043CE654301EDB235A5673871F7 /* Client.a in Frameworks */,
+				5BE5778E0B7DCE1A9F0173D6163C8E1E /* xp.a in Frameworks */,
+				4835C5D8E1C20F66AFE62904BA7CADAE /* Vendor.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		12BB2E7DED497EFF2A4DFD562208BAF8 /* PromiseKit/StoreKit-3.1.1 */ = {
+			isa = PBXGroup;
+			children = (
+				CB3E41B59422DA85E1E16E8C65928810 /* SKPayment+Promise.swift */,
+				732356EC714B59F2025F0F3B743A6A11 /* SKPaymentQueue+Promise.swift */,
+				AFE2A4317F65EAE26BF3FE64893AF493 /* SKProductsRequest+Promise.swift */,
+				2F15E479F6C89BF09277DD149F34CF5D /* SKReceiptRefreshRequest+Promise.swift */,
+			);
+			name = "PromiseKit/StoreKit-3.1.1";
+			path = "PromiseKit∕StoreKit-3.1.1";
+			sourceTree = "<group>";
+		};
+		14F4CD611D06E054E5B4A9C0CBC92345 /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				2BC514DCAD5B1C15DF0B71675D9FFFE8 /* Client.etc.swift */,
+				2CE7A9E6C63ECD49DB5E602F74ED6CE4 /* EnrollmentsManager.swift */,
+				23BFEEE4D7FD69E216D24DC97A2D09B6 /* SubscriptionManager.swift */,
+			);
+			name = Client;
+			path = xp/Client;
+			sourceTree = "<group>";
+		};
+		1717C67F49587A83891553ABA9B0E3CD /* Kitchenware */ = {
+			isa = PBXGroup;
+			children = (
+				05D33FD3DDE7FE2483580EF428D7DE21 /* Batter.swift */,
+				CD06ECAE4D53F31C5FF63EB1A4FAA0F1 /* Dependencies.swift */,
+				43F867ED701FF56BC9AA1829B4888F2F /* Cake.swift */,
+			);
+			name = Kitchenware;
+			sourceTree = "<group>";
+		};
+		190054F2AD8B53FAE15AE8A14391B137 /* mxcl/PromiseKit-6.8.3 */ = {
+			isa = PBXGroup;
+			children = (
+				E682DCE6918902D7DDF557BBEE1F747C /* after.swift */,
+				3D70A7A1D451A574394BE9D849EF26BD /* Box.swift */,
+				D0FDA939D602AC0EF1F3928012DDA0DC /* Catchable.swift */,
+				53C5D7D1835891126DAC0217D2976BB3 /* Configuration.swift */,
+				30BDDCCB89500DCBDD7BBA0272926DD0 /* CustomStringConvertible.swift */,
+				97EAFD505287A688648A6F468128EEEC /* Error.swift */,
+				1C473431F71F14C0C7B094C7AFC1BCB1 /* firstly.swift */,
+				CF647C9C376ED858DE3D33BD092CCA7F /* Guarantee.swift */,
+				B7AEA2479B3032443714E1D228FADF0C /* hang.swift */,
+				9D25EA9B892F8852C3D86F85B8647FAE /* LogEvent.swift */,
+				9667E7EC96A4E5AF6C72D9DDD7ACC033 /* Promise.swift */,
+				41AA2ABCDA2F333EBC153257903CCFFA /* race.swift */,
+				36F4FC690CAF8E887E4358E57F7AFBC1 /* Resolver.swift */,
+				C217681598D56FE79A522A8D0D7CB7C7 /* Thenable.swift */,
+				F2FA622D9453DC325EF8DD4097AB2C2B /* when.swift */,
+			);
+			name = "mxcl/PromiseKit-6.8.3";
+			path = "mxcl∕PromiseKit-6.8.3";
+			sourceTree = "<group>";
+		};
+		1C4FCF6098FC3226B2546E8140B7A700 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B3CDEF324226D91C75D2BCBA3E3D7952 /* Cakefile·Completion */,
+				5F0096C0463FB39B08824DB00B13133F /* SortedArray.a */,
+				8312A6DB30137F7AB46141BA7FD9C839 /* PMKStoreKit.a */,
+				69787F8145CACFA492EC131CC2A0AA1D /* PMKFoundation.a */,
+				53E3B23BDD8E313D1CCE46BCBA847860 /* PromiseKit.a */,
+				1DBCAEFF3AB28195D7B5E09B52FDBDA9 /* LegibleError.a */,
+				925FFB03FA9F121D0D038FC3C7DEE41D /* KeychainAccess.a */,
+				4A7E89000FDF44A3427FBD44B878A9C1 /* Dependencies.a */,
+				785358D6AD2F0D126E57FB5826F9A65F /* Client.a */,
+				91406D920A09B9991EA45CE114C43130 /* xp.a */,
+				CF13AE3B62C40836A5FEE4744FE1CD73 /* Vendor.a */,
+				3F573D976FA9A0403F17F22F1A4DAA55 /* Batter.a */,
+				A4B1E5C1B830E94800A96F72DE371A05 /* Cake.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2D9C8EE4960B9A8646E9915D1E8E527F /* PromiseKit/Foundation-3.3.1 */ = {
+			isa = PBXGroup;
+			children = (
+				AA87092A5BDAB632904A61E928DE49B9 /* afterlife.swift */,
+				7E32B9B4F0137DD729D7F3D74688CF6D /* NSNotificationCenter+Promise.swift */,
+				38AC374D097346CE8B4226D78BA0156F /* NSObject+Promise.swift */,
+				A365FC1A53413924C32E4651E9D67AA9 /* NSURLSession+Promise.swift */,
+				1F0D8DD1958D7B1AF9E5930838B61C63 /* Process+Promise.swift */,
+			);
+			name = "PromiseKit/Foundation-3.3.1";
+			path = "PromiseKit∕Foundation-3.3.1";
+			sourceTree = "<group>";
+		};
+		50DCC4186C454A8A35C359EBE7E6484B /*  */ = {
+			isa = PBXGroup;
+			children = (
+				9DD6BC9A2C80C818AD36364182F42223 /* Cakefile.swift */,
+				FF9225349CD1E19735206C8679F1CCA6 /* Dependencies */,
+				A954EB6899ABE9AAB9499DFC4B34F9A5 /* Batter */,
+				1717C67F49587A83891553ABA9B0E3CD /* Kitchenware */,
+				1C4FCF6098FC3226B2546E8140B7A700 /* Products */,
+			);
+			name = "";
+			sourceTree = SOURCE_ROOT;
+		};
+		6FCDC6F1E5548DA013930C993A9DF416 /* xp */ = {
+			isa = PBXGroup;
+			children = (
+				A2716D5FB17B39FF6FC3F91C531CD949 /* Compatability.swift */,
+				53C3ADABC260D66769BC57F375974001 /* Constants.swift */,
+				9C857EBBD2390FE3D7EC8918933AAA12 /* DebrisAPI.swift */,
+				A2209E00978D9E95DD614C265E9AEC20 /* Event.swift */,
+				502D5422E19C293B328FB1D8E697C3A4 /* GitHubAPI.swift */,
+				1FAAB23E41E34B270964A47DA09938DD /* TitledError.swift */,
+			);
+			path = xp;
+			sourceTree = "<group>";
+		};
+		A954EB6899ABE9AAB9499DFC4B34F9A5 /* Batter */ = {
+			isa = PBXGroup;
+			children = (
+				14F4CD611D06E054E5B4A9C0CBC92345 /* Client */,
+				6FCDC6F1E5548DA013930C993A9DF416 /* xp */,
+				B51BE8D10F5A06DD287BD544617AF6E8 /* Vendor */,
+			);
+			name = Batter;
+			path = ../Sources/Model;
+			sourceTree = "<group>";
+		};
+		B51BE8D10F5A06DD287BD544617AF6E8 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				26F2756271EEFCC825E51A3DC938100E /* SortedSet.swift */,
+			);
+			path = Vendor;
+			sourceTree = "<group>";
+		};
+		FF9225349CD1E19735206C8679F1CCA6 /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				F61B20D639B4E5F5B9F68723A85431BC /* ole∕SortedArray-0.7.0.swift */,
+				12BB2E7DED497EFF2A4DFD562208BAF8 /* PromiseKit/StoreKit-3.1.1 */,
+				2D9C8EE4960B9A8646E9915D1E8E527F /* PromiseKit/Foundation-3.3.1 */,
+				190054F2AD8B53FAE15AE8A14391B137 /* mxcl/PromiseKit-6.8.3 */,
+				4144D0D13AB2A191101B99B2DEDE581C /* mxcl∕LegibleError-1.0.1.swift */,
+				9D0158639A24FAF4D35822E88D4089AD /* mxcl∕KeychainAccess.swift */,
+			);
+			name = Dependencies;
+			path = ../Dependencies;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0C6CB203E1256C62E14D3F381130C697 /* Batter·xp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CC52581B47BC6514AB72B1E5B0D4A012 /* Build configuration list for PBXNativeTarget "Batter·xp" */;
+			buildPhases = (
+				C7692FD804A2C11A2AEF10242B154E21 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				40BFAE5249E85816F20DE0DDB9C86CED /* PBXTargetDependency */,
+			);
+			name = "Batter·xp";
+			productName = xp;
+			productReference = 91406D920A09B9991EA45CE114C43130 /* xp.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		4417A8A9811CAA247AA9E1142C875A9B /* Deps·KeychainAccess */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3507667BB4B16679E0FE3E4209BE343D /* Build configuration list for PBXNativeTarget "Deps·KeychainAccess" */;
+			buildPhases = (
+				51A231D62A0763772C860B8E1DE14486 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				80752853F1DCB223FA2C42EEE6FCD3C0 /* PBXTargetDependency */,
+			);
+			name = "Deps·KeychainAccess";
+			productName = KeychainAccess;
+			productReference = 925FFB03FA9F121D0D038FC3C7DEE41D /* KeychainAccess.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		8B4D032D3EA2708E1BF1B498E5AAC085 /* Deps·LegibleError */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5375538FF4A3E415410EE0F07030C0A4 /* Build configuration list for PBXNativeTarget "Deps·LegibleError" */;
+			buildPhases = (
+				0D2313C56B49445FFFBAFA66F386B894 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FDED9CB4A42F8E451B9CD92A9214BED0 /* PBXTargetDependency */,
+			);
+			name = "Deps·LegibleError";
+			productName = LegibleError;
+			productReference = 1DBCAEFF3AB28195D7B5E09B52FDBDA9 /* LegibleError.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		8B942976617019A6C464818315598CC1 /* Cake */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6357C27D221F277600F058BC /* Build configuration list */;
+			buildPhases = (
+				9D57241684611D5226E52EBD3A97727C /* Sources */,
+				0B026A614C2516F4FCE621E12A0C2BBD /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CB56305824BFCA6B67740F6043A4B9E2 /* PBXTargetDependency */,
+				6F2865C025F7F740FF65DBD4991157C8 /* PBXTargetDependency */,
+			);
+			name = Cake;
+			productName = Cake;
+			productReference = A4B1E5C1B830E94800A96F72DE371A05 /* Cake.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		90AD6F7916998C879BA681905A417179 /* Batter·Vendor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CDFE43E6DC900B9ED19CBF516D4092C2 /* Build configuration list for PBXNativeTarget "Batter·Vendor" */;
+			buildPhases = (
+				647CCD7B8E838D705EC476A6AB87CCEA /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				073AE23679153CBEF148303236601EFB /* PBXTargetDependency */,
+			);
+			name = "Batter·Vendor";
+			productName = Vendor;
+			productReference = CF13AE3B62C40836A5FEE4744FE1CD73 /* Vendor.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		999D67BA3E0614B8DD445108DB33F766 /* Batter·Client */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 409E6CB51ADAF14CC22FCE8BA5DFA107 /* Build configuration list for PBXNativeTarget "Batter·Client" */;
+			buildPhases = (
+				41A5EEA86A7634218A1B257110445DB9 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E53F402429C163BF02EFC10A34420159 /* PBXTargetDependency */,
+				3796B5D8B49555ADD3066929EC804F14 /* PBXTargetDependency */,
+			);
+			name = "Batter·Client";
+			productName = Client;
+			productReference = 785358D6AD2F0D126E57FB5826F9A65F /* Client.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		B03189C2563DE1C075659DC03EF81210 /* Cakefile·Completion */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3A3934967D7790F017425C98A64CD375 /* Build configuration list for PBXNativeTarget "Cakefile·Completion" */;
+			buildPhases = (
+				A55DDFC1E192780D65C32457CB5F07F8 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Cakefile·Completion";
+			productName = "Cakefile·Completion";
+			productReference = B3CDEF324226D91C75D2BCBA3E3D7952 /* Cakefile·Completion */;
+			productType = "com.apple.product-type.tool";
+		};
+		B4280F358AD4C3799414724EE00E6812 /* Deps·PMKFoundation */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D6F76942AA26F8FE33C0B9E559F048A3 /* Build configuration list for PBXNativeTarget "Deps·PMKFoundation" */;
+			buildPhases = (
+				DD25F76D9BF91196996408AAA2D08CA6 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C92758E700B37ED68776342F73765D28 /* PBXTargetDependency */,
+			);
+			name = "Deps·PMKFoundation";
+			productName = PMKFoundation;
+			productReference = 69787F8145CACFA492EC131CC2A0AA1D /* PMKFoundation.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		BD398413C05B07BBE2B6E2D14C9EE8D9 /* Deps·PromiseKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B961BFD93B1016266AB52B4C43632B1C /* Build configuration list for PBXNativeTarget "Deps·PromiseKit" */;
+			buildPhases = (
+				0330731A9D0FB38F456E61DB3932B0FF /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				327C41C1F24B05BA591F163701AC5FFD /* PBXTargetDependency */,
+			);
+			name = "Deps·PromiseKit";
+			productName = PromiseKit;
+			productReference = 53E3B23BDD8E313D1CCE46BCBA847860 /* PromiseKit.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		CBAC99246DDEE4D60F3833E1FF3B8514 /* Deps·SortedArray */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D7E848146EA92035C38882268E1B2674 /* Build configuration list for PBXNativeTarget "Deps·SortedArray" */;
+			buildPhases = (
+				9AD00F791649D2A33FF6C632A2EBEB8E /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				06EE068C9240566BA645BF7B9A4F575B /* PBXTargetDependency */,
+			);
+			name = "Deps·SortedArray";
+			productName = SortedArray;
+			productReference = 5F0096C0463FB39B08824DB00B13133F /* SortedArray.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		DCF843C187E023E2097ACF9EABA93DD6 /* Dependencies */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6357C27B221F277600F058BC /* Build configuration list */;
+			buildPhases = (
+				110D4C6492AD4DAAB8F0701D634714CF /* Frameworks */,
+				B72D8CDE7B96F674B97F50DBA7722D81 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5CB1AEC1B01B7FBC8D19946FDA97E975 /* PBXTargetDependency */,
+				FDB6A7614F45C42C95995739384B5927 /* PBXTargetDependency */,
+				1D8AB91B1934ECA2B505C6183A5FC38B /* PBXTargetDependency */,
+				3A19463D99686825EC39E9ED03F9589E /* PBXTargetDependency */,
+				3698D46A54E70C6C3BAEFE3F7660B20C /* PBXTargetDependency */,
+				3CDDB03CCA2EA7589E409F5229F993A0 /* PBXTargetDependency */,
+			);
+			name = Dependencies;
+			productName = Dependencies;
+			productReference = 4A7E89000FDF44A3427FBD44B878A9C1 /* Dependencies.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		F5D94DE7A2DF28D8FD6E0C310044455E /* Batter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6357C27C221F277600F058BC /* Build configuration list */;
+			buildPhases = (
+				B48E25CDFE3DC639D59FCE85ECC280D9 /* Frameworks */,
+				86204B913285479790C8B40218A6D01E /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1BB69D738458F35A143835E2C1E1380C /* PBXTargetDependency */,
+				81E5E23649D210D2B9269E342E1E3CB8 /* PBXTargetDependency */,
+			);
+			name = Batter;
+			productName = Batter;
+			productReference = 3F573D976FA9A0403F17F22F1A4DAA55 /* Batter.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		FFB59435FDA46112B05F84E45F7B95F3 /* Deps·PMKStoreKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7C3A55B0997F6203E53252D9392721B1 /* Build configuration list for PBXNativeTarget "Deps·PMKStoreKit" */;
+			buildPhases = (
+				544541E875E4B532E6C170339EBBC650 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				142A7F7DCD5F05EE53270FBE7BDB765E /* PBXTargetDependency */,
+			);
+			name = "Deps·PMKStoreKit";
+			productName = PMKStoreKit;
+			productReference = 8312A6DB30137F7AB46141BA7FD9C839 /* PMKStoreKit.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DAA9F9B983CE55D38B2F125BAD56FC0E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				TargetAttributes = {
+					0C6CB203E1256C62E14D3F381130C697 = {
+						LastSwiftMigration = 1020;
+					};
+					4417A8A9811CAA247AA9E1142C875A9B = {
+						LastSwiftMigration = 9999;
+					};
+					8B4D032D3EA2708E1BF1B498E5AAC085 = {
+						LastSwiftMigration = 9999;
+					};
+					8B942976617019A6C464818315598CC1 = {
+						LastSwiftMigration = 1020;
+					};
+					90AD6F7916998C879BA681905A417179 = {
+						LastSwiftMigration = 1020;
+					};
+					999D67BA3E0614B8DD445108DB33F766 = {
+						LastSwiftMigration = 1020;
+					};
+					B4280F358AD4C3799414724EE00E6812 = {
+						LastSwiftMigration = 9999;
+					};
+					BD398413C05B07BBE2B6E2D14C9EE8D9 = {
+						LastSwiftMigration = 9999;
+					};
+					CBAC99246DDEE4D60F3833E1FF3B8514 = {
+						LastSwiftMigration = 9999;
+					};
+					DCF843C187E023E2097ACF9EABA93DD6 = {
+						LastSwiftMigration = 1020;
+					};
+					F5D94DE7A2DF28D8FD6E0C310044455E = {
+						LastSwiftMigration = 1020;
+					};
+					FFB59435FDA46112B05F84E45F7B95F3 = {
+						LastSwiftMigration = 1020;
+					};
+				};
+			};
+			buildConfigurationList = E7FAEEC4302D535402308E4CA6048DBC /* Build configuration list for PBXProject "Cake" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 50DCC4186C454A8A35C359EBE7E6484B /*  */;
+			productRefGroup = 1C4FCF6098FC3226B2546E8140B7A700 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				818A4854C95B333066E8C4A9D0FE3104 /* Cakefile */,
+				B03189C2563DE1C075659DC03EF81210 /* Cakefile·Completion */,
+				CBAC99246DDEE4D60F3833E1FF3B8514 /* Deps·SortedArray */,
+				FFB59435FDA46112B05F84E45F7B95F3 /* Deps·PMKStoreKit */,
+				B4280F358AD4C3799414724EE00E6812 /* Deps·PMKFoundation */,
+				BD398413C05B07BBE2B6E2D14C9EE8D9 /* Deps·PromiseKit */,
+				8B4D032D3EA2708E1BF1B498E5AAC085 /* Deps·LegibleError */,
+				4417A8A9811CAA247AA9E1142C875A9B /* Deps·KeychainAccess */,
+				DCF843C187E023E2097ACF9EABA93DD6 /* Dependencies */,
+				999D67BA3E0614B8DD445108DB33F766 /* Batter·Client */,
+				0C6CB203E1256C62E14D3F381130C697 /* Batter·xp */,
+				90AD6F7916998C879BA681905A417179 /* Batter·Vendor */,
+				F5D94DE7A2DF28D8FD6E0C310044455E /* Batter */,
+				8B942976617019A6C464818315598CC1 /* Cake */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6F67EDB0066A07EA8ACEC9D4D60F4E3F /* Regenerate Cake.xcodeproj */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(PROJECT_DIR)/../Cakefile.swift",
+			);
+			name = "Regenerate Cake.xcodeproj";
+			outputPaths = (
+				"$(PROJECT_DIR)/Cakefile.json",
+				"$(PROJECT_DIR)/Dependencies.json",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /usr/bin/swift;
+			shellScript = "import func Darwin.fputs\nimport var Darwin.stderr\nimport ScriptingBridge\nimport AppKit\n\nfunc print(_ objs: Any...) {\n    let str = objs.reduce(into: \"\") { $0.append(\" \\($1)\") }\n    fputs(str, stderr)\n}\n\nlet apps = NSRunningApplication.runningApplications(withBundleIdentifier: \"dev.mxcl.Cake\")\n\nswitch apps.count {\ncase 0:\n    print(\"warning: Cake.app not running, Cakefile changes will not take effect\")\ncase 1:\n    guard let bundle = apps[0].bundleURL else {\n        print(\"Failed to obtain Cake.app location\")\n        exit(1)\n    }\n    guard let projectDir = ProcessInfo.processInfo.environment[\"PROJECT_DIR\"] else {\n        print(\"Failed to obtain PROJECT_DIR\")\n        exit(2)\n    }\n    let path = bundle.appendingPathComponent(\"Contents/MacOS/cake-build\").path\n    let task = Process()\n    task.launchPath = path\n    task.arguments = [String(apps[0].processIdentifier), projectDir]\n    try task.run()\n    task.waitUntilExit()\n    exit(task.terminationStatus)\ndefault:\n    print(\"error: More than one instance of Cake.app is running\")\n    exit(3)\n}\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0330731A9D0FB38F456E61DB3932B0FF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37C01C838BE8DE1C664691AA547031E5 /* after.swift in Sources */,
+				CD29B1158D97E7F2767B742E15BB5F1B /* Box.swift in Sources */,
+				A2A8C2A61706862AF67AB27B2D159F04 /* Catchable.swift in Sources */,
+				173AC44E5DDAF718CE86EE5D54DB1A23 /* Configuration.swift in Sources */,
+				4DAA0F96F543E4A6D90BDB8AC22BC759 /* CustomStringConvertible.swift in Sources */,
+				9AD25944060C73EBC3D7D4B8ED647F55 /* Error.swift in Sources */,
+				DBF24B2F67D4AD415385D407F78EBFE7 /* firstly.swift in Sources */,
+				8A7FBCE750BACE16FA0C7D24A8E0FC26 /* Guarantee.swift in Sources */,
+				B363F49F2AF887172600F5CD67F7C4F2 /* hang.swift in Sources */,
+				90E680E24018A067844D7A6860BDD036 /* LogEvent.swift in Sources */,
+				13A12CCBECF26AF3B18468E445CEF598 /* Promise.swift in Sources */,
+				B965111421F5F7EA96A6384139DB4AD1 /* race.swift in Sources */,
+				2B35177067A9C34EDEB33A8164DE4588 /* Resolver.swift in Sources */,
+				BEC710FA022A69539DE83D3DA26D2D46 /* Thenable.swift in Sources */,
+				DD2127A7693447EA31FC5844269A5476 /* when.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0D2313C56B49445FFFBAFA66F386B894 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				656A6AF815F06DF3D24C506289398B6D /* mxcl∕LegibleError-1.0.1.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		41A5EEA86A7634218A1B257110445DB9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE644545E0A13218A426CDEC755DB5EC /* Client.etc.swift in Sources */,
+				F55101568B5AD579006397C7F9763805 /* EnrollmentsManager.swift in Sources */,
+				5361884E3E291BA8DDC508099E06DEF5 /* SubscriptionManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		51A231D62A0763772C860B8E1DE14486 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1AF249C132000F09A7676FADACC54AE2 /* mxcl∕KeychainAccess.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		544541E875E4B532E6C170339EBBC650 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7338FFD7195E848D0AD86857B597A2AC /* SKPayment+Promise.swift in Sources */,
+				06C3B04F30B74A4815C44654AEBB2C01 /* SKPaymentQueue+Promise.swift in Sources */,
+				9436F39853F413831C64FED1F3C38B58 /* SKProductsRequest+Promise.swift in Sources */,
+				A3D791A9A2847EB6AABAE6D213D040B2 /* SKReceiptRefreshRequest+Promise.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		647CCD7B8E838D705EC476A6AB87CCEA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A87E1830160009728CB1741C4552B64 /* SortedSet.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		86204B913285479790C8B40218A6D01E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A041CF38BC28A5262F4A2C130435DA8 /* Batter.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9AD00F791649D2A33FF6C632A2EBEB8E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3479C220FB5B38B50C385208CE9120B8 /* ole∕SortedArray-0.7.0.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D57241684611D5226E52EBD3A97727C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				02A46975791D4B6AF393E02BFC7B4FA7 /* Cake.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A55DDFC1E192780D65C32457CB5F07F8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				56DFD2E22C495FA82E39886F365DC33A /* Cakefile.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B72D8CDE7B96F674B97F50DBA7722D81 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0144937EEB86C307B33A65EB2B058FFC /* Dependencies.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C7692FD804A2C11A2AEF10242B154E21 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4270130596C1A090597D9DF6C68F9A70 /* Compatability.swift in Sources */,
+				B8500CFBB3B168E3850A2F1506341B60 /* Constants.swift in Sources */,
+				C482DAA8FB8042E3E3C0FB93D937EA32 /* DebrisAPI.swift in Sources */,
+				51E0930A320F80A27C0E975A51B88A92 /* Event.swift in Sources */,
+				0CDB6FB6B9F699AD68E6AB983231F99A /* GitHubAPI.swift in Sources */,
+				A86DCEF6EF3931DB5DC63A47AB3E9DD8 /* TitledError.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD25F76D9BF91196996408AAA2D08CA6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F8373135B8E73DC04E741253EF8538AF /* afterlife.swift in Sources */,
+				0126D7996A8929E3D9BA9BC71806216C /* NSNotificationCenter+Promise.swift in Sources */,
+				194436C50CBF102CE54CD461191FCD0D /* NSObject+Promise.swift in Sources */,
+				B56602EC4F80DEC5337994B59B3FE640 /* NSURLSession+Promise.swift in Sources */,
+				8086409EA5DD7B797084592C543D5EB3 /* Process+Promise.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		06EE068C9240566BA645BF7B9A4F575B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Cakefile;
+			target = 818A4854C95B333066E8C4A9D0FE3104 /* Cakefile */;
+			targetProxy = 33FF0B171D4DB6017786BE11542F2217 /* PBXContainerItemProxy */;
+		};
+		073AE23679153CBEF148303236601EFB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Dependencies;
+			target = DCF843C187E023E2097ACF9EABA93DD6 /* Dependencies */;
+			targetProxy = 002F346AA247D13A30C93BDD21ACA859 /* PBXContainerItemProxy */;
+		};
+		142A7F7DCD5F05EE53270FBE7BDB765E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Deps·PromiseKit";
+			target = BD398413C05B07BBE2B6E2D14C9EE8D9 /* Deps·PromiseKit */;
+			targetProxy = A73E5A8F2FB3488E712E3D20D62C463E /* PBXContainerItemProxy */;
+		};
+		1BB69D738458F35A143835E2C1E1380C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Batter·Client";
+			target = 999D67BA3E0614B8DD445108DB33F766 /* Batter·Client */;
+			targetProxy = D016B75E022F6205E3B002CDE83C5533 /* PBXContainerItemProxy */;
+		};
+		1D8AB91B1934ECA2B505C6183A5FC38B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Deps·PromiseKit";
+			target = BD398413C05B07BBE2B6E2D14C9EE8D9 /* Deps·PromiseKit */;
+			targetProxy = 5EDA6990A1DDBE6E9B607D100EF8A5DA /* PBXContainerItemProxy */;
+		};
+		327C41C1F24B05BA591F163701AC5FFD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Cakefile;
+			target = 818A4854C95B333066E8C4A9D0FE3104 /* Cakefile */;
+			targetProxy = A6534538102624A3BAD54587BBECFEF5 /* PBXContainerItemProxy */;
+		};
+		3698D46A54E70C6C3BAEFE3F7660B20C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Deps·PMKStoreKit";
+			target = FFB59435FDA46112B05F84E45F7B95F3 /* Deps·PMKStoreKit */;
+			targetProxy = 45B3ED6575EBBBDB702EB95138A59DF1 /* PBXContainerItemProxy */;
+		};
+		3796B5D8B49555ADD3066929EC804F14 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Batter·xp";
+			target = 0C6CB203E1256C62E14D3F381130C697 /* Batter·xp */;
+			targetProxy = 53446DBA2F029AB20CAD8165297EDD35 /* PBXContainerItemProxy */;
+		};
+		3A19463D99686825EC39E9ED03F9589E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Deps·PMKFoundation";
+			target = B4280F358AD4C3799414724EE00E6812 /* Deps·PMKFoundation */;
+			targetProxy = 1EE1EF930A5BF3D0012B58E4A1D22BB8 /* PBXContainerItemProxy */;
+		};
+		3CDDB03CCA2EA7589E409F5229F993A0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Deps·SortedArray";
+			target = CBAC99246DDEE4D60F3833E1FF3B8514 /* Deps·SortedArray */;
+			targetProxy = BA94388154FC5557611ADF3BBE8F200E /* PBXContainerItemProxy */;
+		};
+		40BFAE5249E85816F20DE0DDB9C86CED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Dependencies;
+			target = DCF843C187E023E2097ACF9EABA93DD6 /* Dependencies */;
+			targetProxy = CAE6E3EF38CECA22DFBD472F761E6363 /* PBXContainerItemProxy */;
+		};
+		5CB1AEC1B01B7FBC8D19946FDA97E975 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Deps·KeychainAccess";
+			target = 4417A8A9811CAA247AA9E1142C875A9B /* Deps·KeychainAccess */;
+			targetProxy = 6F9977AD945D6B834842EFD2B03BC238 /* PBXContainerItemProxy */;
+		};
+		6F2865C025F7F740FF65DBD4991157C8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Dependencies;
+			target = DCF843C187E023E2097ACF9EABA93DD6 /* Dependencies */;
+			targetProxy = 2D6EDF33EC661363ED1E5889EA9EF52F /* PBXContainerItemProxy */;
+		};
+		80752853F1DCB223FA2C42EEE6FCD3C0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Cakefile;
+			target = 818A4854C95B333066E8C4A9D0FE3104 /* Cakefile */;
+			targetProxy = 71575CE835494E88E6BF9F433CA4073A /* PBXContainerItemProxy */;
+		};
+		81E5E23649D210D2B9269E342E1E3CB8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Batter·Vendor";
+			target = 90AD6F7916998C879BA681905A417179 /* Batter·Vendor */;
+			targetProxy = 2D5CFF812411E4B506BA17005870743C /* PBXContainerItemProxy */;
+		};
+		C92758E700B37ED68776342F73765D28 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Deps·PromiseKit";
+			target = BD398413C05B07BBE2B6E2D14C9EE8D9 /* Deps·PromiseKit */;
+			targetProxy = 3D570B61F4B7B186FBD4FB45CAB2344D /* PBXContainerItemProxy */;
+		};
+		CB56305824BFCA6B67740F6043A4B9E2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Batter;
+			target = F5D94DE7A2DF28D8FD6E0C310044455E /* Batter */;
+			targetProxy = 756891CE29B59469D117CB86600830B4 /* PBXContainerItemProxy */;
+		};
+		E53F402429C163BF02EFC10A34420159 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Batter·Vendor";
+			target = 90AD6F7916998C879BA681905A417179 /* Batter·Vendor */;
+			targetProxy = 0D38B7EBBD07730364FC815DB2951828 /* PBXContainerItemProxy */;
+		};
+		FDB6A7614F45C42C95995739384B5927 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Deps·LegibleError";
+			target = 8B4D032D3EA2708E1BF1B498E5AAC085 /* Deps·LegibleError */;
+			targetProxy = 2271E804C9C352B20C61ABBC68327426 /* PBXContainerItemProxy */;
+		};
+		FDED9CB4A42F8E451B9CD92A9214BED0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Cakefile;
+			target = 818A4854C95B333066E8C4A9D0FE3104 /* Cakefile */;
+			targetProxy = C9302B77BC2BA2C40C288B30160EB8D2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		01749ADF071445F3D44FE9321492F1DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = PromiseKit;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE";
+				SWIFT_SUPPRESS_WARNINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		0534040D1C7AC0E885C5645133F0EBBF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = xp;
+			};
+			name = Debug;
+		};
+		0CAA1B24A1677E42C56C03ED4DA25A52 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = LegibleError;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE";
+				SWIFT_SUPPRESS_WARNINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		1B38FC92D5F1AAC62954C1F39E642166 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = PMKStoreKit;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE";
+				SWIFT_SUPPRESS_WARNINGS = YES;
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+		2354588F851B6553104A29BDD1DE63FA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = Vendor;
+			};
+			name = Release;
+		};
+		2844F622FC5B65DAF12AC70D4AFF5996 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = macosx;
+			};
+			name = Debug;
+		};
+		4544E7D20091EE9278E00D2C6DFB3029 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = SortedArray;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE";
+				SWIFT_SUPPRESS_WARNINGS = YES;
+				SWIFT_VERSION = 4;
+			};
+			name = Debug;
+		};
+		4F1C9889B9A16AD6BFC377E1D2E78F63 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = SortedArray;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE";
+				SWIFT_SUPPRESS_WARNINGS = YES;
+				SWIFT_VERSION = 4;
+			};
+			name = Release;
+		};
+		5B0253CF35CA61DC4C802193B10AE866 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "";
+				PRODUCT_MODULE_NAME = Script;
+				PRODUCT_NAME = CakefileScript;
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = macosx;
+			};
+			name = Debug;
+		};
+		5EA05B624C173B7A4AD71269AE1C8547 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = Vendor;
+			};
+			name = Debug;
+		};
+		6357C272221F260400F058BC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Dependencies;
+			};
+			name = Debug;
+		};
+		6357C273221F260400F058BC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				PRODUCT_NAME = Dependencies;
+			};
+			name = Release;
+		};
+		6357C274221F260400F058BC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Batter;
+			};
+			name = Debug;
+		};
+		6357C275221F260400F058BC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				PRODUCT_NAME = Batter;
+			};
+			name = Release;
+		};
+		6357C276221F260400F058BC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Cake;
+			};
+			name = Debug;
+		};
+		6357C277221F260400F058BC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				PRODUCT_NAME = Cake;
+			};
+			name = Release;
+		};
+		81D3D4DB9973AC28F206BDCD037C6B74 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = PMKFoundation;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE";
+				SWIFT_SUPPRESS_WARNINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		8A46078CE668F0D7ADAA55F6495BBB90 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = PMKStoreKit;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE";
+				SWIFT_SUPPRESS_WARNINGS = YES;
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		97A193D0B309D29E270701A52EF85AB1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = PMKFoundation;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE";
+				SWIFT_SUPPRESS_WARNINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		BE4BEB096BA94EEAA5D099107878F568 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = Client;
+			};
+			name = Debug;
+		};
+		BF01A86C4D19E080F58AF28A3610DF80 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "";
+				PRODUCT_MODULE_NAME = Script;
+				PRODUCT_NAME = CakefileScript;
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = macosx;
+			};
+			name = Release;
+		};
+		C01BD67412F7D01E7E37440909A3CB04 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = Cake;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.2;
+				USE_HEADERMAP = NO;
+			};
+			name = Release;
+		};
+		C409CF9AEB9D6041D076B1F97983C7B7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = Client;
+			};
+			name = Release;
+		};
+		D49614ABEFCDEB137B8860ACDE9FA8A5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = LegibleError;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE";
+				SWIFT_SUPPRESS_WARNINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		DE39AC419395075B1E45FE0345172BCB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = KeychainAccess;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE";
+				SWIFT_SUPPRESS_WARNINGS = YES;
+				SWIFT_VERSION = 4;
+			};
+			name = Release;
+		};
+		E05BAB2BDFF639B0BF23680409C4D9A0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = PromiseKit;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE";
+				SWIFT_SUPPRESS_WARNINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		E5208242DC1DD9C341DBA10C4A3BE4E4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = xp;
+			};
+			name = Release;
+		};
+		EC8963B4590A317B0C905EB50E34081B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = KeychainAccess;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE";
+				SWIFT_SUPPRESS_WARNINGS = YES;
+				SWIFT_VERSION = 4;
+			};
+			name = Debug;
+		};
+		F6BCBDB02D5733D803C90FCC60A48E00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = macosx;
+			};
+			name = Release;
+		};
+		F7770844F3B732A8F6817F4CB5DE795E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_NS_ASSERTIONS = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "Cake DEBUG";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+				USE_HEADERMAP = NO;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3507667BB4B16679E0FE3E4209BE343D /* Build configuration list for PBXNativeTarget "Deps·KeychainAccess" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC8963B4590A317B0C905EB50E34081B /* Debug */,
+				DE39AC419395075B1E45FE0345172BCB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3A3934967D7790F017425C98A64CD375 /* Build configuration list for PBXNativeTarget "Cakefile·Completion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5B0253CF35CA61DC4C802193B10AE866 /* Debug */,
+				BF01A86C4D19E080F58AF28A3610DF80 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		409E6CB51ADAF14CC22FCE8BA5DFA107 /* Build configuration list for PBXNativeTarget "Batter·Client" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE4BEB096BA94EEAA5D099107878F568 /* Debug */,
+				C409CF9AEB9D6041D076B1F97983C7B7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5375538FF4A3E415410EE0F07030C0A4 /* Build configuration list for PBXNativeTarget "Deps·LegibleError" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D49614ABEFCDEB137B8860ACDE9FA8A5 /* Debug */,
+				0CAA1B24A1677E42C56C03ED4DA25A52 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6357C27B221F277600F058BC /* Build configuration list */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6357C272221F260400F058BC /* Debug */,
+				6357C273221F260400F058BC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6357C27C221F277600F058BC /* Build configuration list */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6357C274221F260400F058BC /* Debug */,
+				6357C275221F260400F058BC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6357C27D221F277600F058BC /* Build configuration list */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6357C276221F260400F058BC /* Debug */,
+				6357C277221F260400F058BC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7C3A55B0997F6203E53252D9392721B1 /* Build configuration list for PBXNativeTarget "Deps·PMKStoreKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8A46078CE668F0D7ADAA55F6495BBB90 /* Debug */,
+				1B38FC92D5F1AAC62954C1F39E642166 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B961BFD93B1016266AB52B4C43632B1C /* Build configuration list for PBXNativeTarget "Deps·PromiseKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E05BAB2BDFF639B0BF23680409C4D9A0 /* Debug */,
+				01749ADF071445F3D44FE9321492F1DF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CC52581B47BC6514AB72B1E5B0D4A012 /* Build configuration list for PBXNativeTarget "Batter·xp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0534040D1C7AC0E885C5645133F0EBBF /* Debug */,
+				E5208242DC1DD9C341DBA10C4A3BE4E4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CDFE43E6DC900B9ED19CBF516D4092C2 /* Build configuration list for PBXNativeTarget "Batter·Vendor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5EA05B624C173B7A4AD71269AE1C8547 /* Debug */,
+				2354588F851B6553104A29BDD1DE63FA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D6F76942AA26F8FE33C0B9E559F048A3 /* Build configuration list for PBXNativeTarget "Deps·PMKFoundation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				81D3D4DB9973AC28F206BDCD037C6B74 /* Debug */,
+				97A193D0B309D29E270701A52EF85AB1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D7E848146EA92035C38882268E1B2674 /* Build configuration list for PBXNativeTarget "Deps·SortedArray" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4544E7D20091EE9278E00D2C6DFB3029 /* Debug */,
+				4F1C9889B9A16AD6BFC377E1D2E78F63 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E7FAEEC4302D535402308E4CA6048DBC /* Build configuration list for PBXProject "Cake" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F7770844F3B732A8F6817F4CB5DE795E /* Debug */,
+				C01BD67412F7D01E7E37440909A3CB04 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FB1419C517BF03EBE4B57BA190D11DA2 /* Build configuration list for PBXAggregateTarget "Cakefile" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2844F622FC5B65DAF12AC70D4AFF5996 /* Debug */,
+				F6BCBDB02D5733D803C90FCC60A48E00 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DAA9F9B983CE55D38B2F125BAD56FC0E /* Project object */;
 }

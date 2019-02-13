@@ -17,7 +17,6 @@
 		63A7136A21BC3951000A9097 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63A7135B21BC3951000A9097 /* Main.storyboard */; };
 		63A7136B21BC3951000A9097 /* ReposViewController+OutlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A7135C21BC3951000A9097 /* ReposViewController+OutlineView.swift */; };
 		63A7136D21BC3951000A9097 /* ConfigureEnrollmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A7135E21BC3951000A9097 /* ConfigureEnrollmentViewController.swift */; };
-		63A7136E21BC3951000A9097 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 63A7136021BC3951000A9097 /* Credits.rtf */; };
 		63A7136F21BC3951000A9097 /* etc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A7136121BC3951000A9097 /* etc.swift */; };
 		63A7137021BC3951000A9097 /* ReposViewController+Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A7136221BC3951000A9097 /* ReposViewController+Types.swift */; };
 		63A7139821BC39E7000A9097 /* SubscribeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A7138B21BC39E7000A9097 /* SubscribeViewController.swift */; };
@@ -36,6 +35,90 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6357C24A221F0B8F00F058BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_13 /* Cake */;
+			proxyType = 2;
+			remoteGlobalIDString = B3CDEF324226D91C75D2BCBA3E3D7952;
+			remoteInfo = "Cakefile·Completion";
+		};
+		6357C24C221F0B8F00F058BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_13 /* Cake */;
+			proxyType = 2;
+			remoteGlobalIDString = 5F0096C0463FB39B08824DB00B13133F;
+			remoteInfo = "Deps·SortedArray";
+		};
+		6357C24E221F0B8F00F058BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_13 /* Cake */;
+			proxyType = 2;
+			remoteGlobalIDString = 8312A6DB30137F7AB46141BA7FD9C839;
+			remoteInfo = "Deps·PMKStoreKit";
+		};
+		6357C250221F0B8F00F058BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_13 /* Cake */;
+			proxyType = 2;
+			remoteGlobalIDString = 69787F8145CACFA492EC131CC2A0AA1D;
+			remoteInfo = "Deps·PMKFoundation";
+		};
+		6357C252221F0B8F00F058BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_13 /* Cake */;
+			proxyType = 2;
+			remoteGlobalIDString = 53E3B23BDD8E313D1CCE46BCBA847860;
+			remoteInfo = "Deps·PromiseKit";
+		};
+		6357C254221F0B8F00F058BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_13 /* Cake */;
+			proxyType = 2;
+			remoteGlobalIDString = 925FFB03FA9F121D0D038FC3C7DEE41D;
+			remoteInfo = "Deps·KeychainAccess";
+		};
+		6357C256221F0B8F00F058BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_13 /* Cake */;
+			proxyType = 2;
+			remoteGlobalIDString = 785358D6AD2F0D126E57FB5826F9A65F;
+			remoteInfo = "Batter·Client";
+		};
+		6357C258221F0B8F00F058BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_13 /* Cake */;
+			proxyType = 2;
+			remoteGlobalIDString = 91406D920A09B9991EA45CE114C43130;
+			remoteInfo = "Batter·xp";
+		};
+		6357C25A221F0B8F00F058BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_13 /* Cake */;
+			proxyType = 2;
+			remoteGlobalIDString = CF13AE3B62C40836A5FEE4744FE1CD73;
+			remoteInfo = "Batter·Vendor";
+		};
+		6357C25C221F0B9300F058BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_13 /* Cake */;
+			proxyType = 1;
+			remoteGlobalIDString = 8B942976617019A6C464818315598CC1;
+			remoteInfo = Cake;
+		};
+		6357C25E221F0B9B00F058BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_13 /* Cake */;
+			proxyType = 1;
+			remoteGlobalIDString = 8B942976617019A6C464818315598CC1;
+			remoteInfo = Cake;
+		};
+		6357C279221F268800F058BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_13 /* Cake */;
+			proxyType = 2;
+			remoteGlobalIDString = 1DBCAEFF3AB28195D7B5E09B52FDBDA9;
+			remoteInfo = "Deps·LegibleError";
+		};
 		63A712F821BC35FC000A9097 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_13 /* Cake */;
@@ -43,96 +126,12 @@
 			remoteGlobalIDString = "Batter::Product";
 			remoteInfo = Batter;
 		};
-		63A712FC21BC35FC000A9097 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_13 /* Cake */;
-			proxyType = 2;
-			remoteGlobalIDString = "Cakefile::Product";
-			remoteInfo = Cakefile;
-		};
-		63A712FE21BC35FC000A9097 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_13 /* Cake */;
-			proxyType = 2;
-			remoteGlobalIDString = "Cakefile.Completion::Product";
-			remoteInfo = Cakefile.Completion;
-		};
-		63A7134D21BC3909000A9097 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_13 /* Cake */;
-			proxyType = 2;
-			remoteGlobalIDString = "Batter/Client::Product";
-			remoteInfo = Batter/Client;
-		};
-		63A7134F21BC3909000A9097 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_13 /* Cake */;
-			proxyType = 2;
-			remoteGlobalIDString = "Batter/Vendor::Product";
-			remoteInfo = Batter/Vendor;
-		};
-		63A7135121BC3909000A9097 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_13 /* Cake */;
-			proxyType = 2;
-			remoteGlobalIDString = "Batter/xp::Product";
-			remoteInfo = Batter/xp;
-		};
-		63A713A521BC3F61000A9097 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_13 /* Cake */;
-			proxyType = 1;
-			remoteGlobalIDString = "Cake::Target";
-			remoteInfo = Cake;
-		};
 		63A713BD21BC3FD4000A9097 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_13 /* Cake */;
 			proxyType = 2;
 			remoteGlobalIDString = "Dependencies::Product";
 			remoteInfo = Dependencies;
-		};
-		63A713BF21BC3FD4000A9097 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_13 /* Cake */;
-			proxyType = 2;
-			remoteGlobalIDString = "Deps/KeychainAccess::Product";
-			remoteInfo = Deps/KeychainAccess;
-		};
-		63A713C121BC3FD4000A9097 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_13 /* Cake */;
-			proxyType = 2;
-			remoteGlobalIDString = "Deps/PMKStoreKit::Product";
-			remoteInfo = Deps/PMKStoreKit;
-		};
-		63A713C321BC3FD4000A9097 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_13 /* Cake */;
-			proxyType = 2;
-			remoteGlobalIDString = "Deps/PromiseKit::Product";
-			remoteInfo = Deps/PromiseKit;
-		};
-		63A713C521BC3FD4000A9097 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_13 /* Cake */;
-			proxyType = 2;
-			remoteGlobalIDString = "Deps/SortedArray::Product";
-			remoteInfo = Deps/SortedArray;
-		};
-		63A7141021BC4103000A9097 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_13 /* Cake */;
-			proxyType = 2;
-			remoteGlobalIDString = "Deps/PMKFoundation::Product";
-			remoteInfo = Deps/PMKFoundation;
-		};
-		OBJ_14 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_13 /* Cake */;
-			proxyType = 1;
-			remoteGlobalIDString = "Cake::Target";
-			remoteInfo = Cake;
 		};
 		OBJ_17 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -156,7 +155,6 @@
 		63A7135D21BC3951000A9097 /* App-macOS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "App-macOS-Info.plist"; sourceTree = "<group>"; };
 		63A7135E21BC3951000A9097 /* ConfigureEnrollmentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigureEnrollmentViewController.swift; sourceTree = "<group>"; };
 		63A7135F21BC3951000A9097 /* AppKit.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = AppKit.entitlements; sourceTree = "<group>"; };
-		63A7136021BC3951000A9097 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		63A7136121BC3951000A9097 /* etc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = etc.swift; sourceTree = "<group>"; };
 		63A7136221BC3951000A9097 /* ReposViewController+Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ReposViewController+Types.swift"; sourceTree = "<group>"; };
 		63A7137621BC39B8000A9097 /* Canopy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Canopy.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -213,7 +211,6 @@
 				63A7135B21BC3951000A9097 /* Main.storyboard */,
 				63A7135721BC3951000A9097 /* AppKit.xcassets */,
 				63A7135F21BC3951000A9097 /* AppKit.entitlements */,
-				63A7136021BC3951000A9097 /* Credits.rtf */,
 				63A7135D21BC3951000A9097 /* App-macOS-Info.plist */,
 			);
 			name = Detritus;
@@ -259,19 +256,19 @@
 		OBJ_15 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				63A712F921BC35FC000A9097 /* Batter.a */,
-				63A7134E21BC3909000A9097 /* Batter/Client.a */,
-				63A7135021BC3909000A9097 /* Batter/Vendor.a */,
-				63A7135221BC3909000A9097 /* Batter/xp.a */,
-				OBJ_16 /* Cake.a */,
-				63A712FD21BC35FC000A9097 /* Cakefile.dylib */,
-				63A712FF21BC35FC000A9097 /* Cakefile.Completion.a */,
+				6357C24B221F0B8F00F058BC /* Cakefile·Completion */,
+				6357C24D221F0B8F00F058BC /* SortedArray.a */,
+				6357C24F221F0B8F00F058BC /* PMKStoreKit.a */,
+				6357C251221F0B8F00F058BC /* PMKFoundation.a */,
+				6357C253221F0B8F00F058BC /* PromiseKit.a */,
+				6357C27A221F268800F058BC /* LegibleError.a */,
+				6357C255221F0B8F00F058BC /* KeychainAccess.a */,
 				63A713BE21BC3FD4000A9097 /* Dependencies.a */,
-				63A713C021BC3FD4000A9097 /* Deps/KeychainAccess.a */,
-				63A7141121BC4103000A9097 /* Deps/PMKFoundation.a */,
-				63A713C221BC3FD4000A9097 /* Deps/PMKStoreKit.a */,
-				63A713C421BC3FD4000A9097 /* Deps/PromiseKit.a */,
-				63A713C621BC3FD4000A9097 /* Deps/SortedArray.a */,
+				6357C257221F0B8F00F058BC /* Client.a */,
+				6357C259221F0B8F00F058BC /* xp.a */,
+				6357C25B221F0B8F00F058BC /* Vendor.a */,
+				63A712F921BC35FC000A9097 /* Batter.a */,
+				OBJ_16 /* Cake.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -285,7 +282,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Model */,
@@ -293,7 +290,6 @@
 				OBJ_13 /* Cake */,
 				OBJ_18 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_8 /* AppKit */ = {
@@ -329,7 +325,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				63A713A621BC3F61000A9097 /* PBXTargetDependency */,
+				6357C25D221F0B9300F058BC /* PBXTargetDependency */,
 			);
 			name = Canopy.UIKit;
 			productName = Canopy;
@@ -347,7 +343,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				OBJ_30 /* PBXTargetDependency */,
+				6357C25F221F0B9B00F058BC /* PBXTargetDependency */,
 			);
 			name = Canopy.AppKit;
 			productName = "TELL_MXCL_IF_YOU_SEE_THIS_Carrot Cake";
@@ -371,11 +367,12 @@
 					};
 					"Carrot Cake::Target" = {
 						DevelopmentTeam = TEQMQBRC7B;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
-			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "Carrot Cake" */;
+			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "Canopy" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -383,7 +380,7 @@
 				en,
 				Base,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_18 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
@@ -401,6 +398,86 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		6357C24B221F0B8F00F058BC /* Cakefile·Completion */ = {
+			isa = PBXReferenceProxy;
+			fileType = text;
+			name = "Cakefile·Completion";
+			path = CakefileScript;
+			remoteRef = 6357C24A221F0B8F00F058BC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6357C24D221F0B8F00F058BC /* SortedArray.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			name = SortedArray.a;
+			path = libSortedArray.a;
+			remoteRef = 6357C24C221F0B8F00F058BC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6357C24F221F0B8F00F058BC /* PMKStoreKit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			name = PMKStoreKit.a;
+			path = libPMKStoreKit.a;
+			remoteRef = 6357C24E221F0B8F00F058BC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6357C251221F0B8F00F058BC /* PMKFoundation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			name = PMKFoundation.a;
+			path = libPMKFoundation.a;
+			remoteRef = 6357C250221F0B8F00F058BC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6357C253221F0B8F00F058BC /* PromiseKit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			name = PromiseKit.a;
+			path = libPromiseKit.a;
+			remoteRef = 6357C252221F0B8F00F058BC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6357C255221F0B8F00F058BC /* KeychainAccess.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			name = KeychainAccess.a;
+			path = libKeychainAccess.a;
+			remoteRef = 6357C254221F0B8F00F058BC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6357C257221F0B8F00F058BC /* Client.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			name = Client.a;
+			path = libClient.a;
+			remoteRef = 6357C256221F0B8F00F058BC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6357C259221F0B8F00F058BC /* xp.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			name = xp.a;
+			path = libxp.a;
+			remoteRef = 6357C258221F0B8F00F058BC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6357C25B221F0B8F00F058BC /* Vendor.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			name = Vendor.a;
+			path = libVendor.a;
+			remoteRef = 6357C25A221F0B8F00F058BC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6357C27A221F268800F058BC /* LegibleError.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			name = LegibleError.a;
+			path = libLegibleError.a;
+			remoteRef = 6357C279221F268800F058BC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		63A712F921BC35FC000A9097 /* Batter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -409,92 +486,12 @@
 			remoteRef = 63A712F821BC35FC000A9097 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		63A712FD21BC35FC000A9097 /* Cakefile.dylib */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.dylib";
-			name = Cakefile.dylib;
-			path = libCakefile.dylib;
-			remoteRef = 63A712FC21BC35FC000A9097 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		63A712FF21BC35FC000A9097 /* Cakefile.Completion.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			name = Cakefile.Completion.a;
-			path = libCakefile_Completion.a;
-			remoteRef = 63A712FE21BC35FC000A9097 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		63A7134E21BC3909000A9097 /* Batter/Client.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			name = Batter/Client.a;
-			path = libClient.a;
-			remoteRef = 63A7134D21BC3909000A9097 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		63A7135021BC3909000A9097 /* Batter/Vendor.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			name = Batter/Vendor.a;
-			path = libVendor.a;
-			remoteRef = 63A7134F21BC3909000A9097 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		63A7135221BC3909000A9097 /* Batter/xp.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			name = Batter/xp.a;
-			path = libxp.a;
-			remoteRef = 63A7135121BC3909000A9097 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		63A713BE21BC3FD4000A9097 /* Dependencies.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			name = Dependencies.a;
 			path = libDependencies.a;
 			remoteRef = 63A713BD21BC3FD4000A9097 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		63A713C021BC3FD4000A9097 /* Deps/KeychainAccess.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			name = Deps/KeychainAccess.a;
-			path = libKeychainAccess.a;
-			remoteRef = 63A713BF21BC3FD4000A9097 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		63A713C221BC3FD4000A9097 /* Deps/PMKStoreKit.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			name = Deps/PMKStoreKit.a;
-			path = libPMKStoreKit.a;
-			remoteRef = 63A713C121BC3FD4000A9097 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		63A713C421BC3FD4000A9097 /* Deps/PromiseKit.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			name = Deps/PromiseKit.a;
-			path = libPromiseKit.a;
-			remoteRef = 63A713C321BC3FD4000A9097 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		63A713C621BC3FD4000A9097 /* Deps/SortedArray.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			name = Deps/SortedArray.a;
-			path = libSortedArray.a;
-			remoteRef = 63A713C521BC3FD4000A9097 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		63A7141121BC4103000A9097 /* Deps/PMKFoundation.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			name = Deps/PMKFoundation.a;
-			path = libPMKFoundation.a;
-			remoteRef = 63A7141021BC4103000A9097 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		OBJ_16 /* Cake.a */ = {
@@ -522,7 +519,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				63A7136E21BC3951000A9097 /* Credits.rtf in Resources */,
 				63A7136A21BC3951000A9097 /* Main.storyboard in Resources */,
 				63A7136621BC3951000A9097 /* AppKit.xcassets in Resources */,
 			);
@@ -566,15 +562,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		63A713A621BC3F61000A9097 /* PBXTargetDependency */ = {
+		6357C25D221F0B9300F058BC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Cake;
-			targetProxy = 63A713A521BC3F61000A9097 /* PBXContainerItemProxy */;
+			targetProxy = 6357C25C221F0B9300F058BC /* PBXContainerItemProxy */;
 		};
-		OBJ_30 /* PBXTargetDependency */ = {
+		6357C25F221F0B9B00F058BC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Cake;
-			targetProxy = OBJ_14 /* PBXContainerItemProxy */;
+			targetProxy = 6357C25E221F0B9B00F058BC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -674,7 +670,7 @@
 				PRODUCT_NAME = Canopy;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -694,7 +690,7 @@
 				PRODUCT_NAME = Canopy;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -805,7 +801,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_2 /* Build configuration list for PBXProject "Carrot Cake" */ = {
+		OBJ_2 /* Build configuration list for PBXProject "Canopy" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				OBJ_3 /* Debug */,
