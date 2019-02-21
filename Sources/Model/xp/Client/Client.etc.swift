@@ -7,6 +7,7 @@ import enum xp.Node
 import enum xp.API
 import var xp.clientId
 import KeychainAccess
+import LegibleError
 import Foundation
 import PromiseKit
 
@@ -33,13 +34,13 @@ extension PMKHTTPError {
                 }
             }
             guard let response = try? JSONDecoder().decode(Response.self, from: data) else {
-                return (legibleDescription, defaultTitle)
+                return (legibleLocalizedDescription, defaultTitle)
             }
             let more = response.errors.compactMap(\.message)
             if !more.isEmpty {
                 return (more.joined(separator: ". ") + ".", response.message)
             } else {
-                return (legibleDescription, response.message)
+                return (legibleLocalizedDescription, response.message)
             }
         }
     }
@@ -177,19 +178,19 @@ public extension URL {
     }
 
     static var termsOfUse: URL {
-        return URL(string: "https://codebasesaga.com/canopy/#terms-of-use")!
+        return URL(string: "https://mxcl.github.io/canopy/#terms-of-use")!
     }
     static var privacyPolicy: URL {
-        return URL(string: "https://codebasesaga.com/canopy/#privacy-policy")!
+        return URL(string: "https://mxcl.github.io/canopy/#privacy-policy")!
     }
     static var faq: URL {
-        return URL(string: "https://codebasesaga.com/canopy/#faq")!
+        return URL(string: "https://mxcl.github.io/canopy/#faq")!
     }
     static var manageSubscription: URL {
         return URL(string: "itmss://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/manageSubscriptions")!
     }
     static var home: URL {
-        return URL(string: "https://codebasesaga.com/canopy/")!
+        return URL(string: "https://mxcl.github.io/canopy/")!
     }
 }
 
