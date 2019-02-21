@@ -67,9 +67,17 @@ public extension String {
 public func -<T: Equatable>(lhs: Array<T>, rhs: Array<T>) -> Array<T> {
     var rv = lhs
     for ee in rhs {
-        if let ii = lhs.index(of: ee) {
+        if let ii = lhs.firstIndex(of: ee) {
             rv.remove(at: ii)
         }
     }
     return rv
+}
+
+//TODO move
+public extension Collection {
+    /// Returns the element at the specified index iff it is within bounds, otherwise nil.
+    subscript (safe index: Index) -> Element? {
+        return indices.contains(index) ? self[index] : nil
+    }
 }

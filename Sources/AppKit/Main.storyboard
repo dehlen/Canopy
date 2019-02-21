@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.64"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -449,20 +450,20 @@
             <objects>
                 <viewController title="Private Repositories Subscription" id="dMa-Dx-8hX" customClass="SubscribeViewController" customModule="App" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="Doq-fq-s9A">
-                        <rect key="frame" x="0.0" y="0.0" width="530" height="289"/>
+                        <rect key="frame" x="0.0" y="0.0" width="646" height="275"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="6X9-pF-FJc">
-                                <rect key="frame" x="18" y="84" width="494" height="126"/>
+                                <rect key="frame" x="18" y="84" width="610" height="112"/>
                                 <textFieldCell key="cell" selectable="YES" alignment="justified" id="L4m-4V-sct">
                                     <font key="font" metaFont="smallSystem"/>
-                                    <string key="title">Unlimited push notifications for private repositories is enabled via an auto‐renewing subscription. Your GitHub account must have at least read access to the private repository. The duration of every period of the subscription is 1 month. The price of the subscription is shown below. Payment will be charged to your App Store account at confirmation of purchase. There is a 7 day free trial period. Subscription automatically renews unless auto‐renew is turned off at least 24 hours before the end of the current period. Your account will be charged for renewal within 24 hours prior to the end of the current period, with the same amount as the current period. Subscriptions may be managed by the user and auto‐renewal may be turned off by going to the user’s App Store account settings after purchase.</string>
+                                    <string key="title">Unlimited push notifications for private repositories is enabled via an auto‐renewing subscription. Your GitHub account must have at least read access to the private repository. The duration of every period of the subscription is 1 month or 1 year. The price of the subscription is shown below. Payment will be charged to your App Store account at confirmation of purchase. There is a 7 day free trial period. Subscription automatically renews unless auto‐renew is turned off at least 24 hours before the end of the current period. Your account will be charged for renewal within 24 hours prior to the end of the current period, with the same amount as the current period. Subscriptions may be managed by the user and auto‐renewal may be turned off by going to the user’s App Store account settings after purchase.</string>
                                     <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Ij4-rY-DEL">
-                                <rect key="frame" x="18" y="235" width="494" height="34"/>
+                                <rect key="frame" x="18" y="221" width="610" height="34"/>
                                 <textFieldCell key="cell" selectable="YES" alignment="left" id="LH0-xT-Yg4">
                                     <font key="font" metaFont="system"/>
                                     <string key="title">Stay on top of development with unlimited push notifications for private repositories to which you have access. First week free!</string>
@@ -471,10 +472,10 @@
                                 </textFieldCell>
                             </textField>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="lfe-HW-YgJ">
-                                <rect key="frame" x="20" y="216" width="490" height="5"/>
+                                <rect key="frame" x="20" y="202" width="606" height="5"/>
                             </box>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="735-8J-hXd">
-                                <rect key="frame" x="20" y="73" width="490" height="5"/>
+                                <rect key="frame" x="20" y="73" width="606" height="5"/>
                             </box>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QhZ-QT-aWx">
                                 <rect key="frame" x="13" y="38" width="119" height="19"/>
@@ -509,22 +510,19 @@ Gw
                                     <action selector="dismissController:" target="dMa-Dx-8hX" id="3Wc-4S-pt1"/>
                                 </connections>
                             </button>
-                            <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CMA-74-aW7" userLabel="MoneyStackView">
-                                <rect key="frame" x="395" y="20" width="115" height="39"/>
+                            <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EeH-yd-mnU" userLabel="Yearly StackView">
+                                <rect key="frame" x="498" y="20" width="155" height="39"/>
                                 <subviews>
-                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DVD-gB-FVc">
-                                        <rect key="frame" x="-6" y="11" width="127" height="32"/>
-                                        <buttonCell key="cell" type="push" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aaL-Tf-3ou">
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CN1-2i-eBJ" userLabel="Yearly Subscribe Button">
+                                        <rect key="frame" x="14" y="11" width="127" height="32"/>
+                                        <buttonCell key="cell" type="push" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cud-8Z-FHS">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
-                                        <connections>
-                                            <action selector="subscribeWithSender:" target="dMa-Dx-8hX" id="eik-eB-YN0"/>
-                                        </connections>
                                     </button>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="55k-YZ-q7n">
-                                        <rect key="frame" x="19" y="0.0" width="77" height="13"/>
-                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Auto‐renewing" id="ATL-eo-4i9">
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DxE-D3-efx">
+                                        <rect key="frame" x="48" y="0.0" width="59" height="13"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Best Value!" id="oGg-jc-9UA">
                                             <font key="font" metaFont="system" size="10"/>
                                             <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -532,8 +530,7 @@ Gw
                                     </textField>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="115" id="XQv-DA-zgH"/>
-                                    <constraint firstItem="DVD-gB-FVc" firstAttribute="width" secondItem="CMA-74-aW7" secondAttribute="width" id="Y1j-SY-Q0x"/>
+                                    <constraint firstAttribute="trailing" secondItem="CN1-2i-eBJ" secondAttribute="trailing" constant="20" id="PMh-Up-k02"/>
                                 </constraints>
                                 <visibilityPriorities>
                                     <integer value="1000"/>
@@ -545,7 +542,7 @@ Gw
                                 </customSpacing>
                             </stackView>
                             <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="sYW-s1-7Zd">
-                                <rect key="frame" x="445" y="41" width="16" height="16"/>
+                                <rect key="frame" x="445" y="11" width="16" height="16"/>
                             </progressIndicator>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wgY-Gr-qyr">
                                 <rect key="frame" x="225" y="38" width="88" height="19"/>
@@ -557,28 +554,54 @@ Gw
                                     </connections>
                                 </buttonCell>
                             </button>
+                            <stackView distribution="fill" orientation="vertical" alignment="centerX" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CMA-74-aW7" userLabel="Monthly StackView">
+                                <rect key="frame" x="395" y="38" width="115" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <subviews>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DVD-gB-FVc">
+                                        <rect key="frame" x="-6" y="-7" width="127" height="32"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="115" id="mxD-LK-Ddj"/>
+                                        </constraints>
+                                        <buttonCell key="cell" type="push" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aaL-Tf-3ou">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="subscribeWithSender:" target="dMa-Dx-8hX" id="eik-eB-YN0"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="CMA-74-aW7" secondAttribute="bottom" constant="20" id="0KK-TR-7eS"/>
                             <constraint firstItem="wgY-Gr-qyr" firstAttribute="leading" secondItem="mk9-1D-Haf" secondAttribute="trailing" id="0id-RP-dlm"/>
                             <constraint firstItem="lfe-HW-YgJ" firstAttribute="leading" secondItem="Doq-fq-s9A" secondAttribute="leading" constant="20" id="1dH-Qg-Je2"/>
                             <constraint firstAttribute="trailing" secondItem="lfe-HW-YgJ" secondAttribute="trailing" constant="20" id="BeU-2l-ZFg"/>
                             <constraint firstItem="735-8J-hXd" firstAttribute="top" secondItem="6X9-pF-FJc" secondAttribute="bottom" constant="8" id="ClT-rq-lmT"/>
                             <constraint firstItem="Ij4-rY-DEL" firstAttribute="leading" secondItem="Doq-fq-s9A" secondAttribute="leading" constant="20" id="E6y-Ne-Cf2"/>
                             <constraint firstItem="0RG-cM-r1n" firstAttribute="top" secondItem="735-8J-hXd" secondAttribute="bottom" constant="16" id="FkP-gj-T8L"/>
-                            <constraint firstAttribute="trailing" secondItem="CMA-74-aW7" secondAttribute="trailing" constant="20" id="GsT-N4-62B"/>
                             <constraint firstItem="0RG-cM-r1n" firstAttribute="leading" secondItem="wgY-Gr-qyr" secondAttribute="trailing" constant="4" id="IZP-2i-Fih"/>
                             <constraint firstItem="Ij4-rY-DEL" firstAttribute="top" secondItem="Doq-fq-s9A" secondAttribute="top" constant="20" id="J0y-L2-4z9"/>
                             <constraint firstItem="QhZ-QT-aWx" firstAttribute="firstBaseline" secondItem="0RG-cM-r1n" secondAttribute="firstBaseline" id="JRR-jL-Yae"/>
-                            <constraint firstItem="CMA-74-aW7" firstAttribute="leading" secondItem="0RG-cM-r1n" secondAttribute="trailing" constant="8" id="JRu-iW-mI0"/>
+                            <constraint firstItem="DVD-gB-FVc" firstAttribute="leading" secondItem="0RG-cM-r1n" secondAttribute="trailing" constant="8" id="XiN-XI-heX"/>
                             <constraint firstItem="lfe-HW-YgJ" firstAttribute="centerX" secondItem="Doq-fq-s9A" secondAttribute="centerX" id="YC9-dw-ZJz"/>
+                            <constraint firstItem="CN1-2i-eBJ" firstAttribute="leading" secondItem="DVD-gB-FVc" secondAttribute="trailing" constant="8" id="Ywd-ao-tXv"/>
+                            <constraint firstItem="CN1-2i-eBJ" firstAttribute="width" secondItem="DVD-gB-FVc" secondAttribute="width" id="Zmc-2A-xof"/>
                             <constraint firstAttribute="trailing" secondItem="6X9-pF-FJc" secondAttribute="trailing" constant="20" id="bzb-Bk-LaH"/>
                             <constraint firstAttribute="trailing" secondItem="Ij4-rY-DEL" secondAttribute="trailing" constant="20" id="cIH-aA-KPI"/>
-                            <constraint firstItem="sYW-s1-7Zd" firstAttribute="centerY" secondItem="DVD-gB-FVc" secondAttribute="centerY" id="d8A-vs-8DA"/>
+                            <constraint firstItem="sYW-s1-7Zd" firstAttribute="centerY" secondItem="DVD-gB-FVc" secondAttribute="centerY" constant="30" id="d8A-vs-8DA"/>
                             <constraint firstItem="0RG-cM-r1n" firstAttribute="centerY" secondItem="DVD-gB-FVc" secondAttribute="centerY" id="jJy-Mb-Pah"/>
                             <constraint firstItem="735-8J-hXd" firstAttribute="leading" secondItem="Doq-fq-s9A" secondAttribute="leading" constant="20" id="lEm-zJ-LMg"/>
                             <constraint firstItem="6X9-pF-FJc" firstAttribute="leading" secondItem="Doq-fq-s9A" secondAttribute="leading" constant="20" id="piB-hC-ems"/>
                             <constraint firstItem="QhZ-QT-aWx" firstAttribute="leading" secondItem="Doq-fq-s9A" secondAttribute="leading" constant="13" id="sTZ-qK-qMm"/>
+                            <constraint firstItem="CN1-2i-eBJ" firstAttribute="centerY" secondItem="DVD-gB-FVc" secondAttribute="centerY" id="scv-Se-H0B"/>
                             <constraint firstItem="6X9-pF-FJc" firstAttribute="top" secondItem="lfe-HW-YgJ" secondAttribute="bottom" constant="8" id="t9f-WM-7ho"/>
                             <constraint firstItem="mk9-1D-Haf" firstAttribute="firstBaseline" secondItem="0RG-cM-r1n" secondAttribute="firstBaseline" id="w4D-fG-eHj"/>
                             <constraint firstItem="wgY-Gr-qyr" firstAttribute="firstBaseline" secondItem="0RG-cM-r1n" secondAttribute="firstBaseline" id="xop-Vk-Iac"/>
@@ -590,14 +613,15 @@ Gw
                     </view>
                     <connections>
                         <outlet property="cancelButton" destination="0RG-cM-r1n" id="Rw1-Gr-F8s"/>
+                        <outlet property="monthlySubscribeButton" destination="DVD-gB-FVc" id="jdO-9N-A09"/>
                         <outlet property="restoreButton" destination="QhZ-QT-aWx" id="fNq-RL-mVC"/>
                         <outlet property="spinner" destination="sYW-s1-7Zd" id="wSf-jU-7VH"/>
-                        <outlet property="subscribeButton" destination="DVD-gB-FVc" id="jdO-9N-A09"/>
+                        <outlet property="yearlySubscribeButton" destination="CN1-2i-eBJ" id="fAL-X7-2S6"/>
                     </connections>
                 </viewController>
                 <customObject id="aR9-gO-mq4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="676.5" y="254.5"/>
+            <point key="canvasLocation" x="734" y="331.5"/>
         </scene>
         <!--Repos View Controller-->
         <scene sceneID="hIz-AP-VOD">

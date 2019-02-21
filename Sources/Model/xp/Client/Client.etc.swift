@@ -311,7 +311,7 @@ private func _alert(error: Error, title: String?, file: StaticString, line: UInt
     if let error = error as? PMKHTTPError {
         return error.gitHubDescription(defaultTitle: title)
     } else {
-        return (error.legibleDescription, title)
+        return (error.legibleLocalizedDescription, title)
     }
 }
 

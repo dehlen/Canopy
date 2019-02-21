@@ -3,7 +3,8 @@ import AppKit
 import Cake
 
 class SubscribeViewController: NSViewController {
-    @IBOutlet var subscribeButton: NSButton!
+    @IBOutlet var monthlySubscribeButton: NSButton!
+    @IBOutlet var yearlySubscribeButton: NSButton!
     @IBOutlet var restoreButton: NSButton!
     @IBOutlet var cancelButton: NSButton!
     @IBOutlet var spinner: NSProgressIndicator!
@@ -19,21 +20,53 @@ class SubscribeViewController: NSViewController {
             if spinCounter > 0 {
                 spinner.startAnimation(self)
                 restoreButton.isEnabled = false
-                subscribeButton.isEnabled = false
-                subscribeButton.title = ""
+                monthlySubscribeButton.isEnabled = false
+                yearlySubscribeButton.isEnabled = false
+                monthlySubscribeButton.title = ""
+                yearlySubscribeButton.title = ""
             } else {
                 spinner.stopAnimation(self)
                 restoreButton.isEnabled = true
-                subscribeButton.isEnabled = true
-                subscribeButton.priceValue = price
+                monthlySubscribeButton.isEnabled = true
+                yearlySubscribeButton.isEnabled = true
+                updateButtons()
                 cancelButton.isEnabled = true
             }
         }
     }
 
-    private var price: Result<String>? {
+    private var products: Result<[SKProduct]>? {
         didSet {
-            subscribeButton.priceValue = price
+            updateButtons()
+        }
+    }
+
+    public func product(for sender: NSButton) -> SKProduct? {
+        guard case .fulfilled(let products)? = products else { return nil }
+        switch sender {
+        case yearlySubscribeButton:
+            return products[safe: 0]
+        case monthlySubscribeButton:
+            return products[safe: 1]
+        default:
+            return nil
+        }
+    }
+
+    private func updateButtons() {
+        switch products {
+        case .fulfilled(let products)?:
+            func set(_ sender: NSButton) {
+                sender.title = product(for: sender)?.buttonText ?? "Error"
+            }
+            set(yearlySubscribeButton)
+            set(monthlySubscribeButton)
+        case .rejected?:
+            yearlySubscribeButton.title = "Error"
+            monthlySubscribeButton.title = "Error"
+        case .none:
+            yearlySubscribeButton.title = ""
+            monthlySubscribeButton.title = ""
         }
     }
 
@@ -66,13 +99,13 @@ class SubscribeViewController: NSViewController {
         super.viewDidLoad()
 
         app.subscribeViewController = self
-        subscribeButton.keyEquivalent = "\r"
+        //monthlySubscribeButton.keyEquivalent = "\r"
         spinCounter += 1
 
         firstly {
-            mgr.price()
+            mgr.products()
         }.tap(on: .main) {
-            self.price = $0
+            self.products = $0
         }.ensure {
             self.spinCounter -= 1
         }.catch {
@@ -88,15 +121,19 @@ class SubscribeViewController: NSViewController {
         app.subscribeViewController = nil
     }
 
-    @IBAction func subscribe(sender: Any) {
-        spinCounter += 1
-        cancelButton.isEnabled = false  // Apple will do a bunch of dialogs whatever so we cannot allow cancel
-        mgr.subscribe().catch {
+    @IBAction private func subscribe(sender: NSButton) {
+        guard let product = product(for: sender) else { return }
+
+        do {
+            spinCounter += 1
+            cancelButton.isEnabled = false  // Apple will do a bunch of dialogs whatever so we cannot allow cancel
+            try mgr.subscribe(to: product)
+        } catch {
             // if it doesn't initally fail it calls us back later
             // also may fail later, but this won't be called then
             self.spinCounter -= 1
             self.cancelButton.isEnabled = true
-            alert(error: $0)
+            alert(error: error)
         }
     }
 
@@ -110,24 +147,6 @@ class SubscribeViewController: NSViewController {
             } else {
                 self.dismiss(self)
             }
-        }
-    }
-}
-
-private extension NSButton {
-    var priceValue: Result<String>? {
-        set {
-            switch newValue {
-            case .fulfilled(let price)?:
-                title = "\(price) / Month"
-            case .rejected?:
-                title = "Error"
-            case .none:
-                title = ""
-            }
-        }
-        get {
-            fatalError()
         }
     }
 }

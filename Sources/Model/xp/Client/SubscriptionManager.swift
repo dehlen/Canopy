@@ -35,21 +35,13 @@ public class SubscriptionManager: NSObject, SKPaymentTransactionObserver {
     }
 
     /// only starts the process, the delegate finishes it
-    public func subscribe() -> Promise<Void> {
+    public func subscribe(to product: SKProduct) throws {
         guard let login = creds?.username else {
-            return Promise(error: Error.notSignedIn)
+            throw Error.notSignedIn
         }
-
-        return firstly {
-            SKProductsRequest.canopy.start(.promise)
-        }.done {
-            guard let product = $0.products.first else {
-                throw Error.productNotFound
-            }
-            let payment = SKMutablePayment(product: product)
-            payment.applicationUsername = login.data(using: .utf8)?.sha256
-            SKPaymentQueue.default().add(payment)
-        }
+        let payment = SKMutablePayment(product: product)
+        payment.applicationUsername = login.data(using: .utf8)?.sha256
+        SKPaymentQueue.default().add(payment)
     }
 
     public func refreshReceipt() -> Promise<Void> {
@@ -64,11 +56,11 @@ public class SubscriptionManager: NSObject, SKPaymentTransactionObserver {
         }
     }
 
-    public func price() -> Promise<String> {
+    public func products() -> Promise<[SKProduct]> {
         return firstly {
             SKProductsRequest.canopy.start(.promise)
-        }.compactMap {
-            $0.products.first{ $0.productIdentifier == SKProduct.canopy }?.localizedPrice
+        }.map {
+            $0.products.sorted{ a, _ in a.subscriptionPeriod?.unit == .year }
         }
     }
 
@@ -96,6 +88,8 @@ public class SubscriptionManager: NSObject, SKPaymentTransactionObserver {
                 queue.finishTransaction(transaction)
             case .deferred:
                 delegate?.subscriptionFinished(error: Error.deferred, file: #file, line: #line)
+            @unknown default:
+                fatalError()
             }
         }
 
@@ -196,17 +190,18 @@ public class SubscriptionManager: NSObject, SKPaymentTransactionObserver {
 
 extension SKProduct {
 #if os(macOS)
-    static var canopy: String { return "sub1" }
+    static var canopy: Set<String> { return ["sub1", "sub3"] }
 #else
-    static var canopy: String { return "sub2" }
+    static var canopy: Set<String> { return ["sub2"] }
 #endif
 }
 
 extension SKProductsRequest {
     static var canopy: SKProductsRequest {
-        return .init(productIdentifiers: [SKProduct.canopy])
+        return .init(productIdentifiers: SKProduct.canopy)
     }
 }
+
 
 import CommonCrypto
 
@@ -254,11 +249,32 @@ private extension SKReceiptRefreshRequest {
     }
 }
 
-private extension SKProduct {
+public extension SKProduct {
     var localizedPrice: String? {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         formatter.locale = priceLocale
         return formatter.string(from: price)
+    }
+
+    var buttonText: String {
+        let price = localizedPrice ?? "$??"
+        var duration: String {
+            switch subscriptionPeriod?.unit {
+            case .day?:
+                return "Day"
+            case .week?:
+                return "Week"
+            case .month?:
+                return "Month"
+            case .year?:
+                return "Year"
+            case .none:
+                fallthrough
+            @unknown default:
+                return "??"
+            }
+        }
+        return "\(price) / \(duration)"
     }
 }
