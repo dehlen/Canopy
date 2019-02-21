@@ -7,7 +7,7 @@ extension UIColor {
 }
 
 public extension UIView {
-    public enum AnimationType {
+    enum AnimationType {
         case easeInCirc
         case easeOutCirc
         case easeInOutCirc

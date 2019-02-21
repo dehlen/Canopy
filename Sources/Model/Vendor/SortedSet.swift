@@ -37,8 +37,8 @@ public struct SortedSet<Element: Hashable & Comparable>: Hashable, RandomAccessC
         return array[position]
     }
 
-    public var hashValue: Int {
-        return set.hashValue
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(set)
     }
 
     public func indexOf(_ element: Element) -> Int? {
