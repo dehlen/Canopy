@@ -150,6 +150,8 @@ public extension EnrollmentsManager {
             UIApplication.shared.endBackgroundTask(task)
         })
     #else
+        ProcessInfo.processInfo.disableSuddenTermination()
+        ProcessInfo.processInfo.disableAutomaticTermination("Networking…")
         let shouldNotifyError = true
     #endif
 
@@ -219,6 +221,9 @@ public extension EnrollmentsManager {
         }.ensure {
           #if os(iOS)
             UIApplication.shared.endBackgroundTask(task)
+          #else
+            ProcessInfo.processInfo.enableSuddenTermination()
+            ProcessInfo.processInfo.enableAutomaticTermination("Networking…")
           #endif
         }.done {
             self.hooks = $0

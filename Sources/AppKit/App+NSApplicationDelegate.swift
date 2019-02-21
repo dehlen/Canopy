@@ -72,6 +72,10 @@ extension AppDelegate: NSApplicationDelegate {
         case .creds(let login, let token):
             creds = (username: login, token: token)
             NSApp.activate(ignoringOtherApps: true)
+
+            ProcessInfo.processInfo.enableSuddenTermination()
+            ProcessInfo.processInfo.enableAutomaticTermination("User not logged in")
+
         case .error(let message, .authentication?):
             if creds == nil {
                 fallthrough

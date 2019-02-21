@@ -34,6 +34,9 @@ class SignInViewController: NSViewController {
         performSegue(withIdentifier: "Authenticating", sender: sender)
 
         if let url = URL.signIn(deviceToken: deviceToken) {
+            ProcessInfo.processInfo.disableSuddenTermination()
+            ProcessInfo.processInfo.disableAutomaticTermination("User not logged in")
+
             NSWorkspace.shared.open(url)
         }
     }
