@@ -61,6 +61,9 @@ extension ReposViewController: NSOutlineViewDataSource {
 extension ReposViewController: NSOutlineViewDelegate {
     func outlineViewSelectionDidChange(_: Notification) {
 
+        startupTipsContainer.isHidden = true
+        notifyButton.isHidden = false
+
         enum State {
             case fetching
             case noSelection

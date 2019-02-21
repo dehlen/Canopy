@@ -16,6 +16,7 @@ class ReposViewController: NSViewController {
     @IBOutlet weak var mainColumn: NSTableColumn!
     @IBOutlet weak var statusColumn: NSTableColumn!
     @IBOutlet weak var statusLabel: NSTextField!
+    @IBOutlet weak var startupTipsContainer: NSView!
     @IBOutlet weak var notifyButton: NSButton!
     @IBOutlet weak var homepageButton: NSButton!
     @IBOutlet weak var configureButton: NSButton!

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.64"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -412,7 +411,7 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Canopy" customModuleProvider="target">
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="App" customModuleProvider="target">
                     <connections>
                         <outlet property="createSubscriptionMenuItem" destination="7yv-kj-b7n" id="PdU-NG-8NO"/>
                         <outlet property="manageSubscriptionMenuItem" destination="E6E-Gy-6uW" id="OF9-CY-BUp"/>
@@ -448,7 +447,7 @@
         <!--Private Repositories Subscription-->
         <scene sceneID="DGy-9H-FKg">
             <objects>
-                <viewController title="Private Repositories Subscription" id="dMa-Dx-8hX" customClass="SubscribeViewController" customModule="Canopy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Private Repositories Subscription" id="dMa-Dx-8hX" customClass="SubscribeViewController" customModule="App" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="Doq-fq-s9A">
                         <rect key="frame" x="0.0" y="0.0" width="530" height="289"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -603,7 +602,7 @@ Gw
         <!--Repos View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="ReposViewController" customModule="Canopy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="XfG-lQ-9wD" customClass="ReposViewController" customModule="App" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="502" height="633"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -665,10 +664,10 @@ Gw
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="1ap-G9-Kf0">
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="1ap-G9-Kf0" userLabel="Startup Tips Container">
                                 <rect key="frame" x="285" y="0.0" width="217" height="633"/>
                                 <subviews>
-                                    <button horizontalHuggingPriority="1000" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="frP-Tl-UsX">
+                                    <button hidden="YES" horizontalHuggingPriority="1000" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="frP-Tl-UsX">
                                         <rect key="frame" x="18" y="597" width="181" height="18"/>
                                         <buttonCell key="cell" type="check" title="Receive push notifications" bezelStyle="regularSquare" imagePosition="left" enabled="NO" inset="2" id="5VQ-lS-rA5">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -678,22 +677,107 @@ Gw
                                             <action selector="toggleWithSender:" target="XfG-lQ-9wD" id="QPl-ej-lYI"/>
                                         </connections>
                                     </button>
-                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="iho-P4-YOy">
-                                        <rect key="frame" x="18" y="341" width="181" height="238"/>
-                                        <textFieldCell key="cell" selectable="YES" id="15p-hU-sQY">
+                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="iho-P4-YOy" userLabel="Status Label">
+                                        <rect key="frame" x="18" y="572" width="181" height="17"/>
+                                        <textFieldCell key="cell" selectable="YES" allowsUndo="NO" id="15p-hU-sQY">
                                             <font key="font" metaFont="system"/>
-                                            <string key="title">Stay on top of development with Canopy.
-
-To get started select a repository for which you want to receive push notifications and tap the above checkbox.
-
-You can subscribe to all repositories under a user or organizaation at once if you tap the checkbox for that root node.</string>
                                             <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
+                                    <customView focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="qcH-Db-F4U">
+                                        <rect key="frame" x="15" y="246" width="187" height="367"/>
+                                        <subviews>
+                                            <box borderType="none" title="Getting Started" titlePosition="belowTop" translatesAutoresizingMaskIntoConstraints="NO" id="Wec-86-FG4">
+                                                <rect key="frame" x="-3" y="254" width="193" height="115"/>
+                                                <view key="contentView" id="R0B-pa-jOB">
+                                                    <rect key="frame" x="0.0" y="0.0" width="193" height="99"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="YEZ-e9-y7j">
+                                                            <rect key="frame" x="8" y="10" width="177" height="85"/>
+                                                            <textFieldCell key="cell" selectable="YES" id="8oW-qW-rTD">
+                                                                <font key="font" metaFont="system"/>
+                                                                <string key="title">Select a repository on the left for which you want to receive notifications and then tap the “Receive push notifications” checkbox.</string>
+                                                                <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="bottom" secondItem="YEZ-e9-y7j" secondAttribute="bottom" constant="10" id="Ipy-5s-3U4"/>
+                                                        <constraint firstItem="YEZ-e9-y7j" firstAttribute="top" secondItem="R0B-pa-jOB" secondAttribute="top" constant="4" id="Q7h-t3-bXx"/>
+                                                        <constraint firstAttribute="trailing" secondItem="YEZ-e9-y7j" secondAttribute="trailing" constant="10" id="WQe-G7-ocq"/>
+                                                        <constraint firstItem="YEZ-e9-y7j" firstAttribute="leading" secondItem="R0B-pa-jOB" secondAttribute="leading" constant="10" id="wfV-il-Wb5"/>
+                                                    </constraints>
+                                                </view>
+                                                <font key="titleFont" metaFont="systemSemibold" size="11"/>
+                                            </box>
+                                            <box borderType="none" title="Being Efficient" titlePosition="belowTop" translatesAutoresizingMaskIntoConstraints="NO" id="Zhh-jM-u9U">
+                                                <rect key="frame" x="-3" y="125" width="193" height="115"/>
+                                                <view key="contentView" id="4xJ-lW-1rH">
+                                                    <rect key="frame" x="0.0" y="0.0" width="193" height="99"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="4vv-y4-uSS">
+                                                            <rect key="frame" x="8" y="10" width="177" height="85"/>
+                                                            <textFieldCell key="cell" selectable="YES" title="You can subscribe to all repositories under a user or organizaation at once if you tap the checkbox for that root node." id="tUy-MG-nrG">
+                                                                <font key="font" metaFont="system"/>
+                                                                <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="bottom" secondItem="4vv-y4-uSS" secondAttribute="bottom" constant="10" id="807-ch-3y2"/>
+                                                        <constraint firstItem="4vv-y4-uSS" firstAttribute="top" secondItem="4xJ-lW-1rH" secondAttribute="top" constant="4" id="9qC-tE-Dmv"/>
+                                                        <constraint firstAttribute="trailing" secondItem="4vv-y4-uSS" secondAttribute="trailing" constant="10" id="gw8-0o-7fZ"/>
+                                                        <constraint firstItem="4vv-y4-uSS" firstAttribute="leading" secondItem="4xJ-lW-1rH" secondAttribute="leading" constant="10" id="ikB-p0-jrt"/>
+                                                    </constraints>
+                                                </view>
+                                                <font key="titleFont" metaFont="systemSemibold" size="11"/>
+                                            </box>
+                                            <box borderType="none" title="Quit the App!" titlePosition="belowTop" translatesAutoresizingMaskIntoConstraints="NO" id="dNO-rN-Dpi">
+                                                <rect key="frame" x="-3" y="-4" width="193" height="115"/>
+                                                <view key="contentView" id="s2y-Sv-Q0S">
+                                                    <rect key="frame" x="0.0" y="0.0" width="193" height="99"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="3qG-2d-VUZ">
+                                                            <rect key="frame" x="8" y="10" width="177" height="85"/>
+                                                            <textFieldCell key="cell" selectable="YES" title="You can quit Canopy once you’ve set up your notifications! Push notifications arrive even if the app isn’t running." id="yR6-KL-AvF">
+                                                                <font key="font" metaFont="system"/>
+                                                                <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="3qG-2d-VUZ" firstAttribute="leading" secondItem="s2y-Sv-Q0S" secondAttribute="leading" constant="10" id="7RJ-1O-39m"/>
+                                                        <constraint firstItem="3qG-2d-VUZ" firstAttribute="top" secondItem="s2y-Sv-Q0S" secondAttribute="top" constant="4" id="ggY-ap-rbm"/>
+                                                        <constraint firstAttribute="bottom" secondItem="3qG-2d-VUZ" secondAttribute="bottom" constant="10" id="nYl-mc-XEV"/>
+                                                        <constraint firstAttribute="trailing" secondItem="3qG-2d-VUZ" secondAttribute="trailing" constant="10" id="sGz-NC-pTE"/>
+                                                    </constraints>
+                                                </view>
+                                                <font key="titleFont" metaFont="systemSemibold" size="11"/>
+                                            </box>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="Wec-86-FG4" firstAttribute="top" secondItem="qcH-Db-F4U" secondAttribute="top" id="O7j-TX-uqj"/>
+                                            <constraint firstAttribute="bottom" secondItem="dNO-rN-Dpi" secondAttribute="bottom" id="PUl-my-IIj"/>
+                                            <constraint firstAttribute="trailing" secondItem="Zhh-jM-u9U" secondAttribute="trailing" id="R8D-WP-C6P"/>
+                                            <constraint firstAttribute="trailing" secondItem="Wec-86-FG4" secondAttribute="trailing" id="TkW-oL-IFY"/>
+                                            <constraint firstItem="Zhh-jM-u9U" firstAttribute="leading" secondItem="qcH-Db-F4U" secondAttribute="leading" id="eGx-3D-rCH"/>
+                                            <constraint firstAttribute="trailing" secondItem="dNO-rN-Dpi" secondAttribute="trailing" id="kDA-5e-Lwa"/>
+                                            <constraint firstItem="dNO-rN-Dpi" firstAttribute="top" secondItem="Zhh-jM-u9U" secondAttribute="bottom" constant="20" id="n8a-76-Bgj"/>
+                                            <constraint firstItem="dNO-rN-Dpi" firstAttribute="leading" secondItem="qcH-Db-F4U" secondAttribute="leading" id="p8K-Ie-mYd"/>
+                                            <constraint firstItem="Zhh-jM-u9U" firstAttribute="top" secondItem="Wec-86-FG4" secondAttribute="bottom" constant="20" id="sQm-8D-ZjY"/>
+                                            <constraint firstItem="Wec-86-FG4" firstAttribute="leading" secondItem="qcH-Db-F4U" secondAttribute="leading" id="yb4-Mk-6ko"/>
+                                        </constraints>
+                                    </customView>
                                     <button horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yVm-e7-LWg" userLabel="Website Button">
-                                        <rect key="frame" x="27" y="7" width="164" height="19"/>
-                                        <buttonCell key="cell" type="recessed" title="http://codebasesaga.com/canopy/" bezelStyle="recessed" alignment="center" lineBreakMode="clipping" borderStyle="border" id="fNE-fa-iZf">
+                                        <rect key="frame" x="36" y="7" width="146" height="19"/>
+                                        <buttonCell key="cell" type="recessed" title="https://mxcl.github.io/canopy/" bezelStyle="recessed" alignment="center" lineBreakMode="clipping" borderStyle="border" id="fNE-fa-iZf">
                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="miniSystem"/>
                                         </buttonCell>
@@ -702,7 +786,7 @@ You can subscribe to all repositories under a user or organizaation at once if y
                                         </connections>
                                     </button>
                                     <button hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7Mx-aa-4iX">
-                                        <rect key="frame" x="14" y="299" width="110" height="32"/>
+                                        <rect key="frame" x="14" y="534" width="110" height="32"/>
                                         <buttonCell key="cell" type="push" title="Configure…" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="nIb-Ni-foS">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -714,15 +798,18 @@ You can subscribe to all repositories under a user or organizaation at once if y
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="frP-Tl-UsX" secondAttribute="trailing" constant="20" id="0af-cd-Lj9"/>
+                                    <constraint firstAttribute="trailing" secondItem="qcH-Db-F4U" secondAttribute="trailing" constant="15" id="0t8-VF-6io"/>
+                                    <constraint firstItem="7Mx-aa-4iX" firstAttribute="leading" secondItem="1ap-G9-Kf0" secondAttribute="leading" constant="20" id="1lI-KE-J5I"/>
                                     <constraint firstItem="frP-Tl-UsX" firstAttribute="top" secondItem="1ap-G9-Kf0" secondAttribute="top" constant="20" id="5rU-fA-UIw"/>
-                                    <constraint firstItem="iho-P4-YOy" firstAttribute="top" secondItem="frP-Tl-UsX" secondAttribute="bottom" constant="20" id="TFf-x3-8cw"/>
-                                    <constraint firstItem="7Mx-aa-4iX" firstAttribute="leading" secondItem="iho-P4-YOy" secondAttribute="leading" id="d4J-vV-bgw"/>
-                                    <constraint firstItem="iho-P4-YOy" firstAttribute="leading" secondItem="1ap-G9-Kf0" secondAttribute="leading" constant="20" id="ffo-cn-8iZ"/>
+                                    <constraint firstItem="7Mx-aa-4iX" firstAttribute="top" secondItem="iho-P4-YOy" secondAttribute="bottom" constant="10" id="Ahx-v2-bi6"/>
+                                    <constraint firstItem="qcH-Db-F4U" firstAttribute="leading" secondItem="1ap-G9-Kf0" secondAttribute="leading" constant="15" id="EN8-Eu-btz"/>
+                                    <constraint firstItem="iho-P4-YOy" firstAttribute="leading" secondItem="1ap-G9-Kf0" secondAttribute="leading" constant="20" id="Hpe-Du-ktX"/>
+                                    <constraint firstItem="iho-P4-YOy" firstAttribute="top" secondItem="frP-Tl-UsX" secondAttribute="bottom" constant="10" id="Slz-Tw-25U"/>
+                                    <constraint firstItem="qcH-Db-F4U" firstAttribute="top" secondItem="1ap-G9-Kf0" secondAttribute="top" constant="20" id="bUv-Kt-nWy"/>
                                     <constraint firstItem="frP-Tl-UsX" firstAttribute="leading" secondItem="1ap-G9-Kf0" secondAttribute="leading" constant="20" id="kEd-2n-KEF"/>
-                                    <constraint firstItem="7Mx-aa-4iX" firstAttribute="top" secondItem="iho-P4-YOy" secondAttribute="bottom" constant="14" id="t5Y-ve-D2D"/>
+                                    <constraint firstAttribute="trailing" secondItem="iho-P4-YOy" secondAttribute="trailing" constant="20" id="pMe-TO-qo5"/>
                                     <constraint firstItem="yVm-e7-LWg" firstAttribute="centerX" secondItem="1ap-G9-Kf0" secondAttribute="centerX" id="w7K-Or-bwU"/>
                                     <constraint firstAttribute="bottom" secondItem="yVm-e7-LWg" secondAttribute="bottom" constant="8" id="xjz-ZV-jpJ"/>
-                                    <constraint firstAttribute="trailing" secondItem="iho-P4-YOy" secondAttribute="trailing" constant="20" id="xu5-ug-HQN"/>
                                 </constraints>
                             </customView>
                         </subviews>
@@ -742,6 +829,7 @@ You can subscribe to all repositories under a user or organizaation at once if y
                         <outlet property="mainColumn" destination="5t4-ur-x1R" id="VXA-wf-R25"/>
                         <outlet property="notifyButton" destination="frP-Tl-UsX" id="eZI-vM-hOX"/>
                         <outlet property="outlineView" destination="Tn7-qK-wuj" id="NDN-fO-H6j"/>
+                        <outlet property="startupTipsContainer" destination="qcH-Db-F4U" id="q0e-qh-nAZ"/>
                         <outlet property="statusColumn" destination="CGk-Hi-zP5" id="NsM-Kh-Bzh"/>
                         <outlet property="statusLabel" destination="iho-P4-YOy" id="jQz-WW-nIb"/>
                         <segue destination="eRY-as-3te" kind="sheet" identifier="SignIn" id="sxB-hL-FML"/>
@@ -750,12 +838,12 @@ You can subscribe to all repositories under a user or organizaation at once if y
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-6" y="928"/>
+            <point key="canvasLocation" x="-6" y="927.5"/>
         </scene>
         <!--Sign In View Controller-->
         <scene sceneID="ly1-PT-1NG">
             <objects>
-                <viewController id="eRY-as-3te" customClass="SignInViewController" customModule="Canopy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="eRY-as-3te" customClass="SignInViewController" customModule="App" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="sbp-Yh-46W">
                         <rect key="frame" x="0.0" y="0.0" width="349" height="164"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -857,7 +945,7 @@ You can subscribe to all repositories under a user or organizaation at once if y
         <!--Waiting Auth View Controller-->
         <scene sceneID="zF4-mn-pRY">
             <objects>
-                <viewController id="icT-F2-iwI" customClass="WaitingAuthViewController" customModule="Canopy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="icT-F2-iwI" customClass="WaitingAuthViewController" customModule="App" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="NIx-8T-0sv">
                         <rect key="frame" x="0.0" y="0.0" width="276" height="120"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -911,7 +999,7 @@ Gw
         <!--Waiting Token View Controller-->
         <scene sceneID="QtB-n2-Cy8">
             <objects>
-                <viewController id="AQD-cW-jnh" customClass="WaitingTokenViewController" customModule="Canopy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="AQD-cW-jnh" customClass="WaitingTokenViewController" customModule="App" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="oES-ay-Mxk">
                         <rect key="frame" x="0.0" y="0.0" width="276" height="120"/>
                         <autoresizingMask key="autoresizingMask"/>
