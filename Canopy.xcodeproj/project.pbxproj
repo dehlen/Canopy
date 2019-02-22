@@ -259,9 +259,9 @@
 				6357C24B221F0B8F00F058BC /* Cakefile·Completion */,
 				6357C24D221F0B8F00F058BC /* SortedArray.a */,
 				6357C24F221F0B8F00F058BC /* PMKStoreKit.a */,
-				6357C251221F0B8F00F058BC /* PMKFoundation.a */,
-				6357C253221F0B8F00F058BC /* PromiseKit.a */,
-				6357C27A221F268800F058BC /* LegibleError.a */,
+				6357C251221F0B8F00F058BC /* libPMKFoundation.a */,
+				6357C253221F0B8F00F058BC /* libPromiseKit.a */,
+				6357C27A221F268800F058BC /* libLegibleError.a */,
 				6357C255221F0B8F00F058BC /* KeychainAccess.a */,
 				63A713BE21BC3FD4000A9097 /* Dependencies.a */,
 				6357C257221F0B8F00F058BC /* Client.a */,
@@ -422,18 +422,16 @@
 			remoteRef = 6357C24E221F0B8F00F058BC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6357C251221F0B8F00F058BC /* PMKFoundation.a */ = {
+		6357C251221F0B8F00F058BC /* libPMKFoundation.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			name = PMKFoundation.a;
 			path = libPMKFoundation.a;
 			remoteRef = 6357C250221F0B8F00F058BC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6357C253221F0B8F00F058BC /* PromiseKit.a */ = {
+		6357C253221F0B8F00F058BC /* libPromiseKit.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			name = PromiseKit.a;
 			path = libPromiseKit.a;
 			remoteRef = 6357C252221F0B8F00F058BC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -470,10 +468,9 @@
 			remoteRef = 6357C25A221F0B8F00F058BC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6357C27A221F268800F058BC /* LegibleError.a */ = {
+		6357C27A221F268800F058BC /* libLegibleError.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			name = LegibleError.a;
 			path = libLegibleError.a;
 			remoteRef = 6357C279221F268800F058BC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -663,14 +660,14 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TEQMQBRC7B;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "Sources/AppKit/App-macOS-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codebasesaga.macOS.Canopy;
 				PRODUCT_MODULE_NAME = App;
 				PRODUCT_NAME = Canopy;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -683,14 +680,14 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TEQMQBRC7B;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "Sources/AppKit/App-macOS-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.codebasesaga.macOS.Canopy;
 				PRODUCT_MODULE_NAME = App;
 				PRODUCT_NAME = Canopy;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};

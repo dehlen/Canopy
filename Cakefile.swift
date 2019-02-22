@@ -11,9 +11,3 @@ dependencies = [
     .github("ole/SortedArray" ~> 0.7),
     .github("mxcl/LegibleError" ~> 1),
 ]
-
-platforms = [
-    .macOS ~> 10.12,
-    .iOS ~> 11.4,
-]
-
