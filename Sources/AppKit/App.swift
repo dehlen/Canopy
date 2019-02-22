@@ -33,6 +33,7 @@ class AppDelegate: NSObject {
             URLSession.shared.dataTask(.promise, with: rq).validate()
         }.done { _ in
             creds = nil
+            NSApp.terminate(sender)
         }.catch {
             alert(error: $0)
         }
