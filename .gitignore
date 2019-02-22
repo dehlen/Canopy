@@ -6,3 +6,4 @@ xcuserdata
 /.cake/*.json
 /.cake/swift-pm
 /.cake/Package.swift
+/.cake/Version.xcconfig

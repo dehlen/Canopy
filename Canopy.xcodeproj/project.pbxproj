@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6351783E2220490300C5AA5D /* Cake.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 6351783D2220490200C5AA5D /* Cake.xcconfig */; };
 		63A7136321BC3951000A9097 /* App+NSApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A7135421BC3951000A9097 /* App+NSApplicationDelegate.swift */; };
 		63A7136421BC3951000A9097 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A7135521BC3951000A9097 /* SignInViewController.swift */; };
 		63A7136521BC3951000A9097 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A7135621BC3951000A9097 /* App.swift */; };
@@ -143,6 +144,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6351783D2220490200C5AA5D /* Cake.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Cake.xcconfig; path = .cake/Cake.xcconfig; sourceTree = "<group>"; };
 		63A7135421BC3951000A9097 /* App+NSApplicationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "App+NSApplicationDelegate.swift"; sourceTree = "<group>"; };
 		63A7135521BC3951000A9097 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		63A7135621BC3951000A9097 /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 			children = (
 				OBJ_8 /* AppKit */,
 				63A7138A21BC39E7000A9097 /* UIKit */,
+				6351783D2220490200C5AA5D /* Cake.xcconfig */,
 			);
 			name = Apps;
 			sourceTree = "<group>";
@@ -259,9 +262,9 @@
 				6357C24B221F0B8F00F058BC /* Cakefile·Completion */,
 				6357C24D221F0B8F00F058BC /* SortedArray.a */,
 				6357C24F221F0B8F00F058BC /* PMKStoreKit.a */,
-				6357C251221F0B8F00F058BC /* libPMKFoundation.a */,
-				6357C253221F0B8F00F058BC /* libPromiseKit.a */,
-				6357C27A221F268800F058BC /* libLegibleError.a */,
+				6357C251221F0B8F00F058BC /* PMKFoundation.a */,
+				6357C253221F0B8F00F058BC /* PromiseKit.a */,
+				6357C27A221F268800F058BC /* LegibleError.a */,
 				6357C255221F0B8F00F058BC /* KeychainAccess.a */,
 				63A713BE21BC3FD4000A9097 /* Dependencies.a */,
 				6357C257221F0B8F00F058BC /* Client.a */,
@@ -422,16 +425,18 @@
 			remoteRef = 6357C24E221F0B8F00F058BC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6357C251221F0B8F00F058BC /* libPMKFoundation.a */ = {
+		6357C251221F0B8F00F058BC /* PMKFoundation.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
+			name = PMKFoundation.a;
 			path = libPMKFoundation.a;
 			remoteRef = 6357C250221F0B8F00F058BC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6357C253221F0B8F00F058BC /* libPromiseKit.a */ = {
+		6357C253221F0B8F00F058BC /* PromiseKit.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
+			name = PromiseKit.a;
 			path = libPromiseKit.a;
 			remoteRef = 6357C252221F0B8F00F058BC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -468,9 +473,10 @@
 			remoteRef = 6357C25A221F0B8F00F058BC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6357C27A221F268800F058BC /* libLegibleError.a */ = {
+		6357C27A221F268800F058BC /* LegibleError.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
+			name = LegibleError.a;
 			path = libLegibleError.a;
 			remoteRef = 6357C279221F268800F058BC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -516,6 +522,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				6351783E2220490300C5AA5D /* Cake.xcconfig in Resources */,
 				63A7136A21BC3951000A9097 /* Main.storyboard in Resources */,
 				63A7136621BC3951000A9097 /* AppKit.xcassets in Resources */,
 			);
@@ -693,6 +700,7 @@
 		};
 		OBJ_3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6351783D2220490200C5AA5D /* Cake.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
@@ -714,7 +722,6 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_NS_ASSERTIONS = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -732,7 +739,6 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SEMANTIC_PROJECT_VERSION = 1.1.1;
 				SUPPORTED_PLATFORMS = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -742,6 +748,7 @@
 		};
 		OBJ_4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6351783D2220490200C5AA5D /* Cake.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
@@ -763,7 +770,6 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 20;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -778,7 +784,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13.2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SEMANTIC_PROJECT_VERSION = 1.1.1;
 				SUPPORTED_PLATFORMS = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = Cake;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

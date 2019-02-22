@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		27CCC44DFA86333E66FEE34EA8063784 /* Versionator */ = {
+			isa = PBXAggregateTarget;
+			buildPhases = (
+				B0CCAA5D1D192F6963E1F5560239A386 /* Determine Version */,
+			);
+			dependencies = (
+			);
+			name = Versionator;
+		};
 		818A4854C95B333066E8C4A9D0FE3104 /* Cakefile */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = FB1419C517BF03EBE4B57BA190D11DA2 /* Build configuration list for PBXAggregateTarget "Cakefile" */;
@@ -215,6 +224,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 999D67BA3E0614B8DD445108DB33F766;
 			remoteInfo = "Batter·Client";
+		};
+		F312C1044F70834D556FB7F4802D1893 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAA9F9B983CE55D38B2F125BAD56FC0E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 27CCC44DFA86333E66FEE34EA8063784;
+			remoteInfo = Versionator;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -511,7 +527,7 @@
 		};
 		8B942976617019A6C464818315598CC1 /* Cake */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 63517814222043E400C5AA5D /* Build configuration list */;
+			buildConfigurationList = 634562A7222250EE00D616E8 /* Build configuration list */;
 			buildPhases = (
 				9D57241684611D5226E52EBD3A97727C /* Sources */,
 				0B026A614C2516F4FCE621E12A0C2BBD /* Frameworks */,
@@ -520,6 +536,7 @@
 			);
 			dependencies = (
 				CB56305824BFCA6B67740F6043A4B9E2 /* PBXTargetDependency */,
+				3366830391752771A1D8AFE2C77B8DC4 /* PBXTargetDependency */,
 				6F2865C025F7F740FF65DBD4991157C8 /* PBXTargetDependency */,
 			);
 			name = Cake;
@@ -625,7 +642,7 @@
 		};
 		DCF843C187E023E2097ACF9EABA93DD6 /* Dependencies */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 63517812222043E400C5AA5D /* Build configuration list */;
+			buildConfigurationList = 634562A5222250EE00D616E8 /* Build configuration list */;
 			buildPhases = (
 				110D4C6492AD4DAAB8F0701D634714CF /* Frameworks */,
 				B72D8CDE7B96F674B97F50DBA7722D81 /* Sources */,
@@ -647,7 +664,7 @@
 		};
 		F5D94DE7A2DF28D8FD6E0C310044455E /* Batter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 63517813222043E400C5AA5D /* Build configuration list */;
+			buildConfigurationList = 634562A6222250EE00D616E8 /* Build configuration list */;
 			buildPhases = (
 				B48E25CDFE3DC639D59FCE85ECC280D9 /* Frameworks */,
 				86204B913285479790C8B40218A6D01E /* Sources */,
@@ -731,6 +748,7 @@
 				0C6CB203E1256C62E14D3F381130C697 /* Batter·xp */,
 				90AD6F7916998C879BA681905A417179 /* Batter·Vendor */,
 				F5D94DE7A2DF28D8FD6E0C310044455E /* Batter */,
+				27CCC44DFA86333E66FEE34EA8063784 /* Versionator */,
 				8B942976617019A6C464818315598CC1 /* Cake */,
 			);
 		};
@@ -753,6 +771,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /usr/bin/swift;
 			shellScript = "import func Darwin.fputs\nimport var Darwin.stderr\nimport ScriptingBridge\nimport AppKit\n\nfunc print(_ objs: Any...) {\n    let str = objs.reduce(into: \"\") { $0.append(\" \\($1)\") }\n    fputs(str, stderr)\n}\n\nlet apps = NSRunningApplication.runningApplications(withBundleIdentifier: \"dev.mxcl.Cake\")\n\nswitch apps.count {\ncase 0:\n    print(\"warning: Cake.app not running, Cakefile changes will not take effect\")\ncase 1:\n    guard let bundle = apps[0].bundleURL else {\n        print(\"Failed to obtain Cake.app location\")\n        exit(1)\n    }\n    guard let projectDir = ProcessInfo.processInfo.environment[\"PROJECT_DIR\"] else {\n        print(\"Failed to obtain PROJECT_DIR\")\n        exit(2)\n    }\n    let path = bundle.appendingPathComponent(\"Contents/MacOS/cake-build\").path\n    let task = Process()\n    task.launchPath = path\n    task.arguments = [String(apps[0].processIdentifier), projectDir]\n    try task.run()\n    task.waitUntilExit()\n    exit(task.terminationStatus)\ndefault:\n    print(\"error: More than one instance of Cake.app is running\")\n    exit(3)\n}\n";
+			showEnvVarsInLog = 0;
+		};
+		B0CCAA5D1D192F6963E1F5560239A386 /* Determine Version */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Determine Version";
+			outputPaths = (
+				Version.xcconfig,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "v=$(git describe --tags --always --abbrev=0)\nn=$(git rev-list HEAD --count)\n\necho \"CURRENT_PROJECT_VERSION = $n\" > Version.xcconfig\necho \"SEMANTIC_PROJECT_VERSION = $v\" >> Version.xcconfig\necho \"SEMANTIC_PROJECT_VERSION[config=Debug] = $v-debug\" >> Version.xcconfig\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -928,6 +962,12 @@
 			name = Cakefile;
 			target = 818A4854C95B333066E8C4A9D0FE3104 /* Cakefile */;
 			targetProxy = A6534538102624A3BAD54587BBECFEF5 /* PBXContainerItemProxy */;
+		};
+		3366830391752771A1D8AFE2C77B8DC4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Versionator;
+			target = 27CCC44DFA86333E66FEE34EA8063784 /* Versionator */;
+			targetProxy = F312C1044F70834D556FB7F4802D1893 /* PBXContainerItemProxy */;
 		};
 		3698D46A54E70C6C3BAEFE3F7660B20C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1107,7 +1147,7 @@
 			};
 			name = Debug;
 		};
-		6351780C222043DC00C5AA5D /* Debug */ = {
+		6345629F222250EE00D616E8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -1117,7 +1157,7 @@
 			};
 			name = Debug;
 		};
-		6351780D222043DC00C5AA5D /* Release */ = {
+		634562A0222250EE00D616E8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -1126,7 +1166,7 @@
 			};
 			name = Release;
 		};
-		6351780E222043DC00C5AA5D /* Debug */ = {
+		634562A1222250EE00D616E8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -1136,7 +1176,7 @@
 			};
 			name = Debug;
 		};
-		6351780F222043DC00C5AA5D /* Release */ = {
+		634562A2222250EE00D616E8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -1145,7 +1185,7 @@
 			};
 			name = Release;
 		};
-		63517810222043DC00C5AA5D /* Debug */ = {
+		634562A3222250EE00D616E8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -1155,7 +1195,7 @@
 			};
 			name = Debug;
 		};
-		63517811222043DC00C5AA5D /* Release */ = {
+		634562A4222250EE00D616E8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -1410,29 +1450,29 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		63517812222043E400C5AA5D /* Build configuration list */ = {
+		634562A5222250EE00D616E8 /* Build configuration list */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6351780C222043DC00C5AA5D /* Debug */,
-				6351780D222043DC00C5AA5D /* Release */,
+				6345629F222250EE00D616E8 /* Debug */,
+				634562A0222250EE00D616E8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		63517813222043E400C5AA5D /* Build configuration list */ = {
+		634562A6222250EE00D616E8 /* Build configuration list */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6351780E222043DC00C5AA5D /* Debug */,
-				6351780F222043DC00C5AA5D /* Release */,
+				634562A1222250EE00D616E8 /* Debug */,
+				634562A2222250EE00D616E8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		63517814222043E400C5AA5D /* Build configuration list */ = {
+		634562A7222250EE00D616E8 /* Build configuration list */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				63517810222043DC00C5AA5D /* Debug */,
-				63517811222043DC00C5AA5D /* Release */,
+				634562A3222250EE00D616E8 /* Debug */,
+				634562A4222250EE00D616E8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
