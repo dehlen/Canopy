@@ -68,7 +68,7 @@ class ReposViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         mgr.delegate = self
-        NotificationCenter.default.addObserver(mgr, selector: #selector(EnrollmentsManager.update), name: .credsUpdated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(credsUpdated), name: .credsUpdated, object: nil)
 
         homepageButton.attributedTitle = NSAttributedString(string: homepageButton.title, attributes: [
             .foregroundColor: NSColor.tertiaryLabelColor
@@ -84,6 +84,10 @@ class ReposViewController: NSViewController {
         } else {
             performSegue(withIdentifier: "SignIn", sender: self)
         }
+    }
+
+    @objc private func credsUpdated() {
+        mgr.token = creds?.token
     }
 
     @IBAction func addManualSubscription(sender: Any) {
