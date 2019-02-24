@@ -103,7 +103,7 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
         }
 
       //// if we’re a new branch prompt the user to create a pr
-        if let note = notificatable as? CreateEvent, note.ref_type == .branch, let branch = note.ref {
+        if let note = notificatable as? CreateEvent, note.ref_type == .branch, let branch = note.ref, branch != "gh-pages" {
 
             struct CreatePR: Notificatable {
                 let branch: String
