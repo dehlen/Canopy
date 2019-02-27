@@ -1,3 +1,4 @@
+import class StoreKit.SKProduct
 import SafariServices
 import UIKit
 import Cake
@@ -13,7 +14,11 @@ class SubscribeViewController_iOS: UIViewController {
         return navigationItem.leftBarButtonItem!
     }
 
-    private var price: String?
+    private var product: SKProduct?
+
+    private var price: String? {
+        return product?.localizedPrice
+    }
 
     func spin() {
         UIView.animate(.easeInOutQuad, duration: 0.2) {
@@ -43,9 +48,11 @@ class SubscribeViewController_iOS: UIViewController {
         spin()
 
         firstly {
-            mgr.price()
-        }.done { price in
-            self.price = price
+            mgr.products()
+        }.compactMap {
+            $0.first
+        }.done { product in
+            self.product = product
             self.restoreButton.isEnabled = true
             self.subscribeButton.isEnabled = true
         }.cauterize().finally {
@@ -54,11 +61,17 @@ class SubscribeViewController_iOS: UIViewController {
     }
 
     @IBAction private func subscribe() {
+        guard let product = product else { return }
+
         cancelButton.isEnabled = false
         restoreButton.isEnabled = false
         subscribeButton.isEnabled = false
         spin()
-        mgr.subscribe().catch{ self.errorHandler($0) }
+        do {
+            try mgr.subscribe(to: product)
+        } catch {
+            alert(error: error)
+        }
     }
 
     func errorHandler(_ error: Swift.Error, title: String? = nil) {
