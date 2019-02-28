@@ -803,8 +803,8 @@ Gw
                                         </constraints>
                                     </customView>
                                     <button horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yVm-e7-LWg" userLabel="Website Button">
-                                        <rect key="frame" x="36" y="7" width="146" height="19"/>
-                                        <buttonCell key="cell" type="recessed" title="https://mxcl.github.io/canopy/" bezelStyle="recessed" alignment="center" lineBreakMode="clipping" borderStyle="border" id="fNE-fa-iZf">
+                                        <rect key="frame" x="47" y="7" width="123" height="19"/>
+                                        <buttonCell key="cell" type="recessed" title="https://mxcl.dev/canopy/" bezelStyle="recessed" alignment="center" lineBreakMode="clipping" borderStyle="border" id="fNE-fa-iZf">
                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="miniSystem"/>
                                         </buttonCell>

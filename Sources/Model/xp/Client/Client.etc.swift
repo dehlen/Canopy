@@ -178,19 +178,19 @@ public extension URL {
     }
 
     static var termsOfUse: URL {
-        return URL(string: "https://mxcl.github.io/canopy/#terms-of-use")!
+        return URL(string: "https://mxcl.dev/canopy/#terms-of-use")!
     }
     static var privacyPolicy: URL {
-        return URL(string: "https://mxcl.github.io/canopy/#privacy-policy")!
+        return URL(string: "https://mxcl.dev/canopy/#privacy-policy")!
     }
     static var faq: URL {
-        return URL(string: "https://mxcl.github.io/canopy/#faq")!
+        return URL(string: "https://mxcl.dev/canopy/#faq")!
     }
     static var manageSubscription: URL {
         return URL(string: "itmss://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/manageSubscriptions")!
     }
     static var home: URL {
-        return URL(string: "https://mxcl.github.io/canopy/")!
+        return URL(string: "https://mxcl.dev/canopy/")!
     }
 }
 

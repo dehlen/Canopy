@@ -76,10 +76,10 @@ class AccountViewController: UITableViewController {
         case .support?:
             if MFMailComposeViewController.canSendMail() {
                 let vc = MFMailComposeViewController()
-                vc.setToRecipients(["support@codebasesaga.com"])
+                vc.setToRecipients(["mxcl@me.com"])
                 promise(vc).cauterize()
             } else {
-                UIPasteboard.general.string = "support@codebasesaga.com"
+                UIPasteboard.general.string = "mxcl@me.com"
                 alert(message: "We have copied the support email address to your clipboard, paste it into your email client to contact support.")
             }
         case .icons8?:
@@ -138,7 +138,7 @@ private enum Row: CaseIterable {
         case .faq:
             return "FAQ"
         case .support:
-            return "support@codebasesaga.com"
+            return "Email Support"
         case .signInOut:
             return creds == nil ? "Sign In…" : "Sign Out"
         case .subscriptionActive:
