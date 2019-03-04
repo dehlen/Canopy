@@ -1,4 +1,4 @@
-import CCurl
+import cURL
 
 //
 //  CurlVersionHelper.swift

@@ -1,7 +1,7 @@
 import PerfectCrypto
 import Foundation
 import PromiseKit
-import CCurl
+import cURL
 
 private enum E: Error {
     case badToken
@@ -28,7 +28,7 @@ private class APNs {
         }
         curlHandle = curl_easy_init()
         //curlHelperSetOptBool(curlHandle, CURLOPT_VERBOSE, CURL_TRUE)
-        curlHelperSetOptInt(curlHandle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2_0)
+        curl_easy_setopt_long(curlHandle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2_0)
     }
 
     func send(to token: String, topic: String, json: Data, id: String?, collapseId: String?) {
@@ -122,21 +122,21 @@ private func _send(topic: String, json: Data, id: String?, collapseId: String?, 
     var url = url
     url.withCString {
         var str = UnsafeMutablePointer(mutating: $0)
-        curlHelperSetOptString(curlHandle, CURLOPT_URL, str)
+        curl_easy_setopt_cstr(curlHandle, CURLOPT_URL, str)
     }
 
-    curlHelperSetOptInt(curlHandle, CURLOPT_PORT, 443)
-    curlHelperSetOptBool(curlHandle, CURLOPT_FOLLOWLOCATION, CURL_TRUE)
-    curlHelperSetOptBool(curlHandle, CURLOPT_POST, CURL_TRUE)
-    curlHelperSetOptBool(curlHandle, CURLOPT_HEADER, CURL_TRUE) // Tell CURL to add headers
+    curl_easy_setopt_long(curlHandle, CURLOPT_PORT, 443)
+    curl_easy_setopt_long(curlHandle, CURLOPT_FOLLOWLOCATION, 1)
+    curl_easy_setopt_long(curlHandle, CURLOPT_POST, 1)
+    curl_easy_setopt_long(curlHandle, CURLOPT_HEADER, 1) // Tell CURL to add headers
 
     // setup payload
     var json = json
     json.append(0)
     json.withUnsafeMutableBytes {
-        _ = curlHelperSetOptString(curlHandle, CURLOPT_POSTFIELDS, $0)
+        _ = curl_easy_setopt_cstr(curlHandle, CURLOPT_POSTFIELDS, $0)
     }
-    curlHelperSetOptInt(curlHandle, CURLOPT_POSTFIELDSIZE, json.count - 1)
+    curl_easy_setopt_long(curlHandle, CURLOPT_POSTFIELDSIZE, json.count - 1)
 
     //Headers
     var curlHeaders: UnsafeMutablePointer<curl_slist>?
@@ -151,7 +151,7 @@ private func _send(topic: String, json: Data, id: String?, collapseId: String?, 
     }
     curlHeaders = curl_slist_append(curlHeaders, "Accept: application/json")
     curlHeaders = curl_slist_append(curlHeaders, "Content-Type: application/json; charset=utf-8")
-    curlHelperSetOptHeaders(curlHandle, curlHeaders)
+    curl_easy_setopt_slist(curlHandle, CURLOPT_HTTPHEADER, curlHeaders)
     defer {
         if let curlHeaders = curlHeaders {
             curl_slist_free_all(curlHeaders)
@@ -167,7 +167,8 @@ private func _send(topic: String, json: Data, id: String?, collapseId: String?, 
 
     // Get response
     var writeStorage = WriteStorage()
-    curlHelperSetOptWriteFunc(curlHandle, &writeStorage) { (ptr, size, nMemb, privateData) -> Int in
+    curl_easy_setopt_void(curlHandle, CURLOPT_WRITEDATA, &writeStorage)
+    curl_easy_setopt_func(curlHandle, CURLOPT_WRITEFUNCTION, { (ptr, size, nMemb, privateData) -> Int in
         let storage = privateData?.assumingMemoryBound(to: WriteStorage.self)
         let realsize = size * nMemb
 
@@ -178,7 +179,7 @@ private func _send(topic: String, json: Data, id: String?, collapseId: String?, 
             storage?.pointee.data.append(byte)
         }
         return realsize
-    }
+    })
 
     let ret = curl_easy_perform(curlHandle)
 
@@ -186,7 +187,7 @@ private func _send(topic: String, json: Data, id: String?, collapseId: String?, 
         throw E.fundamental
     }
     var code = 500
-    curlHelperGetInfoLong(curlHandle, CURLINFO_RESPONSE_CODE, &code)
+    curl_easy_getinfo_long(curlHandle, CURLINFO_RESPONSE_CODE, &code)
 
     switch code {
     case 200..<300:

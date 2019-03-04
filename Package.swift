@@ -13,7 +13,6 @@ let package = Package(
         .package(url: "https://github.com/PerfectlySoft/Perfect-SQLite.git", .upToNextMajor(from: "3.0.0")),
         .package(url: "https://github.com/mxcl/PromiseKit.git", .upToNextMajor(from: "6.3.4")),
         .package(url: "https://github.com/PromiseKit/Foundation.git", .upToNextMajor(from: "3.0.0")),
-        .package(url: "https://github.com/boostcode/CCurl.git", .upToNextMajor(from: "0.2.0")),
         .package(url: "https://github.com/PerfectlySoft/Perfect-CURL.git", .upToNextMajor(from: "3.0.0")),
         .package(url: "https://github.com/mxcl/LegibleError.git", from: "1.0.0"),
     ],
