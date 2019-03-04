@@ -605,37 +605,83 @@ struct OrganizationEvent: Codable, Notificatable, HasSender {  //TODO half-arsed
     let action: Action
     let organization: Organization
     let sender: User
-    let membership: Membership
 
-    struct Membership: Codable {
-        let user: User
-    }
-
-    enum Action: String, Codable, CustomStringConvertible {
-        case member_added, member_removed, member_invited
+    enum Action: CustomStringConvertible {
+        case added(User)
+        case removed(User)
+        case invited(role: String, User)
 
         var description: String {
             switch self {
-            case .member_added:
+            case .added:
                 return "added"
-            case .member_removed:
+            case .removed:
                 return "removed"
-            case .member_invited:
+            case .invited:
                 return "invited"
             }
         }
     }
 
     var body: String {
-        return "\(sender.login) \(action) \(membership.user.login)"
+        switch action {
+        case .removed(let user), .added(let user):
+            return "\(sender.login) \(action) \(user.login)"
+        case .invited(let role, let user):
+            return "\(sender.login) invited \(user.login) (\(role))"
+        }
     }
 
     var url: URL {
-        return membership.user.html_url
+        switch action {
+        case .added(let user), .removed(let user), .invited(_, let user):
+            return user.html_url
+        }
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case action, sender, user, invitation, membership, organization
     }
 
     var context: Context {
         return .organization(organization, admin: sender)
+    }
+
+    init(from decoder: Decoder) throws {
+        struct Membership: Codable {
+            let user: User
+        }
+        struct Invitation: Codable {
+            let role: String
+            let login: String
+            let inviter: User
+        }
+        enum RawAction: String, Codable {
+            case member_added, member_removed, member_invited
+        }
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let rawAction = try container.decode(RawAction.self, forKey: .action)
+        sender = try container.decode(User.self, forKey: .sender)
+        organization = try container.decode(Organization.self, forKey: .organization)
+
+        switch rawAction {
+        case .member_added:
+            let membership = try container.decode(Membership.self, forKey: .membership)
+            action = .added(membership.user)
+        case .member_removed:
+            let membership = try container.decode(Membership.self, forKey: .membership)
+            action = .removed(membership.user)
+        case .member_invited:
+            let foo = try container.decode(Invitation.self, forKey: .invitation)
+            let bar = try container.decode(User.self, forKey: .user)
+            action = .invited(role: foo.role, bar)
+        }
+    }
+
+    func encode(to encoder: Encoder) throws {
+        // required for Perfect (due to poor API design)
+        fatalError()
     }
 }
 
