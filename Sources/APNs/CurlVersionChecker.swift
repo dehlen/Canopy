@@ -1,14 +1,9 @@
-import cURL
+import CCurl
 
-//
-//  CurlVersionHelper.swift
-//  VaporAPNS
-//
-//  Created by Matthijs Logemann on 01/01/2017.
-//
-//
+public class CurlVersionHelper {
+    public init()
+    {}
 
-class CurlVersionHelper {
     public enum Result {
         case ok
         case old(got: String, wanted: String)

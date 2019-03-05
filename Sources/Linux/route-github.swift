@@ -3,9 +3,10 @@ import PerfectHTTP
 import Foundation
 import PromiseKit
 import Roots
+import APNs
 
 func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
-    guard let eventType = rq.header(.custom(name: "X-GitHub-Event")), let payload = rq.postBodyBytes.map(Data.init(bytes:)) else {
+    guard let eventType = rq.header(.custom(name: "X-GitHub-Event")), let payload = rq.postBodyBytes.map(Data.init(_:)) else {
         response.completed(status: .expectationFailed)
         return
     }
@@ -46,7 +47,20 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
                 extra: notificatable.url.map{ ["url": $0.absoluteString] },
                 id: id,
                 collapseId: notificatable.collapseId)
-            try note.send(to: confs)
+
+            try note.send(to: confs) { error in
+                switch error {
+                case .badToken(let token):
+                    print("error: APNs: deleting bad-token:", token)
+                    do {
+                        try DB().delete(apnsDeviceToken: token)
+                    } catch {
+                        print("error:", error.legibleDescription)
+                    }
+                case .reason(let msg), .fundamental(let msg):
+                    print("error: \(msg)")
+                }
+            }
         }
 
         func send(to: [APNSConfiguration: [String]]) throws {

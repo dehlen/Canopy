@@ -14,6 +14,8 @@ extension AppDelegate: NSApplicationDelegate {
         } else {
             NSUserNotificationCenter.default.delegate = self
         }
+
+        print(Int.max ^ [Event].default.maskValue)
     }
 
     func applicationDidFinishLaunching(_ note: Notification) {

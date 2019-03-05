@@ -115,6 +115,6 @@ import PerfectCrypto
 private extension String {
     var md5: String? {
         guard let digest = digest(.md5) else { return nil }
-        return Data(bytes: digest).base64EncodedString()
+        return Data(digest).base64EncodedString()
     }
 }

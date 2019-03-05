@@ -1,14 +1,18 @@
+import struct PerfectHTTP.Routes
 import struct Foundation.ObjCBool
 import class Foundation.FileManager
 import class Dispatch.DispatchQueue
+import class APNs.CurlVersionHelper
 import func Foundation.exit
+import PerfectHTTPServer
 import PromiseKit
+import Dispatch
+import Roots
 
 #if os(Linux)
 import Glibc
-// otherwise buffering makes systemd launched logging useless
-setbuf(stdout, nil)
-#endif
+
+setbuf(stdout, nil) // otherwise buffering makes systemd launched logging useless
 
 CurlVersionHelper().checkVersion()
 precondition(MemoryLayout<Int>.size == 8)  // required for our event-mask system
@@ -16,89 +20,10 @@ var isDir: ObjCBool = false
 precondition(FileManager.default.fileExists(atPath: "../receipts", isDirectory: &isDir) && isDir.boolValue)
 precondition(FileManager.default.fileExists(atPath: "../db.sqlite"))
 
-let teamId = "TEQMQBRC7B"
-
-#if os(Linux)
 let pmkQ = DispatchQueue(label: "pmkQ", qos: .default, attributes: .concurrent, autoreleaseFrequency: .workItem)
 PromiseKit.conf.Q.map = pmkQ
 PromiseKit.conf.Q.return = pmkQ
 #endif
-
-import PerfectHTTPServer
-import LegibleError
-import PerfectHTTP
-import Foundation
-import Roots
-
-extension Routes {
-
-    struct Response<T: Encodable> {
-        let codable: T
-        let headers: [HTTPResponseHeader.Name: String]
-
-        func encode() throws -> [UInt8] {
-            return [UInt8](try JSONEncoder().encode(codable))
-        }
-    }
-
-    fileprivate mutating func add(method: HTTPMethod, uri: URL.Canopy, handler: @escaping RequestHandler) {
-        add(method: method, uri: uri.path, handler: handler)
-    }
-
-    private static func errorHandler(error: Error, rsp: HTTPResponse) {
-        if let error = error as? API.Enroll.Error, let data = try? JSONEncoder().encode(error) {
-            rsp.appendBody(bytes: [UInt8](data))
-        } else {
-            rsp.appendBody(string: error.legibleDescription)
-        }
-        let status = (error as? HTTPStatusCodable).map{ HTTPResponseStatus.statusFrom(code: $0.httpStatusCode) } ?? .internalServerError
-        rsp.completed(status: status)
-    }
-
-    fileprivate mutating func add<T: Encodable>(method: HTTPMethod, uri: URL.Canopy, handler: @escaping  (HTTPRequest) throws -> Promise<T>) {
-        add(method: method, uri: uri.path, handler: { rq, rsp in
-            firstly {
-                try handler(rq)
-            }.done {
-                rsp.appendBody(bytes: [UInt8](try JSONEncoder().encode($0)))
-                rsp.completed()
-            }.catch {
-                Routes.errorHandler(error: $0, rsp: rsp)
-            }
-        })
-    }
-
-    fileprivate mutating func add<T: Encodable>(method: HTTPMethod, uri: URL.Canopy, handler: @escaping  (HTTPRequest) throws -> Promise<Response<T>>) {
-        add(method: method, uri: uri.path, handler: { rq, rsp in
-            firstly {
-                try handler(rq)
-            }.done {
-                for (name, value) in $0.headers {
-                    rsp.setHeader(name, value: value)
-                }
-                rsp.appendBody(bytes: try $0.encode())
-                rsp.completed()
-            }.catch {
-                Routes.errorHandler(error: $0, rsp: rsp)
-            }
-        })
-    }
-
-    fileprivate mutating func add(method: HTTPMethod, uri: URL.Canopy, handler: @escaping  (HTTPRequest) throws -> Promise<Void>) {
-        add(method: method, uri: uri.path, handler: { rq, rsp in
-            firstly {
-                try handler(rq)
-            }.done {
-                rsp.completed()
-            }.catch {
-                Routes.errorHandler(error: $0, rsp: rsp)
-            }
-        })
-    }
-}
-
-extension HTTPResponseHeader.Name: Hashable
-{}
 
 var routes = Routes()
 routes.add(method: .post, uri: .grapnel, handler: githubHandler)
@@ -130,8 +55,6 @@ server.addRoutes(routes)
     server.serverPort = 1088
 #endif
 
-
-import Dispatch
 
 signal(SIGINT, SIG_IGN) // prevent termination
 
