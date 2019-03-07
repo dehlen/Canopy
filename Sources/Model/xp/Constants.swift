@@ -6,7 +6,7 @@ public extension URLComponents {
     init(_ canopy: URL.Canopy) {
         self.init()
         scheme = "https"
-        host = "canopy.codebasesaga.com"
+        host = "canopy.mxcl.dev"
         path = canopy.path
     }
 }

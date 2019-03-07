@@ -148,7 +148,7 @@ private var body: String {
         }
         html {
           background: #434E58; color: white;
-          font-family: "soleil", sans-serif;
+          font-family: 'MetropolisRegular', sans-serif;
           padding: 1rem;
         }
         #icon {
@@ -162,12 +162,12 @@ private var body: String {
           text-align: center;
         }
       </style>
-      <link rel="stylesheet" href="https://codebasesaga.com/css/fonts.css">
+      <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/metropolis" type="text/css">
     </head>
 
     <h1>Canopy</h1>
     <p>Authorizing… please stand by.</p>
     <p>Upon completion the Canopy app will reactivate.</p>
-    <p style="margin-top: 2rem"><a href="mailto:support@codebasesaga.com">Contact Support</a></p>
+    <p style="margin-top: 2rem"><a href="mailto:mxcl+support@me.com">Contact Support</a></p>
     """
 }

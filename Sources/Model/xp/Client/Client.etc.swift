@@ -48,7 +48,7 @@ extension PMKHTTPError {
 
 ////// auth
 public extension Notification.Name {
-    static var credsUpdated: Notification.Name { return Notification.Name("com.codebasesaga.credsUpdated") }
+    static var credsUpdated: Notification.Name { return Notification.Name("dev.mxcl.credsUpdated") }
 }
 
 private let keychain = Keychain(service: "com.codebasesaga.Canopy.GitHub", accessGroup: "TEQMQBRC7B.com.codebasesaga.Canopy")
