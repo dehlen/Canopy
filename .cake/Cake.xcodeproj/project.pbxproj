@@ -1266,9 +1266,9 @@ C01BD67412F7D01E7E37440909A3CB04 /* Release */ = {
 		SDKROOT = macosx;
 		SKIP_INSTALL = YES;
 		SUPPORTED_PLATFORMS = (
+			macosx,
 			iphoneos,
 			iphonesimulator,
-			macosx,
 		);
 		SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
 			Cake,
@@ -1398,9 +1398,9 @@ F7770844F3B732A8F6817F4CB5DE795E /* Debug */ = {
 		SDKROOT = macosx;
 		SKIP_INSTALL = YES;
 		SUPPORTED_PLATFORMS = (
+			macosx,
 			iphoneos,
 			iphonesimulator,
-			macosx,
 		);
 		SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
 			Cake,

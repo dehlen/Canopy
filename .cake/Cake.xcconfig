@@ -1,1 +1,1 @@
-#include? ".cake/Version.xcconfig"
+#include? "Version.xcconfig"
