@@ -554,6 +554,7 @@ struct MembershipEvent: Codable, Notificatable, HasSender {
     }
     enum Scope: String, Codable {
         case team
+        case organization
     }
 
     struct Team: Codable {
