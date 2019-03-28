@@ -77,7 +77,7 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
             for (oauthToken, foo) in tokens {
                 DispatchQueue.global().async(.promise) {
                     switch foo.userId {
-                    case 58962, 7132384, 24509830, 33223853, 33409294:
+                    case 58962, 7132384, 24509830, 33223853, 33409294, 21280410, 9217605, 15271677:
                         //mxcl, aleshia, laurie,   akash,    ernesto
                         return
                     default:
