@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6351783E2220490300C5AA5D /* Cake.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 6351783D2220490200C5AA5D /* Cake.xcconfig */; };
 		63A7136321BC3951000A9097 /* App+NSApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A7135421BC3951000A9097 /* App+NSApplicationDelegate.swift */; };
 		63A7136421BC3951000A9097 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A7135521BC3951000A9097 /* SignInViewController.swift */; };
 		63A7136521BC3951000A9097 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A7135621BC3951000A9097 /* App.swift */; };
@@ -380,6 +379,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -522,7 +522,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				6351783E2220490300C5AA5D /* Cake.xcconfig in Resources */,
 				63A7136A21BC3951000A9097 /* Main.storyboard in Resources */,
 				63A7136621BC3951000A9097 /* AppKit.xcassets in Resources */,
 			);
