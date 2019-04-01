@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.64"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -457,7 +457,7 @@
                                 <rect key="frame" x="18" y="84" width="610" height="112"/>
                                 <textFieldCell key="cell" selectable="YES" alignment="justified" id="L4m-4V-sct">
                                     <font key="font" metaFont="smallSystem"/>
-                                    <string key="title">Unlimited push notifications for private repositories is enabled via an auto‐renewing subscription. Your GitHub account must have at least read access to the private repository. The duration of every period of the subscription is 1 month or 1 year. The price of the subscription is shown below. Payment will be charged to your App Store account at confirmation of purchase. There is a 7 day free trial period. Subscription automatically renews unless auto‐renew is turned off at least 24 hours before the end of the current period. Your account will be charged for renewal within 24 hours prior to the end of the current period, with the same amount as the current period. Subscriptions may be managed by the user and auto‐renewal may be turned off by going to the user’s App Store account settings after purchase.</string>
+                                    <mutableString key="title">Unlimited push notifications for private repositories is enabled via an auto‐renewing subscription. Your GitHub account must have at least read access to the private repository. The duration of every period of the subscription is 1 month or 1 year. The price of the subscription is shown below. Payment will be charged to your App Store account at confirmation of purchase. There is a 3 day free trial period for the annual subscription. Subscription automatically renews unless auto‐renew is turned off at least 24 hours before the end of the current period. Your account will be charged for renewal within 24 hours prior to the end of the current period, with the same amount as the current period. Subscriptions may be managed by the user and auto‐renewal may be turned off by going to the user’s App Store account settings after purchase.</mutableString>
                                     <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
@@ -524,8 +524,8 @@ Gw
                                         </connections>
                                     </button>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DxE-D3-efx">
-                                        <rect key="frame" x="48" y="0.0" width="59" height="13"/>
-                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Best Value!" id="oGg-jc-9UA">
+                                        <rect key="frame" x="36" y="0.0" width="83" height="13"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Three Days Free" id="oGg-jc-9UA">
                                             <font key="font" metaFont="system" size="10"/>
                                             <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
