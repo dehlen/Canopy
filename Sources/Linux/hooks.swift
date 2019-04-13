@@ -1026,7 +1026,18 @@ struct PullRequestEvent: Codable, Notificatable, HasSender {
     let labels: [String]?
 
     enum Action: String, Codable {
-        case assigned, unassigned, review_requested, review_request_removed, labeled, unlabeled, opened, edited, closed, reopened, synchronize
+        case assigned
+        case unassigned
+        case review_requested
+        case review_request_removed
+        case labeled
+        case unlabeled
+        case opened
+        case edited
+        case closed
+        case reopened
+        case synchronize
+        case ready_for_review
     }
 
     var title: String? {
@@ -1051,6 +1062,8 @@ struct PullRequestEvent: Codable, Notificatable, HasSender {
             return "Review requested by \(sender.login)"
         case .review_request_removed:
             return "Review request removed by \(sender.login)"
+        case .ready_for_review:
+            return "Ready for review"
         case .labeled:
             let labels = self.labels ?? []
             return "\(sender.login) labeled \(labels.joined(separator: ", "))"
