@@ -234,8 +234,8 @@ private func configureCurlHandle(url: String, json: Data, token deviceToken: Str
     curlHelperSetOptInt(handle, CURLOPT_POSTFIELDSIZE, json.count)
     var json = json
     json.append(0)
-    json.withUnsafeBytes {
-        _ = curlHelperSetOptString(handle, CURLOPT_COPYPOSTFIELDS, $0)
+    json.withUnsafeBytes { ptr -> Void in
+        curlHelperSetOptString(handle, CURLOPT_COPYPOSTFIELDS, ptr.baseAddress?.assumingMemoryBound(to: Int8.self))
     }
 
 //// headers

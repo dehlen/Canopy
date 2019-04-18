@@ -86,6 +86,3 @@ extension Routes {
         })
     }
 }
-
-extension HTTPResponseHeader.Name: Hashable
-{}

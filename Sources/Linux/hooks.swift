@@ -447,7 +447,7 @@ struct IssuesEvent: Codable, Notificatable, HasSender {
     let changes: Changes?
 
     enum Action: String, Codable {
-        case assigned, unassigned, labeled, unlabeled, opened, edited, milestoned, demilestoned, closed, reopened, transferred, deleted
+        case assigned, unassigned, labeled, unlabeled, opened, edited, milestoned, demilestoned, closed, reopened, transferred, deleted, pinned, locked
     }
 
     struct Changes: Codable {
@@ -1038,6 +1038,7 @@ struct PullRequestEvent: Codable, Notificatable, HasSender {
         case reopened
         case synchronize
         case ready_for_review
+        case locked
     }
 
     var title: String? {
