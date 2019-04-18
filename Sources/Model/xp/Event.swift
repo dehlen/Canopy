@@ -28,6 +28,7 @@ public enum Event: String, CaseIterable, CustomStringConvertible {
     case release
     case repository
     case repository_import
+    case star
     case status
     case watch
     case pull_request_review_comment
@@ -115,6 +116,8 @@ public enum Event: String, CaseIterable, CustomStringConvertible {
             return 1 << 34
         case .marketplace_purchase:
             return 1 << 35
+        case .star:
+            return 1 << 36
         }
     }
 

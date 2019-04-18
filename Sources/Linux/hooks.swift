@@ -1358,6 +1358,42 @@ struct TeamAddEvent: Codable, Notificatable, HasSender {
     }
 }
 
+// new event for stars, mirrors watch or something
+struct StarEvent: Codable, Notificatable, HasSender {
+    let action: Action
+    let sender: User
+    let repository: Repository
+
+    enum Action: String, Codable {
+        case created, deleted
+    }
+
+    var subtitle: String? {
+        return "\(repository.stargazers_count) stars"
+    }
+
+    var body: String {
+        switch action {
+        case .created:
+            return "\(sender.login) starred \(repository.full_name)"
+        case .deleted:
+            return "Someone unstarred \(repository.full_name)"
+        }
+    }
+
+    var url: URL? {
+        return repository.html_url
+    }
+
+    var context: Context {
+        return .repository(repository)
+    }
+
+    var collapseId: String? {
+        return repository.full_name + "/stars"
+    }
+}
+
 // Actually: stars
 struct WatchEvent: Codable, Notificatable, HasSender {
     let action: Action
@@ -1560,6 +1596,8 @@ extension Event {
             return try decoder.decode(RepositoryEvent.self, from: data)
         case .repository_import:
             return try decoder.decode(RepositoryImportEvent.self, from: data)
+        case .star:
+            return try decoder.decode(StarEvent.self, from: data)
         case .status:
             return try decoder.decode(StatusEvent.self, from: data)
         case .watch:

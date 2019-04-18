@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/PromiseKit/Foundation.git",
         "state": {
           "branch": null,
-          "revision": "04b196a1cb3ce65a404724c4e6e87c43c56542a4",
-          "version": "3.3.1"
+          "revision": "0a59b0d89f469979aecacdf9046df14f99d1cc6b",
+          "version": "3.3.2"
         }
       },
       {
@@ -42,8 +42,8 @@
         "repositoryURL": "https://github.com/PerfectlySoft/Perfect-CRUD.git",
         "state": {
           "branch": null,
-          "revision": "2fffbdc4d9c33e6c980a51768abe7d9f6d9bbac0",
-          "version": "1.2.2"
+          "revision": "5a947634b7ce0b991e8f455a61ce02449f2e6f36",
+          "version": "1.2.3"
         }
       },
       {
@@ -78,8 +78,8 @@
         "repositoryURL": "https://github.com/PerfectlySoft/Perfect-HTTP.git",
         "state": {
           "branch": null,
-          "revision": "d57687c25a6fa676dee0f9f61e1049a34a5fd96f",
-          "version": "3.2.0"
+          "revision": "8041b3990e811ace806c1451765cd373161e699d",
+          "version": "3.2.5"
         }
       },
       {
@@ -87,8 +87,8 @@
         "repositoryURL": "https://github.com/PerfectlySoft/Perfect-HTTPServer.git",
         "state": {
           "branch": null,
-          "revision": "49981001cd6ac7c9e19ea06e3a94a58e8b2b3f98",
-          "version": "3.0.19"
+          "revision": "014f5641484509a8c09f371f715bd65fafae5462",
+          "version": "3.0.22"
         }
       },
       {
@@ -132,8 +132,8 @@
         "repositoryURL": "https://github.com/PerfectlySoft/Perfect-Thread.git",
         "state": {
           "branch": null,
-          "revision": "04fcd2d29f50e05dbca907219322fd475c205c33",
-          "version": "3.0.5"
+          "revision": "fbbd7aec0ebe06fbeed58da54153226dd7613c4a",
+          "version": "3.0.6"
         }
       },
       {
@@ -141,8 +141,8 @@
         "repositoryURL": "https://github.com/PerfectlySoft/PerfectLib.git",
         "state": {
           "branch": null,
-          "revision": "60e44e4c62e293844581205528eefdc7e1153199",
-          "version": "3.1.2"
+          "revision": "5a08c2a596df23a3ae30b6ac9cb509a38384166c",
+          "version": "3.1.4"
         }
       },
       {
@@ -150,8 +150,8 @@
         "repositoryURL": "https://github.com/mxcl/PromiseKit.git",
         "state": {
           "branch": null,
-          "revision": "db3b2aaf0b26299c1828e0a302adf1a5523f4af5",
-          "version": "6.8.3"
+          "revision": "fe1e9c5b62465227cceb7b0e6e79489ba7b824af",
+          "version": "6.8.4"
         }
       }
     ]

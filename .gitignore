@@ -2,7 +2,7 @@ xcuserdata
 *.xcscmblueprint
 .DS_Store
 /Debris.xcodeproj
-/.build
+/.build*
 /.cake/*.json
 /.cake/swift-pm
 /.cake/Package.swift
