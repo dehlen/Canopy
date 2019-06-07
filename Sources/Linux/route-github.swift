@@ -15,7 +15,7 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
     print("/github:", eventType, terminator: " ")
 
     func save(prefix: String) {
-        Debris.save(json: payload, eventName: "\(prefix)-\(eventType)")
+        doSave(json: payload, eventName: "\(prefix)-\(eventType)")
     }
 
     do {
@@ -235,7 +235,7 @@ private enum SendType {
     }
 }
 
-func save(json: Data, eventName: String) {
+func doSave(json: Data, eventName: String) {
     DispatchQueue.global(qos: .utility).async {
         do {
             let obj = try JSONSerialization.jsonObject(with: json)

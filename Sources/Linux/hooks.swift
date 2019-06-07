@@ -301,6 +301,15 @@ struct DeleteEvent: Codable, Notificatable, HasSender {
     }
 }
 
+struct DeployKeyEvent: Codable, Notificatable, HasSender {
+    var body: String { return action }
+    let action: String
+    let repository: Repository
+    var context: Context { return .repository(repository) }
+    var shouldIgnore: Bool { return true }
+    let sender: User
+}
+
 struct DeploymentEvent: Codable, Notificatable, HasSender {
     let repository: Repository
     let deployment: Deployment
@@ -1613,6 +1622,8 @@ extension Event {
             return try decoder.decode(RepositoryVulnerabilityEvent.self, from: data)
         case .marketplace_purchase:
             throw E.unimplemented(rawValue)
+        case .deploy_key:
+            return try decoder.decode(DeployKeyEvent.self, from: data)
         }
     }
 }
