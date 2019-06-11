@@ -192,13 +192,14 @@ struct CheckSuiteEvent: Codable, Notificatable, HasSender {
         let url: URL
         let status: Status
         let app: App
+        let pulls: [URL]?
 
         struct App: Codable {
             let name: String
         }
 
         enum CodingKeys: String, CodingKey {
-            case url, status, app, conclusion
+            case url, status, app, conclusion, pull_requests
         }
 
         enum Status: CustomStringConvertible {
@@ -234,6 +235,7 @@ struct CheckSuiteEvent: Codable, Notificatable, HasSender {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             url = try container.decode(URL.self, forKey: .url)
             app = try container.decode(App.self, forKey: .app)
+            pulls = try? container.decode([URL].self, forKey: .pull_requests)
 
             switch try container.decode(String.self, forKey: .status) {
             case "requested":
@@ -265,7 +267,7 @@ struct CheckSuiteEvent: Codable, Notificatable, HasSender {
     }
 
     var url: URL? {
-        return check_suite.url
+        return check_suite.pulls?.first
     }
 
     var context: Context {
