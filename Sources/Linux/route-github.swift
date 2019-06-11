@@ -19,6 +19,11 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
     }
 
     do {
+        // we don’t want to surface these to our UI
+        if eventType == "meta" || eventType == "deploy_key" {
+            throw Event.E.ignoring
+        }
+
         guard let event = Event(rawValue: eventType) else {
             throw Event.E.unimplemented(eventType)
         }

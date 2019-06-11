@@ -1622,8 +1622,6 @@ extension Event {
             return try decoder.decode(RepositoryVulnerabilityEvent.self, from: data)
         case .marketplace_purchase:
             throw E.unimplemented(rawValue)
-        case .deploy_key:
-            return try decoder.decode(DeployKeyEvent.self, from: data)
         }
     }
 }

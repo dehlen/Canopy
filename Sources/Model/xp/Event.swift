@@ -6,7 +6,6 @@ public enum Event: String, CaseIterable, CustomStringConvertible {
     case commit_comment
     case create
     case delete
-    case deploy_key
     case deployment
     case deployment_status
     case fork
@@ -119,8 +118,6 @@ public enum Event: String, CaseIterable, CustomStringConvertible {
             return 1 << 35
         case .star:
             return 1 << 36
-        case .deploy_key:
-            return 1 << 37
         }
     }
 
