@@ -191,6 +191,11 @@ struct CheckSuiteEvent: Codable, Notificatable, HasSender {
     struct CheckSuite: Codable {
         let url: URL
         let status: Status
+        let app: App
+
+        struct App: Codable {
+            let name: String
+        }
 
         enum Status: String, Codable, CustomStringConvertible {
             case requested, in_progress, completed
@@ -200,18 +205,28 @@ struct CheckSuiteEvent: Codable, Notificatable, HasSender {
                 case .requested, .completed:
                     return rawValue
                 case .in_progress:
-                    return "in progress"
+                    return "in‑progress"
                 }
             }
         }
     }
 
     var subtitle: String? {
+        guard action != .completed, check_suite.status != .completed else {
+            return nil
+        }
         return "Check suite \(check_suite.status)"
     }
 
     var body: String {
-        return "\(sender) \(action) the check"
+        switch action {
+        case .completed:
+            return "The \(check_suite.app.name) job succeeded"
+        case .requested:
+            return "A job on \(check_suite.app.name) has started"
+        case .rerequested:
+            return "A job on \(check_suite.app.name) was re‑requested"
+        }
     }
 
     var url: URL? {
