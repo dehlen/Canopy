@@ -197,31 +197,66 @@ struct CheckSuiteEvent: Codable, Notificatable, HasSender {
             let name: String
         }
 
-        enum Status: String, Codable, CustomStringConvertible {
-            case requested, in_progress, completed
+        enum CodingKeys: String, CodingKey {
+            case url, status, app, conclusion
+        }
+
+        enum Status: CustomStringConvertible {
+            case requested, in_progress, completed(Conclusion)
+
+            enum Conclusion: String, Decodable {
+                case success, failure, neutral, cancelled, timed_out, action_required
+            }
 
             var description: String {
                 switch self {
-                case .requested, .completed:
-                    return rawValue
+                case .requested:
+                    return "requested"
+                case .completed(.success):
+                    return "succeeded"
+                case .completed(.failure):
+                    return "failed"
+                case .completed(.neutral):
+                    return "completed"
+                case .completed(.cancelled):
+                    return "was cancelled"
+                case .completed(.timed_out):
+                    return "timed out"
+                case .completed(.action_required):
+                    return "requires action"
                 case .in_progress:
                     return "in‑progress"
                 }
             }
         }
-    }
 
-    var subtitle: String? {
-        guard action != .completed, check_suite.status != .completed else {
-            return nil
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            url = try container.decode(URL.self, forKey: .url)
+            app = try container.decode(App.self, forKey: .app)
+
+            switch try container.decode(String.self, forKey: .status) {
+            case "requested":
+                status = .requested
+            case "in_progress":
+                status = .in_progress
+            case "completed":
+                let conclusion = try container.decode(Status.Conclusion.self, forKey: .conclusion)
+                status = .completed(conclusion)
+            default:
+                throw DecodingError.dataCorruptedError(forKey: .status, in: container, debugDescription: "Invalid status value")
+            }
         }
-        return "Check suite \(check_suite.status)"
+
+        func encode(to encoder: Encoder) throws {
+            fatalError()
+        }
     }
 
     var body: String {
         switch action {
         case .completed:
-            return "The \(check_suite.app.name) job succeeded"
+            return "The \(check_suite.app.name) job \(check_suite.status)"
         case .requested:
             return "A job on \(check_suite.app.name) has started"
         case .rerequested:
