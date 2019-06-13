@@ -21,8 +21,9 @@ let package = Package(
     targets: [
         .target(name: "Debris", dependencies: ["PerfectSQLite", "PerfectHTTPServer", "PerfectCURL", "Roots", "APNs"], path: "Sources/Linux"),
         .target(name: "Roots", dependencies: ["PromiseKit", "PMKFoundation", "LegibleError"], path: "Sources/Model/xp", exclude: ["Client"]),
-        .target(name: "APNs", dependencies: ["PerfectCrypto"])
+        .target(name: "APNs", dependencies: ["PerfectCrypto", "CCurl"])
     ]
 )
 
+package.swiftLanguageVersions = [.v5]
 package.platforms = [.macOS(.v10_12)]

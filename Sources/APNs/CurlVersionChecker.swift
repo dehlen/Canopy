@@ -44,12 +44,12 @@ public class CurlVersionHelper {
     }
 
     private func checkVersionNumber(_ strVersionA: String, _ strVersionB: String) -> Int{
-        var arrVersionA = strVersionA.split(separator: ".").map({ Int($0) })
+        let arrVersionA = strVersionA.split(separator: ".").map{ Int($0) }
         guard arrVersionA.count == 3 else {
             fatalError("Wrong curl version scheme! \(strVersionA)")
         }
 
-        var arrVersionB = strVersionB.split(separator: ".").map({ Int($0) })
+        let arrVersionB = strVersionB.split(separator: ".").map{ Int($0) }
         guard arrVersionB.count == 3 else {
             fatalError("Wrong curl version scheme! \(strVersionB)")
         }
