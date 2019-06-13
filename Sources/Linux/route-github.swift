@@ -19,9 +19,16 @@ func githubHandler(request rq: HTTPRequest, _ response: HTTPResponse) {
     }
 
     do {
-        // we don’t want to surface these to our UI
-        if eventType == "meta" || eventType == "deploy_key" {
+        switch eventType {
+        case "meta", "deploy_key":
+            // we don’t want to surface these to our UI
             throw Event.E.ignoring
+        case "security_advisory":
+            // this event has no associated repo or organization, and thus
+            // cannot be targeted
+            throw Event.E.ignoring
+        default:
+            break
         }
 
         guard let event = Event(rawValue: eventType) else {

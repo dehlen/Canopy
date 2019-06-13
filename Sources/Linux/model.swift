@@ -253,7 +253,7 @@ class DB {
         // replace because github replaces if we create a hook that already exists
         try db.execute(statement: sql) {
             try $0.bind(position: 1, hook)
-            try $0.bind(position: 2, "")  // no secret since we cane from github
+            try $0.bind(position: 2, "")  // no secret since we came from github
             try $0.bind(position: 3, node.id)
             try $0.bind(position: 4, node.0.dbType)
             try $0.bind(position: 5, node.0.ref)
