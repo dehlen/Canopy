@@ -12,7 +12,7 @@ var jwt: String {
     let now = Date()
     let jwt = q.sync{ (time: sigtime, token: lastJwt) }
 
-    if now.timeIntervalSince(jwt.time) >= 3590 {
+    if now.timeIntervalSince(jwt.time) <= 3590 {
         return jwt.token
     }
 
@@ -20,7 +20,7 @@ var jwt: String {
     return q.sync(flags: .barrier) {
 
         // yay for async!
-        guard now.timeIntervalSince(sigtime) >= 3590 else {
+        guard now.timeIntervalSince(sigtime) > 3590 else {
             return lastJwt
         }
 
