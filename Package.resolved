@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/PromiseKit/Foundation.git",
         "state": {
           "branch": null,
-          "revision": "0a59b0d89f469979aecacdf9046df14f99d1cc6b",
-          "version": "3.3.2"
+          "revision": "ee06d95342a5007de2fffd898f4f35de026842ac",
+          "version": "3.3.3"
         }
       },
       {
@@ -150,8 +150,8 @@
         "repositoryURL": "https://github.com/mxcl/PromiseKit.git",
         "state": {
           "branch": null,
-          "revision": "1c296a8637838901d2b01e4c46875ee749506133",
-          "version": "6.8.5"
+          "revision": "cfea84ff08fae26c0ccd4fdcc0fb3c577bcb5e2c",
+          "version": "6.9.0"
         }
       }
     ]
