@@ -1,10 +1,19 @@
-# Client
+# Requirements
 
-    carthage bootstrap --platform macOS --platform iOS --cache-builds
+Swift 5.0.2.
 
-# Server
+# Deploy
 
-Strongly recommend Swift 4.2+ due to several important HTTP engine fixes.
+The docker image only needs rebuilding if you change the Swift version it
+contains.
+
+    docker build --tag pharaoh --build-arg env=staging .
+    make
+
+The makefile also deploys any required Swift libraries to the server from the
+docker image you built.
+
+# Server Setup
 
 For Ubuntu 16.04 you need a newer curl, so apt remove the system one and build
 your own:
@@ -26,9 +35,3 @@ Git depends on system curl, so build your own:
 Finally:
 
     swift build -c release && sudo .build/release/debris
-
-# Sync
-
-    rsync --archive --human-readable --compress --verbose --delete \
-          --exclude .build --exclude Carthage \
-          . canopy:src
