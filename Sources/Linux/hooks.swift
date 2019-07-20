@@ -1426,6 +1426,8 @@ struct StarEvent: Codable, Notificatable, HasSender {
     let sender: User
     let repository: Repository
 
+    var shouldIgnore: Bool { return true }
+
     enum Action: String, Codable {
         case created, deleted
     }
