@@ -1228,7 +1228,7 @@ struct RepositoryEvent: Codable, Notificatable, HasSender {
     let sender: User
 
     enum Action: String, Codable {
-        case created, deleted, renamed, edited
+        case created, deleted, renamed, edited, transferred
         case archived, unarchived, publicized, privatized  //orgs only
     }
 
