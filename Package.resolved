@@ -132,8 +132,8 @@
         "repositoryURL": "https://github.com/PerfectlySoft/Perfect-Thread.git",
         "state": {
           "branch": null,
-          "revision": "fbbd7aec0ebe06fbeed58da54153226dd7613c4a",
-          "version": "3.0.6"
+          "revision": "a50b9a33f08fce638f33ae3121613fe499cc23ec",
+          "version": "3.0.7"
         }
       },
       {
@@ -150,8 +150,8 @@
         "repositoryURL": "https://github.com/mxcl/PromiseKit.git",
         "state": {
           "branch": null,
-          "revision": "cfea84ff08fae26c0ccd4fdcc0fb3c577bcb5e2c",
-          "version": "6.9.0"
+          "revision": "2fdb8c64a85e2081388532dbc61eb348a0793b1c",
+          "version": "6.10.0"
         }
       }
     ]
